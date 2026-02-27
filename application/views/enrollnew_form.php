@@ -234,9 +234,17 @@ $(function(){
 			</div>
 		  </div>
 		  
-		  <!-- Father's Information Section -->
+		  <!-- Father's & Mother's Information Section -->
 		  <div class="enroll-section">
-			<h5 class="enroll-section-title"><i class="mdi mdi-account"></i> FATHER'S INFORMATION</h5>
+			<h5 class="enroll-section-title"><i class="mdi mdi-account"></i> FATHER'S INFORMATION/MOTHER'S INFORMATION</h5>
+		  </div>
+		  
+		  <div class="row">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="form-label">Father Information</label>
+				</div>
+			</div>
 		  </div>
 		  
 		  <div class="row">
@@ -296,9 +304,14 @@ $(function(){
 			</div>
 		  </div>
 		  
-		  <!-- Mother's Information Section -->
-		  <div class="enroll-section">
-			<h5 class="enroll-section-title"><i class="mdi mdi-account"></i> MOTHER'S INFORMATION</h5>
+		  <!-- Mother's Information Fields (moved into combined section above) -->
+		  
+		  <div class="row">
+			<div class="col-md-12">
+				<div class="form-group">
+					<label class="form-label">Mother Information</label>
+				</div>
+			</div>
 		  </div>
 		  
 		  <div class="row">

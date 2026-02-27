@@ -73,8 +73,23 @@
     display: block;
 }
 
-.enroll-form .form-control {
+/* Boxed row style like details */
+.enroll-form .form-group {
+    display: block;
+    background: #eef6ff !important;
+    border: 2px solid #2b6edc !important;
     border-radius: 8px;
+    padding: 10px 16px !important;
+    box-shadow: 0 3px 10px rgba(29, 78, 216, 0.18) !important;
+}
+
+.enroll-form .form-label::after {
+    content: ":";
+    margin-left: 0;
+}
+
+.enroll-form .form-control {
+    border-radius: 6px;
     border: 1px solid #d1d5db;
     transition: all 0.2s ease;
     font-size: 0.9rem;

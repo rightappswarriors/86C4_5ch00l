@@ -89,7 +89,7 @@
 		  <div class="row">
 			<div class="col-md-6">
 			  <div class="form-group row">
-				<label class="col-sm-4 col-form-label">First Name</label>
+				<label class="col-sm-4 col-form-label">Father First Name</label>
 				<div class="col-sm-8">
 				  <?=$row->firstname?>
 				</div>
@@ -97,7 +97,7 @@
 			</div>
 			<div class="col-md-6">
 			  <div class="form-group row">
-				<label class="col-sm-4 col-form-label">Last Name</label>
+				<label class="col-sm-4 col-form-label">Father Last Name</label>
 				<div class="col-sm-8">
 				  <?=$row->lastname?>
 				</div>
@@ -107,7 +107,7 @@
 		  <div class="row">
 			<div class="col-md-6">
 			  <div class="form-group row">
-				<label class="col-sm-4 col-form-label">Middle Name</label>
+				<label class="col-sm-4 col-form-label">Father Middle Name</label>
 				<div class="col-sm-8">
 				  <?=$row->middlename?>
 				</div>
@@ -262,7 +262,16 @@
 			</div>
 		  </div>
 		  
-		  <p class="card-description text-info"> Father's Information </p>
+		  <p class="card-description text-info"> Father's Information/Mother's Information </p>
+		  <div class="parent-info-block">
+		  <div class="row">
+			<div class="col-md-12">
+			  <div class="form-group row">
+				<label class="col-sm-4 col-form-label label-title">Father Information</label>
+				<div class="col-sm-8"></div>
+			  </div>
+			</div>
+		  </div>
 		  <div class="row">
 			<div class="col-md-6">
 			  <div class="form-group row">
@@ -329,7 +338,14 @@
 		  </div>
 		  
 		  
-		  <p class="card-description text-info"> Mother's Information </p>
+		  <div class="row">
+			<div class="col-md-12">
+			  <div class="form-group row">
+				<label class="col-sm-4 col-form-label label-title">Mother Information</label>
+				<div class="col-sm-8"></div>
+			  </div>
+			</div>
+		  </div>
 		  <div class="row">
 			<div class="col-md-6">
 			  <div class="form-group row">
@@ -378,6 +394,7 @@
 		  </div>
 		  
 		  
+		  </div>
 		  <p class="card-description text-info"> Other Info </p>
 		  <div class="row">
 			<div class="col-md-6">

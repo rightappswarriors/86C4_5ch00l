@@ -23,7 +23,7 @@
   <body>
   <div class="auth-page-logo">
 		<a href="<?=site_url()?>">
-			<img src="<?=base_url()?>assets/images/dashboard_logo.png" alt="BHCA Logo">
+			<img src="<?=base_url()?>assets/images/logo_portal.png" alt="BHCA Logo">
 		</a>
 		<h3 class="auth-logo-text">BHCA</h3>
 	</div>

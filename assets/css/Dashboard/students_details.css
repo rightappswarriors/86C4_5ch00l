@@ -7,3 +7,141 @@ p.text-info{
 	padding:4px 0;
 	font-size:16px;
 }
+
+/* Match Enrollment Form UI (CSS-only) */
+.grid-margin .card {
+	border: none;
+	border-radius: 12px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+	overflow: hidden;
+	background: #fff;
+}
+
+.grid-margin .card .card-body {
+	padding: 0;
+}
+
+.grid-margin .card .heading {
+	margin: 0;
+	background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+	color: #fff;
+	text-align: center;
+	padding: 1.5rem;
+	font-weight: 700;
+	font-size: 1.75rem;
+	letter-spacing: 1px;
+}
+
+.grid-margin .card .heading + * {
+	padding: 1.5rem 2rem 0;
+}
+
+.grid-margin .card .heading ~ * {
+	padding-left: 2rem;
+	padding-right: 2rem;
+}
+
+.grid-margin .card .heading ~ :last-child {
+	padding-bottom: 2rem;
+}
+
+/* Blue Section Headers */
+.grid-margin .card p.card-description.text-info {
+	background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+	border-left: 4px solid #2563eb;
+	border-radius: 10px;
+	color: #1e40af !important;
+	font-size: 1rem;
+	font-weight: 600;
+	padding: 1rem 1.25rem;
+	margin: 1rem 0 1.25rem;
+	text-align: left;
+}
+
+/* Label + Value styling to match enrollment */
+.grid-margin .card .form-group {
+	margin-bottom: 0.5rem;
+}
+
+.grid-margin .card .col-form-label {
+	font-weight: 600;
+	color: #374151;
+}
+
+.grid-margin .card .col-form-label::after {
+	content: ":";
+	margin-left: 0;
+}
+
+.parent-info-block .col-form-label.label-title::after {
+	content: "";
+}
+
+.grid-margin .card .col-sm-8 {
+	color: #111827;
+}
+
+/* Boxed rows across all details fields */
+.grid-margin .card .form-group.row {
+	display: flex !important;
+	flex-wrap: nowrap !important;
+	align-items: center !important;
+	background: #f3f8ff;
+	border: 1px solid #5a86d9;
+	border-radius: 8px;
+	padding: 10px 16px;
+	gap: 4px;
+	box-shadow: 0 2px 6px rgba(29, 78, 216, 0.12);
+	margin-bottom: 24px;
+}
+
+.grid-margin .card .form-group.row .col-sm-4,
+.grid-margin .card .form-group.row .col-sm-8 {
+	flex: 0 0 auto !important;
+	max-width: none !important;
+	width: auto !important;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+
+.grid-margin .card .form-group.row .col-sm-8 {
+	margin-left: -2px;
+}
+
+/* Presentable field rows with tight label/value spacing */
+.parent-info-block .form-group.row {
+	display: flex !important;
+	flex-wrap: nowrap !important;
+	align-items: center !important;
+	background: #f3f8ff;
+	border: 1px solid #5a86d9;
+	border-radius: 8px;
+	padding: 10px 16px;
+	gap: 4px;
+	box-shadow: 0 2px 6px rgba(29, 78, 216, 0.12);
+	margin-bottom: 24px;
+}
+
+.parent-info-block .row {
+	margin-bottom: 12px;
+	margin-left: -24px;
+	margin-right: -24px;
+}
+
+.parent-info-block .row > [class*="col-"] {
+	padding-left: 24px;
+	padding-right: 24px;
+}
+
+.parent-info-block .form-group.row .col-sm-4,
+.parent-info-block .form-group.row .col-sm-8 {
+	flex: 0 0 auto !important;
+	max-width: none !important;
+	width: auto !important;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+
+.parent-info-block .form-group.row .col-sm-8 {
+	margin-left: -2px;
+}

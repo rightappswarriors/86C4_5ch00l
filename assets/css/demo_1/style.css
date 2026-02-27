@@ -828,8 +828,30 @@
 #dashboard-vmap {
   height: 161px;
   width: 100%; }
-  #dashboard-vmap .jvectormap-zoomin,
-  #dashboard-vmap .jvectormap-zoomout {
+#dashboard-vmap .jvectormap-zoomin,
+#dashboard-vmap .jvectormap-zoomout {
     display: none; }
+
+/* UI polish for dashboard cards */
+.main-panel .content-wrapper .grid-margin > .card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  background: #fff; }
+
+.main-panel .content-wrapper .grid-margin > .card .card-body {
+  padding: 1.5rem 2rem; }
+
+.main-panel .content-wrapper .grid-margin > .card .card-body h1 {
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.75rem; }
+
+.main-panel .content-wrapper .grid-margin > .card .card-body hr {
+  border-top: 1px solid #e5e7eb; }
+
+.main-panel .content-wrapper .grid-margin > .card .card-body code {
+  font-size: 0.95rem; }
 
 /*# sourceMappingURL=style.css.map */

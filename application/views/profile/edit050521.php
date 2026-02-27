@@ -3,6 +3,8 @@
 	$data = array( 'row'  => $row );
 ?>
 
+<link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/profile.css">
+
 <div class="col-lg-12 grid-margin stretch-card">
 
 	<div class="card">
