@@ -17,108 +17,122 @@
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" href="<?=base_url()?>assets/css/shared/style.css">
+    <link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/auth.css">
     <link rel="shortcut icon" href="<?=base_url()?>assets/images/favicon.png" />
   </head>
   <body>
+  <div class="auth-page-logo">
+		<a href="<?=site_url()?>">
+			<img src="<?=base_url()?>assets/images/dashboard_logo.png" alt="BHCA Logo">
+		</a>
+		<h3 class="auth-logo-text">BHCA</h3>
+	</div>
     <div class="container-scroller">
       <div class="container-fluid page-body-wrapper full-page-wrapper">
         <div class="content-wrapper d-flex align-items-center auth auth-bg-1 theme-one">
           <div class="row w-100">
-            <div class="col-lg-4 mx-auto">
-              <h2 class="text-center mb-4">Create New Account</h2>
-              <div class="auto-form-wrapper">
+            <div class="col-lg-5 mx-auto">
+              <div class="auth-card">
+			  
+			  <div class="auth-header">
+                <div class="school-logo">
+                  <i class="mdi mdi-school"></i>
+                </div>
+			  	<h2>Create Account</h2>
+			  	<p>Join CBHCA Portal today</p>
+			  </div>
+			  
 			  <?=validation_errors()?>
-                <form method="POST" action="<?=site_url("register/validation")?>">
+			  
+                <form method="POST" action="<?=site_url("register/validation")?>" class="auth-form">
                   <div class="form-group">
-				  <label class="label">Your Mobile Number</label>
+					<label class="form-label">Mobile Number</label>
                     <div class="input-group">
-                      <input type="text" name="mobileno" value="<?=set_value('mobileno')?>" class="form-control" placeholder="Ex: 09229631111">
+                      <input type="text" name="mobileno" value="<?=set_value('mobileno')?>" class="form-control" placeholder="09229631111">
                       <div class="input-group-append">
                         <span class="input-group-text">
-                          <i class="mdi mdi-check-circle-outline"></i>
-                        </span>
-                      </div>
-                    </div>
-                  </div><div class="form-group">
-				  <label class="label">Your E-mail</label>
-                    <div class="input-group">
-                      <input type="text" name="emailadd" value="<?=set_value('emailadd')?>" class="form-control" placeholder="email@sample.com">
-                      <div class="input-group-append">
-                        <span class="input-group-text">
-                          <i class="mdi mdi-check-circle-outline"></i>
+                          <i class="mdi mdi-phone"></i>
                         </span>
                       </div>
                     </div>
                   </div>
-				  <div class="form-group">
-				  <label class="label">Your First Name</label>
+				  
+                  <div class="form-group">
+					<label class="form-label">Email Address</label>
                     <div class="input-group">
-                      <input type="text" name="firstname" value="<?=set_value('firstname')?>" class="form-control" placeholder="Juan">
+                      <input type="email" name="emailadd" value="<?=set_value('emailadd')?>" class="form-control" placeholder="email@sample.com">
                       <div class="input-group-append">
                         <span class="input-group-text">
-                          <i class="mdi mdi-check-circle-outline"></i>
-                        </span>
-                      </div>
-                    </div>
-                  </div><div class="form-group">
-				  <label class="label">Your Last Name</label>
-                    <div class="input-group">
-                      <input type="text" name="lastname" value="<?=set_value('lastname')?>" class="form-control" placeholder="Dela Cruz">
-                      <div class="input-group-append">
-                        <span class="input-group-text">
-                          <i class="mdi mdi-check-circle-outline"></i>
-                        </span>
-                      </div>
-                    </div>
-                  </div><div class="form-group" style="display:none;">
-				  <label class="label">Type</label>
-                    <div class="input-group">
-                      <select name="regtype" class="form-control">
-                        <option value="CBBC Staff">CBBC Staff</option>
-                        <option value="CBHCA Staff">CBHCA Staff</option>
-                        <option value="CBHCA Staff">Church Member</option>
-                        <option value="Regular" selected>Regular</option>
-                        </select>
-                      <div class="input-group-append">
-                        <span class="input-group-text">
-                          <i class="mdi mdi-check-circle-outline"></i>
+                          <i class="mdi mdi-email"></i>
                         </span>
                       </div>
                     </div>
                   </div>
+				  
+				  <div class="row">
+					<div class="col-md-6">
+					  <div class="form-group">
+						<label class="form-label">First Name</label>
+						<div class="input-group">
+						  <input type="text" name="firstname" value="<?=set_value('firstname')?>" class="form-control" placeholder="Juan">
+						  <div class="input-group-append">
+							<span class="input-group-text">
+							  <i class="mdi mdi-account"></i>
+							</span>
+						  </div>
+						</div>
+					  </div>
+					</div>
+					<div class="col-md-6">
+					  <div class="form-group">
+						<label class="form-label">Last Name</label>
+						<div class="input-group">
+						  <input type="text" name="lastname" value="<?=set_value('lastname')?>" class="form-control" placeholder="Dela Cruz">
+						  <div class="input-group-append">
+							<span class="input-group-text">
+							  <i class="mdi mdi-account"></i>
+							</span>
+						  </div>
+						</div>
+					  </div>
+					</div>
+				  </div>
+				  
                   <div class="form-group">
-				  <label class="label">Password</label>
+					<label class="form-label">Password</label>
                     <div class="input-group">
-                      <input type="password" name="userpass" value="<?=set_value('userpass')?>" class="form-control" placeholder="********">
+                      <input type="password" name="userpass" value="<?=set_value('userpass')?>" class="form-control" placeholder="Create a password">
                       <div class="input-group-append">
                         <span class="input-group-text">
-                          <i class="mdi mdi-check-circle-outline"></i>
+                          <i class="mdi mdi-lock"></i>
                         </span>
                       </div>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="label">Repeat Password</label>
+                    <label class="form-label">Confirm Password</label>
 					<div class="input-group">
-                      <input type="password" name="repeatpass" value="<?=set_value('repeatpass')?>" class="form-control" placeholder="********">
+                      <input type="password" name="repeatpass" value="<?=set_value('repeatpass')?>" class="form-control" placeholder="Confirm your password">
                       <div class="input-group-append">
                         <span class="input-group-text">
-                          <i class="mdi mdi-check-circle-outline"></i>
+                          <i class="mdi mdi-lock-check"></i>
                         </span>
                       </div>
                     </div>
                   </div>
-                  
-                  <div class="form-group">
-                    <button class="btn btn-primary submit-btn btn-block">Register</button>
+                   
+                  <div class="form-group mt-4">
+                    <button type="submit" class="auth-submit-btn">
+                      <i class="mdi mdi-account-plus mr-2"></i> Create Account
+                    </button>
                   </div>
-                  <div class="text-block text-center my-3">
-                    <span class="text-small font-weight-semibold">Already have an account ?</span>
-                    <a href="<?=site_url("login")?>" class="text-black text-small">Login</a>
+				  
+                  <div class="auth-footer-text">
+                    <p>Already have an account? <a href="<?=site_url("login")?>">Login here</a></p>
                   </div>
                 </form>
               </div>
-            <p class="footer-text text-center" style="margin-top:20px;color:#999;">© <?=date("Y")?> CBHCA Online Portal. All rights reserved.</p>
+            <p class="auth-copyright">© <?=date("Y")?> CBHCA Online Portal. All rights reserved.</p>
 			</div>
 			
           </div>

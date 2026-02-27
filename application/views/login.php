@@ -17,86 +17,87 @@
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" href="<?=base_url()?>assets/css/shared/style.css">
+    <link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/auth.css">
 	<link rel="shortcut icon" href="<?=base_url()?>assets/images/favicon.png" />
   </head>
   <body>
+  <div class="auth-page-logo">
+		<a href="<?=site_url()?>">
+			<img src="<?=base_url()?>assets/images/dashboard_logo.png" alt="BHCA Logo">
+		</a>
+		<h3 class="auth-logo-text">BHCA</h3>
+	</div>
     <div class="container-scroller">
       <div class="container-fluid page-body-wrapper full-page-wrapper">
         <div class="content-wrapper d-flex align-items-center auth auth-bg-1 theme-one">
           <div class="row w-100">
 			<div class="col-lg-4 mx-auto">
-			<h2 class="text-center mb-4">Login</h2>
-			  <div class="auto-form-wrapper">
+			  <div class="auth-card"> 
+			  <div class="auth-header">
+                <div class="school-logo">
+                  <i class="mdi mdi-school"></i>
+                </div>
+			  	<h2>Welcome Back</h2>
+			  	<p>Please login to your account</p>
+			  </div>
 			  
 			  <?php
                 if($this->session->flashdata('message'))
                 {
-                    echo '
-                    <div class="text-danger" style="margin-bottom:10px;">
+                    echo '<div class="auth-error">
                         '.$this->session->flashdata("message").'
-                    </div>
-                    ';
+                    </div>';
                 }
                 ?>
 			  
-                <form method="POST" action="<?=site_url("login/validation")?>">
+                <form method="POST" action="<?=site_url("login/validation")?>" class="auth-form">
                   <div class="form-group">
-                    <label class="label">Mobile Number</label>
+                    <label class="form-label">Mobile Number</label>
                     <div class="input-group">
                       <input type="text" name="mobileno" value="<?=set_value('mobileno')?>" class="form-control" placeholder="09229631111">
                       <div class="input-group-append">
                         <span class="input-group-text">
-                          <i class="mdi mdi-check-circle-outline"></i>
+                          <i class="mdi mdi-account"></i>
                         </span>
                       </div>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="label">Password</label>
+                    <label class="form-label">Password</label>
                     <div class="input-group">
-                      <input type="password" name="userpass" class="form-control" placeholder="*********">
+                      <input type="password" name="userpass" class="form-control" placeholder="Enter your password">
                       <div class="input-group-append">
                         <span class="input-group-text">
-                          <i class="mdi mdi-check-circle-outline"></i>
+                          <i class="mdi mdi-lock"></i>
                         </span>
                       </div>
                     </div>
                   </div>
-                  
-                  <div class="form-group d-flex justify-content-between">
-                    <div class="form-check form-check-flat mt-0">
-                      <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" checked> Remember me </label>
+                   
+                  <div class="form-group d-flex justify-content-between align-items-center">
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="rememberMe" checked>
+                      <label class="form-check-label" for="rememberMe">Remember me</label>
                     </div>
-                    <a href="<?=site_url("login/forgotpass")?>" class="text-small forgot-password text-black">Forgot Password?</a>
+                    <a href="<?=site_url("login/forgotpass")?>" class="forgot-password">Forgot Password?</a>
                   </div>
-				  <div class="form-group">
-                    <input type="submit" class="btn btn-primary submit-btn btn-block" name="login" value="Login">
+				  <div class="form-group mt-4">
+                    <button type="submit" class="auth-submit-btn" name="login">
+                      <i class="mdi mdi-login mr-2"></i> Login
+                    </button>
                   </div>
 				  
-				  <div class="form-group" style="display:none;">
-                    <button class="btn btn-block g-login">
-                      <img class="mr-3" src="<?=base_url()?>assets/images/file-icons/icon-google.svg" alt="">Log in with Google</button>
-                  </div>
-                  <div class="text-block text-center my-3">
-                    <span class="text-small font-weight-semibold">No account yet?</span>
-                    <a href="<?=site_url("register")?>" class="text-black text-small">Create new account</a>
+				  <div class="auth-divider">
+				  	<span>OR</span>
+				  </div>
+				  
+                  <div class="auth-footer-text">
+                    <p>Don't have an account? <a href="<?=site_url("register")?>">Create new account</a></p>
                   </div>
                 </form>
               </div>
-              <ul class="auth-footer" style="display:none;">
-                <li>
-                  <a href="#">Conditions</a>
-                </li>
-                <li>
-                  <a href="#">Help</a>
-                </li>
-                <li>
-                  <a href="#">Terms</a>
-                </li>
-              </ul>
-              <p class="footer-text text-center" style="margin-top:20px;color:#999;">© 2020 CBHCA Online Portal. All</p>
-            </div rights reserved.>
+              <p class="auth-copyright">© 2020 CBHCA Online Portal. All rights reserved.</p>
+            </div>
           </div>
         </div>
         <!-- content-wrapper ends -->

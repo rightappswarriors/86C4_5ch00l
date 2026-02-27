@@ -1,0 +1,364 @@
+/* Auth Pages (Login & Register) Modern Styles */
+
+/* Keep existing background - auth-bg-1 theme-one */
+
+/* Logo in Upper Left - Outside Card */
+.auth-page-logo {
+    position: absolute;
+    top: 20px;
+    left: 30px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.auth-page-logo a {
+    display: block;
+}
+
+.auth-page-logo img {
+    width: 250px;
+    height: auto;
+}
+
+.auth-logo-text {
+    font-size: 20px;
+    font-weight: 600;
+    color: #2196f3;
+    margin-top: 5px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* Logo in Upper Left */
+.auth-logo {
+    margin-bottom: 1.5rem;
+}
+
+.auth-logo a {
+    display: inline-block;
+}
+
+.auth-logo .navbar-brand img {
+    width: 170px;
+    height: auto;
+}
+
+.auth-logo img {
+    width: 170px;
+    height: auto;
+}
+
+/* Modern Card Styling */
+.auth-card {
+    background: linear-gradient(145deg, #ffffff 0%, #f5f7fa 100%);
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    padding: 2.5rem;
+    border: 1px solid rgba(33, 150, 243, 0.1);
+}
+
+.auth-card .auto-form-wrapper {
+    background: transparent;
+    padding: 0;
+}
+
+/* Header Styling */
+.auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auth-header .school-logo {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1rem;
+    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(33, 150, 243, 0.4);
+}
+
+.auth-header .school-logo i {
+    font-size: 2.5rem;
+    color: #fff;
+}
+
+.auth-header h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 0.5rem;
+}
+
+.auth-header p {
+    color: #666;
+    font-size: 0.95rem;
+}
+
+/* Form Group Styling */
+.auth-form .form-group {
+    margin-bottom: 1.25rem;
+}
+
+.auth-form .form-label {
+    font-weight: 600;
+    color: #1a1a2e;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.auth-form .input-group {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.auth-form .form-control {
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+}
+
+.auth-form .form-control:focus {
+    border-color: #2196f3;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(33, 150, 243, 0.1);
+    outline: none;
+}
+
+.auth-form .form-control::placeholder {
+    color: #aaa;
+}
+
+/* Input Group Append */
+.auth-form .input-group-append .input-group-text {
+    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+    border: none;
+    color: #fff;
+    padding: 0 1rem;
+    border-radius: 0 10px 10px 0;
+}
+
+/* Checkbox Styling */
+.auth-form .form-check {
+    padding-left: 1.75rem;
+    position: relative;
+}
+
+.auth-form .form-check-input {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    margin-left: -1.75rem;
+    margin-top: 0;
+    accent-color: #2196f3;
+    cursor: pointer;
+}
+
+.auth-form .form-check-input:checked {
+    background-color: #2196f3;
+    border-color: #2196f3;
+}
+
+.auth-form .form-check-label {
+    color: #555;
+    font-size: 0.9rem;
+    cursor: pointer;
+    line-height: 1.4;
+}
+
+/* Links */
+.auth-link {
+    color: #2196f3;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.auth-link:hover {
+    color: #1976d2;
+    text-decoration: underline;
+}
+
+/* Forgot Password */
+.forgot-password {
+    font-size: 0.85rem;
+    color: #2196f3;
+    font-weight: 500;
+}
+
+.forgot-password:hover {
+    color: #1976d2;
+}
+
+/* Submit Button */
+.auth-submit-btn {
+    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+    border: none;
+    border-radius: 10px;
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
+}
+
+.auth-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(33, 150, 243, 0.5);
+}
+
+.auth-submit-btn:active {
+    transform: translateY(0);
+}
+
+/* Divider */
+.auth-divider {
+    display: flex;
+    align-items: center;
+    margin: 1.5rem 0;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e0e0e0;
+}
+
+.auth-divider span {
+    padding: 0 1rem;
+    color: #999;
+    font-size: 0.85rem;
+}
+
+/* Register Link */
+.auth-footer-text {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.auth-footer-text a {
+    color: #2196f3;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.auth-footer-text a:hover {
+    text-decoration: underline;
+}
+
+/* Error Message */
+.auth-error {
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    color: #dc2626;
+    font-size: 0.9rem;
+}
+
+/* Footer Copyright */
+.auth-copyright {
+    text-align: center;
+    margin-top: 2rem;
+    color: #999;
+    font-size: 0.8rem;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .auth-card {
+        padding: 1.5rem;
+        margin: 0 1rem;
+    }
+    
+    .auth-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .auth-header .school-logo {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .auth-header .school-logo i {
+        font-size: 2rem;
+    }
+}
+
+/* Forgot Password Page Additional Styles */
+.contact-info-box {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.contact-info-box .contact-label {
+    color: #2196f3;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.contact-info-box .contact-label i {
+    font-size: 1.1rem;
+}
+
+.contact-info-box hr {
+    margin: 0.75rem 0;
+    border-top: 1px solid #e0e0e0;
+}
+
+.contact-info-box .contact-item {
+    color: #555;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.contact-info-box .contact-item i {
+    color: #2196f3;
+    font-size: 1rem;
+}
+
+.contact-info-box .contact-item:last-child {
+    margin-bottom: 0;
+}
+
+.note-box {
+    background: #fff3e0;
+    border: 1px solid #ffb74d;
+    border-radius: 8px;
+    padding: 1rem;
+    font-size: 0.85rem;
+    color: #e65100;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.note-box i {
+    font-size: 1.1rem;
+    margin-top: 0.1rem;
+}

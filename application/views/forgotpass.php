@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Login :: CBHCA Portal</title>
+    <title>Forgot Password :: CBHCA Portal</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="<?=base_url()?>assets/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="<?=base_url()?>assets/vendors/iconfonts/ionicons/css/ionicons.css">
@@ -17,50 +17,58 @@
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" href="<?=base_url()?>assets/css/shared/style.css">
+    <link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/auth.css">
 	<link rel="shortcut icon" href="<?=base_url()?>assets/images/favicon.png" />
   </head>
   <body>
+  <div class="auth-page-logo">
+		<a href="<?=site_url()?>">
+			<img src="<?=base_url()?>assets/images/dashboard_logo.png" alt="BHCA Logo">
+		</a>
+		<h3 class="auth-logo-text">BHCA</h3>
+	</div>
     <div class="container-scroller">
       <div class="container-fluid page-body-wrapper full-page-wrapper">
         <div class="content-wrapper d-flex align-items-center auth auth-bg-1 theme-one">
           <div class="row w-100">
 			<div class="col-lg-4 mx-auto">
-			<h2 class="text-center mb-4">Forgot your password?</h2>
-			  <div class="auto-form-wrapper" style="margin:0;">
+			  <div class="auth-card">
 			  
-			  <p style="text-align:center;" class="text-primary">Please contact the Registrar's office or one of these numbers for your temporary password. <br><br><span style="color:#000;">(Office hours from 8:00am to 5:00pm)</span> </p>
-			  <hr>
-			  <p style="text-align:center;">(032) 505-6960 (Office)<br>
-			  09458568571 / 09083570905 (Melvie)<br><br>or 09277324510 (I.T.)</p>
+			  <div class="auth-header">
+                <div class="school-logo">
+                  <i class="mdi mdi-lock-question"></i>
+                </div>
+			  	<h2>Forgot Password?</h2>
+			  	<p>Recover your account access</p>
+			  </div>
 			  
-				<span class="text-warning">NOTE: We will require your portal's login or the registered mobile number.</span>
-                <br><br>
-				  <div class="form-group">
-                    <a href="<?=site_url("login")?>" class="btn btn-primary submit-btn btn-block" name="login">Login now</a>
+			  <div class="auth-form">
+				  <p style="text-align:center; color: #555; margin-bottom: 1.5rem;">Please contact the Registrar's office or one of these numbers for your temporary password.</p>
+				  
+				  <div class="contact-info-box">
+					<p class="contact-label"><i class="mdi mdi-clock-outline"></i> Office hours: 8:00am to 5:00pm</p>
+					<hr>
+					<p class="contact-item"><i class="mdi mdi-phone"></i> (032) 505-6960 (Office)</p>
+					<p class="contact-item"><i class="mdi mdi-cellphone"></i> 09458568571 / 09083570905 (Melvie)</p>
+					<p class="contact-item"><i class="mdi mdi-cellphone"></i> 09277324510 (I.T.)</p>
+				  </div>
+				  
+				  <div class="note-box">
+					<i class="mdi mdi-information-outline"></i> NOTE: We will require your portal's login or the registered mobile number.
+				  </div>
+				  
+				  <div class="form-group mt-4">
+                    <a href="<?=site_url("login")?>" class="auth-submit-btn" name="login">
+                      <i class="mdi mdi-login mr-2"></i> Back to Login
+                    </a>
                   </div>
 				  
-				  <div class="form-group" style="display:none;">
-                    <button class="btn btn-block g-login">
-                      <img class="mr-3" src="<?=base_url()?>assets/images/file-icons/icon-google.svg" alt="">Log in with Google</button>
+                  <div class="auth-footer-text">
+                    <p>Don't have an account? <a href="<?=site_url("register")?>">Create new account</a></p>
                   </div>
-                  <div class="text-block text-center my-3">
-                    <span class="text-small font-weight-semibold">No account yet?</span>
-                    <a href="<?=site_url("register")?>" class="text-black text-small">Create new account</a>
-                  </div>
-                </form>
               </div>
-              <ul class="auth-footer" style="display:none;">
-                <li>
-                  <a href="#">Conditions</a>
-                </li>
-                <li>
-                  <a href="#">Help</a>
-                </li>
-                <li>
-                  <a href="#">Terms</a>
-                </li>
-              </ul>
-              <p class="footer-text text-center" style="margin-top:20px;color:#999;">© 2020 CBHCA Online Portal. All rights reserved.</p>
+              </div>
+              <p class="auth-copyright">© 2020 CBHCA Online Portal. All rights reserved.</p>
             </div>
           </div>
         </div>
