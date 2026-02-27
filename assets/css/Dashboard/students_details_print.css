@@ -1,0 +1,13 @@
+/* Student Details Print Styles */
+p.text-info{
+	background-color:#333;
+	text-align:center;
+	font-weight:bold;
+	color:#fff !important;
+	padding:4px 0;
+	font-size:16px;
+	margin-top:5px;
+}
+
+.row{ padding:0; }
+.col-form-label{ padding-top:0;paddng-bottom:0; }

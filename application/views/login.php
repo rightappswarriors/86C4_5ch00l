@@ -95,8 +95,8 @@
                   <a href="#">Terms</a>
                 </li>
               </ul>
-              <p class="footer-text text-center" style="margin-top:20px;color:#999;">© 2020 CBHCA Online Portal. All rights reserved.</p>
-            </div>
+              <p class="footer-text text-center" style="margin-top:20px;color:#999;">© 2020 CBHCA Online Portal. All</p>
+            </div rights reserved.>
           </div>
         </div>
         <!-- content-wrapper ends -->

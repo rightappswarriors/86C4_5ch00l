@@ -1,0 +1,9 @@
+/* Student Details Styles */
+p.text-info{
+	background-color:#ccc;
+	text-align:center;
+	font-weight:bold;
+	color:#333 !important;
+	padding:4px 0;
+	font-size:16px;
+}

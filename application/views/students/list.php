@@ -1,8 +1,4 @@
-<style>
-	.btn-export {
-		margin-top: 15px;
-	}
-</style>
+<link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/students_list.css">
 <div class="col-md-12" style="display:none;">
 	<div class="" style="text-align:center;">
 		<a href="<?= site_url("students/enrollnew") ?>" type="button" class="btn btn-success btn-fw btn-lg">

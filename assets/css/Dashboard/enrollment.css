@@ -1,0 +1,268 @@
+/* ── Enrollment Form UI - Based on Reference Image ── */
+.enroll-main-container {
+    max-width: 100%;
+    padding: 20px;
+}
+
+.enroll-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    background: #fff;
+}
+
+.enroll-header {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: #fff;
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.enroll-header h2 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.75rem;
+    letter-spacing: 1px;
+}
+
+/* Blue Section Headers */
+.enroll-section {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.25rem;
+    border-left: 4px solid #2563eb;
+}
+
+.enroll-section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e40af;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.enroll-section-title .mdi {
+    font-size: 1.25rem;
+}
+
+/* Row Gutter Spacing - Fix for input alignment */
+.enroll-form .row {
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.enroll-form .row > div {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* Form Controls */
+.enroll-form .form-group {
+    margin-bottom: 1rem;
+}
+
+.enroll-form .form-label {
+    font-weight: 600;
+    color: #374151;
+    font-size: 0.875rem;
+    margin-bottom: 0.35rem;
+    display: block;
+}
+
+.enroll-form .form-control {
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    padding: 0.65rem 0.9rem;
+    height: auto;
+    background: #fff;
+    width: 100%;
+}
+
+.enroll-form .form-control:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    outline: none;
+}
+
+/* Radio Buttons */
+.enroll-form .radio-group {
+    display: flex;
+    gap: 1.5rem;
+    padding-top: 0.3rem;
+}
+
+.enroll-form .radio-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 500;
+    color: #4b5563;
+    cursor: pointer;
+}
+
+.enroll-form .radio-label input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #2563eb;
+}
+
+/* Select Dropdown Styling */
+.enroll-form select.form-control {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236b7280' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 12px;
+    padding-right: 2.5rem;
+}
+
+.photo-placeholder {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 1rem;
+    background: #e5e7eb;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: #6b7280;
+}
+
+.photo-placeholder .mdi {
+    font-size: 3rem;
+    margin-bottom: 0.25rem;
+}
+
+.photo-placeholder span {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Buttons */
+.btn-enroll {
+    padding: 0.75rem 3rem;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.btn-next {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #fff;
+}
+
+.btn-next:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-submit {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #fff;
+}
+
+.btn-submit:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-submit:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Note Box */
+.enroll-note-box {
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.enroll-note-box h4 {
+    margin: 0 0 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #92400e;
+}
+
+.enroll-note-box .form-check-label {
+    font-weight: 500;
+    color: #4b5563;
+}
+
+/* Reminder */
+.enroll-reminder {
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: #991b1b;
+    font-weight: 500;
+}
+
+/* Submit Area */
+.enroll-submit-area {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid #e5e7eb;
+    text-align: center;
+}
+
+/* Instruction Box */
+.enroll-instruction {
+    background: #dbeafe;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    color: #1e40af;
+    margin-bottom: 1.5rem;
+    border: 1px solid #93c5fd;
+}
+
+.enroll-instruction .mdi {
+    margin-right: 0.35rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .enroll-form .row {
+        margin-left: -5px;
+        margin-right: -5px;
+    }
+    
+    .enroll-form .row > div {
+        padding-left: 5px;
+        padding-right: 5px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .enroll-form .form-control {
+        font-size: 0.85rem;
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .enroll-form .radio-group {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}

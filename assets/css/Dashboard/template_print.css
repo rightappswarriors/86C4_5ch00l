@@ -1,0 +1,11 @@
+/* Template Print Styles */
+.card{ border:0;padding:0;margin:0; }
+.card .card-body{ padding:3px; }
+
+@media print {
+	.col-xs-12
+	{
+		width:50%;
+		float:left;
+	}
+}

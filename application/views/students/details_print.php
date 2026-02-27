@@ -3,21 +3,7 @@
 	$data = array( 'row'  => $row );
 ?>
 
-<style>
-p.text-info{
-	background-color:#333;
-	text-align:center;
-	font-weight:bold;
-	color:#fff !important;
-	padding:4px 0;
-	font-size:16px;
-	margin-top:5px;
-}
-
-.row{ padding:0; }
-.col-form-label{ padding-top:0;paddng-bottom:0; }
-
-</style>
+<link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/students_details_print.css">
 
 <div class="row m-3">
 	<div class="col-xs-12 col-sm-5 text-right p-0 pr-2"><img src="<?=dirname(base_url())?>/assets/images/logo_portal.png" width="100"></div>

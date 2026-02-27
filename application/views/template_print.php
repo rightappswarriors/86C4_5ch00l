@@ -31,7 +31,7 @@
     <!-- End Layout styles -->
     <link rel="shortcut icon" href="<?=dirname(base_url())?>/assets/images/favicon.png" />
 
-	<style>
+<link rel="stylesheet" href="<?=dirname(base_url())?>/assets/css/Dashboard/template_print.css">
 	.card{ border:0;padding:0;margin:0; }
 	.card .card-body{ padding:3px; }
 	
@@ -46,7 +46,7 @@
 	
 
 	
-	</style>
+
 	
   </head>
   <body>

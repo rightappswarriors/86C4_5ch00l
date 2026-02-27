@@ -5,16 +5,7 @@
 
 <?php $this->load->view("students/menu",$data) ?>
 
-<style>
-p.text-info{
-	background-color:#ccc;
-	text-align:center;
-	font-weight:bold;
-	color:#333 !important;
-	padding:4px 0;
-	font-size:16px;
-}
-</style>
+<link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/students_details.css">
 
 <div class="col-lg-12 grid-margin stretch-card">
 
