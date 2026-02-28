@@ -1,12 +1,79 @@
-<div class="col-md-8">
+<style>
+.admin-dashboard .enroll-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    background: #fff;
+    margin-bottom: 1.5rem;
+}
+
+.admin-dashboard .enroll-header {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: #fff;
+    padding: 1rem 1.5rem;
+    border-radius: 12px 12px 0 0;
+}
+
+.admin-dashboard .enroll-header h4 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.admin-dashboard .enroll-section {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    border-left: 4px solid #2563eb;
+}
+
+.admin-dashboard .enroll-section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e40af;
+    margin: 0;
+}
+
+.admin-dashboard .card-body {
+    padding: 1.5rem;
+}
+
+.admin-dashboard .table thead th {
+    background: #f3f4f6;
+    color: #374151;
+    font-weight: 600;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.admin-dashboard .table tbody tr:hover {
+    background: #f9fafb;
+}
+
+.admin-dashboard .btn-primary {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+}
+
+.admin-dashboard .btn-primary:hover {
+    background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+}
+</style>
+
+<div class="col-md-8 admin-dashboard">
 <div class="row">
 	<div class="col-md-12 grid-margin">
-		<div class="card">
-		  <div class="card-body">
-			<div class="d-flex justify-content-between">
-			  <h4 class="card-title mb-0">10 Most Recent Enrollees </h4>
+		<div class="enroll-card">
+		  <div class="enroll-header">
+			<div class="d-flex justify-content-between align-items-center">
+			  <h4 class="mb-0">10 Most Recent Enrollees</h4>
 			  <a href="<?=site_url("students")?>" class="btn btn-primary">Show All</a>
 			</div>
+		  </div>
+		  <div class="card-body">
 			<div class="table-responsive">
 			  
 			  <table class="table1 table">
@@ -52,11 +119,14 @@
 	</div>
 </div>
 </div>
-<div class="col-md-4">	
+<div class="col-md-4 admin-dashboard">	
 <div class="row">
 
 	<div class="col-md-12 grid-margin stretch-card">
-		<div class="card">
+		<div class="enroll-card">
+		  <div class="enroll-section">
+			<h5 class="enroll-section-title"><i class="mdi mdi-account-group"></i> Student Count</h5>
+		  </div>
 		  <div class="card-body">
 			<div class="row">
 			
@@ -95,7 +165,15 @@
 	  </div>
 	
 	<div class="col-md-12 grid-margin stretch-card average-price-card">
-                    <div class="card text-white">
+                    <div class="enroll-card text-white">
+                      <div class="enroll-header" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <h4 class="mb-0">Pre-Enrollment Applications</h4>
+                          <div class="icon-holder">
+                            <a href="<?=site_url("preenrollstudents")?>" style="color:#fff;"><i class="mdi mdi-briefcase-outline"></i></a>
+                          </div>
+                        </div>
+                      </div>
                       <div class="card-body">
                         <div class="d-flex justify-content-between pb-2 align-items-center">
 						<?php 
@@ -119,9 +197,11 @@
                   </div>
 	
 	<div class="col-md-12 grid-margin">
-		<div class="card">
+		<div class="enroll-card">
+		  <div class="enroll-section">
+			<h5 class="enroll-section-title"><i class="mdi mdi-school"></i> Enrolled Per Level</h5>
+		  </div>
 		  <div class="card-body">
-			<h4 class="card-title">Enrolled Per Level</h4>
 			<div class="wrapper">
 			
 				<?php
