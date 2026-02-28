@@ -19,17 +19,6 @@
     <link rel="stylesheet" href="<?=base_url()?>assets/css/shared/style.css">
     <link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/auth.css">
 	<link rel="shortcut icon" href="<?=base_url()?>assets/images/favicon.png" />
-    
-    <style>
-        .auth-success {
-            background-color: #d4edda;
-            color: #155724;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border: 1px solid #c3e6cb;
-        }
-    </style>
   </head>
   <body>
   <div class="auth-page-logo">
@@ -57,12 +46,6 @@
                 {
                     echo '<div class="auth-error">
                         '.$this->session->flashdata("message").'
-                    </div>';
-                }
-                if($this->session->flashdata('success'))
-                {
-                    echo '<div class="auth-success">
-                        '.$this->session->flashdata("success").'
                     </div>';
                 }
                 ?>

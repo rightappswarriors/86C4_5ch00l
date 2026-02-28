@@ -131,6 +131,14 @@
 				</div>
 			  </div>
 			</div>
+			<div class="col-md-6">
+			  <div class="form-group row">
+				<label class="col-sm-4 col-form-label">Grade Level to Enter</label>
+				<div class="col-sm-8">
+				  <?=$row->gradelevel?>
+				</div>
+			  </div>
+			</div>
 			
 		  </div>
 		  <div class="row">
@@ -142,14 +150,7 @@
 				</div>
 			  </div>
 			</div>
-			<div class="col-md-6">
-			  <div class="form-group row">
-				<label class="col-sm-4 col-form-label">Grade Level to Enter</label>
-				<div class="col-sm-8">
-				  <?=$row->gradelevel?>
-				</div>
-			  </div>
-			</div>
+			
 		  </div>
 		  
 		  <p class="card-description text-info"> For Senior High </p>
@@ -547,6 +548,14 @@
 				</div>
 			  </div>
 			</div>
+			<div class="col-md-6">
+			  <div class="form-group row">
+				<label class="col-sm-4 col-form-label">Date of Baptism</label>
+				<div class="col-sm-8">
+				  <?=$row->date_baptism?>
+				</div>
+			  </div>
+			</div>
 		  </div>
 		  <div class="row">
 			<div class="col-md-6">
@@ -557,14 +566,7 @@
 				</div>
 			  </div>
 			</div>
-			<div class="col-md-6">
-			  <div class="form-group row">
-				<label class="col-sm-4 col-form-label">Date of Baptism</label>
-				<div class="col-sm-8">
-				  <?=$row->date_baptism?>
-				</div>
-			  </div>
-			</div>
+			
 		  </div>
 		  
 	  </div>
