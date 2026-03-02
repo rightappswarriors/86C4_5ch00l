@@ -18,8 +18,59 @@
 </div>
 	
 
-<div class="col-md-12 grid-margin">
-	<div class="card">
+<link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/parent_dashboard.css">
+<style>
+.parent-dashboard .info-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    background: #fff;
+    margin-bottom: 1.5rem;
+}
+.parent-dashboard .info-header {
+    background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+    color: #fff;
+    padding: 1.25rem 1.5rem;
+}
+.parent-dashboard .info-header h4 {
+    margin: 0;
+    font-weight: 600;
+}
+.parent-dashboard .card-body {
+    padding: 1.5rem;
+}
+.parent-dashboard .btn-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+}
+.parent-dashboard .btn-success:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+.parent-dashboard .bank-info {
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    border-radius: 10px;
+    padding: 1.5rem;
+    border-left: 4px solid #ec4899;
+}
+.parent-dashboard .bank-info code {
+    background: transparent;
+    color: #1f2937;
+    font-size: 1rem;
+}
+</style>
+
+<div class="col-md-12 grid-margin parent-dashboard">
+	<div class="card info-card">
+	  <div class="info-header">
+		<h4 class="mb-0"><i class="mdi mdi-school"></i> Enrollment Information</h4>
+	  </div>
 	  <div class="card-body">
 		<?php
 	if($this->session->flashdata('message'))

@@ -18,7 +18,7 @@
 			}
 			?>
 
-			<h3 class="heading" style="text-align:center;">Students
+			<h3 class="students-header" style="text-align:center;">Students
 				<?= ($this->uri->segment(3) ? "(" . $this->uri->segment(3) . ")" : "") ?>
 			</h3>
 
@@ -54,7 +54,7 @@
 
 			</div>
 
-			<table class="table">
+			<table class="table students-table">
 				<thead>
 					<tr>
 						<!--<th width="5%">#</th>-->

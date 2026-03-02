@@ -33,14 +33,7 @@
 		$total_indntals = array_sum( $indntals );
 		//$total_indntals = ($total_indntals - $prepaidpaces);
 		//$total_ass = $total_msclns + $total_indntals + $registration + $discountedtuition;
-		
-		// ============ FOR SCHOLARSHIP ========================
-		$r_m_i = $total_msclns + $total_indntals + $registration;
-		$m_scholar_tuition = $tuition/9;
-		//$monthly_scholar = $r_m_i/9;
-		// ============ FOR SCHOLARSHIP ========================
-		
-		$total_ass = $r_m_i + $tuition;
+		$total_ass = $total_msclns + $total_indntals + $registration + $tuition;
 		$paymentenroll = $row_as->payment;
 		//$balance = $total_ass - $paymentenroll;
 		
@@ -51,9 +44,6 @@
 				$paid_enrollment += $row_paid_enroll->payment_total;
 			endforeach;
 		}
-		
-		// SCHOLAR (regular monthly)
-		$monthly_scholar = ($r_m_i - $paid_enrollment)/9;
 		
 		$balance = $total_ass - $paid_enrollment;
 		if($row->gradelevel=="Grade-11" or $row->gradelevel=="Grade-12"){
@@ -141,11 +131,11 @@
 				  <div class="card-body">
 					<h4 class="card-title">INCIDENTALS</h4>
 					
-				<?php
+					<?php
 				$tindntals = 0;
 				foreach($indntals_list as $ind=>$indntals_val):
-				if($indntals[$ind]>0){
-				$tindntals += $indntals[$ind];
+					if($indntals[$ind]>0){
+					$tindntals += $indntals[$ind];
 				?>
 				<div class="row">
 					<label class="col-sm-6 col-form-label"><code class="text-info"><?=$indntals_val?></code></label>
@@ -199,30 +189,10 @@
 							<td class="text-right"><b><?=number_format($total_ass,2)?></b></td>
 						</tr>
 						<tr><td colspan="2"><hr><td></td></tr>
-						
-						<?php
-						if($row->scholar=="Yes"){
-						?>
-						
-						<tr>
-							<td>MONTHLY OBLIGATION (Sponsor)</td>
-							<td class="text-right"><?=number_format($m_scholar_tuition,2)?></td>
-						</tr>
-						<tr>
-							<td>MONTHLY OBLIGATION (Parents)</td>
-							<td class="text-right"><?=number_format($monthly_scholar,2)?></td>
-						</tr>
-						
-						<?php
-						}else{
-						?>
 						<tr>
 							<td>MONTHLY OBLIGATION</td>
 							<td class="text-right"><?=number_format($monthly,2)?></td>
 						</tr>
-						<?php	
-						}
-						?>
 					</table>
 					
 				  </div>

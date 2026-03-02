@@ -1,4 +1,47 @@
-<div class="col-md-12 grid-margin">
+<style>
+.payments-header {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+.payments-table {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+}
+.payments-table thead {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+.payments-table th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+.payments-table tbody tr {
+    transition: background 0.2s;
+}
+.payments-table tbody tr:hover {
+    background: #f8f9fa;
+}
+.paid-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.paid-yes { background: #28a745; color: white; }
+.paid-no { background: #dc3545; color: white; }
+.pending-no { background: #ffc107; color: #333; }
+.action-buttons .btn {
+    margin: 2px;
+    padding: 5px 10px;
+}
+</style>
 	<div class="card">
 	  <div class="card-body">
 		
@@ -11,7 +54,7 @@
 		}
 		?>	
 		
-		<h3 class="heading" style="text-align:center;">Payments</h3>
+		<h3 class="heading payments-header" style="text-align:center;"><i class='mdi mdi-credit-card'></i> Payments</h3>
 	
 		<div class="table-responsive">
 		  <table class="table table-striped table-hover">

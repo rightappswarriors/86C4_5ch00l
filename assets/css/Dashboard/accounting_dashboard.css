@@ -1,0 +1,56 @@
+/* Accounting Dashboard Styling */
+.accounting-dashboard .payment-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+    background: #fff;
+    margin-bottom: 1.5rem;
+}
+.accounting-dashboard .payment-header {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #fff;
+    padding: 1.25rem 1.5rem;
+    border-radius: 12px 12px 0 0;
+}
+.accounting-dashboard .payment-header h4 {
+    margin: 0;
+    font-weight: 600;
+}
+.accounting-dashboard .card-body {
+    padding: 1.5rem;
+}
+.accounting-dashboard .table thead th {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    padding: 12px;
+}
+.accounting-dashboard .table tbody tr {
+    transition: all 0.3s ease;
+}
+.accounting-dashboard .table tbody tr:hover {
+    background: #f0fdf4;
+    transform: scale(1.01);
+}
+.accounting-dashboard .table tbody td {
+    padding: 12px;
+    vertical-align: middle;
+}
+.accounting-dashboard .btn-primary {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+}
+.accounting-dashboard .btn-primary:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+.amount-cell {
+    font-weight: 600;
+    color: #10b981;
+}
