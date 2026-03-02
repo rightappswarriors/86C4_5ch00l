@@ -118,10 +118,8 @@
                     data: { identifier: identifier },
                     dataType: 'json',
                     success: function(response) {
-                        console.log(response);
-                        
                         if (response.status === 'success') {
-                            showMessage('Verification codes sent!<br>Code: ' + (response.debug_code || '') + '<br>Email: ' + response.email + '<br>Mobile: ' + response.mobile, 'success');
+                            showMessage('Verification codes sent!<br>Email: ' + response.email + '<br>Mobile: ' + response.mobile, 'success');
                             redirectUrl = response.redirect;
                             $('#submit-btn').hide();
                             $('#proceed-btn').show();

@@ -23,6 +23,38 @@ class Login extends CI_Controller {
     {
         $this->load->view('forgotpass');
     }
+
+    public function forgotpass_gate()
+    {
+        $this->load->view('forgotpass_gate');
+    }
+
+    public function forgotpass_gate_submit()
+    {
+        $this->form_validation->set_rules('firstname', 'First Name', 'required|trim');
+        $this->form_validation->set_rules('lastname', 'Last Name', 'required|trim');
+        $this->form_validation->set_rules('middlename', 'Middle Name', 'required|trim');
+        $this->form_validation->set_rules('mobileno', 'Phone Number', 'required|trim');
+        $this->form_validation->set_rules('lrn', 'LRN', 'trim');
+        $this->form_validation->set_rules('school_id', 'School ID', 'trim');
+        $this->form_validation->set_error_delimiters('<div class="text-danger" style="margin-bottom:10px;">', '</div>');
+
+        $lrn = trim((string)$this->input->post('lrn'));
+        $school_id = trim((string)$this->input->post('school_id'));
+
+        if (!$this->form_validation->run()) {
+            $this->load->view('forgotpass_gate');
+            return;
+        }
+
+        if ($lrn === '' && $school_id === '') {
+            $this->session->set_flashdata('message', 'Please provide either LRN or School ID.');
+            $this->load->view('forgotpass_gate');
+            return;
+        }
+
+        redirect('login/forgotpass');
+    }
     
     /**
      * Check if user exists and send verification code (AJAX)

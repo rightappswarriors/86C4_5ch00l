@@ -79,7 +79,7 @@
                       <input type="checkbox" class="form-check-input" id="rememberMe" checked>
                       <label class="form-check-label" for="rememberMe">Remember me</label>
                     </div>
-                    <a href="<?=site_url("login/forgotpass")?>" class="forgot-password">Forgot Password?</a>
+                    <a href="<?=site_url("login/forgotpass_gate")?>" class="forgot-password">Forgot Password?</a>
                   </div>
 				  <div class="form-group mt-4">
                     <button type="submit" class="auth-submit-btn" name="login">

@@ -128,7 +128,7 @@
                     dataType: 'json',
                     success: function(response) {
                         if (response.status === 'success') {
-                            alert('New code: ' + response.debug_code);
+                            alert('A new verification code has been sent.');
                             startCountdown();
                         } else {
                             alert(response.message);

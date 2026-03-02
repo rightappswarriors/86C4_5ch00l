@@ -61,7 +61,7 @@
 			  <div class="form-group row">
 				<label class="col-sm-3 col-form-label">Place of Birth</label>
 				<div class="col-sm-9">
-				  <input type="text" name="placeofbirth" value="<?=set_value('placeofbirth',$row->placeofbirth?>" class="form-control" />
+				  <input type="text" name="placeofbirth" value="<?=set_value('placeofbirth',$row->placeofbirth)?>" class="form-control" />
 				</div>
 			  </div>
 			</div>
@@ -294,7 +294,7 @@
 			  <div class="form-group row">
 				<label class="col-sm-3 col-form-label">First Name</label>
 				<div class="col-sm-9">
-				  <input type="text" name="guardian_firstname" value="<?=set_value('guardian_firstname',$row->guardian_firstname?>" class="form-control" />
+				  <input type="text" name="guardian_firstname" value="<?=set_value('guardian_firstname',$row->guardian_firstname)?>" class="form-control" />
 				</div>
 			  </div>
 			</div>
