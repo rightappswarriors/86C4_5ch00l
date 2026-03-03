@@ -14,6 +14,29 @@
     <link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/auth.css">
     <link rel="shortcut icon" href="<?=base_url()?>assets/images/favicon.png" />
     <style>
+      .auth-form .form-group:nth-child(odd) .form-label {
+        color: #2d5fb8;
+      }
+      .auth-form .form-group:nth-child(even) .form-label {
+        color: #0b8a7e;
+      }
+      .auth-form .form-control {
+        border: 1px solid #bdd0ea;
+        border-radius: 8px;
+        min-height: 44px;
+        background-color: #f9fcff;
+        font-size: 14px;
+        color: #2b3a4f;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+      }
+      .auth-form .form-control:focus {
+        border-color: #2f78ff;
+        background-color: #ffffff;
+        box-shadow: 0 0 0 0.2rem rgba(47, 120, 255, 0.16);
+      }
+      .auth-form .form-control::placeholder {
+        color: #8fa2bc;
+      }
       .return-link {
         color: #6c757d;
         text-decoration: none;
@@ -71,13 +94,13 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label class="form-label">FIRST NAME</label>
-                        <input type="text" name="firstname" value="<?=set_value('firstname')?>" class="form-control" required>
+                        <input type="text" name="firstname" value="<?=set_value('firstname')?>" class="form-control" placeholder="Enter first name" required>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label class="form-label">LAST NAME</label>
-                        <input type="text" name="lastname" value="<?=set_value('lastname')?>" class="form-control" required>
+                        <input type="text" name="lastname" value="<?=set_value('lastname')?>" class="form-control" placeholder="Enter last name" required>
                       </div>
                     </div>
                   </div>
@@ -86,13 +109,13 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label class="form-label">MIDDLE NAME <span class="text-muted">(Optional)</span></label>
-                        <input type="text" name="middlename" value="<?=set_value('middlename')?>" class="form-control">
+                        <input type="text" name="middlename" value="<?=set_value('middlename')?>" class="form-control" placeholder="Enter middle name">
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label class="form-label">PHONE NUMBER</label>
-                        <input type="text" name="mobileno" value="<?=set_value('mobileno')?>" class="form-control" required>
+                        <input type="text" name="mobileno" value="<?=set_value('mobileno')?>" class="form-control" placeholder="e.g. 09123456789" required>
                       </div>
                     </div>
                   </div>
@@ -101,7 +124,7 @@
                     <div class="col-md-5">
                       <div class="form-group">
                         <label class="form-label">LRN</label>
-                        <input type="text" name="lrn" value="<?=set_value('lrn')?>" class="form-control">
+                        <input type="text" name="lrn" value="<?=set_value('lrn')?>" class="form-control" placeholder="Enter LRN">
                       </div>
                     </div>
                     <div class="col-md-2 text-center">
@@ -110,7 +133,7 @@
                     <div class="col-md-5">
                       <div class="form-group">
                         <label class="form-label">SCHOOL ID</label>
-                        <input type="text" name="school_id" value="<?=set_value('school_id')?>" class="form-control">
+                        <input type="text" name="school_id" value="<?=set_value('school_id')?>" class="form-control" placeholder="Enter school ID">
                       </div>
                     </div>
                   </div>
