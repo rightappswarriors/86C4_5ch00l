@@ -1,6 +1,9 @@
 /* Action Menu Buttons Styling */
 .action-menu {
     margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 .action-btn {
     display: inline-flex;
@@ -12,7 +15,7 @@
     transition: all 0.3s ease;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     border: none;
-    margin: 5px;
+    margin: 0;
 }
 .action-btn i {
     margin-right: 8px;
@@ -22,19 +25,19 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
-.action-btn-details { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
-.action-btn-assessment { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; }
-.action-btn-interview { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; }
-.action-btn-payments { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; }
-.action-btn-soa { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white; }
-.action-btn-docs { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #333; }
-.action-btn-academics { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: #333; }
-.action-btn-update { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); color: #333; }
-.action-btn-create { background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%); color: #333; }
+.action-btn-details { background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%); color: white; }
+.action-btn-assessment { background: linear-gradient(135deg, #8862e0 0%, #6f42c1 100%); color: white; }
+.action-btn-interview { background: linear-gradient(135deg, #57c7d4 0%, #26a69a 100%); color: white; }
+.action-btn-payments { background: linear-gradient(135deg, #19d895 0%, #10c35d 100%); color: white; }
+.action-btn-soa { background: linear-gradient(135deg, #ffaf00 0%, #ff9800 100%); color: white; }
+.action-btn-docs { background: linear-gradient(135deg, #ab8ce4 0%, #9c27b0 100%); color: white; }
+.action-btn-academics { background: linear-gradient(135deg, #58d8a3 0%, #26a69a 100%); color: white; }
+.action-btn-update { background: linear-gradient(135deg, #fb9678 0%, #ff7043 100%); color: white; }
+.action-btn-create { background: linear-gradient(135deg, #00aeef 0%, #0097a7 100%); color: white; }
 
 /* Student Info Card */
 .student-info-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
     border-radius: 12px;
     padding: 20px;
     color: white;

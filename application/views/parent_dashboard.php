@@ -29,7 +29,7 @@
     margin-bottom: 1.5rem;
 }
 .parent-dashboard .info-header {
-    background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+    background: linear-gradient(#1c45ef);
     color: #fff;
     padding: 1.25rem 1.5rem;
 }
