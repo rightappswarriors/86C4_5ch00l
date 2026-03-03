@@ -13,6 +13,29 @@
     <link rel="stylesheet" href="<?=base_url()?>assets/css/shared/style.css">
     <link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/auth.css">
     <link rel="shortcut icon" href="<?=base_url()?>assets/images/favicon.png" />
+    <style>
+      .return-link {
+        color: #6c757d;
+        text-decoration: none;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 10px 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+        transition: all 0.3s ease;
+      }
+      .return-link:hover {
+        color: #4a73e8;
+        border-color: #4a73e8;
+        background-color: #fff;
+      }
+      .return-link i {
+        font-size: 18px;
+      }
+    </style>
   </head>
   <body>
     <div class="auth-page-logo">
@@ -62,8 +85,8 @@
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label class="form-label">MIDDLE NAME</label>
-                        <input type="text" name="middlename" value="<?=set_value('middlename')?>" class="form-control" required>
+                        <label class="form-label">MIDDLE NAME <span class="text-muted">(Optional)</span></label>
+                        <input type="text" name="middlename" value="<?=set_value('middlename')?>" class="form-control">
                       </div>
                     </div>
                     <div class="col-md-6">
@@ -87,10 +110,7 @@
                     <div class="col-md-5">
                       <div class="form-group">
                         <label class="form-label">SCHOOL ID</label>
-                        <div class="d-flex">
-                          <input type="text" name="school_id" value="<?=set_value('school_id')?>" class="form-control">
-                          <a href="<?=site_url("login")?>" class="btn btn-outline-primary ml-2">Return</a>
-                        </div>
+                        <input type="text" name="school_id" value="<?=set_value('school_id')?>" class="form-control">
                       </div>
                     </div>
                   </div>
@@ -101,6 +121,12 @@
                     </button>
                   </div>
                 </form>
+                
+                <div class="text-center mt-3">
+                  <a href="<?=site_url('login')?>" class="return-link">
+                    <i class="mdi mdi-arrow-left"></i> Return to Login
+                  </a>
+                </div>
               </div>
               <p class="auth-copyright">© 2020 CBHCA Online Portal. All rights reserved.</p>
             </div>

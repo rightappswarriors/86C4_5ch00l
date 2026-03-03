@@ -96,4 +96,105 @@ class Forgotpass_model extends CI_Model {
         
         return $result;
     }
+    
+    /**
+     * Verify parent identity by name and phone number
+     * Returns parent info and their linked children
+     */
+    function verify_parent_identity($firstname, $lastname, $middlename, $mobileno) {
+        // Find parent account - middle name is optional
+        $this->db->where('LOWER(firstname)', strtolower($firstname));
+        $this->db->where('LOWER(lastname)', strtolower($lastname));
+        $this->db->where('mobileno', $mobileno);
+        $this->db->where('usertype', 'Parent');
+        $this->db->where('status', 1);
+        
+        // If middle name provided, also match it
+        if (!empty($middlename)) {
+            $this->db->where('LOWER(middlename)', strtolower($middlename));
+        }
+        
+        $query = $this->db->get('register');
+        
+        // If no match with middle name, try without it
+        if ($query->num_rows() == 0 && !empty($middlename)) {
+            $this->db->where('LOWER(firstname)', strtolower($firstname));
+            $this->db->where('LOWER(lastname)', strtolower($lastname));
+            $this->db->where('mobileno', $mobileno);
+            $this->db->where('usertype', 'Parent');
+            $this->db->where('status', 1);
+            $query = $this->db->get('register');
+        }
+        
+        if ($query->num_rows() == 0) {
+            return array('status' => 'not_found', 'message' => 'Parent account not found with these details.');
+        }
+        
+        $parent = $query->row();
+        
+        // Get children (students) linked to this parent
+        $this->db->select('students.*, enrolled.gradelevel, enrolled.status as enrollstatus, enrolled.schoolyear');
+        $this->db->from('students');
+        $this->db->join('enrolled', 'enrolled.studentid = students.id');
+        $this->db->where('students.user_id', $parent->id);
+        $this->db->where('enrolled.deleted', 'no');
+        $this->db->order_by('enrolled.id', 'desc');
+        $students_query = $this->db->get();
+        
+        $children = $students_query->result();
+        
+        return array(
+            'status' => 'success',
+            'parent' => $parent,
+            'children' => $children
+        );
+    }
+    
+    /**
+     * Verify student identity by LRN or School ID
+     * Returns student info and their parent account
+     */
+    function verify_student_identity($identifier) {
+        // Try to find by LRN first
+        $this->db->where('lrn', $identifier);
+        $query = $this->db->get('students');
+        
+        if ($query->num_rows() == 0) {
+            // Try by student number (school_id)
+            $this->db->where('studentno', $identifier);
+            $query = $this->db->get('students');
+        }
+        
+        if ($query->num_rows() == 0) {
+            return array('status' => 'not_found', 'message' => 'Student not found with this LRN or School ID.');
+        }
+        
+        $student = $query->row();
+        
+        // Get parent account
+        $parent = null;
+        if ($student->user_id) {
+            $this->db->where('id', $student->user_id);
+            $this->db->where('status', 1);
+            $parent_query = $this->db->get('register');
+            if ($parent_query->num_rows() > 0) {
+                $parent = $parent_query->row();
+            }
+        }
+        
+        // Get enrollment info
+        $this->db->where('studentid', $student->id);
+        $this->db->where('deleted', 'no');
+        $this->db->order_by('id', 'desc');
+        $this->db->limit(1);
+        $enroll_query = $this->db->get('enrolled');
+        $enrollment = $enroll_query->row();
+        
+        return array(
+            'status' => 'success',
+            'student' => $student,
+            'parent' => $parent,
+            'enrollment' => $enrollment
+        );
+    }
 }

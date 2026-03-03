@@ -31,29 +31,187 @@ class Login extends CI_Controller {
 
     public function forgotpass_gate_submit()
     {
+        // Set form validation - middle name is optional
         $this->form_validation->set_rules('firstname', 'First Name', 'required|trim');
         $this->form_validation->set_rules('lastname', 'Last Name', 'required|trim');
-        $this->form_validation->set_rules('middlename', 'Middle Name', 'required|trim');
+        $this->form_validation->set_rules('middlename', 'Middle Name', 'trim');
         $this->form_validation->set_rules('mobileno', 'Phone Number', 'required|trim');
         $this->form_validation->set_rules('lrn', 'LRN', 'trim');
         $this->form_validation->set_rules('school_id', 'School ID', 'trim');
         $this->form_validation->set_error_delimiters('<div class="text-danger" style="margin-bottom:10px;">', '</div>');
 
-        $lrn = trim((string)$this->input->post('lrn'));
-        $school_id = trim((string)$this->input->post('school_id'));
-
+        // Get form inputs
+        $firstname = trim($this->input->post('firstname'));
+        $lastname = trim($this->input->post('lastname'));
+        $middlename = trim($this->input->post('middlename'));
+        $mobileno = trim($this->input->post('mobileno'));
+        $lrn = trim($this->input->post('lrn'));
+        $school_id = trim($this->input->post('school_id'));
+        
+        // Check if form validation passes
         if (!$this->form_validation->run()) {
             $this->load->view('forgotpass_gate');
             return;
         }
-
-        if ($lrn === '' && $school_id === '') {
-            $this->session->set_flashdata('message', 'Please provide either LRN or School ID.');
+        
+        // Determine if this is a parent or student lookup
+        // Parent: needs firstname, lastname, mobileno at minimum
+        $is_parent_lookup = !empty($firstname) && !empty($lastname) && !empty($mobileno);
+        // Student: needs LRN or School ID
+        $is_student_lookup = !empty($lrn) || !empty($school_id);
+        
+        if ($is_parent_lookup) {
+            // Verify parent identity and get their children
+            $result = $this->Forgotpass_model->verify_parent_identity(
+                $firstname, 
+                $lastname, 
+                $middlename, 
+                $mobileno
+            );
+            
+            if ($result['status'] === 'not_found') {
+                $this->session->set_flashdata('message', $result['message']);
+                $this->load->view('forgotpass_gate');
+                return;
+            }
+            
+            // Store data in session for the selection step
+            $this->session->set_userdata('forgotpass_parent_data', $result['parent']);
+            $this->session->set_userdata('forgotpass_children', $result['children']);
+            $this->session->set_userdata('forgotpass_type', 'parent');
+            
+            // Show results page
+            $data['parent'] = $result['parent'];
+            $data['children'] = $result['children'];
+            $data['lookup_type'] = 'parent';
+            $this->load->view('forgotpass_select', $data);
+            return;
+        } 
+        elseif ($is_student_lookup) {
+            // Verify student by LRN or School ID and get parent
+            $identifier = !empty($lrn) ? $lrn : $school_id;
+            $result = $this->Forgotpass_model->verify_student_identity($identifier);
+            
+            if ($result['status'] === 'not_found') {
+                $this->session->set_flashdata('message', $result['message']);
+                $this->load->view('forgotpass_gate');
+                return;
+            }
+            
+            // Store data in session
+            $this->session->set_userdata('forgotpass_student_data', $result['student']);
+            $this->session->set_userdata('forgotpass_parent', $result['parent']);
+            $this->session->set_userdata('forgotpass_type', 'student');
+            
+            // Show results page
+            $data['student'] = $result['student'];
+            $data['parent'] = $result['parent'];
+            $data['enrollment'] = $result['enrollment'];
+            $data['lookup_type'] = 'student';
+            $this->load->view('forgotpass_select', $data);
+            return;
+        } 
+        else {
+            // Neither properly filled
+            $this->session->set_flashdata('message', 'Please provide either parent details (First Name, Last Name, Phone Number) OR student LRN/School ID.');
             $this->load->view('forgotpass_gate');
             return;
         }
-
-        redirect('login/forgotpass');
+    }
+    
+    /**
+     * Process the selected account for password reset
+     */
+    public function forgotpass_select_account()
+    {
+        $user_id = $this->input->post('user_id');
+        $user_type = $this->input->post('user_type');
+        
+        if (empty($user_id)) {
+            $this->session->set_flashdata('message', 'Please select an account to reset password.');
+            redirect('login/forgotpass_gate');
+            return;
+        }
+        
+        $user = null;
+        
+        // Check if it's a student account (prefixed with 'student_')
+        if (strpos($user_id, 'student_') === 0) {
+            $student_id = str_replace('student_', '', $user_id);
+            
+            // Get student info and check if they have a portal account
+            $this->db->where('id', $student_id);
+            $student_query = $this->db->get('students');
+            
+            if ($student_query->num_rows() == 0) {
+                $this->session->set_flashdata('message', 'Student not found.');
+                redirect('login/forgotpass_gate');
+                return;
+            }
+            
+            $student = $student_query->row();
+            
+            // Check if student has a user_id (portal account)
+            if (empty($student->user_id)) {
+                $this->session->set_flashdata('message', 'This student does not have a portal account. Please contact the school.');
+                redirect('login/forgotpass_gate');
+                return;
+            }
+            
+            // Get the parent account linked to student
+            $this->db->where('id', $student->user_id);
+            $this->db->where('status', 1);
+            $query = $this->db->get('register');
+            
+            if ($query->num_rows() == 0) {
+                $this->session->set_flashdata('message', 'Parent account not found.');
+                redirect('login/forgotpass_gate');
+                return;
+            }
+            
+            $user = $query->row();
+        } else {
+            // It's a regular parent account
+            $this->db->where('id', $user_id);
+            $this->db->where('status', 1);
+            $query = $this->db->get('register');
+            
+            if ($query->num_rows() == 0) {
+                $this->session->set_flashdata('message', 'User not found.');
+                redirect('login/forgotpass_gate');
+                return;
+            }
+            
+            $user = $query->row();
+        }
+        
+        // Generate verification code
+        $code = $this->Forgotpass_model->generate_verification_code(
+            $user->id, 
+            $user->emailadd, 
+            $user->mobileno
+        );
+        
+        // Try to send email
+        try {
+            $this->load->library('phpmailer');
+            @$this->phpmailer->send_verification_code($user->emailadd, $code, $user->firstname . ' ' . $user->lastname);
+        } catch (Exception $e) {}
+        
+        // Try to send SMS
+        try {
+            $this->load->library('sms');
+            @$this->sms->send_verification_code($user->mobileno, $code);
+        } catch (Exception $e) {}
+        
+        // Store session data for password reset
+        $this->session->set_userdata('reset_user_id', $user->id);
+        $this->session->set_userdata('reset_identifier', $user->emailadd ?: $user->mobileno);
+        $this->session->set_userdata('reset_email', $user->emailadd);
+        $this->session->set_userdata('reset_mobile', $user->mobileno);
+        
+        // Redirect to verify code page
+        redirect('login/verify_code');
     }
     
     /**
@@ -124,7 +282,7 @@ class Login extends CI_Controller {
     public function verify_code()
     {
         if (!$this->session->userdata('reset_user_id')) {
-            redirect('login/forgotpass');
+            redirect('login/forgotpass_gate');
             return;
         }
         
@@ -168,7 +326,7 @@ class Login extends CI_Controller {
     public function reset_password()
     {
         if (!$this->session->userdata('verified_user_id')) {
-            redirect('login/forgotpass');
+            redirect('login/forgotpass_gate');
             return;
         }
         
