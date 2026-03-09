@@ -45,14 +45,32 @@
 			  <?=validation_errors()?>
 			  
                 <form method="POST" action="<?=site_url("register/validation")?>" class="auth-form">
-                  <div class="form-group">
-					<label class="form-label">Mobile Number</label>
-                    <div class="input-group">
-                      <input type="text" name="mobileno" value="<?=set_value('mobileno')?>" class="form-control" placeholder="09229631111">
-                      <div class="input-group-append">
-                        <span class="input-group-text">
-                          <i class="mdi mdi-phone"></i>
-                        </span>
+                  <!-- [Team Note - 2026-03-09] Replaced Mobile Number with LRN + School ID for account creation -->
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="form-label">LRN</label>
+                        <div class="input-group">
+                          <input type="text" name="lrn" value="<?=set_value('lrn')?>" class="form-control" placeholder="Enter LRN">
+                          <div class="input-group-append">
+                            <span class="input-group-text">
+                              <i class="mdi mdi-card-account-details"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="form-label">School ID</label>
+                        <div class="input-group">
+                          <input type="text" name="school_id" value="<?=set_value('school_id')?>" class="form-control" placeholder="Enter School ID">
+                          <div class="input-group-append">
+                            <span class="input-group-text">
+                              <i class="mdi mdi-card-bulleted"></i>
+                            </span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

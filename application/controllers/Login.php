@@ -31,11 +31,13 @@ class Login extends CI_Controller {
 
     public function forgotpass_gate_submit()
     {
+        // [Team Note - 2026-03-09]
+        // Forgot Password gate now validates parent identity using Birthdate instead of Phone Number.
         // Set form validation - middle name is optional
         $this->form_validation->set_rules('firstname', 'First Name', 'required|trim');
         $this->form_validation->set_rules('lastname', 'Last Name', 'required|trim');
         $this->form_validation->set_rules('middlename', 'Middle Name', 'trim');
-        $this->form_validation->set_rules('mobileno', 'Phone Number', 'required|trim');
+        $this->form_validation->set_rules('birthdate', 'Birthdate', 'required|trim');
         $this->form_validation->set_rules('lrn', 'LRN', 'trim');
         $this->form_validation->set_rules('school_id', 'School ID', 'trim');
         $this->form_validation->set_error_delimiters('<div class="text-danger" style="margin-bottom:10px;">', '</div>');
@@ -44,7 +46,7 @@ class Login extends CI_Controller {
         $firstname = trim($this->input->post('firstname'));
         $lastname = trim($this->input->post('lastname'));
         $middlename = trim($this->input->post('middlename'));
-        $mobileno = trim($this->input->post('mobileno'));
+        $birthdate = trim($this->input->post('birthdate'));
         $lrn = trim($this->input->post('lrn'));
         $school_id = trim($this->input->post('school_id'));
         
@@ -55,8 +57,8 @@ class Login extends CI_Controller {
         }
         
         // Determine if this is a parent or student lookup
-        // Parent: needs firstname, lastname, mobileno at minimum
-        $is_parent_lookup = !empty($firstname) && !empty($lastname) && !empty($mobileno);
+        // Parent: needs firstname, lastname, birthdate at minimum
+        $is_parent_lookup = !empty($firstname) && !empty($lastname) && !empty($birthdate);
         // Student: needs LRN or School ID
         $is_student_lookup = !empty($lrn) || !empty($school_id);
         
@@ -65,8 +67,8 @@ class Login extends CI_Controller {
             $result = $this->Forgotpass_model->verify_parent_identity(
                 $firstname, 
                 $lastname, 
-                $middlename, 
-                $mobileno
+                $middlename,
+                $birthdate
             );
             
             if ($result['status'] === 'not_found') {
@@ -113,7 +115,7 @@ class Login extends CI_Controller {
         } 
         else {
             // Neither properly filled
-            $this->session->set_flashdata('message', 'Please provide either parent details (First Name, Last Name, Phone Number) OR student LRN/School ID.');
+            $this->session->set_flashdata('message', 'Please provide either parent details (First Name, Last Name, Birthdate) OR student LRN/School ID.');
             $this->load->view('forgotpass_gate');
             return;
         }
@@ -420,25 +422,30 @@ class Login extends CI_Controller {
     
     function validation()
     {
-        $this->form_validation->set_rules('mobileno', 'Mobile Number', 'required|trim');
+        // [Team Note - 2026-03-09]
+        // Login now supports multiple identifiers: LRN, School ID, or Email Address.
+        $this->form_validation->set_rules('login_type', 'Login Type', 'required|in_list[lrn,school_id,email]');
+        $this->form_validation->set_rules('login_identifier', 'Login Identifier', 'required|trim');
         $this->form_validation->set_rules('userpass', 'Password', 'required');
         if($this->form_validation->run())
         {
-            $result = $this->login_model->can_login($this->input->post('mobileno'), $this->input->post('userpass'));
+            $login_type = $this->input->post('login_type', TRUE);
+            $login_identifier = trim($this->input->post('login_identifier', TRUE));
+            $result = $this->login_model->can_login($login_type, $login_identifier, $this->input->post('userpass'));
             if($result)
             {
                 redirect("dashboard");
             }
             else
             {
-                $message = "Wrong Number or Password!";
+                $message = "Wrong login details or password!";
                 $this->session->set_flashdata('message',$message);    
                 $this->index();
             }
         }
         else
         {
-            $message = "Wrong Number or Password!";
+            $message = "Wrong login details or password!";
             $this->session->set_flashdata('message',$message);    
             $this->index();
         }

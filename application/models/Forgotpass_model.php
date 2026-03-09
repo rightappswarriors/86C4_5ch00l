@@ -98,39 +98,16 @@ class Forgotpass_model extends CI_Model {
     }
     
     /**
-     * Verify parent identity by name and phone number
+     * Verify parent identity by name and child birthdate
      * Returns parent info and their linked children
      */
-    function verify_parent_identity($firstname, $lastname, $middlename, $mobileno) {
-        // Find parent account - middle name is optional
-        $this->db->where('LOWER(firstname)', strtolower($firstname));
-        $this->db->where('LOWER(lastname)', strtolower($lastname));
-        $this->db->where('mobileno', $mobileno);
-        $this->db->where('usertype', 'Parent');
-        $this->db->where('status', 1);
-        
-        // If middle name provided, also match it
-        if (!empty($middlename)) {
-            $this->db->where('LOWER(middlename)', strtolower($middlename));
-        }
-        
-        $query = $this->db->get('register');
-        
-        // If no match with middle name, try without it
-        if ($query->num_rows() == 0 && !empty($middlename)) {
-            $this->db->where('LOWER(firstname)', strtolower($firstname));
-            $this->db->where('LOWER(lastname)', strtolower($lastname));
-            $this->db->where('mobileno', $mobileno);
-            $this->db->where('usertype', 'Parent');
-            $this->db->where('status', 1);
-            $query = $this->db->get('register');
-        }
-        
-        if ($query->num_rows() == 0) {
+    function verify_parent_identity($firstname, $lastname, $middlename, $birthdate) {
+        // [Team Note - 2026-03-09]
+        // Parent lookup flow now uses child Birthdate instead of parent Phone Number.
+        $parent = $this->find_parent_by_identity($firstname, $lastname, $middlename, $birthdate);
+        if (!$parent) {
             return array('status' => 'not_found', 'message' => 'Parent account not found with these details.');
         }
-        
-        $parent = $query->row();
         
         // Get children (students) linked to this parent
         $this->db->select('students.*, enrolled.gradelevel, enrolled.status as enrollstatus, enrolled.schoolyear');
@@ -196,5 +173,36 @@ class Forgotpass_model extends CI_Model {
             'parent' => $parent,
             'enrollment' => $enrollment
         );
+    }
+
+    private function find_parent_by_identity($firstname, $lastname, $middlename, $birthdate)
+    {
+        // [Team Note - 2026-03-09]
+        // Supports optional middle name: tries exact match first, then fallback without middle name.
+        $query = $this->build_parent_identity_query($firstname, $lastname, $middlename, $birthdate)->get();
+        if ($query->num_rows() == 0 && !empty($middlename)) {
+            $query = $this->build_parent_identity_query($firstname, $lastname, '', $birthdate)->get();
+        }
+        if ($query->num_rows() == 0) {
+            return false;
+        }
+        return $query->row();
+    }
+
+    private function build_parent_identity_query($firstname, $lastname, $middlename, $birthdate)
+    {
+        $this->db->select('register.*');
+        $this->db->from('register');
+        $this->db->join('students', 'students.user_id = register.id');
+        $this->db->where('LOWER(register.firstname)', strtolower($firstname));
+        $this->db->where('LOWER(register.lastname)', strtolower($lastname));
+        $this->db->where('students.birthdate', $birthdate);
+        $this->db->where('register.usertype', 'Parent');
+        $this->db->where('register.status', 1);
+        if (!empty($middlename)) {
+            $this->db->where('LOWER(register.middlename)', strtolower($middlename));
+        }
+        $this->db->group_by('register.id');
+        return $this->db;
     }
 }

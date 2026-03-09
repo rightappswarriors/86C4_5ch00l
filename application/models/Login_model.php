@@ -1,62 +1,112 @@
 <?php
 class Login_model extends CI_Model
 {
-	function can_login($mobileno, $userpass)
+	// [Team Note - 2026-03-09]
+	// Main login entry supports new identifier types while keeping old mobile-based signature compatible.
+	function can_login($login_type, $login_identifier, $userpass = null)
 	{
-		$this->db->where('mobileno', $mobileno);
-		$this->db->where('userpass', md5($userpass));
-		$this->db->where('status',1);
-		$query = $this->db->get('register');
-		if($query->num_rows() > 0)
-		{
-			
-			$row = $query->row();
-			
-			// SESSIONS STARTS...
-			$this->session->set_userdata('logged_in', 1);
-			$this->session->set_userdata('current_userid', $row->id);
-			$this->session->set_userdata('current_firstname', $row->firstname);
-			$this->session->set_userdata('current_mobileno', $row->mobileno);
-			$this->session->set_userdata('current_usertype', $row->usertype); // Parent, Registrar, Admin... and etc.
-			
-			//var_dump($this->session->set_userdata);
-			//exit;
-			
-			// GET CURRENT SCHOOL YEAR...
-			//$this->db->where('isactive',1);
-			$this->db->where('status',1);
-			$query1 = $this->db->get('schoolyear');
-			if($query1->num_rows() > 0)
-			{
-				
-				$other_schoolyears = array();
-				foreach ($query1->result() as $row1):
-				if($row1->isactive==1){
-					$this->session->set_userdata('current_schoolyearid', $row1->id);
-					$this->session->set_userdata('current_schoolyear', $row1->schoolyear);
-				}
-				$other_schoolyears[ $row1->id ] = $row1->schoolyear;
-				endforeach;
-				// put to the sessions other school year...
-				$this->session->set_userdata('other_schoolyears', $other_schoolyears);
-				
-			}
-			
-			// UPDATE USER LAST Login
-			$data1 = array( 'lastlogin'  => date("Y-m-d H:i:s") );
-			$this->db->where('id',$row->id);
-			$this->db->limit(1);
-			$this->db->update('register',$data1);
-			
-			return $row->id;
-			
+		// Backward compatibility for old signature: can_login($mobileno, $userpass)
+		if ($userpass === null) {
+			$userpass = $login_identifier;
+			$login_identifier = $login_type;
+			$login_type = 'mobile';
 		}
-		else
-		{
+
+		$user = $this->find_user_for_login($login_type, trim((string)$login_identifier), $userpass);
+		if (!$user) {
 			return 0;
 		}
+
+		$this->set_user_session($user);
+		$this->set_schoolyear_session();
+		$this->update_last_login($user->id);
+
+		return $user->id;
+	}
+
+	private function find_user_for_login($login_type, $login_identifier, $userpass)
+	{
+		$this->db->where('userpass', md5($userpass));
+		$this->db->where('status', 1);
+
+		if ($login_type === 'email') {
+			$this->db->where('emailadd', $login_identifier);
+		} elseif ($login_type === 'lrn' || $login_type === 'school_id') {
+			$user_id = $this->resolve_user_id_from_student($login_type, $login_identifier);
+			if (empty($user_id)) {
+				return null;
+			}
+			$this->db->where('id', $user_id);
+		} else {
+			$this->db->where('mobileno', $login_identifier);
+		}
+
+		$query = $this->db->get('register');
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}
+
+		return null;
+	}
+
+	private function resolve_user_id_from_student($login_type, $login_identifier)
+	{
+		// [Team Note - 2026-03-09]
+		// LRN/School ID login resolves the related parent/user account via students.user_id.
+		if ($login_type === 'lrn') {
+			$this->db->where('lrn', $login_identifier);
+		} else {
+			$this->db->where('studentno', $login_identifier);
+		}
+
+		$this->db->limit(1);
+		$query = $this->db->get('students');
+		if ($query->num_rows() === 0) {
+			return null;
+		}
+
+		$student = $query->row();
+		if (empty($student->user_id)) {
+			return null;
+		}
+
+		return $student->user_id;
+	}
+
+	private function set_user_session($user)
+	{
+		$this->session->set_userdata('logged_in', 1);
+		$this->session->set_userdata('current_userid', $user->id);
+		$this->session->set_userdata('current_firstname', $user->firstname);
+		$this->session->set_userdata('current_mobileno', $user->mobileno);
+		$this->session->set_userdata('current_usertype', $user->usertype);
+	}
+
+	private function set_schoolyear_session()
+	{
+		$this->db->where('status', 1);
+		$query = $this->db->get('schoolyear');
+		if ($query->num_rows() === 0) {
+			return;
+		}
+
+		$other_schoolyears = array();
+		foreach ($query->result() as $row) {
+			if ($row->isactive == 1) {
+				$this->session->set_userdata('current_schoolyearid', $row->id);
+				$this->session->set_userdata('current_schoolyear', $row->schoolyear);
+			}
+			$other_schoolyears[$row->id] = $row->schoolyear;
+		}
+		$this->session->set_userdata('other_schoolyears', $other_schoolyears);
+	}
+
+	private function update_last_login($user_id)
+	{
+		$data = array('lastlogin' => date("Y-m-d H:i:s"));
+		$this->db->where('id', $user_id);
+		$this->db->limit(1);
+		$this->db->update('register', $data);
 	}
 
 }
-
-?>

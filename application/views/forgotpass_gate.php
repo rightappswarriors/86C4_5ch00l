@@ -114,8 +114,9 @@
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label class="form-label">PHONE NUMBER</label>
-                        <input type="text" name="mobileno" value="<?=set_value('mobileno')?>" class="form-control" placeholder="e.g. 09123456789" required>
+                        <!-- [Team Note - 2026-03-09] Replaced Phone Number input with Birthdate -->
+                        <label class="form-label">BIRTHDATE</label>
+                        <input type="date" name="birthdate" value="<?=set_value('birthdate')?>" class="form-control" required>
                       </div>
                     </div>
                   </div>

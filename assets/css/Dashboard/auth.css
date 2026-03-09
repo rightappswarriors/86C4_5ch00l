@@ -140,6 +140,23 @@
     color: #aaa;
 }
 
+/* [Team Note - 2026-03-09] Login selector UI adjustment */
+/* Login selector styling */
+.auth-form select.form-control {
+    height: 46px;
+    line-height: 1.2;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+}
+
+.auth-form .login-type-select {
+    /* [Team Note - 2026-03-09] Restore native dropdown arrow behavior for login selector */
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+    appearance: auto;
+    padding-right: 1.8rem;
+}
+
 /* Input Group Append */
 .auth-form .input-group-append .input-group-text {
     background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);

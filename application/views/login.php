@@ -51,10 +51,27 @@
                 ?>
 			  
                 <form method="POST" action="<?=site_url("login/validation")?>" class="auth-form">
+                  <!-- [Team Note - 2026-03-09] Login identifier selector (LRN / School ID / Email) -->
                   <div class="form-group">
-                    <label class="form-label">Mobile Number</label>
+                    <label class="form-label">Login Using</label>
                     <div class="input-group">
-                      <input type="text" name="mobileno" value="<?=set_value('mobileno')?>" class="form-control" placeholder="09229631111">
+                      <select name="login_type" id="login_type" class="form-control login-type-select">
+                        <?php $selected_login_type = set_value('login_type', 'lrn'); ?>
+                        <option value="lrn" <?=($selected_login_type === 'lrn' ? 'selected' : '')?>>LRN</option>
+                        <option value="school_id" <?=($selected_login_type === 'school_id' ? 'selected' : '')?>>School ID</option>
+                        <option value="email" <?=($selected_login_type === 'email' ? 'selected' : '')?>>Email Address</option>
+                      </select>
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="mdi mdi-format-list-bulleted"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" id="login_identifier_label">LRN</label>
+                    <div class="input-group">
+                      <input type="text" name="login_identifier" id="login_identifier" value="<?=set_value('login_identifier')?>" class="form-control" placeholder="Enter your LRN">
                       <div class="input-group-append">
                         <span class="input-group-text">
                           <i class="mdi mdi-account"></i>
@@ -111,6 +128,43 @@
     <!-- inject:js -->
     <script src="<?=base_url()?>assets/js/shared/off-canvas.js"></script>
     <script src="<?=base_url()?>assets/js/shared/misc.js"></script>
+    <script>
+      (function () {
+        // [Team Note - 2026-03-09]
+        // Keeps login identifier label/placeholder synced with selected login type.
+        var loginType = document.getElementById('login_type');
+        var identifierLabel = document.getElementById('login_identifier_label');
+        var identifierInput = document.getElementById('login_identifier');
+
+        if (!loginType || !identifierLabel || !identifierInput) {
+          return;
+        }
+
+        var loginConfig = {
+          lrn: {
+            label: 'LRN',
+            placeholder: 'Enter your LRN'
+          },
+          school_id: {
+            label: 'School ID',
+            placeholder: 'Enter your School ID'
+          },
+          email: {
+            label: 'Email Address',
+            placeholder: 'Enter your Email Address'
+          }
+        };
+
+        function applyLoginType() {
+          var selected = loginConfig[loginType.value] || loginConfig.lrn;
+          identifierLabel.textContent = selected.label;
+          identifierInput.placeholder = selected.placeholder;
+        }
+
+        loginType.addEventListener('change', applyLoginType);
+        applyLoginType();
+      })();
+    </script>
     <!-- endinject -->
     
     <?php $this->load->view('support_chat_widget'); ?>
