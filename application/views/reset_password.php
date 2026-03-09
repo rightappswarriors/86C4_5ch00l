@@ -107,6 +107,8 @@
     <script src="<?=base_url()?>assets/js/shared/off-canvas.js"></script>
     <script src="<?=base_url()?>assets/js/shared/misc.js"></script>
     
+    <?php $this->load->view('support_chat_widget'); ?>
+    
     <script>
         function togglePassword(inputId) {
             var input = $('#' + inputId);

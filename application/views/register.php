@@ -149,5 +149,7 @@
     <script src="<?=base_url()?>assets/js/shared/off-canvas.js"></script>
     <script src="<?=base_url()?>assets/js/shared/misc.js"></script>
     <!-- endinject -->
+    
+    <?php $this->load->view('support_chat_widget'); ?>
   </body>
 </html>

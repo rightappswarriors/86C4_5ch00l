@@ -14,12 +14,12 @@
     <link rel="stylesheet" href="<?=base_url()?>assets/vendors/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="<?=base_url()?>assets/vendors/css/vendor.bundle.addons.css">
     <link rel="stylesheet" href="<?=base_url()?>assets/vendors/css/vendor.bundle.addons.css">
- 	
+  	
 	<link rel="stylesheet" href="<?=base_url()?>assets/css/tabs.css">
 	<script src="<?=base_url()?>assets/js/tabs.js"></script>
- 	
+  	
 	<script src="<?=base_url()?>assets/js/jquery-3.5.1.min.js"></script>
- 	
+  	
 	<script src="<?=base_url()?>assets/index.global.js"></script>
 	
     <!-- endinject -->
@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="<?=base_url()?>assets/css/demo_1/style.css">
     <!-- End Layout styles -->
     <link rel="shortcut icon" href="<?=base_url()?>assets/images/favicon.png" />
- 	
+  	
 	<script>
 	
 	$(function(){
@@ -100,7 +100,7 @@
                   <img class="img-md rounded-circle" src="<?=base_url()?>assets/images/faces/face8.png" alt="Profile image">
                   <p class="mb-1 mt-3 font-weight-semibold"><?=$this->session->userdata('current_firstname')?></p>
 				  <p class="font-weight-light text-muted mb-0"><?=$this->session->userdata('current_mobileno')?></p>
-                   
+                    
                 </div>
                 <a class="dropdown-item" href="<?=site_url("myprofile")?>">My Profile</a>
                 <a class="dropdown-item" href="<?=site_url("logout")?>">Log-out<i class="dropdown-item-icon ti-power-off"></i></a>
@@ -176,7 +176,8 @@
   <script src="<?=base_url('assets')?>/js/pdfmake.min.js"></script>
   <script src="<?=base_url('assets')?>/js/vfs_fonts.js"></script>
   <script src="<?=base_url('assets')?>/js/buttons.html5.min.js"></script>
- 
-	
+  
+  <?php $this->load->view('support_chat_widget'); ?>
+  
   </body>
 </html>

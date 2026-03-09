@@ -161,5 +161,7 @@
     <script src="<?=base_url()?>assets/vendors/js/vendor.bundle.addons.js"></script>
     <script src="<?=base_url()?>assets/js/shared/off-canvas.js"></script>
     <script src="<?=base_url()?>assets/js/shared/misc.js"></script>
+    
+    <?php $this->load->view('support_chat_widget'); ?>
   </body>
 </html>
