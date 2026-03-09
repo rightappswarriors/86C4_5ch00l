@@ -37,7 +37,7 @@
                 <div class="school-logo">
                   <i class="mdi mdi-school"></i>
                 </div>
-			  	<h2>Welcome Back</h2>
+			  	<h2>Welcome Back!</h2>
 			  	<p>Please login to your account</p>
 			  </div>
 			  
@@ -77,7 +77,7 @@
                   <div class="form-group d-flex justify-content-between align-items-center">
                     <div class="form-check">
                       <input type="checkbox" class="form-check-input" id="rememberMe" checked>
-                      <label class="form-check-label" for="rememberMe">Remember me</label>
+                      <label class="form-check-label" for="rememberMe" style="margin-left: 5px;">Remember me</label>
                     </div>
                     <a href="<?=site_url("login/forgotpass_gate")?>" class="forgot-password">Forgot Password?</a>
                   </div>
