@@ -2,7 +2,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Register extends CI_Controller {
-	const REGISTER_REQUIRED_MOBILE_FALLBACK = 'N/A';
 
 	public function __construct()
 	{
@@ -20,35 +19,18 @@ class Register extends CI_Controller {
 	
 	function validation()
 	{
-		// [Team Note - 2026-03-09]
-		// Registration now requires student credentials (LRN + School ID) instead of Mobile Number.
 		$this->set_register_validation_rules();
 		
 		if($this->form_validation->run())
 		{
-			$lrn = $this->get_clean_post('lrn');
-			$school_id = $this->get_clean_post('school_id');
+			$register_type = $this->get_clean_post('register_type');
+			$contact_value = $this->get_clean_post('contact_value');
 			
-			// Try to find student by credentials
-			$student = $this->find_student_by_credentials($lrn, $school_id);
-			
-			// If not found with both LRN and School ID, try LRN only
-			if (!$student && !empty($school_id)) {
-				$student = $this->find_student_by_credentials($lrn, '');
-			}
-			
-			if (!$student) {
-				$this->session->set_flashdata('message', 'Student record not found for the provided LRN and School ID.');
-				$this->index();
-				return;
-			}
-			
-			$data = $this->build_register_data($school_id);
+			$data = $this->build_register_data($register_type, $contact_value);
 			
 			$id = $this->register_model->insert($data);
 			if($id > 0)
 			{
-				$this->link_student_to_user($student->id, $id);
 				$this->validsuccess();
 			}
 		}
@@ -58,86 +40,42 @@ class Register extends CI_Controller {
 		}
 	}
 
-	public function validate_student_credentials($lrn)
-	{
-		$school_id = $this->get_clean_post('school_id');
-		
-		// Try to find student by both LRN and School ID first
-		$student = $this->find_student_by_credentials($lrn, $school_id);
-		
-		// If not found with both, try LRN only (if School ID was provided but didn't match)
-		if (!$student && !empty($school_id)) {
-			$student = $this->find_student_by_credentials($lrn, '');
-		}
-		
-		if (!$student) {
-			$this->form_validation->set_message('validate_student_credentials', 'The LRN and School ID do not match any student record.');
-			return FALSE;
-		}
-
-		if (!empty($student->user_id)) {
-			$this->form_validation->set_message('validate_student_credentials', 'This student already has a linked portal account.');
-			return FALSE;
-		}
-
-		return TRUE;
-	}
-
-	private function find_student_by_credentials($lrn, $school_id)
-	{
-		// If School ID is provided, search by both LRN and School ID
-		if (!empty($school_id)) {
-			$this->db->where('lrn', $lrn);
-			$this->db->where('studentno', $school_id);
-			$this->db->limit(1);
-			$query = $this->db->get('students');
-			if ($query->num_rows() > 0) {
-				return $query->row();
-			}
-		}
-		
-		// If School ID is empty or not found, search by LRN only
-		$this->db->where('lrn', $lrn);
-		$this->db->limit(1);
-		$query = $this->db->get('students');
-		if ($query->num_rows() > 0) {
-			return $query->row();
-		}
-		return null;
-	}
-
 	private function set_register_validation_rules()
 	{
-		$this->form_validation->set_rules('lrn', 'LRN', 'required|trim|callback_validate_student_credentials');
-		$this->form_validation->set_rules('school_id', 'School ID', 'trim');
+		$register_type = $this->get_clean_post('register_type');
+		
+		if ($register_type === 'mobile') {
+			$this->form_validation->set_rules('contact_value', 'Mobile Number', 'required|trim|min_length[11]|max_length[15]');
+		} else {
+			$this->form_validation->set_rules('contact_value', 'Email Address', 'required|trim|valid_email');
+		}
+		
+		$this->form_validation->set_rules('register_type', 'Register Using', 'required|trim');
 		$this->form_validation->set_rules('firstname', 'First Name', 'required|trim');
-		$this->form_validation->set_rules('emailadd', 'E-mail', 'required|trim|valid_email');
 		$this->form_validation->set_rules('lastname', 'Last Name', 'required|trim');
 		$this->form_validation->set_rules('userpass', 'Password', 'required|trim|min_length[6]|max_length[12]');
 		$this->form_validation->set_rules('repeatpass', 'Repeat Password', 'required|trim|matches[userpass]');
 		$this->form_validation->set_error_delimiters('<div class="text-danger" style="margin-bottom:10px;">', '</div>');
 	}
 
-	private function build_register_data($school_id)
+	private function build_register_data($register_type, $contact_value)
 	{
-		// [Team Note - 2026-03-09]
-		// register.mobileno remains NOT NULL in schema, so School ID is stored as temporary compatibility value.
-		$mobile_fallback = $school_id !== '' ? $school_id : self::REGISTER_REQUIRED_MOBILE_FALLBACK;
+		if ($register_type === 'mobile') {
+			$emailadd = '';
+			$mobileno = $contact_value;
+		} else {
+			$emailadd = $contact_value;
+			$mobileno = '';
+		}
+		
 		return array(
-			'emailadd'  => $this->get_clean_post('emailadd'),
+			'emailadd'  => $emailadd,
 			'lastname'  => $this->get_clean_post('lastname'),
 			'firstname'  => $this->get_clean_post('firstname'),
-			'mobileno'  => $mobile_fallback,
+			'mobileno'  => $mobileno,
 			'userpass' => md5((string) $this->input->post('userpass')),
 			'dateadded'  => date("Y-m-d H:i:s")
 		);
-	}
-
-	private function link_student_to_user($student_id, $user_id)
-	{
-		$this->db->where('id', $student_id);
-		$this->db->limit(1);
-		$this->db->update('students', array('user_id' => $user_id));
 	}
 
 	private function get_clean_post($key)
@@ -149,6 +87,6 @@ class Register extends CI_Controller {
 	{
 		$this->load->view('validsuccess');
 	}
-
+	
 	
 }

@@ -45,40 +45,26 @@
 			  <?=validation_errors()?>
 			  
                 <form method="POST" action="<?=site_url("register/validation")?>" class="auth-form">
-                  <!-- [Team Note - 2026-03-09] Replaced Mobile Number with LRN + School ID for account creation -->
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="form-label">LRN</label>
-                        <div class="input-group">
-                          <input type="text" name="lrn" value="<?=set_value('lrn')?>" class="form-control" placeholder="Enter LRN">
-                          <div class="input-group-append">
-                            <span class="input-group-text">
-                              <i class="mdi mdi-card-account-details"></i>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="form-label">School ID</label>
-                        <div class="input-group">
-                          <input type="text" name="school_id" value="<?=set_value('school_id')?>" class="form-control" placeholder="Enter School ID">
-                          <div class="input-group-append">
-                            <span class="input-group-text">
-                              <i class="mdi mdi-card-bulleted"></i>
-                            </span>
-                          </div>
-                        </div>
+                  <div class="form-group">
+                    <label class="form-label">Register Using</label>
+                    <div class="input-group">
+                      <select name="register_type" id="register_type" class="form-control register-type-select">
+                        <?php $selected_register_type = set_value('register_type', 'email'); ?>
+                        <option value="email" <?=($selected_register_type === 'email' ? 'selected' : '')?>>Email Address</option>
+                        <option value="mobile" <?=($selected_register_type === 'mobile' ? 'selected' : '')?>>Mobile Number</option>
+                      </select>
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="mdi mdi-format-list-bulleted"></i>
+                        </span>
                       </div>
                     </div>
                   </div>
 				  
                   <div class="form-group">
-					<label class="form-label">Email Address</label>
+					<label class="form-label" id="contact_label">Email Address</label>
                     <div class="input-group">
-                      <input type="email" name="emailadd" value="<?=set_value('emailadd')?>" class="form-control" placeholder="email@sample.com">
+                      <input type="text" name="contact_value" id="contact_value" value="<?=set_value('contact_value')?>" class="form-control" placeholder="Enter your Email Address">
                       <div class="input-group-append">
                         <span class="input-group-text">
                           <i class="mdi mdi-email"></i>
@@ -166,6 +152,41 @@
 	<!-- inject:js -->
     <script src="<?=base_url()?>assets/js/shared/off-canvas.js"></script>
     <script src="<?=base_url()?>assets/js/shared/misc.js"></script>
+    <script>
+      (function () {
+        // Keeps contact label/placeholder synced with selected register type.
+        var registerType = document.getElementById('register_type');
+        var contactLabel = document.getElementById('contact_label');
+        var contactInput = document.getElementById('contact_value');
+
+        if (!registerType || !contactLabel || !contactInput) {
+          return;
+        }
+
+        var registerConfig = {
+          email: {
+            label: 'Email Address',
+            placeholder: 'Enter your Email Address',
+            icon: 'mdi mdi-email'
+          },
+          mobile: {
+            label: 'Mobile Number',
+            placeholder: 'Enter your Mobile Number',
+            icon: 'mdi mdi-phone'
+          }
+        };
+
+        function applyRegisterType() {
+          var selected = registerConfig[registerType.value] || registerConfig.email;
+          contactLabel.textContent = selected.label;
+          contactInput.placeholder = selected.placeholder;
+          contactInput.parentNode.querySelector('.input-group-text i').className = selected.icon;
+        }
+
+        registerType.addEventListener('change', applyRegisterType);
+        applyRegisterType();
+      })();
+    </script>
     <!-- endinject -->
     
     <?php $this->load->view('support_chat_widget'); ?>

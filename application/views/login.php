@@ -56,9 +56,7 @@
                     <label class="form-label">Login Using</label>
                     <div class="input-group">
                       <select name="login_type" id="login_type" class="form-control login-type-select">
-                        <?php $selected_login_type = set_value('login_type', 'lrn'); ?>
-                        <option value="lrn" <?=($selected_login_type === 'lrn' ? 'selected' : '')?>>LRN</option>
-                        <option value="school_id" <?=($selected_login_type === 'school_id' ? 'selected' : '')?>>School ID</option>
+                        <?php $selected_login_type = set_value('login_type', 'email'); ?>
                         <option value="email" <?=($selected_login_type === 'email' ? 'selected' : '')?>>Email Address</option>
                         <option value="mobile" <?=($selected_login_type === 'mobile' ? 'selected' : '')?>>Phone Number</option>
                       </select>
@@ -70,9 +68,9 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="form-label" id="login_identifier_label">LRN</label>
+                    <label class="form-label" id="login_identifier_label">Email Address</label>
                     <div class="input-group">
-                      <input type="text" name="login_identifier" id="login_identifier" value="<?=set_value('login_identifier')?>" class="form-control" placeholder="Enter your LRN">
+                      <input type="text" name="login_identifier" id="login_identifier" value="<?=set_value('login_identifier')?>" class="form-control" placeholder="Enter your Email Address">
                       <div class="input-group-append">
                         <span class="input-group-text">
                           <i class="mdi mdi-account"></i>
@@ -142,14 +140,6 @@
         }
 
         var loginConfig = {
-          lrn: {
-            label: 'LRN',
-            placeholder: 'Enter your LRN'
-          },
-          school_id: {
-            label: 'School ID',
-            placeholder: 'Enter your School ID'
-          },
           email: {
             label: 'Email Address',
             placeholder: 'Enter your Email Address'
@@ -161,7 +151,7 @@
         };
 
         function applyLoginType() {
-          var selected = loginConfig[loginType.value] || loginConfig.lrn;
+          var selected = loginConfig[loginType.value] || loginConfig.email;
           identifierLabel.textContent = selected.label;
           identifierInput.placeholder = selected.placeholder;
         }
