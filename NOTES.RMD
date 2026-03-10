@@ -22,3 +22,15 @@ CREATE TABLE IF NOT EXISTS `password_reset_codes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Stores password reset verification codes';
 
 TRYING TO MAKE A NEW CONTROLLER FOR FORGOT PASSWORD
+
+-- Fix for forgot password feature
+-- Run this SQL in phpMyAdmin to add missing columns to register table
+
+-- Add middlename column to register table
+ALTER TABLE `register` ADD COLUMN `middlename` VARCHAR(50) NULL AFTER `firstname`;
+
+-- Add birthdate column to register table  
+ALTER TABLE `register` ADD COLUMN `birthdate` DATE NULL AFTER `middlename`;
+
+-- Verify the columns were added
+-- SELECT * FROM register LIMIT 1;

@@ -21,9 +21,44 @@ class Forgotpass_model extends CI_Model {
     }
     
     /**
+     * Check if password_reset_codes table exists, create if not
+     */
+    private function ensure_password_reset_table() {
+        $table_name = 'password_reset_codes';
+        
+        // Check if table exists
+        if (!$this->db->table_exists($table_name)) {
+            // Create the table
+            $this->load->dbforge();
+            
+            $fields = array(
+                'id' => array('type' => 'INT', 'constraint' => 11, 'auto_increment' => TRUE),
+                'user_id' => array('type' => 'INT', 'constraint' => 11),
+                'email' => array('type' => 'VARCHAR', 'constraint' => 255),
+                'mobile' => array('type' => 'VARCHAR', 'constraint' => 20),
+                'code' => array('type' => 'VARCHAR', 'constraint' => 10),
+                'created_at' => array('type' => 'DATETIME'),
+                'expires_at' => array('type' => 'DATETIME'),
+                'status' => array('type' => 'TINYINT', 'constraint' => 1, 'default' => 1, 'comment' => '1=active, 0=used/expired')
+            );
+            
+            $this->dbforge->add_field($fields);
+            $this->dbforge->add_key('id', TRUE);
+            $this->dbforge->add_key('user_id');
+            $this->dbforge->add_key('code');
+            $this->dbforge->add_key('status');
+            $this->dbforge->add_key('expires_at');
+            $this->dbforge->create_table($table_name, TRUE);
+        }
+    }
+    
+    /**
      * Generate and store verification code
      */
     function generate_verification_code($user_id, $email, $mobile) {
+        // Ensure table exists
+        $this->ensure_password_reset_table();
+        
         $code = sprintf("%06d", mt_rand(0, 999999));
         
         // Delete existing codes
@@ -179,9 +214,34 @@ class Forgotpass_model extends CI_Model {
     {
         // [Team Note - 2026-03-09]
         // Supports optional middle name: tries exact match first, then fallback without middle name.
+        
+        // First try: Find by student birthdate (existing logic)
         $query = $this->build_parent_identity_query($firstname, $lastname, $middlename, $birthdate)->get();
         if ($query->num_rows() == 0 && !empty($middlename)) {
             $query = $this->build_parent_identity_query($firstname, $lastname, '', $birthdate)->get();
+        }
+        if ($query->num_rows() == 0) {
+            // Second try: Find by parent name and birthdate directly (for users without linked students)
+            $this->db->reset_query();
+            $this->db->where('LOWER(firstname)', strtolower($firstname));
+            $this->db->where('LOWER(lastname)', strtolower($lastname));
+            $this->db->where('birthdate', $birthdate);
+            $this->db->where('usertype', 'Parent');
+            $this->db->where('status', 1);
+            if (!empty($middlename)) {
+                $this->db->where('LOWER(middlename)', strtolower($middlename));
+            }
+            $query = $this->db->get('register');
+            
+            if ($query->num_rows() == 0 && !empty($middlename)) {
+                $this->db->reset_query();
+                $this->db->where('LOWER(firstname)', strtolower($firstname));
+                $this->db->where('LOWER(lastname)', strtolower($lastname));
+                $this->db->where('birthdate', $birthdate);
+                $this->db->where('usertype', 'Parent');
+                $this->db->where('status', 1);
+                $query = $this->db->get('register');
+            }
         }
         if ($query->num_rows() == 0) {
             return false;
@@ -191,18 +251,27 @@ class Forgotpass_model extends CI_Model {
 
     private function build_parent_identity_query($firstname, $lastname, $middlename, $birthdate)
     {
+        // Use subquery approach to avoid MySQL error 1056 with JOIN and GROUP BY
+        // First, get student user_ids that match the birthdate
+        $this->db->reset_query();
+        $this->db->select('user_id');
+        $this->db->from('students');
+        $this->db->where('birthdate', $birthdate);
+        $student_subquery = $this->db->get_compiled_select();
+        
+        // Final query - get register entries that match name AND have a child with the given birthdate
+        $this->db->reset_query();
         $this->db->select('register.*');
         $this->db->from('register');
-        $this->db->join('students', 'students.user_id = register.id');
         $this->db->where('LOWER(register.firstname)', strtolower($firstname));
         $this->db->where('LOWER(register.lastname)', strtolower($lastname));
-        $this->db->where('students.birthdate', $birthdate);
         $this->db->where('register.usertype', 'Parent');
         $this->db->where('register.status', 1);
         if (!empty($middlename)) {
             $this->db->where('LOWER(register.middlename)', strtolower($middlename));
         }
-        $this->db->group_by('register.id');
+        $this->db->where("register.id IN ($student_subquery)", NULL, FALSE);
+        
         return $this->db;
     }
 }

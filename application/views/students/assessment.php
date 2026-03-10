@@ -173,7 +173,7 @@ function humanizeNumber(n) {
 		?>
 		<a href="<?=site_url("students/assessment/".$row->id)?>" class="btn btn-icons btn-secondary btn-rounded"><i class='mdi mdi-refresh'></i></a>	
 		<?php endif; ?>
-		<a href="#" class="btn btn-icons btn-secondary btn-rounded"><i class='mdi mdi-printer'></i></a>
+		<a href="<?=site_url("students/assessment_print/".$row->id)?>" title="Print" class="btn btn-icons btn-secondary btn-rounded" target="_blank"><i class='mdi mdi-printer'></i></a>
 		</div>
 		</div>
 		

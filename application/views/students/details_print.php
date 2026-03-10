@@ -5,230 +5,445 @@
 
 <link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/students_details_print.css">
 
-<div class="row m-3">
-	<div class="col-xs-12 col-sm-5 text-right p-0 pr-2"><img src="<?=dirname(base_url())?>/assets/images/logo_portal.png" width="100"></div>
-	<div class="col-xs-12 col-sm-7 p-0"><p class="p-0"><b>CEBU BOB HUGHES CHRISTIAN ACADEMY, INC.</b><br>
-	a Ministry of Cebu Bible Baptist Church, Inc.<br>
-55 Katipunan St., Brgy. Calamba, Cebu City 6000<br>Tel No. 032-422-0700 / 0945 856 8571</p></div>
-</div>
+<style>
+/* Enhanced Print Styles */
+.print-content {
+	padding: 20px;
+	max-width: 1200px;
+	margin: 0 auto;
+}
 
-<div class="col-lg-12" style="margin-top:5px;">
+.school-header {
+	background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+	color: white;
+	padding: 20px;
+	border-radius: 10px;
+	margin-bottom: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.school-header .school-logo img {
+	width: 80px;
+	height: auto;
+}
+
+.school-header .school-details h2 {
+	margin: 0;
+	font-size: 24px;
+	font-weight: 700;
+}
+
+.school-header .school-details p {
+	margin: 5px 0 0;
+	opacity: 0.9;
+	font-size: 14px;
+}
+
+.card {
+	border: 1px solid #e0e0e0;
+	border-radius: 10px;
+	box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+	margin-bottom: 20px;
+}
+
+.card-header {
+	background: #f8f9fa;
+	padding: 15px 20px;
+	border-bottom: 2px solid #2196f3;
+	border-radius: 10px 10px 0 0;
+}
+
+.card-header h3 {
+	margin: 0;
+	color: #2196f3;
+	font-weight: 700;
+	font-size: 20px;
+}
+
+.card-body {
+	padding: 20px;
+}
+
+.section-title {
+	background: #333;
+	color: white;
+	text-align: center;
+	font-weight: bold;
+	padding: 8px 0;
+	font-size: 14px;
+	margin: 20px 0 15px;
+	border-radius: 5px;
+}
+
+.info-row {
+	display: flex;
+	padding: 8px 0;
+	border-bottom: 1px solid #f0f0f0;
+}
+
+.info-row:last-child {
+	border-bottom: none;
+}
+
+.info-label {
+	font-weight: 600;
+	color: #555;
+	min-width: 180px;
+	flex: 0 0 180px;
+}
+
+.info-value {
+	color: #333;
+	flex: 1;
+}
+
+.info-value.empty {
+	color: #999;
+	font-style: italic;
+}
+
+/* Two column layout */
+.info-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 15px;
+}
+
+@media (max-width: 768px) {
+	.info-grid {
+		grid-template-columns: 1fr;
+	}
+	
+	.school-header {
+		flex-direction: column;
+		text-align: center;
+		gap: 15px;
+	}
+	
+	.info-row {
+		flex-direction: column;
+	}
+	
+	.info-label {
+		margin-bottom: 3px;
+	}
+}
+
+@media print {
+	.school-header {
+		background: none !important;
+		color: #333 !important;
+		border: 2px solid #333;
+	}
+	
+	.school-header .school-details h2 {
+		color: #333 !important;
+	}
+	
+	.section-title {
+		background: #eee !important;
+		color: #333 !important;
+		border: 1px solid #ccc;
+	}
+	
+	.card {
+		box-shadow: none;
+		border: 1px solid #ccc;
+	}
+	
+	.info-row {
+		border-bottom: 1px solid #ddd;
+	}
+	
+	.card-body {
+		padding: 10px;
+	}
+	
+	.print-content {
+		padding: 0;
+	}
+}
+</style>
+
+<div class="print-content">
+	<!-- School Header -->
+	<div class="school-header">
+		<div class="school-logo">
+			<img src="<?=dirname(base_url())?>/assets/images/logo_portal.png" alt="School Logo">
+		</div>
+		<div class="school-details">
+			<h2>CEBU BOB HUGHES CHRISTIAN ACADEMY, INC.</h2>
+			<p>A Ministry of Cebu Bible Baptist Church, Inc.</p>
+			<p>55 Katipunan St., Brgy. Calamba, Cebu City 6000</p>
+			<p>Tel No. 032-422-0700 / 0945 856 8571</p>
+		</div>
+	</div>
 
 	<div class="card">
-	  <div class="card-body">
-	 
-		<?php
-		if($this->session->flashdata('message'))
-		{
-			echo '<div class="text-primary" style="margin-bottom:10px;">
-				'.$this->session->flashdata("message").'
-			</div>';
-		}
-		?>
-	 
-		<h3 class="heading text-center">ENROLLMENT FORM</h3>
-		<?=validation_errors()?>
-		
-		<p class="card-description text-info"> Student Information </p>	
-		  
-		   <div class="row">
-			<div class="col-xs-12 col-sm-3">ID Number</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->studentno?></div>
-			<div class="col-xs-12 col-sm-3">LRN</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->lrn?></div>
-		  </div>
-		  
-		  <div class="row">
-			<div class="col-xs-12 col-sm-3">First Name</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->firstname?></div>
-			<div class="col-xs-12 col-sm-3">Last Name</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->lastname?></div>
-		  </div>
-		
-			<div class="row">
-			<div class="col-xs-12 col-sm-3">Middle Name</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->middlename?></div>
-			<div class="col-xs-12 col-sm-3">Date of Birth</div>
-			<div class="col-xs-12 col-sm-3"><?=date("Y-m-d",strtotime($row->birthdate))?></div>
-		  </div>
-		
-		<div class="row">
-			<div class="col-xs-12 col-sm-3">Place of Birth</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->placeofbirth?></div>
-		  </div>
-		  
-		  <div class="row">
-			<div class="col-xs-12 col-sm-3">Gender</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->gender?></div>
-			<div class="col-xs-12 col-sm-3">Grade Level to Enter</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->gradelevel?></div>
-		  </div>
-		
-		  <p class="card-description text-info"> For Senior High </p>
-		  <div class="row">
-			<div class="col-xs-12 col-sm-3">Strand</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->strand?></div>
-		  </div>
-		  
-		  <p class="card-description text-info"> For Transferees </p>
-		   <div class="row">
-			<div class="col-xs-12 col-sm-3">School Name</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->lastschool?></div>
-			<div class="col-xs-12 col-sm-3">Year</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->lastschoolyear?></div>
-		  </div>
-		   <div class="row">
-			<div class="col-xs-12 col-sm-3">Grade Level</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->lastschoolgrade?></div>
+		<div class="card-header">
+			<h3>ENROLLMENT FORM</h3>
+		</div>
+		<div class="card-body">
+			<?php
+			if($this->session->flashdata('message'))
+			{
+				echo '<div class="text-primary" style="margin-bottom:10px;">
+					'.$this->session->flashdata("message").'
+				</div>';
+			}
+			?>
+			
+			<?=validation_errors()?>
+			
+			<!-- Student Information -->
+			<div class="section-title">STUDENT INFORMATION</div>
+			
+			<div class="info-grid">
+				<div class="info-row">
+					<div class="info-label">ID Number</div>
+					<div class="info-value"><?=$row->studentno ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">LRN</div>
+					<div class="info-value"><?=$row->lrn ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">First Name</div>
+					<div class="info-value"><?=$row->firstname?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Last Name</div>
+					<div class="info-value"><?=$row->lastname?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Middle Name</div>
+					<div class="info-value"><?=$row->middlename?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Date of Birth</div>
+					<div class="info-value"><?=date("Y-m-d",strtotime($row->birthdate))?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Place of Birth</div>
+					<div class="info-value"><?=$row->placeofbirth ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Gender</div>
+					<div class="info-value"><?=$row->gender?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Grade Level to Enter</div>
+					<div class="info-value"><?=$row->gradelevel?></div>
+				</div>
 			</div>
-		  
-		  <p class="card-description text-info"> Complete Address </p>
-		  <div class="row">
-		  <div class="col-xs-12 col-sm-3">Street</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->street?></div>
-			<div class="col-xs-12 col-sm-3">House No.</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->houseno?></div>
-		</div>	
-		  <div class="row">
-		  <div class="col-xs-12 col-sm-3">Barangay</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->barangay?></div>
-			<div class="col-xs-12 col-sm-3">Province</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->province?></div>
-		</div>
-		  
-		   <div class="row">
-		  <div class="col-xs-12 col-sm-3">City</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->city?></div>
-			<div class="col-xs-12 col-sm-3">Country</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->country?></div>
-		</div>
-		  
-		   <div class="row">
-		  <div class="col-xs-12 col-sm-3">Home Landline</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->homelandline?></div>
+			
+			<!-- For Senior High -->
+			<?php if($row->strand): ?>
+			<div class="section-title">FOR SENIOR HIGH</div>
+			<div class="info-row">
+				<div class="info-label">Strand</div>
+				<div class="info-value"><?=$row->strand?></div>
+			</div>
+			<?php endif; ?>
+			
+			<!-- For Transferees -->
+			<div class="section-title">FOR TRANSFEREES</div>
+			<div class="info-grid">
+				<div class="info-row">
+					<div class="info-label">School Name</div>
+					<div class="info-value"><?=$row->lastschool ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Year</div>
+					<div class="info-value"><?=$row->lastschoolyear ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Grade Level</div>
+					<div class="info-value"><?=$row->lastschoolgrade ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+			</div>
+			
+			<!-- Complete Address -->
+			<div class="section-title">COMPLETE ADDRESS</div>
+			<div class="info-grid">
+				<div class="info-row">
+					<div class="info-label">Street</div>
+					<div class="info-value"><?=$row->street?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">House No.</div>
+					<div class="info-value"><?=$row->houseno ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Barangay</div>
+					<div class="info-value"><?=$row->barangay?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Province</div>
+					<div class="info-value"><?=$row->province?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">City</div>
+					<div class="info-value"><?=$row->city?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Country</div>
+					<div class="info-value"><?=$row->country?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Home Landline</div>
+					<div class="info-value"><?=$row->homelandline ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+			</div>
+			
+			<!-- Father's Information -->
+			<div class="section-title">FATHER'S INFORMATION</div>
+			<div class="info-grid">
+				<div class="info-row">
+					<div class="info-label">First Name</div>
+					<div class="info-value"><?=$row->father_firstname ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Last Name</div>
+					<div class="info-value"><?=$row->father_lastname ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Middle Name</div>
+					<div class="info-value"><?=$row->father_middlename ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Occupation</div>
+					<div class="info-value"><?=$row->father_work ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Place of Employment</div>
+					<div class="info-value"><?=$row->father_place_work ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Work Phone No.</div>
+					<div class="info-value"><?=$row->father_contact1 ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Personal Cell No.</div>
+					<div class="info-value"><?=$row->father_contact2 ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+			</div>
+			
+			<!-- Mother's Information -->
+			<div class="section-title">MOTHER'S INFORMATION</div>
+			<div class="info-grid">
+				<div class="info-row">
+					<div class="info-label">First Name</div>
+					<div class="info-value"><?=$row->mother_firstname ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Last Name</div>
+					<div class="info-value"><?=$row->mother_lastname ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Middle Name</div>
+					<div class="info-value"><?=$row->mother_middlename ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Occupation</div>
+					<div class="info-value"><?=$row->mother_work ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Maiden Name</div>
+					<div class="info-value"><?=$row->maidenname ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Place of Employment</div>
+					<div class="info-value"><?=$row->mother_place_work ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Work Phone No.</div>
+					<div class="info-value"><?=$row->mother_contact1 ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Personal Cell No.</div>
+					<div class="info-value"><?=$row->mother_contact2 ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+			</div>
+			
+			<!-- Other Info -->
+			<div class="section-title">OTHER INFORMATION</div>
+			<div class="info-grid">
+				<div class="info-row">
+					<div class="info-label">E-mail</div>
+					<div class="info-value"><?=$row->email ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">FB Private Messenger</div>
+					<div class="info-value"><?=$row->fbmessenger ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+			</div>
+			
+			<!-- Emergency Contact -->
+			<div class="section-title">EMERGENCY CONTACT (Other Than Parent)</div>
+			<div class="info-grid">
+				<div class="info-row">
+					<div class="info-label">Name</div>
+					<div class="info-value"><?=$row->incaseemergency ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Relationship to Child</div>
+					<div class="info-value"><?=$row->relationship ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Place of Employment</div>
+					<div class="info-value"><?=$row->place_employment ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Work Phone No.</div>
+					<div class="info-value"><?=$row->work_phone ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Personal Cell No.</div>
+					<div class="info-value"><?=$row->personal_cell ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Home Landline No.</div>
+					<div class="info-value"><?=$row->other_homelandline ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+			</div>
+			
+			<!-- Church Information -->
+			<div class="section-title">CHURCH INFORMATION</div>
+			<div class="info-grid">
+				<div class="info-row">
+					<div class="info-label">Name</div>
+					<div class="info-value"><?=$row->church_name ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Address</div>
+					<div class="info-value"><?=$row->church_address ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Telephone No.</div>
+					<div class="info-value"><?=$row->church_tel ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Website</div>
+					<div class="info-value"><?=$row->church_website ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Pastor's Name</div>
+					<div class="info-value"><?=$row->church_pastor ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Date of Salvation</div>
+					<div class="info-value"><?=$row->date_salvation ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Date of Baptism</div>
+					<div class="info-value"><?=$row->date_baptism ?: '<span class="empty">N/A</span>'?></div>
+				</div>
+			</div>
 			
 		</div>
-		  
-		  <p class="card-description text-info"> Father's Information </p>
-		  <div class="row">
-		  <div class="col-xs-12 col-sm-3">First Name</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->father_firstname?></div>
-			<div class="col-xs-12 col-sm-3">Last Name</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->father_lastname?></div>
-		</div>
-		  <div class="row">
-		  <div class="col-xs-12 col-sm-3">Middle Name</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->father_middlename?></div>
-			<div class="col-xs-12 col-sm-3">Occupation</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->father_work?></div>
-		</div>
-		
-		<div class="row">
-		  <div class="col-xs-12 col-sm-3">Place of Employment</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->father_place_work?></div>
-			<div class="col-xs-12 col-sm-3">Work Phone No.</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->father_contact1?></div>
-		</div>
-		
-		  <div class="row">
-		  <div class="col-xs-12 col-sm-3">Personal Cell No.</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->father_contact2?></div>
-			
-		</div>
-		  
-		  <p class="card-description text-info"> Mother's Information </p>
-		  <div class="row">
-		  <div class="col-xs-12 col-sm-3">First Name</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->mother_firstname?></div>
-			<div class="col-xs-12 col-sm-3">Last Name</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->mother_lastname?></div>
-		</div>
-		  <div class="row">
-		  <div class="col-xs-12 col-sm-3">Middle Name</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->mother_middlename?></div>
-			<div class="col-xs-12 col-sm-3">Occupation</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->mother_work?></div>
-		</div>
-		  
-		  <div class="row">
-		  <div class="col-xs-12 col-sm-3">Maiden Name</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->maidenname?></div>
-		</div>
-		  
-		  <p class="card-description text-info"> Other Info </p>
-		  
-		   <div class="row">
-		  <div class="col-xs-12 col-sm-3">E-mail</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->email?></div>
-			<div class="col-xs-12 col-sm-3">FB Private Messenger Name</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->fbmessenger?></div>
-		</div>
-		  
-		  <div class="row">
-		  <div class="col-xs-12 col-sm-3">Place of Employment</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->mother_place_work?></div>
-			<div class="col-xs-12 col-sm-3">Work Phone No.</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->mother_contact1?></div>
-		</div>
-		  
-		 <div class="row">
-		  <div class="col-xs-12 col-sm-3">Personal Cell No.</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->mother_contact2?></div>
-		</div>
-		 
-		  <p class="card-description text-info"> Emergency Contact: (Other than Parent) </p>
-		  
-		  <div class="row">
-		  <div class="col-xs-12 col-sm-3">Name</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->incaseemergency?></div>
-			<div class="col-xs-12 col-sm-3">Relathionship to Child</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->relationship?></div>
-		</div>
-		  
-		  <div class="row">
-		  <div class="col-xs-12 col-sm-3">Place of Employment</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->place_employment?></div>
-			<div class="col-xs-12 col-sm-3">Work Phone No.</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->work_phone?></div>
-		</div>
-		  
-		  
-		  <div class="row">
-		  <div class="col-xs-12 col-sm-3">Personal Cell No.</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->personal_cell?></div>
-			<div class="col-xs-12 col-sm-3">Home Landline No.</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->other_homelandline?></div>
-		</div>
-		  
-		  <p class="card-description text-info"> Church Information </p>
-		  
-		  <div class="row">
-		  <div class="col-xs-12 col-sm-3">Name</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->church_name?></div>
-			<div class="col-xs-12 col-sm-3">Address</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->church_address?></div>
-		</div>
-		  
-		  <div class="row">
-		  <div class="col-xs-12 col-sm-3">Telephone No.</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->church_tel?></div>
-			<div class="col-xs-12 col-sm-3">Website</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->church_website?></div>
-		</div>
-		  
-		  <div class="row">
-		  <div class="col-xs-12 col-sm-3">Pastor's Name</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->church_pastor?></div>
-		</div>
-		  
-		  <div class="row">
-		  <div class="col-xs-12 col-sm-3">Date of Salvation</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->date_salvation?></div>
-			<div class="col-xs-12 col-sm-3">Date of Baptism</div>
-			<div class="col-xs-12 col-sm-3"><?=$row->date_baptism?></div>
-		</div>
-		  
-	  </div>
 	</div> 
 	
 </div>

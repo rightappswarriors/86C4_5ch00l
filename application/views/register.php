@@ -45,29 +45,26 @@
 			  <?=validation_errors()?>
 			  
                 <form method="POST" action="<?=site_url("register/validation")?>" class="auth-form">
+                  
                   <div class="form-group">
-                    <label class="form-label">Register Using</label>
+					<label class="form-label">Email Address</label>
                     <div class="input-group">
-                      <select name="register_type" id="register_type" class="form-control register-type-select">
-                        <?php $selected_register_type = set_value('register_type', 'email'); ?>
-                        <option value="email" <?=($selected_register_type === 'email' ? 'selected' : '')?>>Email Address</option>
-                        <option value="mobile" <?=($selected_register_type === 'mobile' ? 'selected' : '')?>>Mobile Number</option>
-                      </select>
+                      <input type="email" name="emailadd" value="<?=set_value('emailadd')?>" class="form-control" placeholder="email@sample.com">
                       <div class="input-group-append">
                         <span class="input-group-text">
-                          <i class="mdi mdi-format-list-bulleted"></i>
+                          <i class="mdi mdi-email"></i>
                         </span>
                       </div>
                     </div>
                   </div>
 				  
-                  <div class="form-group">
-					<label class="form-label" id="contact_label">Email Address</label>
+				  <div class="form-group">
+					<label class="form-label">Mobile Number</label>
                     <div class="input-group">
-                      <input type="text" name="contact_value" id="contact_value" value="<?=set_value('contact_value')?>" class="form-control" placeholder="Enter your Email Address">
+                      <input type="text" name="mobileno" value="<?=set_value('mobileno')?>" class="form-control" placeholder="09xxxxxxxxx">
                       <div class="input-group-append">
                         <span class="input-group-text">
-                          <i class="mdi mdi-email"></i>
+                          <i class="mdi mdi-phone"></i>
                         </span>
                       </div>
                     </div>
@@ -101,6 +98,18 @@
 					  </div>
 					</div>
 				  </div>
+				  
+				  <div class="form-group">
+					<label class="form-label">Birthdate</label>
+                    <div class="input-group">
+                      <input type="date" name="birthdate" value="<?=set_value('birthdate')?>" class="form-control">
+                      <div class="input-group-append">
+                        <span class="input-group-text">
+                          <i class="mdi mdi-calendar"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
 				  
                   <div class="form-group">
 					<label class="form-label">Password</label>
@@ -152,41 +161,6 @@
 	<!-- inject:js -->
     <script src="<?=base_url()?>assets/js/shared/off-canvas.js"></script>
     <script src="<?=base_url()?>assets/js/shared/misc.js"></script>
-    <script>
-      (function () {
-        // Keeps contact label/placeholder synced with selected register type.
-        var registerType = document.getElementById('register_type');
-        var contactLabel = document.getElementById('contact_label');
-        var contactInput = document.getElementById('contact_value');
-
-        if (!registerType || !contactLabel || !contactInput) {
-          return;
-        }
-
-        var registerConfig = {
-          email: {
-            label: 'Email Address',
-            placeholder: 'Enter your Email Address',
-            icon: 'mdi mdi-email'
-          },
-          mobile: {
-            label: 'Mobile Number',
-            placeholder: 'Enter your Mobile Number',
-            icon: 'mdi mdi-phone'
-          }
-        };
-
-        function applyRegisterType() {
-          var selected = registerConfig[registerType.value] || registerConfig.email;
-          contactLabel.textContent = selected.label;
-          contactInput.placeholder = selected.placeholder;
-          contactInput.parentNode.querySelector('.input-group-text i').className = selected.icon;
-        }
-
-        registerType.addEventListener('change', applyRegisterType);
-        applyRegisterType();
-      })();
-    </script>
     <!-- endinject -->
     
     <?php $this->load->view('support_chat_widget'); ?>

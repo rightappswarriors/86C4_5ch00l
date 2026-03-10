@@ -1,5 +1,5 @@
 /* Student Details Print Styles */
-p.text-info{
+p.text-info {
 	background-color:#333;
 	text-align:center;
 	font-weight:bold;
@@ -7,7 +7,130 @@ p.text-info{
 	padding:4px 0;
 	font-size:16px;
 	margin-top:5px;
+	border-radius: 5px;
 }
 
-.row{ padding:0; }
-.col-form-label{ padding-top:0;paddng-bottom:0; }
+.row { 
+	padding: 0; 
+	margin: 0;
+}
+
+.col-form-label { 
+	padding-top: 0;
+	padding-bottom: 0; 
+}
+
+/* Enhanced Print View Styles */
+.print-content {
+	padding: 20px;
+}
+
+.school-header {
+	background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+	color: white;
+	padding: 20px;
+	border-radius: 10px;
+	margin-bottom: 20px;
+}
+
+.card {
+	border: 1px solid #e0e0e0;
+	border-radius: 10px;
+	box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+	margin-bottom: 20px;
+}
+
+.card-header {
+	background: #f8f9fa;
+	padding: 15px;
+	border-bottom: 2px solid #2196f3;
+	border-radius: 10px 10px 0 0;
+}
+
+.card-body {
+	padding: 20px;
+}
+
+.section-title {
+	background: #333;
+	color: white;
+	text-align: center;
+	font-weight: bold;
+	padding: 8px 0;
+	font-size: 14px;
+	margin: 20px 0 15px;
+	border-radius: 5px;
+}
+
+.info-row {
+	display: flex;
+	padding: 8px 0;
+	border-bottom: 1px solid #f0f0f0;
+}
+
+.info-row:last-child {
+	border-bottom: none;
+}
+
+.info-label {
+	font-weight: 600;
+	color: #555;
+	min-width: 180px;
+}
+
+.info-value {
+	color: #333;
+	flex: 1;
+}
+
+.info-value.empty {
+	color: #999;
+	font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+	.info-row {
+		flex-direction: column;
+	}
+	
+	.info-label {
+		margin-bottom: 3px;
+	}
+}
+
+/* Print Media Query */
+@media print {
+	.school-header {
+		background: none !important;
+		color: #333 !important;
+		border: 2px solid #333;
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+	}
+	
+	.section-title {
+		background: #eee !important;
+		color: #333 !important;
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+	}
+	
+	.card {
+		box-shadow: none;
+		border: 1px solid #ccc;
+	}
+	
+	.info-row {
+		border-bottom: 1px solid #ddd;
+	}
+	
+	.print-content {
+		padding: 0;
+	}
+	
+	.col-xs-12 {
+		width: 50%;
+		float: left;
+	}
+}

@@ -37,6 +37,7 @@
 <a href="<?=site_url("payments/statement/".$row->id)?>" class="action-btn action-btn-soa"><i class='mdi mdi-file-document-outline'></i>SOA</a>
 
 <?php elseif($this->session->userdata('current_usertype') == 'Registrar' or $this->session->userdata('current_usertype') == 'Principal'): ?>
+<a href="<?=site_url("students/details/".$row->id)?>" class="action-btn action-btn-details"><i class='mdi mdi-account'></i>Details</a>
 <a href="<?=site_url("students/updateinfo/".$row->id)?>" class="action-btn action-btn-update"><i class='mdi mdi-pencil'></i>Update Info</a>
 <a href="<?=site_url("students/assessment/".$row->id)?>" class="action-btn action-btn-assessment"><i class='mdi mdi-calculator'></i>Assessment</a>
 <a href="<?=site_url("students/interview/".$row->id)?>" class="action-btn action-btn-interview"><i class='mdi mdi-account-voice'></i>Interview</a>

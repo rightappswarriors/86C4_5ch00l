@@ -16,44 +16,14 @@
 		$indntals = explode(",",$row_as->incidentals);
 		$msclns = explode(",",$row_as->miscellaneous);
 		
-		$oldaccount = $row_as->oldaccount;
 		$tuition = $row_as->tuition;
-		$prepaidpaces = $row_as->prepaidpaces;
-		$balancepaces = number_format(($indntals[0]-$prepaidpaces),2);
-		
-		$scholarship = $row_as->scholarship;
-		$preenrollment = $row_as->preenrollment;
-		$fullpayment = $row_as->fullpayment;
-		
-		$discountedtuition = ($tuition - ($scholarship + $preenrollment + $fullpayment));
-		
 		$registration = $row_as->registration;
 		$total_msclns = array_sum( $msclns );
 		$total_indntals = array_sum( $indntals );
-		
-		$r_m_i = $total_msclns + $total_indntals + $registration;
-		$m_scholar_tuition = $tuition/9;
-		
-		$total_ass = $r_m_i + $tuition;
+		$total_ass = $total_msclns + $total_indntals + $registration + $tuition;
 		$paymentenroll = $row_as->payment;
-		
-		// PAID Enrollment bills...
-		$paid_enrollment = 0;
-		if($paid_enroll->num_rows() > 0){
-			foreach($paid_enroll->result() as $row_paid_enroll):
-				$paid_enrollment += $row_paid_enroll->payment_total;
-			endforeach;
-		}
-		
-		// SCHOLAR (regular monthly)
-		$monthly_scholar = ($r_m_i - $paid_enrollment)/9;
-		
-		$balance = $total_ass - $paid_enrollment;
-		if($row->gradelevel=="Grade-11" or $row->gradelevel=="Grade-12"){
-			$monthly = $balance/4;
-		}else{
-			$monthly = $balance/9;
-		}	
+		$balance = $total_ass - $paymentenroll;
+		$monthly = $balance/9;
 		
 		$math = explode(",",$row_as->math);
 		$eng = explode(",",$row_as->english);
@@ -70,24 +40,14 @@
 		$indntals = explode(",",$def_assessment->incidentals_val);
 		$msclns = explode(",",$def_assessment->miscellaneous_val);
 		
-		$oldaccount = "";
 		$tuition = $def_assessment->tuition;
-		$prepaidpaces = "0.00";
-		$balancepaces = "0.00";
-		
-		$scholarship = $def_assessment->scholarship;
-		$preenrollment = $def_assessment->preenrollment;
-		$fullpayment = $def_assessment->fullpayment;
-		
-		$discountedtuition = number_format($tuition - ($scholarship + $preenrollment + $fullpayment),2);
-		
 		$registration = $def_assessment->registration;
 		$paymentenroll = $def_assessment->payment_enroll;
 		
 		$total_msclns = array_sum( $msclns );
 		$total_indntals = array_sum( $indntals );
 		$total_ass = $total_msclns + $total_indntals + $registration + $tuition;
-		$balance = $total_ass;
+		$balance = $total_ass - $paymentenroll;
 		$monthly = $balance/9;
 		
 		$math = array("","","");
@@ -104,7 +64,7 @@
 ?>
 
 <style>
-/* Statement of Account Print Styles */
+/* Assessment Print Styles */
 .print-content {
 	padding: 20px;
 	max-width: 1200px;
@@ -245,10 +205,6 @@
 	text-align: right;
 }
 
-.print-table .text-center {
-	text-align: center;
-}
-
 @media (max-width: 768px) {
 	.info-grid {
 		grid-template-columns: 1fr;
@@ -327,11 +283,11 @@
 
 	<!-- Student Info Box -->
 	<div class="student-info-box">
-		<h4>STATEMENT OF ACCOUNT</h4>
+		<h4>STUDENT INFORMATION</h4>
 		<div class="info-grid">
 			<div class="info-row">
 				<div class="info-label">Student Name:</div>
-				<div class="info-value"><?= $row->lastname . ", " . $row->firstname ?></div>
+				<div class="info-value"><?= $row->lastname . ", " . $row->firstname . " " . $row->middlename ?></div>
 			</div>
 			<div class="info-row">
 				<div class="info-label">Grade Level:</div>
@@ -348,145 +304,188 @@
 		</div>
 	</div>
 
-	<div class="row">
-	
-		<div class="col-md-4">
-			<div class="card">
-				<div class="card-header">
-					INCIDENTALS
-				</div>
-				<div class="card-body">
+	<div class="card">
+		<div class="card-header">
+			FINANCIAL ASSESSMENT
+		</div>
+		<div class="card-body">
+			
+			<!-- Incidentals -->
+			<div class="section-title">INCIDENTALS</div>
+			<table class="print-table">
+				<thead>
+					<tr>
+						<th>Particulars</th>
+						<th class="text-right">Amount</th>
+					</tr>
+				</thead>
+				<tbody>
 					<?php
 					$tindntals = 0;
 					foreach($indntals_list as $ind=>$indntals_val):
 						if(isset($indntals[$ind]) && $indntals[$ind]>0):
 						$tindntals += $indntals[$ind];
 					?>
-					<div class="info-row">
-						<div class="info-label"><?=$indntals_val?></div>
-						<div class="info-value text-right"><?=number_format($indntals[$ind])?></div>
-					</div>
+					<tr>
+						<td><?=$indntals_val?></td>
+						<td class="text-right"><?=number_format($indntals[$ind],2)?></td>
+					</tr>
 					<?php
 						endif;
 					endforeach;
 					?>
-				</div>
-			</div>
-		</div>
-
-		<div class="col-md-8">
-			<div class="card">
-				<div class="card-header">
-					MISCELLANEOUS
-				</div>
-				<div class="card-body">
+					<tr>
+						<td><strong>TOTAL INCIDENTALS</strong></td>
+						<td class="text-right"><strong><?=number_format($tindntals,2)?></strong></td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<!-- Miscellaneous -->
+			<div class="section-title">MISCELLANEOUS</div>
+			<table class="print-table">
+				<thead>
+					<tr>
+						<th>Particulars</th>
+						<th class="text-right">Amount</th>
+					</tr>
+				</thead>
+				<tbody>
 					<?php
 					$tmsclns = 0;
 					foreach($msclns_list as $ind=>$msclns_val):
 						if(isset($msclns[$ind]) && $msclns[$ind]>0):
 						$tmsclns += $msclns[$ind];
 					?>
-					<div class="info-row">
-						<div class="info-label"><?=$msclns_val?></div>
-						<div class="info-value text-right"><?=number_format($msclns[$ind])?></div>
-					</div>
+					<tr>
+						<td><?=$msclns_val?></td>
+						<td class="text-right"><?=number_format($msclns[$ind],2)?></td>
+					</tr>
 					<?php
 						endif;
 					endforeach;
 					?>
-					<hr>
-					<table width="100%">
-						<tr>
-							<td>TUITION</td>
-							<td class="text-right"><?=number_format($tuition,2)?></td>
-						</tr>
-						<tr>
-							<td>REGISTRATION</td>
-							<td class="text-right"><?=number_format($registration,2)?></td>
-						</tr>
-						<tr>
-							<td>TOTAL MISC</td>
-							<td class="text-right"><?=number_format($tmsclns,2)?></td>
-						</tr>
-						<tr>
-							<td>TOTAL INCIDENTALS</td>
-							<td class="text-right"><?=number_format($tindntals,2)?></td>
-						</tr>
-						<tr><td colspan="2"><hr></td></tr>
-						<tr>
-							<td><strong>TOTAL ASSESSMENT</strong></td>
-							<td class="text-right"><strong class="total"><?=number_format($total_ass,2)?></strong></td>
-						</tr>
-						<tr><td colspan="2"><hr></td></tr>
-						<tr>
-							<td><strong>MONTHLY OBLIGATION</strong></td>
-							<td class="text-right"><strong class="highlight"><?=number_format($monthly,2)?></strong></td>
-						</tr>
-						<?php
-						if($row->scholar=="Yes"){
-						?>
-						<tr>
-							<td><code>MONTHLY OBLIGATION (Parents)</code></td>
-							<td class="text-right"><code><?=number_format($monthly_scholar,2)?></code></td>
-						</tr>
-						<?php
-						}
-						?>
-					</table>
-				</div>
-			</div>
+					<tr>
+						<td><strong>TOTAL MISCELLANEOUS</strong></td>
+						<td class="text-right"><strong><?=number_format($tmsclns,2)?></strong></td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<!-- Total Computation -->
+			<div class="section-title">TOTAL COMPUTATION</div>
+			<table class="print-table">
+				<tbody>
+					<tr>
+						<td>TUITION</td>
+						<td class="text-right"><?=number_format($tuition,2)?></td>
+					</tr>
+					<tr>
+						<td>REGISTRATION</td>
+						<td class="text-right"><?=number_format($registration,2)?></td>
+					</tr>
+					<tr>
+						<td>TOTAL MISCELLANEOUS</td>
+						<td class="text-right"><?=number_format($tmsclns,2)?></td>
+					</tr>
+					<tr>
+						<td>TOTAL INCIDENTALS</td>
+						<td class="text-right"><?=number_format($tindntals,2)?></td>
+					</tr>
+					<tr style="background: #e8f5e9;">
+						<td><strong>ASSESSMENT TOTAL</strong></td>
+						<td class="text-right"><strong class="total"><?=number_format($total_ass,2)?></strong></td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<!-- Basic Computation -->
+			<div class="section-title">BASIC COMPUTATION</div>
+			<table class="print-table">
+				<tbody>
+					<tr>
+						<td>Payment upon enrollment</td>
+						<td class="text-right"><?=number_format($paymentenroll,2)?></td>
+					</tr>
+					<tr style="background: #fff3e0;">
+						<td><strong>BALANCE</strong></td>
+						<td class="text-right"><strong class="highlight"><?=number_format($balance,2)?></strong></td>
+					</tr>
+					<tr>
+						<td><strong>Due every 5th of the month (9 months)</strong></td>
+						<td class="text-right"><strong><?=number_format($monthly,2)?></strong></td>
+					</tr>
+				</tbody>
+			</table>
+			
 		</div>
-		
 	</div>
 	
-	<!-- Payment History -->
+	<!-- PACE Order -->
 	<div class="card">
 		<div class="card-header">
-			PAYMENT HISTORY
+			PACE ORDER (To Begin Work)
 		</div>
 		<div class="card-body">
 			<table class="print-table">
 				<thead>
 					<tr>
-						<th class="text-center">Date</th>
-						<th>Invoice #</th>
-						<th>Description</th>
-						<th class="text-right">Amount</th>
-						<th class="text-right">Balance</th>
-						<th>Comment</th>
+						<th>Subject</th>
+						<th class="text-right">Begin</th>
+						<th class="text-right">End</th>
+						<th class="text-right">Gaps</th>
 					</tr>
 				</thead>
 				<tbody>
-				
-				<tr>
-					<td colspan="3">&nbsp;</td>
-					<td class="text-right"><strong>Beginning Balance</strong></td>
-					<td class="text-right"><strong><?=number_format($total_ass,2)?></strong></td>
-					<td>&nbsp;</td>
-				</tr>
-				
-				<?php
-				$balance = $total_ass;
-				if($query_payments->num_rows() > 0)
-				{
-					$ctr=1;
-					foreach($query_payments->result() as $row_payment):
-						$balance -= $row_payment->payment_total;
-						echo "<tr>";
-						echo "<td class=\"text-center\">".date("m/d/y",strtotime($row_payment->payment_date))."</td>";
-						echo "<td>".$row_payment->invoice_number."</td>";
-						echo "<td>".$row_payment->payment_note."</td>";
-						echo "<td class=\"text-right\">".number_format($row_payment->payment_total,2)."</td>";
-						echo "<td class=\"text-right\">".number_format($balance,2)."</td>";
-						echo "<td></td></tr>";
-						
-					endforeach;
-				}
-				
-				?>
-				  
+					<tr>
+						<td>Math</td>
+						<td class="text-right"><?=$math[0] ?: '-'?></td>
+						<td class="text-right"><?=$math[1] ?: '-'?></td>
+						<td class="text-right"><?=$math[2] ?: '-'?></td>
+					</tr>
+					<tr>
+						<td>English</td>
+						<td class="text-right"><?=$eng[0] ?: '-'?></td>
+						<td class="text-right"><?=$eng[1] ?: '-'?></td>
+						<td class="text-right"><?=$eng[2] ?: '-'?></td>
+					</tr>
+					<tr>
+						<td>Science</td>
+						<td class="text-right"><?=$science[0] ?: '-'?></td>
+						<td class="text-right"><?=$science[1] ?: '-'?></td>
+						<td class="text-right"><?=$science[2] ?: '-'?></td>
+					</tr>
+					<tr>
+						<td>Social Studies</td>
+						<td class="text-right"><?=$sstudies[0] ?: '-'?></td>
+						<td class="text-right"><?=$sstudies[1] ?: '-'?></td>
+						<td class="text-right"><?=$sstudies[2] ?: '-'?></td>
+					</tr>
+					<tr>
+						<td>Word Building</td>
+						<td class="text-right"><?=$wbuilding[0] ?: '-'?></td>
+						<td class="text-right"><?=$wbuilding[1] ?: '-'?></td>
+						<td class="text-right"><?=$wbuilding[2] ?: '-'?></td>
+					</tr>
+					<tr>
+						<td>Literature</td>
+						<td class="text-right"><?=$literature[0] ?: '-'?></td>
+						<td class="text-right"><?=$literature[1] ?: '-'?></td>
+						<td class="text-right">-</td>
+					</tr>
+					<tr>
+						<td>Filipino</td>
+						<td class="text-right"><?=$filipino[0] ?: '-'?></td>
+						<td class="text-right"><?=$filipino[1] ?: '-'?></td>
+						<td class="text-right">-</td>
+					</tr>
+					<tr>
+						<td>A.P.</td>
+						<td class="text-right"><?=$ap[0] ?: '-'?></td>
+						<td class="text-right"><?=$ap[1] ?: '-'?></td>
+						<td class="text-right">-</td>
+					</tr>
 				</tbody>
-				
 			</table>
 		</div>
 	</div>

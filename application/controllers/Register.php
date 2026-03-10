@@ -23,10 +23,7 @@ class Register extends CI_Controller {
 		
 		if($this->form_validation->run())
 		{
-			$register_type = $this->get_clean_post('register_type');
-			$contact_value = $this->get_clean_post('contact_value');
-			
-			$data = $this->build_register_data($register_type, $contact_value);
+			$data = $this->build_register_data();
 			
 			$id = $this->register_model->insert($data);
 			if($id > 0)
@@ -42,39 +39,29 @@ class Register extends CI_Controller {
 
 	private function set_register_validation_rules()
 	{
-		$register_type = $this->get_clean_post('register_type');
-		
-		if ($register_type === 'mobile') {
-			$this->form_validation->set_rules('contact_value', 'Mobile Number', 'required|trim|min_length[11]|max_length[15]');
-		} else {
-			$this->form_validation->set_rules('contact_value', 'Email Address', 'required|trim|valid_email');
-		}
-		
-		$this->form_validation->set_rules('register_type', 'Register Using', 'required|trim');
+		// Both email and mobile are now required for registration
+		$this->form_validation->set_rules('emailadd', 'Email Address', 'required|trim|valid_email');
+		$this->form_validation->set_rules('mobileno', 'Mobile Number', 'required|trim|min_length[11]|max_length[15]');
 		$this->form_validation->set_rules('firstname', 'First Name', 'required|trim');
 		$this->form_validation->set_rules('lastname', 'Last Name', 'required|trim');
+		$this->form_validation->set_rules('birthdate', 'Birthdate', 'required|trim');
 		$this->form_validation->set_rules('userpass', 'Password', 'required|trim|min_length[6]|max_length[12]');
 		$this->form_validation->set_rules('repeatpass', 'Repeat Password', 'required|trim|matches[userpass]');
 		$this->form_validation->set_error_delimiters('<div class="text-danger" style="margin-bottom:10px;">', '</div>');
 	}
 
-	private function build_register_data($register_type, $contact_value)
+	private function build_register_data()
 	{
-		if ($register_type === 'mobile') {
-			$emailadd = '';
-			$mobileno = $contact_value;
-		} else {
-			$emailadd = $contact_value;
-			$mobileno = '';
-		}
-		
 		return array(
-			'emailadd'  => $emailadd,
+			'emailadd'  => $this->get_clean_post('emailadd'),
 			'lastname'  => $this->get_clean_post('lastname'),
 			'firstname'  => $this->get_clean_post('firstname'),
-			'mobileno'  => $mobileno,
+			'birthdate'  => $this->get_clean_post('birthdate'),
+			'mobileno'  => $this->get_clean_post('mobileno'),
 			'userpass' => md5((string) $this->input->post('userpass')),
-			'dateadded'  => date("Y-m-d H:i:s")
+			'dateadded'  => date("Y-m-d H:i:s"),
+			'usertype' => 'Parent',  // Default user type for portal registration
+			'status' => 1  // Active status
 		);
 	}
 

@@ -62,60 +62,67 @@ class Login extends CI_Controller {
         // Student: needs LRN or School ID
         $is_student_lookup = !empty($lrn) || !empty($school_id);
         
-        if ($is_parent_lookup) {
-            // Verify parent identity and get their children
-            $result = $this->Forgotpass_model->verify_parent_identity(
-                $firstname, 
-                $lastname, 
-                $middlename,
-                $birthdate
-            );
-            
-            if ($result['status'] === 'not_found') {
-                $this->session->set_flashdata('message', $result['message']);
+        try {
+            if ($is_parent_lookup) {
+                // Verify parent identity and get their children
+                $result = $this->Forgotpass_model->verify_parent_identity(
+                    $firstname, 
+                    $lastname, 
+                    $middlename,
+                    $birthdate
+                );
+                
+                if ($result['status'] === 'not_found') {
+                    $this->session->set_flashdata('message', $result['message']);
+                    $this->load->view('forgotpass_gate');
+                    return;
+                }
+                
+                // Store data in session for the selection step
+                $this->session->set_userdata('forgotpass_parent_data', $result['parent']);
+                $this->session->set_userdata('forgotpass_children', $result['children']);
+                $this->session->set_userdata('forgotpass_type', 'parent');
+                
+                // Show results page
+                $data['parent'] = $result['parent'];
+                $data['children'] = $result['children'];
+                $data['lookup_type'] = 'parent';
+                $this->load->view('forgotpass_select', $data);
+                return;
+            } 
+            elseif ($is_student_lookup) {
+                // Verify student by LRN or School ID and get parent
+                $identifier = !empty($lrn) ? $lrn : $school_id;
+                $result = $this->Forgotpass_model->verify_student_identity($identifier);
+                
+                if ($result['status'] === 'not_found') {
+                    $this->session->set_flashdata('message', $result['message']);
+                    $this->load->view('forgotpass_gate');
+                    return;
+                }
+                
+                // Store data in session
+                $this->session->set_userdata('forgotpass_student_data', $result['student']);
+                $this->session->set_userdata('forgotpass_parent', $result['parent']);
+                $this->session->set_userdata('forgotpass_type', 'student');
+                
+                // Show results page
+                $data['student'] = $result['student'];
+                $data['parent'] = $result['parent'];
+                $data['enrollment'] = $result['enrollment'];
+                $data['lookup_type'] = 'student';
+                $this->load->view('forgotpass_select', $data);
+                return;
+            } 
+            else {
+                // Neither properly filled
+                $this->session->set_flashdata('message', 'Please provide either parent details (First Name, Last Name, Birthdate) OR student LRN/School ID.');
                 $this->load->view('forgotpass_gate');
                 return;
             }
-            
-            // Store data in session for the selection step
-            $this->session->set_userdata('forgotpass_parent_data', $result['parent']);
-            $this->session->set_userdata('forgotpass_children', $result['children']);
-            $this->session->set_userdata('forgotpass_type', 'parent');
-            
-            // Show results page
-            $data['parent'] = $result['parent'];
-            $data['children'] = $result['children'];
-            $data['lookup_type'] = 'parent';
-            $this->load->view('forgotpass_select', $data);
-            return;
-        } 
-        elseif ($is_student_lookup) {
-            // Verify student by LRN or School ID and get parent
-            $identifier = !empty($lrn) ? $lrn : $school_id;
-            $result = $this->Forgotpass_model->verify_student_identity($identifier);
-            
-            if ($result['status'] === 'not_found') {
-                $this->session->set_flashdata('message', $result['message']);
-                $this->load->view('forgotpass_gate');
-                return;
-            }
-            
-            // Store data in session
-            $this->session->set_userdata('forgotpass_student_data', $result['student']);
-            $this->session->set_userdata('forgotpass_parent', $result['parent']);
-            $this->session->set_userdata('forgotpass_type', 'student');
-            
-            // Show results page
-            $data['student'] = $result['student'];
-            $data['parent'] = $result['parent'];
-            $data['enrollment'] = $result['enrollment'];
-            $data['lookup_type'] = 'student';
-            $this->load->view('forgotpass_select', $data);
-            return;
-        } 
-        else {
-            // Neither properly filled
-            $this->session->set_flashdata('message', 'Please provide either parent details (First Name, Last Name, Birthdate) OR student LRN/School ID.');
+        } catch (Exception $e) {
+            log_message('error', 'Forgotpass error: ' . $e->getMessage());
+            $this->session->set_flashdata('message', 'An error occurred. Please try again or contact the school administrator.');
             $this->load->view('forgotpass_gate');
             return;
         }
