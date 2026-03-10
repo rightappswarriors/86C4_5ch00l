@@ -1,6 +1,20 @@
-<?php 
-	$row = $query->row(); 
-	$data = array( 'row'  => $row );
+<?php
+	$row = $query->row();
+
+	// [Team Note - 2026-03-10] Helper values for display-only profile fields.
+	$display_value = function ($value) {
+		$value = trim((string) $value);
+		return $value !== '' ? $value : 'N/A';
+	};
+
+	$birthdate_display = 'N/A';
+	if (!empty($row->birthdate)) {
+		$birth_ts = strtotime($row->birthdate);
+		$birthdate_display = $birth_ts ? date("Y-m-d", $birth_ts) : $display_value($row->birthdate);
+	}
+
+	$lrn_display = $display_value($row->lrn ?? '');
+	$studentno_display = $display_value($row->studentno ?? '');
 ?>
 
 <link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/enrollment.css">
@@ -35,7 +49,8 @@
 		  
 		  <!-- Basic Information Section -->
 		  <div class="enroll-section">
-			<h5 class="enroll-section-title"><i class="mdi mdi-account"></i> BASIC INFORMATION</h5>
+			<!-- [Team Note - 2026-03-10] Section title includes LRN and Student ID -->
+			<h5 class="enroll-section-title"><i class="mdi mdi-account"></i> BASIC INFORMATION/LRN & STUDENT ID</h5>
 		  </div>
 		  
 		  <div class="row">
@@ -73,6 +88,30 @@
 				<div class="form-group">
 					<label class="form-label">E-mail</label>
 					<input type="text" name="emailadd" value="<?= set_value('emailadd',$row->emailadd) ?>" class="form-control" placeholder="Enter Email Address" />
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<!-- [Team Note - 2026-03-10] Display-only birthdate from account data -->
+					<label class="form-label">Birthdate</label>
+					<input type="text" value="<?= $birthdate_display ?>" class="form-control" readonly />
+				</div>
+			</div>
+		  </div>
+
+		  <div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					<!-- [Team Note - 2026-03-10] Display-only LRN -->
+					<label class="form-label">LRN</label>
+					<input type="text" value="<?= $lrn_display ?>" class="form-control" readonly />
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<!-- [Team Note - 2026-03-10] Display-only Student ID (student number) -->
+					<label class="form-label">Student ID</label>
+					<input type="text" value="<?= $studentno_display ?>" class="form-control" readonly />
 				</div>
 			</div>
 		  </div>
