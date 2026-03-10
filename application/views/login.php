@@ -51,7 +51,7 @@
                 ?>
 			  
                 <form method="POST" action="<?=site_url("login/validation")?>" class="auth-form">
-                  <!-- [Team Note - 2026-03-09] Login identifier selector (LRN / School ID / Email) -->
+                  <!-- [Team Note - 2026-03-09] Login identifier selector (LRN / School ID / Email / Phone) -->
                   <div class="form-group">
                     <label class="form-label">Login Using</label>
                     <div class="input-group">
@@ -60,6 +60,7 @@
                         <option value="lrn" <?=($selected_login_type === 'lrn' ? 'selected' : '')?>>LRN</option>
                         <option value="school_id" <?=($selected_login_type === 'school_id' ? 'selected' : '')?>>School ID</option>
                         <option value="email" <?=($selected_login_type === 'email' ? 'selected' : '')?>>Email Address</option>
+                        <option value="mobile" <?=($selected_login_type === 'mobile' ? 'selected' : '')?>>Phone Number</option>
                       </select>
                       <div class="input-group-append">
                         <span class="input-group-text">
@@ -152,6 +153,10 @@
           email: {
             label: 'Email Address',
             placeholder: 'Enter your Email Address'
+          },
+          mobile: {
+            label: 'Phone Number',
+            placeholder: 'Enter your Phone Number'
           }
         };
 

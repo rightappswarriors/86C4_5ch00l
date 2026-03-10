@@ -28,7 +28,15 @@ class Register extends CI_Controller {
 		{
 			$lrn = $this->get_clean_post('lrn');
 			$school_id = $this->get_clean_post('school_id');
+			
+			// Try to find student by credentials
 			$student = $this->find_student_by_credentials($lrn, $school_id);
+			
+			// If not found with both LRN and School ID, try LRN only
+			if (!$student && !empty($school_id)) {
+				$student = $this->find_student_by_credentials($lrn, '');
+			}
+			
 			if (!$student) {
 				$this->session->set_flashdata('message', 'Student record not found for the provided LRN and School ID.');
 				$this->index();
@@ -53,12 +61,15 @@ class Register extends CI_Controller {
 	public function validate_student_credentials($lrn)
 	{
 		$school_id = $this->get_clean_post('school_id');
-		if (empty($school_id)) {
-			$this->form_validation->set_message('validate_student_credentials', 'School ID is required.');
-			return FALSE;
-		}
-
+		
+		// Try to find student by both LRN and School ID first
 		$student = $this->find_student_by_credentials($lrn, $school_id);
+		
+		// If not found with both, try LRN only (if School ID was provided but didn't match)
+		if (!$student && !empty($school_id)) {
+			$student = $this->find_student_by_credentials($lrn, '');
+		}
+		
 		if (!$student) {
 			$this->form_validation->set_message('validate_student_credentials', 'The LRN and School ID do not match any student record.');
 			return FALSE;
@@ -74,8 +85,19 @@ class Register extends CI_Controller {
 
 	private function find_student_by_credentials($lrn, $school_id)
 	{
+		// If School ID is provided, search by both LRN and School ID
+		if (!empty($school_id)) {
+			$this->db->where('lrn', $lrn);
+			$this->db->where('studentno', $school_id);
+			$this->db->limit(1);
+			$query = $this->db->get('students');
+			if ($query->num_rows() > 0) {
+				return $query->row();
+			}
+		}
+		
+		// If School ID is empty or not found, search by LRN only
 		$this->db->where('lrn', $lrn);
-		$this->db->where('studentno', $school_id);
 		$this->db->limit(1);
 		$query = $this->db->get('students');
 		if ($query->num_rows() > 0) {
@@ -87,7 +109,7 @@ class Register extends CI_Controller {
 	private function set_register_validation_rules()
 	{
 		$this->form_validation->set_rules('lrn', 'LRN', 'required|trim|callback_validate_student_credentials');
-		$this->form_validation->set_rules('school_id', 'School ID', 'required|trim');
+		$this->form_validation->set_rules('school_id', 'School ID', 'trim');
 		$this->form_validation->set_rules('firstname', 'First Name', 'required|trim');
 		$this->form_validation->set_rules('emailadd', 'E-mail', 'required|trim|valid_email');
 		$this->form_validation->set_rules('lastname', 'Last Name', 'required|trim');

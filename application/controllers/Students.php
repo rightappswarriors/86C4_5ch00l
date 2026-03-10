@@ -121,7 +121,7 @@ class Students extends CI_Controller {
 		$this->form_validation->set_rules('father_lastname', 'Father Lastname', 'required|trim');
 		$this->form_validation->set_rules('father_middlename', 'Father Middlename', 'required|trim');
 		$this->form_validation->set_rules('father_place_work', 'Father Place of Work', 'required|trim');
-		$this->form_validation->set_rules('father_contact1', 'Father Contact1', 'required|trim');
+		$this->form_validation->set_rules('father_contact1', 'Father Contact1', 'trim');
 		$this->form_validation->set_rules('father_contact2', 'Father Contact2', 'required|trim');
 		$this->form_validation->set_rules('father_email', 'Father Email', 'required|trim|valid_email');
 		
@@ -129,7 +129,7 @@ class Students extends CI_Controller {
 		$this->form_validation->set_rules('mother_lastname', 'Mother Lastname', 'required|trim');
 		$this->form_validation->set_rules('mother_middlename', 'Mother Middlename', 'required|trim');
 		$this->form_validation->set_rules('mother_place_work', 'Mother Place of Work', 'required|trim');
-		$this->form_validation->set_rules('mother_contact1', 'Mother Contact1', 'required|trim');
+		$this->form_validation->set_rules('mother_contact1', 'Mother Contact1', 'trim');
 		$this->form_validation->set_rules('mother_contact2', 'Mother Contact2', 'required|trim');
 		$this->form_validation->set_rules('email', 'Mother Email', 'required|trim|valid_email');
 		
@@ -160,8 +160,8 @@ class Students extends CI_Controller {
 				'father_middlename'  => $this->input->post('father_middlename'),
 				'father_work'  => $this->input->post('father_work'),
 				'father_place_work'  => $this->input->post('father_place_work'),
-				'father_contact1'  => $this->input->post('father_contact1'),
-				'father_contact2'  => $this->input->post('father_contact2'),
+				'father_contact1'  => $this->input->post('father_contact1') ?: '',
+				'father_contact2'  => $this->input->post('father_contact2') ?: '',
 				'email'  => $this->input->post('email'),
 				'father_email'  => $this->input->post('father_email'),
 				'father_fbmessenger'  => $this->input->post('father_fbmessenger'),
@@ -169,8 +169,8 @@ class Students extends CI_Controller {
 				'mother_lastname'  => $this->input->post('mother_lastname'),
 				'mother_work'  => $this->input->post('mother_work'),
 				'mother_place_work'  => $this->input->post('mother_place_work'),
-				'mother_contact1'  => $this->input->post('mother_contact1'),
-				'mother_contact2'  => $this->input->post('mother_contact2'),
+				'mother_contact1'  => $this->input->post('mother_contact1') ?: '',
+				'mother_contact2'  => $this->input->post('mother_contact2') ?: '',
 				'mother_middlename'  => $this->input->post('mother_middlename'),
 				'maidenname'  => $this->input->post('maidenname'),
 				'incaseemergency'  => $this->input->post('incaseemergency'),
@@ -238,9 +238,9 @@ class Students extends CI_Controller {
 				'province'  => $this->input->post('province'),
 				'country'  => $this->input->post('country'),
 				'father_firstname'  => $this->input->post('father_firstname'),
-				'father_contact1'  => $this->input->post('father_contact1'),
+				'father_contact1'  => $this->input->post('father_contact1') ?: '',
 				'mother_firstname'  => $this->input->post('mother_firstname'),
-				'mother_contact1'  => $this->input->post('mother_contact1'),
+				'mother_contact1'  => $this->input->post('mother_contact1') ?: '',
 				'incaseemergency'  => $this->input->post('incaseemergency'),
 				'work_phone'  => $this->input->post('work_phone'),
 				'homelandline'  => $this->input->post('homelandline'),
@@ -627,15 +627,15 @@ class Students extends CI_Controller {
 				'father_middlename'  => $this->input->post('father_middlename'),
 				'father_work'  => $this->input->post('father_work'),
 				'father_place_work'  => $this->input->post('father_place_work'),
-				'father_contact1'  => $this->input->post('father_contact1'),
-				'father_contact2'  => $this->input->post('father_contact2'),
+				'father_contact1'  => $this->input->post('father_contact1') ?: '',
+				'father_contact2'  => $this->input->post('father_contact2') ?: '',
 				'email'  => $this->input->post('email'),
 				'mother_firstname'  => $this->input->post('mother_firstname'),
 				'mother_lastname'  => $this->input->post('mother_lastname'),
 				'mother_work'  => $this->input->post('mother_work'),
 				'mother_place_work'  => $this->input->post('mother_place_work'),
-				'mother_contact1'  => $this->input->post('mother_contact1'),
-				'mother_contact2'  => $this->input->post('mother_contact2'),
+				'mother_contact1'  => $this->input->post('mother_contact1') ?: '',
+				'mother_contact2'  => $this->input->post('mother_contact2') ?: '',
 				'mother_middlename'  => $this->input->post('mother_middlename'),
 				'maidenname'  => $this->input->post('maidenname'),
 				'incaseemergency'  => $this->input->post('incaseemergency'),

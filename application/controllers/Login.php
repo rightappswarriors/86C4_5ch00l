@@ -423,8 +423,8 @@ class Login extends CI_Controller {
     function validation()
     {
         // [Team Note - 2026-03-09]
-        // Login now supports multiple identifiers: LRN, School ID, or Email Address.
-        $this->form_validation->set_rules('login_type', 'Login Type', 'required|in_list[lrn,school_id,email]');
+        // Login now supports multiple identifiers: LRN, School ID, Email Address, or Phone Number.
+        $this->form_validation->set_rules('login_type', 'Login Type', 'required|in_list[lrn,school_id,email,mobile]');
         $this->form_validation->set_rules('login_identifier', 'Login Identifier', 'required|trim');
         $this->form_validation->set_rules('userpass', 'Password', 'required');
         if($this->form_validation->run())
