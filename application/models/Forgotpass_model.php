@@ -172,9 +172,7 @@ class Forgotpass_model extends CI_Model {
         $query = $this->db->get('students');
         
         if ($query->num_rows() == 0) {
-            // Try by student number (school_id)
-            $this->db->where('studentno', $identifier);
-            $query = $this->db->get('students');
+            $query = $this->find_student_by_school_id($identifier);
         }
         
         if ($query->num_rows() == 0) {
@@ -208,6 +206,17 @@ class Forgotpass_model extends CI_Model {
             'parent' => $parent,
             'enrollment' => $enrollment
         );
+    }
+
+    private function find_student_by_school_id($identifier)
+    {
+        // [Team Note - 2026-03-10]
+        // Prefer new school_id column, keep fallback to legacy studentno values.
+        $this->db->group_start();
+        $this->db->where('school_id', $identifier);
+        $this->db->or_where('studentno', $identifier);
+        $this->db->group_end();
+        return $this->db->get('students');
     }
 
     private function find_parent_by_identity($firstname, $lastname, $middlename, $birthdate)

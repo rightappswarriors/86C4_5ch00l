@@ -34,3 +34,46 @@ ALTER TABLE `register` ADD COLUMN `birthdate` DATE NULL AFTER `middlename`;
 
 -- Verify the columns were added
 -- SELECT * FROM register LIMIT 1;
+
+------------------------------------------------------------
+LRN + SCHOOL ID (students table)
+Run in phpMyAdmin SQL tab (localhost)
+------------------------------------------------------------
+-- IMPORTANT FOR TEAMMATES:
+-- The SQL statements in this section are the exact commands to run
+-- in your local phpMyAdmin database (`bbccolle_beta_bhcaportal`).
+-- Copy/paste and execute them in order (1 -> 5).
+
+-- 1) Add School ID column (safe: only if missing)
+ALTER TABLE `students`
+ADD COLUMN IF NOT EXISTS `school_id` VARCHAR(10) NOT NULL DEFAULT '' AFTER `studentno`;
+
+-- 2) Backfill school_id from old studentno values
+UPDATE `students`
+SET `school_id` = `studentno`
+WHERE IFNULL(TRIM(`school_id`), '') = ''
+  AND IFNULL(TRIM(`studentno`), '') <> '';
+
+-- 3) Add index for faster login/lookup by School ID
+CREATE INDEX `idx_students_school_id` ON `students` (`school_id`);
+
+-- If step 3 errors with "Duplicate key name", use this instead:
+-- CREATE INDEX IF NOT EXISTS `idx_students_school_id` ON `students` (`school_id`);
+
+-- 4) Verify schema
+SHOW COLUMNS FROM `students` LIKE 'school_id';
+
+-- 5) Verify data
+SELECT `id`, `user_id`, `lrn`, `school_id`, `studentno`
+FROM `students`
+WHERE IFNULL(TRIM(`school_id`), '') <> ''
+   OR IFNULL(TRIM(`studentno`), '') <> ''
+   OR IFNULL(TRIM(`lrn`), '') <> ''
+ORDER BY `id` DESC
+LIMIT 50;
+
+-- 6) Optional: keep old studentno same as school_id (legacy compatibility)
+-- UPDATE `students`
+-- SET `studentno` = `school_id`
+-- WHERE IFNULL(TRIM(`studentno`), '') = ''
+--   AND IFNULL(TRIM(`school_id`), '') <> '';

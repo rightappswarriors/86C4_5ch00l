@@ -58,7 +58,7 @@ class Login_model extends CI_Model
 		if ($login_type === 'lrn') {
 			$this->db->where('lrn', $login_identifier);
 		} else {
-			$this->db->where('studentno', $login_identifier);
+			$this->apply_school_id_filter($login_identifier);
 		}
 
 		$this->db->limit(1);
@@ -73,6 +73,16 @@ class Login_model extends CI_Model
 		}
 
 		return $student->user_id;
+	}
+
+	private function apply_school_id_filter($identifier)
+	{
+		// [Team Note - 2026-03-10]
+		// Prefer new school_id column, keep fallback to legacy studentno values.
+		$this->db->group_start();
+		$this->db->where('school_id', $identifier);
+		$this->db->or_where('studentno', $identifier);
+		$this->db->group_end();
 	}
 
 	private function set_user_session($user)
