@@ -61,7 +61,9 @@ class Register extends CI_Controller {
 			'userpass' => md5((string) $this->input->post('userpass')),
 			'dateadded'  => date("Y-m-d H:i:s"),
 			'usertype' => 'Parent',  // Default user type for portal registration
-			'status' => 1  // Active status
+			'status' => 1,  // Active status
+			'lrn' => $this->get_clean_post('lrn'),
+			'school_id' => $this->get_clean_post('school_id')
 		);
 	}
 
