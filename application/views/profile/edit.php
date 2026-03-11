@@ -50,7 +50,7 @@
 		  <!-- Basic Information Section -->
 		  <div class="enroll-section">
 			<!-- [Team Note - 2026-03-10] Section title includes LRN and Student ID -->
-			<h5 class="enroll-section-title"><i class="mdi mdi-account"></i> BASIC INFORMATION/LRN & STUDENT ID</h5>
+			<h5 class="enroll-section-title"><i class="mdi mdi-account"></i> BASIC INFORMATION</h5>
 		  </div>
 		  
 		  <div class="row">
@@ -99,6 +99,10 @@
 			</div>
 		  </div>
 
+		  <div class="enroll-section">
+			<h5 class="enroll-section-title"><i class="mdi mdi-account"></i> LRN AND STUDENT-ID </h5>
+		  </div>
+		  		
 		  <div class="row">
 			<div class="col-md-6">
 				<div class="form-group">
