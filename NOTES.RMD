@@ -77,3 +77,12 @@ LIMIT 50;
 -- SET `studentno` = `school_id`
 -- WHERE IFNULL(TRIM(`studentno`), '') = ''
 --   AND IFNULL(TRIM(`school_id`), '') <> '';
+
+
+------------------------------------------------------------
+-- Add LRN and School ID columns to register table
+
+ALTER TABLE `register` 
+ADD COLUMN `birthdate` DATE NULL AFTER `lastname`,
+ADD COLUMN `lrn` VARCHAR(20) NULL AFTER `birthdate`,
+ADD COLUMN `school_id` VARCHAR(20) NULL AFTER `lrn`;
