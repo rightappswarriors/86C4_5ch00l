@@ -43,6 +43,10 @@
 			  </div>
 			  
 			  <?=validation_errors()?>
+			  <?php
+			    // [Team Note - 2026-03-11] Tracks whether the optional student fields should stay open after form reload.
+			    $has_student_details = set_value('lrn') || set_value('school_id');
+			  ?>
 			  
                 <form method="POST" action="<?=site_url("register/validation")?>" class="auth-form">
                   
@@ -133,6 +137,64 @@
                       </div>
                     </div>
                   </div>
+
+                  <!-- [Team Note - 2026-03-11] Student account section: toggle opens the optional LRN and School ID fields. -->
+                  <div class="student-toggle-card">
+                    <div class="student-toggle-copy">
+                      <h5>Are you a student?</h5>
+                      <p>Click Yes to add your account details.</p>
+                    </div>
+
+                    <button
+                      type="button"
+                      class="student-toggle-btn"
+                      id="studentToggleBtn"
+                      aria-expanded="<?=$has_student_details ? 'true' : 'false'?>"
+                      aria-controls="studentExtraFields">
+                      Yes
+                    </button>
+
+                    <div
+                      class="student-extra-fields<?=$has_student_details ? ' is-open' : ''?>"
+                      id="studentExtraFields"
+                      <?=$has_student_details ? '' : 'hidden'?>>
+                      <div class="form-group mb-2">
+                        <label class="form-label">LRN</label>
+                        <div class="input-group">
+                          <input type="text" name="lrn" value="<?=set_value('lrn')?>" class="form-control" placeholder="Enter your LRN">
+                          <div class="input-group-append">
+                            <span class="input-group-text">
+                              <i class="mdi mdi-card-account-details"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group mb-0">
+                        <label class="form-label">School ID</label>
+                        <div class="input-group">
+                          <input type="text" name="school_id" value="<?=set_value('school_id')?>" class="form-control" placeholder="Enter your School ID">
+                          <div class="input-group-append">
+                            <span class="input-group-text">
+                              <i class="mdi mdi-card-bulleted-outline"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div
+                        class="student-remove-wrap<?=$has_student_details ? ' is-visible' : ''?>"
+                        id="studentRemoveWrap"
+                        <?=$has_student_details ? '' : 'hidden'?>>
+                        <button
+                          type="button"
+                          class="student-remove-btn"
+                          id="studentRemoveBtn">
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                    
                   <div class="form-group mt-4">
                     <button type="submit" class="auth-submit-btn">
@@ -162,6 +224,48 @@
     <script src="<?=base_url()?>assets/js/shared/off-canvas.js"></script>
     <script src="<?=base_url()?>assets/js/shared/misc.js"></script>
     <!-- endinject -->
+    <script>
+      // [Team Note - 2026-03-11] Student account toggle: shows or hides the optional student identifier fields.
+      (function () {
+        var toggleButton = document.getElementById('studentToggleBtn');
+        var removeWrap = document.getElementById('studentRemoveWrap');
+        var removeButton = document.getElementById('studentRemoveBtn');
+        var extraFields = document.getElementById('studentExtraFields');
+        var lrnInput = document.querySelector('input[name="lrn"]');
+        var schoolIdInput = document.querySelector('input[name="school_id"]');
+
+        if (!toggleButton || !removeWrap || !removeButton || !extraFields) {
+          return;
+        }
+
+        function syncState(isOpen) {
+          extraFields.classList.toggle('is-open', isOpen);
+          toggleButton.classList.toggle('is-open', isOpen);
+          removeWrap.classList.toggle('is-visible', isOpen);
+          toggleButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+          extraFields.hidden = !isOpen;
+          removeWrap.hidden = !isOpen;
+        }
+
+        syncState(extraFields.classList.contains('is-open'));
+
+        toggleButton.addEventListener('click', function () {
+          syncState(!extraFields.classList.contains('is-open'));
+        });
+
+        removeButton.addEventListener('click', function () {
+          if (lrnInput) {
+            lrnInput.value = '';
+          }
+
+          if (schoolIdInput) {
+            schoolIdInput.value = '';
+          }
+
+          syncState(false);
+        });
+      })();
+    </script>
     
     <?php $this->load->view('support_chat_widget'); ?>
   </body>

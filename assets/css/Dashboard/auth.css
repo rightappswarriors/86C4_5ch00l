@@ -166,6 +166,107 @@
     border-radius: 0 10px 10px 0;
 }
 
+/* [Team Note - 2026-03-11] Student registration toggle block: prompt, expand/collapse fields, and remove button. */
+.student-toggle-card {
+    margin-top: 0.4rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+.student-toggle-copy {
+    margin-bottom: 0.35rem;
+}
+
+.student-toggle-copy h5 {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #172554;
+}
+
+.student-toggle-copy p {
+    margin: 0.1rem 0 0;
+    color: #4b5563;
+    font-size: 0.8rem;
+    line-height: 1.25;
+}
+
+.student-toggle-btn {
+    min-width: 64px;
+    border: 0;
+    border-radius: 999px;
+    padding: 0.38rem 0.85rem;
+    font-size: 0.8rem;
+    line-height: 1.1;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(90deg, #0ea5e9, #0284c7);
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.16);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.student-toggle-btn:hover,
+.student-toggle-btn:focus {
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(2, 132, 199, 0.22);
+    outline: none;
+}
+
+.student-toggle-btn.is-open {
+    background: linear-gradient(90deg, #0369a1, #075985);
+}
+
+.student-remove-btn {
+    display: none;
+    min-width: 78px;
+    border: 1px solid #cbd5e1;
+    border-radius: 999px;
+    padding: 0.38rem 0.85rem;
+    font-size: 0.8rem;
+    line-height: 1.1;
+    font-weight: 700;
+    color: #475569;
+    background: #fff;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.student-remove-btn:hover,
+.student-remove-btn:focus {
+    color: #1e293b;
+    background: #f8fafc;
+    border-color: #94a3b8;
+    outline: none;
+}
+
+.student-remove-wrap {
+    display: none;
+    margin-top: 0.5rem;
+    text-align: right;
+}
+
+.student-remove-wrap.is-visible {
+    display: block;
+}
+
+.student-extra-fields {
+    display: none;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transition: max-height 0.3s ease, opacity 0.25s ease, margin-top 0.25s ease;
+}
+
+.student-extra-fields.is-open {
+    display: block;
+    max-height: 220px;
+    opacity: 1;
+    visibility: visible;
+    margin-top: 0.55rem;
+}
+
 /* Checkbox Styling */
 .auth-form .form-check {
     padding-left: 1.75rem;
