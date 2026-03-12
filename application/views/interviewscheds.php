@@ -38,14 +38,6 @@
 
 </script>
 <link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/interviewscheds.css">
-
-  #calendar {
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-
-
 <div class="col-lg-12 grid-margin stretch-card">
 <div class="card">
   <div class="card-body">

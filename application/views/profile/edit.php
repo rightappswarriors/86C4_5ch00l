@@ -1,7 +1,6 @@
 <?php
 	$row = $query->row();
 
-	// [Team Note - 2026-03-10] Helper values for display-only profile fields.
 	$display_value = function ($value) {
 		$value = trim((string) $value);
 		return $value !== '' ? $value : 'N/A';
@@ -14,7 +13,7 @@
 	}
 
 	$lrn_display = $display_value($row->lrn ?? '');
-	$studentno_display = $display_value($row->studentno ?? '');
+	$schoolid_display = $display_value($row->school_id ?? '');
 ?>
 
 <link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/enrollment.css">
@@ -46,10 +45,8 @@
 		  <div class="enroll-instruction">
 			<i class="mdi mdi-information-outline"></i> Please update your profile information.
 		  </div>
-		  
-		  <!-- Basic Information Section -->
+
 		  <div class="enroll-section">
-			<!-- [Team Note - 2026-03-10] Section title includes LRN and Student ID -->
 			<h5 class="enroll-section-title"><i class="mdi mdi-account"></i> BASIC INFORMATION</h5>
 		  </div>
 		  
@@ -92,7 +89,6 @@
 			</div>
 			<div class="col-md-6">
 				<div class="form-group">
-					<!-- [Team Note - 2026-03-10] Display-only birthdate from account data -->
 					<label class="form-label">Birthdate</label>
 					<input type="text" value="<?= $birthdate_display ?>" class="form-control" readonly />
 				</div>
@@ -106,21 +102,18 @@
 		  <div class="row">
 			<div class="col-md-6">
 				<div class="form-group">
-					<!-- [Team Note - 2026-03-10] Display-only LRN -->
 					<label class="form-label">LRN</label>
 					<input type="text" value="<?= $lrn_display ?>" class="form-control" readonly />
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="form-group">
-					<!-- [Team Note - 2026-03-10] Display-only Student ID (student number) -->
 					<label class="form-label">Student ID</label>
-					<input type="text" value="<?= $studentno_display ?>" class="form-control" readonly />
+					<input type="text" value="<?= $schoolid_display ?>" class="form-control" readonly />
 				</div>
 			</div>
 		  </div>
 		  
-		  <!-- Change Password Section -->
 		  <div class="enroll-section">
 			<h5 class="enroll-section-title"><i class="mdi mdi-lock"></i> CHANGE PASSWORD</h5>
 		  </div>

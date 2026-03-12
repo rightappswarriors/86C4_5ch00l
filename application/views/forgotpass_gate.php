@@ -58,6 +58,89 @@
       .return-link i {
         font-size: 18px;
       }
+      
+      /* Student Toggle Card */
+      .student-toggle-card {
+        background: linear-gradient(135deg, #f0f4ff 0%, #e8f4f8 100%);
+        border-radius: 12px;
+        padding: 1.25rem;
+        margin-top: 1rem;
+        border: 1px solid #e0e7ff;
+        transition: all 0.3s ease;
+      }
+      
+      .student-toggle-card:hover {
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.12);
+      }
+      
+      .student-toggle-copy h5 {
+        color: #65a0ee;
+        font-weight: 600;
+        margin-bottom: 0.25rem;
+        font-size: 0.95rem;
+      }
+      
+      .student-toggle-copy p {
+        color: #6b7280;
+        font-size: 0.8rem;
+        margin-bottom: 0;
+      }
+      
+      .student-toggle-btn {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        border: none;
+        border-radius: 20px;
+        padding: 0.4rem 1.25rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.85rem;
+      }
+      
+      .student-toggle-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+      }
+      
+      .student-toggle-btn.is-open {
+        background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      }
+      
+      .student-extra-fields {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px dashed #c7d2fe;
+      }
+      
+      .student-extra-fields.is-open {
+        display: block;
+      }
+      
+      .student-remove-btn {
+        background: transparent;
+        border: 1px solid #ef4444;
+        color: #ef4444;
+        border-radius: 6px;
+        padding: 0.375rem 0.75rem;
+        font-size: 0.75rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 0.5rem;
+      }
+      
+      .student-remove-btn:hover {
+        background: #ef4444;
+        color: white;
+      }
+      
+      .student-remove-wrap {
+        display: none;
+      }
+      
+      .student-remove-wrap.is-visible {
+        display: block;
+      }
     </style>
   </head>
   <body>
@@ -94,13 +177,13 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label class="form-label">FIRST NAME</label>
-                        <input type="text" name="firstname" value="<?=set_value('firstname')?>" class="form-control" placeholder="Enter first name" required>
+                        <input type="text" name="firstname" value="<?=set_value('firstname')?>" class="form-control" placeholder="Enter first name">
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label class="form-label">LAST NAME</label>
-                        <input type="text" name="lastname" value="<?=set_value('lastname')?>" class="form-control" placeholder="Enter last name" required>
+                        <input type="text" name="lastname" value="<?=set_value('lastname')?>" class="form-control" placeholder="Enter last name">
                       </div>
                     </div>
                   </div>
@@ -116,25 +199,63 @@
                       <div class="form-group">
                         <!-- [Team Note - 2026-03-09] Replaced Phone Number input with Birthdate -->
                         <label class="form-label">BIRTHDATE</label>
-                        <input type="date" name="birthdate" value="<?=set_value('birthdate')?>" class="form-control" required>
+                        <input type="date" name="birthdate" value="<?=set_value('birthdate')?>" class="form-control">
                       </div>
                     </div>
                   </div>
 
-                  <div class="row align-items-end">
-                    <div class="col-md-5">
-                      <div class="form-group">
-                        <label class="form-label">LRN</label>
-                        <input type="text" name="lrn" value="<?=set_value('lrn')?>" class="form-control" placeholder="Enter LRN">
+                  <?php
+                    // [Team Note - 2026-03-11] Tracks whether the optional student fields should stay open after form reload.
+                    $has_student_details = set_value('lrn') || set_value('school_id');
+                  ?>
+
+                  <!-- Student Toggle Card - Only show for students -->
+                  <div class="student-toggle-card">
+                    <div class="student-toggle-copy">
+                      <h5>Are you a student?</h5>
+                      <p>Click Yes if you're a current student to add your account details.</p>
+                    </div>
+
+                    <button
+                      type="button"
+                      class="student-toggle-btn"
+                      id="studentToggleBtn"
+                      aria-expanded="<?=$has_student_details ? 'true' : 'false'?>">
+                      Yes
+                    </button>
+
+                    <div
+                      class="student-extra-fields<?=$has_student_details ? ' is-open' : ''?>"
+                      id="studentExtraFields"
+                      <?=$has_student_details ? '' : 'hidden'?>>
+                      <div class="row align-items-end">
+                        <div class="col-md-5">
+                          <div class="form-group mb-0">
+                            <label class="form-label">LRN</label>
+                            <input type="text" name="lrn" value="<?=set_value('lrn')?>" class="form-control" placeholder="Enter LRN">
+                          </div>
+                        </div>
+                        <div class="col-md-2 text-center">
+                          <label class="form-label d-block">OR</label>
+                        </div>
+                        <div class="col-md-5">
+                          <div class="form-group mb-0">
+                            <label class="form-label">SCHOOL ID</label>
+                            <input type="text" name="school_id" value="<?=set_value('school_id')?>" class="form-control" placeholder="Enter school ID">
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div class="col-md-2 text-center">
-                      <label class="form-label d-block">OR</label>
-                    </div>
-                    <div class="col-md-5">
-                      <div class="form-group">
-                        <label class="form-label">SCHOOL ID</label>
-                        <input type="text" name="school_id" value="<?=set_value('school_id')?>" class="form-control" placeholder="Enter school ID">
+
+                      <div
+                        class="student-remove-wrap<?=$has_student_details ? ' is-visible' : ''?>"
+                        id="studentRemoveWrap"
+                        <?=$has_student_details ? '' : 'hidden'?>>
+                        <button
+                          type="button"
+                          class="student-remove-btn"
+                          id="studentRemoveBtn">
+                          Close
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -162,6 +283,49 @@
     <script src="<?=base_url()?>assets/vendors/js/vendor.bundle.addons.js"></script>
     <script src="<?=base_url()?>assets/js/shared/off-canvas.js"></script>
     <script src="<?=base_url()?>assets/js/shared/misc.js"></script>
+    <script>
+      // [Team Note - 2026-03-11] Student account toggle: shows or hides the optional student identifier fields.
+      (function () {
+        var toggleButton = document.getElementById('studentToggleBtn');
+        var removeWrap = document.getElementById('studentRemoveWrap');
+        var removeButton = document.getElementById('studentRemoveBtn');
+        var extraFields = document.getElementById('studentExtraFields');
+        var lrnInput = document.querySelector('input[name="lrn"]');
+        var schoolIdInput = document.querySelector('input[name="school_id"]');
+
+        if (!toggleButton || !removeWrap || !removeButton || !extraFields) {
+          return;
+        }
+
+        function syncState(isOpen) {
+          extraFields.classList.toggle('is-open', isOpen);
+          toggleButton.classList.toggle('is-open', isOpen);
+          removeWrap.classList.toggle('is-visible', isOpen);
+          toggleButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+          extraFields.hidden = !isOpen;
+          removeWrap.hidden = !isOpen;
+          toggleButton.textContent = isOpen ? 'No' : 'Yes';
+        }
+
+        syncState(extraFields.classList.contains('is-open'));
+
+        toggleButton.addEventListener('click', function () {
+          syncState(!extraFields.classList.contains('is-open'));
+        });
+
+        removeButton.addEventListener('click', function () {
+          if (lrnInput) {
+            lrnInput.value = '';
+          }
+
+          if (schoolIdInput) {
+            schoolIdInput.value = '';
+          }
+
+          syncState(false);
+        });
+      })();
+    </script>
     
     <?php $this->load->view('support_chat_widget'); ?>
   </body>

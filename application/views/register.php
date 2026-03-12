@@ -251,7 +251,6 @@
 			  
 			  <?=validation_errors()?>
 			  <?php
-			    // [Team Note - 2026-03-11] Tracks whether the optional student fields should stay open after form reload.
 			    $has_student_details = set_value('lrn') || set_value('school_id');
 			  ?>
 			  
@@ -345,7 +344,6 @@
                     </div>
                   </div>
 
-                  <!-- [Team Note - 2026-03-11] Student account section: toggle opens the optional LRN and School ID fields. -->
                   <div class="student-toggle-card">
                     <div class="student-toggle-copy">
                       <h5>Are you a student?</h5>
@@ -424,27 +422,19 @@
 			
           </div>
         </div>
-        <!-- content-wrapper ends -->
       </div>
-      <!-- page-body-wrapper ends -->
     </div>
-    <!-- container-scroller -->
-    <!-- plugins:js -->
     <script src="<?=base_url()?>assets/vendors/js/vendor.bundle.base.js"></script>
     <script src="<?=base_url()?>assets/vendors/js/vendor.bundle.addons.js"></script>
-	<!-- inject:js -->
     <script src="<?=base_url()?>assets/js/shared/off-canvas.js"></script>
     <script src="<?=base_url()?>assets/js/shared/misc.js"></script>
-    <!-- endinject -->
     <script>
-      // Button loading state
       document.querySelector('.auth-form').addEventListener('submit', function() {
         var submitBtn = document.querySelector('.auth-submit-btn');
         submitBtn.classList.add('loading');
         submitBtn.disabled = true;
       });
       
-      // [Team Note - 2026-03-11] Student account toggle: shows or hides the optional student identifier fields.
       (function () {
         var toggleButton = document.getElementById('studentToggleBtn');
         var removeWrap = document.getElementById('studentRemoveWrap');
