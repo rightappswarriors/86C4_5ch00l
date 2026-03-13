@@ -52,6 +52,11 @@ class Register extends CI_Controller {
 
 	private function build_register_data()
 	{
+		// Determine user type based on LRN or School ID
+		$lrn = $this->get_clean_post('lrn');
+		$school_id = $this->get_clean_post('school_id');
+		$usertype = (!empty($lrn) || !empty($school_id)) ? 'Student' : 'Parent';
+		
 		return array(
 			'emailadd'  => $this->get_clean_post('emailadd'),
 			'lastname'  => $this->get_clean_post('lastname'),
@@ -60,10 +65,10 @@ class Register extends CI_Controller {
 			'mobileno'  => $this->get_clean_post('mobileno'),
 			'userpass' => md5((string) $this->input->post('userpass')),
 			'dateadded'  => date("Y-m-d H:i:s"),
-			'usertype' => 'Parent',  // Default user type for portal registration
+			'usertype' => $usertype,  // Set to Student if LRN or School ID provided, otherwise Parent
 			'status' => 1,  // Active status
-			'lrn' => $this->get_clean_post('lrn'),
-			'school_id' => $this->get_clean_post('school_id')
+			'lrn' => $lrn,
+			'school_id' => $school_id
 		);
 	}
 

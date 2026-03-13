@@ -161,13 +161,31 @@ class Forgotpass_model extends CI_Model {
             'children' => $children
         );
     }
-    
+
     /**
      * Verify student identity by LRN or School ID
      * Returns student info and their parent account
      */
     function verify_student_identity($identifier) {
-        // Try to find by LRN first
+        // [Team Note - 2026-03-13] First check in register table for students who registered online
+        $this->db->where('lrn', $identifier);
+        $this->db->or_where('school_id', $identifier);
+        $this->db->where('usertype', 'Student');
+        $this->db->where('status', 1);
+        $register_query = $this->db->get('register');
+        
+        if ($register_query->num_rows() > 0) {
+            // Found student in register table (online registration)
+            $student_account = $register_query->row();
+            return array(
+                'status' => 'success',
+                'student' => $student_account,
+                'parent' => null,
+                'enrollment' => null
+            );
+        }
+        
+        // Try to find by LRN in students table
         $this->db->where('lrn', $identifier);
         $query = $this->db->get('students');
         
@@ -231,12 +249,16 @@ class Forgotpass_model extends CI_Model {
         }
         if ($query->num_rows() == 0) {
             // Second try: Find by parent name and birthdate directly (for users without linked students)
+            // [Team Note - 2026-03-13] Allow both Parent and Student usertype for flexibility
             $this->db->reset_query();
             $this->db->where('LOWER(firstname)', strtolower($firstname));
             $this->db->where('LOWER(lastname)', strtolower($lastname));
             $this->db->where('birthdate', $birthdate);
-            $this->db->where('usertype', 'Parent');
             $this->db->where('status', 1);
+            $this->db->group_start();
+            $this->db->where('usertype', 'Parent');
+            $this->db->or_where('usertype', 'Student');
+            $this->db->group_end();
             if (!empty($middlename)) {
                 $this->db->where('LOWER(middlename)', strtolower($middlename));
             }
@@ -247,8 +269,11 @@ class Forgotpass_model extends CI_Model {
                 $this->db->where('LOWER(firstname)', strtolower($firstname));
                 $this->db->where('LOWER(lastname)', strtolower($lastname));
                 $this->db->where('birthdate', $birthdate);
-                $this->db->where('usertype', 'Parent');
                 $this->db->where('status', 1);
+                $this->db->group_start();
+                $this->db->where('usertype', 'Parent');
+                $this->db->or_where('usertype', 'Student');
+                $this->db->group_end();
                 $query = $this->db->get('register');
             }
         }
@@ -274,7 +299,11 @@ class Forgotpass_model extends CI_Model {
         $this->db->from('register');
         $this->db->where('LOWER(register.firstname)', strtolower($firstname));
         $this->db->where('LOWER(register.lastname)', strtolower($lastname));
+        // [Team Note - 2026-03-13] Allow both Parent and Student usertype
+        $this->db->group_start();
         $this->db->where('register.usertype', 'Parent');
+        $this->db->or_where('register.usertype', 'Student');
+        $this->db->group_end();
         $this->db->where('register.status', 1);
         if (!empty($middlename)) {
             $this->db->where('LOWER(register.middlename)', strtolower($middlename));
