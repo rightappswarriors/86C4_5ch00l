@@ -9,20 +9,20 @@
     top: auto !important;
     width: 60px;
     height: 60px;
-    background: #c030f4;
+    background: #2196F3;
     border-radius: 50%;
     display: flex !important;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
     z-index: 99999 !important;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .floating-chat-icon:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    box-shadow: 0 6px 20px rgba(33, 150, 243, 0.6);
 }
 
 .floating-chat-icon i {
@@ -64,7 +64,7 @@
 }
 
 .chat-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
     color: white;
     padding: 15px;
     display: flex;
@@ -98,7 +98,7 @@
 }
 
 .chat-header-info .avatar i {
-    color: #667eea;
+    color: #2196F3;
     font-size: 20px;
 }
 
@@ -158,12 +158,12 @@
 .message-sender {
     font-size: 11px;
     font-weight: bold;
-    color: #667eea;
+    color: #2196F3;
     margin-bottom: 2px;
 }
 
 .message.support .message-bubble {
-    background: #667eea;
+    background: #2196F3;
     color: white;
     border-bottom-left-radius: 3px;
 }
@@ -204,7 +204,7 @@
 }
 
 .chat-input-area input:focus {
-    border-color: #667eea;
+    border-color: #2196F3;
 }
 
 .chat-input-area button {
@@ -212,7 +212,7 @@
     height: 40px;
     border-radius: 50%;
     border: none;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
     color: white;
     cursor: pointer;
     display: flex;
@@ -272,7 +272,7 @@
 
 .welcome-message i {
     font-size: 40px;
-    color: #667eea;
+    color: #2196F3;
     margin-bottom: 10px;
 }
 
@@ -323,11 +323,11 @@
 }
 
 .command-chip:hover {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
     color: white;
     border-color: transparent;
     transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
 }
 
 .command-chip:active {
@@ -384,7 +384,7 @@
     }
     
     .command-chip:hover {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
         color: white;
     }
     
