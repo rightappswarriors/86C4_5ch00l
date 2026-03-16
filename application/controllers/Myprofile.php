@@ -70,4 +70,24 @@ class Myprofile extends CI_Controller {
 		}		
 	}
 	
+	public function grades()
+	{
+		$data = array(
+			'title'     =>   'My Grades',
+			'template'   =>   'profile/grades'
+		);
+		
+		$this->load->view('template', $data);
+	}
+	
+	public function schedule()
+	{
+		$data = array(
+			'title'     =>   'Class Schedule',
+			'template'   =>   'profile/schedule'
+		);
+		
+		$this->load->view('template', $data);
+	}
+	
 }
