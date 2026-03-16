@@ -360,6 +360,44 @@ class Students_model extends CI_Model
 		return $this->db->query("select a.*,b.firstname,b.lastname from academics a left join register b on b.id = a.user_id where a.enroll_id = " . $enroll_id);
 	}
 
+	function getCurrentStudentRecord()
+	{
+		// Added for the student dashboard/My Profile quick-action pages.
+		// This resolves the logged-in account to the active student record.
+		$current_userid = (int) $this->session->userdata('current_userid');
+		$current_schoolyearid = (int) $this->session->userdata('current_schoolyearid');
+
+		$query = "select a.*,b.id as enroll_id,b.ableforpt,b.scholar,b.status as enrollstatus,b.strand,b.gradelevel,b.newold,b.admininterview
+			from students a
+			join enrolled b on b.studentid = a.id
+			where a.user_id = " . $current_userid . "
+			and b.deleted = 'no'
+			and b.schoolyear = " . $current_schoolyearid . "
+			order by b.id desc
+			limit 1";
+
+		$result = $this->db->query($query);
+		if ($result->num_rows() > 0) {
+			return $result;
+		}
+
+		// Fallback for newer direct student accounts that are matched by LRN or School ID.
+		$fallback_query = "select a.*,b.id as enroll_id,b.ableforpt,b.scholar,b.status as enrollstatus,b.strand,b.gradelevel,b.newold,b.admininterview
+			from students a
+			join enrolled b on b.studentid = a.id
+			join register r on r.id = " . $current_userid . "
+			where b.deleted = 'no'
+			and b.schoolyear = " . $current_schoolyearid . "
+			and (
+				(r.lrn is not null and r.lrn != '' and a.lrn = r.lrn)
+				or (r.school_id is not null and r.school_id != '' and (a.school_id = r.school_id or a.studentno = r.school_id))
+			)
+			order by b.id desc
+			limit 1";
+
+		return $this->db->query($fallback_query);
+	}
+
 	function remove_enroll($id = null)
 	{
 		$data = array('deleted' => "yes");

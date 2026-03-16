@@ -204,6 +204,20 @@
 }
 </style>
 
+<?php
+// Summary values below are used by the quick-action cards we added for student self-service pages.
+$subject_count = isset($current_student_subject_count) ? (int) $current_student_subject_count : 0;
+$payment_count = isset($current_student_payments_count) ? (int) $current_student_payments_count : 0;
+$enrollment_status = isset($current_student->enrollstatus) ? $current_student->enrollstatus : 'Pending';
+$grade_level = isset($current_student->gradelevel) ? $current_student->gradelevel : '-';
+$status_class = 'status-pending';
+if (strtolower((string) $enrollment_status) === 'active') {
+    $status_class = 'status-enrolled';
+} elseif (strtolower((string) $enrollment_status) === 'inactive') {
+    $status_class = 'status-not-enrolled';
+}
+?>
+
 <div class="col-md-12 grid-margin student-dashboard">
     <!-- Welcome Card -->
     <div class="welcome-card">
@@ -233,10 +247,10 @@
                     </a>
                 </div>
                 <div class="col-6 col-md-4">
-                    <a href="#" class="action-btn action-subjects">
+                    <a href="<?=site_url('myprofile/subjects')?>" class="action-btn action-subjects">
                         <i class="mdi mdi-book-open-page-variant"></i>
                         <span>My Subjects</span>
-                        <small style="opacity:0.8;font-size:0.7rem;">5 Subjects enrolled</small>
+                        <small style="opacity:0.8;font-size:0.7rem;"><?=$subject_count?> Subjects enrolled</small>
                     </a>
                 </div>
                 <div class="col-6 col-md-4">
@@ -247,17 +261,17 @@
                     </a>
                 </div>
                 <div class="col-6 col-md-4">
-                    <a href="#" class="action-btn action-payment">
+                    <a href="<?=site_url('myprofile/payments')?>" class="action-btn action-payment">
                         <i class="mdi mdi-credit-card"></i>
                         <span>Payments</span>
-                        <small style="opacity:0.8;font-size:0.7rem;">View balance</small>
+                        <small style="opacity:0.8;font-size:0.7rem;"><?=$payment_count?> Transactions</small>
                     </a>
                 </div>
                 <div class="col-6 col-md-4">
-                    <a href="#" class="action-btn action-enrollment">
+                    <a href="<?=site_url('myprofile/enrollment')?>" class="action-btn action-enrollment">
                         <i class="mdi mdi-file-document"></i>
                         <span>Enrollment</span>
-                        <small style="opacity:0.8;font-size:0.7rem;">Status: Enrolled</small>
+                        <small style="opacity:0.8;font-size:0.7rem;">Status: <?=$enrollment_status?></small>
                     </a>
                 </div>
             </div>
@@ -277,13 +291,13 @@
             <?php endif; ?>
             
             <div class="text-center mb-4">
-                <span class="status-badge status-enrolled">
-                    <i class="mdi mdi-check-circle"></i> Enrolled
+                <span class="status-badge <?=$status_class?>">
+                    <i class="mdi mdi-check-circle"></i> <?=$enrollment_status?>
                 </span>
             </div>
             
             <p style="text-align:center;">
-                <a href="#" type="button" class="btn btn-primary">
+                <a href="<?=site_url('myprofile/enrollment')?>" type="button" class="btn btn-primary">
                     <i class="mdi mdi-eye"></i> View Enrollment Details
                 </a>
             </p>
@@ -293,12 +307,12 @@
             <div class="row text-center">
                 <div class="col-6">
                     <h5 class="text-muted mb-2"><i class="mdi mdi-book"></i> Subjects</h5>
-                    <h3 class="fw-bold">0</h3>
+                    <h3 class="fw-bold"><?=$subject_count?></h3>
                     <small class="text-muted">Enrolled Subjects</small>
                 </div>
                 <div class="col-6">
                     <h5 class="text-muted mb-2"><i class="mdi mdi-gauge"></i> Grade Level</h5>
-                    <h3 class="fw-bold">-</h3>
+                    <h3 class="fw-bold"><?=$grade_level?></h3>
                     <small class="text-muted">Current Level</small>
                 </div>
             </div>

@@ -103,7 +103,7 @@
 </style>
 
 <div class="col-lg-12 grid-margin grades-container">
-	<a href="<?=site_url('students')?>" class="back-btn">
+	<a href="<?=site_url('dashboard')?>" class="back-btn">
 		<i class="mdi mdi-arrow-left"></i> Back to Dashboard
 	</a>
 

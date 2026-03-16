@@ -40,6 +40,27 @@ class Dashboard extends CI_Controller {
 		if($this->session->userdata('current_usertype') == 'Teacher'){
 			$data['query'] = $this->students_model->getRecentActive();
 		}
+		if($this->session->userdata('current_usertype') == 'Student'){
+			// Feed the student dashboard cards with live summary data for the new quick-action pages.
+			$current_student_query = $this->students_model->getCurrentStudentRecord();
+			if ($current_student_query->num_rows() > 0) {
+				$current_student = $current_student_query->row();
+				$data['current_student'] = $current_student;
+				$data['current_student_payments_count'] = $this->payments_model->getStudentPayments($current_student->id)->num_rows();
+				$data['current_student_subject_count'] = 0;
+
+				$query_ass = $this->students_model->assessment_check($current_student->enroll_id);
+				if ($query_ass->num_rows() > 0) {
+					$row_ass = $query_ass->row();
+					$fields = array('math','english','science','socstudies','wordbuilding','literature','filipino','afilipino','ap');
+					foreach ($fields as $field) {
+						if (!empty($row_ass->$field) && trim(str_replace(',', '', $row_ass->$field)) !== '') {
+							$data['current_student_subject_count']++;
+						}
+					}
+				}
+			}
+		}
 		
 		$this->load->view('template', $data);	
 		
