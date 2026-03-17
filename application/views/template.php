@@ -116,6 +116,11 @@
       <div class="container-fluid page-body-wrapper">
         <!-- partial:../../partials/_sidebar.html -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <div class="sidebar-toggle-wrap">
+            <button class="sidebar-text-toggle sidebar-text-toggle-top" type="button" aria-label="Toggle sidebar text">
+              <span class="mdi mdi-menu"></span>
+            </button>
+          </div>
           <ul class="nav">
             <li class="nav-item nav-profile">
               <a href="<?=site_url("myprofile")?>" class="nav-link">
@@ -167,6 +172,22 @@
     <script src="<?=base_url()?>assets/js/shared/off-canvas.js"></script>
     <script src="<?=base_url()?>assets/js/shared/misc.js"></script>
     <script src="<?=base_url()?>assets/js/jquery.dataTables.min.js"></script>
+    <script>
+      $(function () {
+        var sidebarToggleKey = 'sidebarTextHidden';
+        var $body = $('body');
+        var $sidebarToggle = $('.sidebar-text-toggle');
+
+        if (localStorage.getItem(sidebarToggleKey) === '1') {
+          $body.addClass('sidebar-text-hidden');
+        }
+
+        $sidebarToggle.on('click', function () {
+          $body.toggleClass('sidebar-text-hidden');
+          localStorage.setItem(sidebarToggleKey, $body.hasClass('sidebar-text-hidden') ? '1' : '0');
+        });
+      });
+    </script>
     <!-- endinject -->
     <!-- Custom js for this page-->
     <!-- End custom js for this page-->

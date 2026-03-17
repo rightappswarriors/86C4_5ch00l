@@ -413,6 +413,84 @@
   -webkit-transition: width 0.25s ease, background 0.25s ease;
   -moz-transition: width 0.25s ease, background 0.25s ease;
   -ms-transition: width 0.25s ease, background 0.25s ease; }
+
+.sidebar-toggle-wrap {
+  display: block;
+  padding: 14px 0 0 24px; }
+
+.sidebar-text-toggle {
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  padding: 4px;
+  cursor: pointer; }
+
+.sidebar-text-toggle:focus {
+  outline: none; }
+
+.sidebar-text-toggle-top {
+  font-size: 22px;
+  padding: 0; }
+
+.sidebar,
+.main-panel {
+  transition: width 0.3s ease, margin 0.3s ease, flex-basis 0.3s ease; }
+
+.sidebar > .nav .nav-item.nav-profile,
+.sidebar > .nav .nav-item.nav-category,
+.sidebar > .nav .nav-item .nav-link .menu-title,
+.sidebar > .nav .nav-item .nav-link .menu-arrow,
+.sidebar > .nav .nav-item .collapse,
+.sidebar > .nav .nav-item .collapsing {
+  transition: opacity 0.25s ease, transform 0.25s ease, max-height 0.25s ease, margin 0.25s ease, padding 0.25s ease;
+  overflow: hidden; }
+
+@media (min-width: 992px) {
+  body.sidebar-text-hidden .sidebar {
+    width: 72px; }
+
+  body.sidebar-text-hidden .main-panel {
+    width: calc(100% - 72px); }
+
+  body.sidebar-text-hidden .sidebar-toggle-wrap {
+    padding-left: 0;
+    text-align: center; }
+
+  body.sidebar-text-hidden .sidebar > .nav .nav-item.nav-profile {
+    max-height: 0;
+    opacity: 0;
+    transform: translateX(-24px);
+    margin-top: 0;
+    margin-bottom: 0;
+    pointer-events: none; }
+
+  body.sidebar-text-hidden .sidebar > .nav .nav-item.nav-category,
+  body.sidebar-text-hidden .sidebar > .nav .nav-item .nav-link .menu-title,
+  body.sidebar-text-hidden .sidebar > .nav .nav-item .nav-link .menu-arrow,
+  body.sidebar-text-hidden .sidebar > .nav .nav-item .collapse,
+  body.sidebar-text-hidden .sidebar > .nav .nav-item .collapsing {
+    max-height: 0 !important;
+    opacity: 0;
+    transform: translateX(-24px);
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    border-bottom-width: 0;
+    pointer-events: none; }
+
+  body.sidebar-text-hidden .sidebar > .nav > .nav-item > .nav-link {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0; }
+
+  body.sidebar-text-hidden .sidebar > .nav > .nav-item:not(.nav-profile) > .nav-link:before {
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%); }
+}
   .sidebar > .nav {
     overflow: hidden;
     -ms-flex-wrap: nowrap;
