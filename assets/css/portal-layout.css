@@ -1,0 +1,17 @@
+@media (min-width: 992px) {
+  .sidebar.sidebar-offcanvas {
+    position: fixed;
+    top: 63px;
+    left: 0;
+    bottom: 0;
+    overflow-y: auto;
+  }
+
+  .main-panel {
+    margin-left: 270px;
+  }
+
+  body.sidebar-text-hidden .main-panel {
+    margin-left: 72px;
+  }
+}

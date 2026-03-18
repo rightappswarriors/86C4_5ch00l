@@ -30,10 +30,11 @@
     <!-- endinject -->
     <!-- Layout styles -->
     <link rel="stylesheet" href="<?=base_url()?>assets/css/demo_1/style.css">
+    <link rel="stylesheet" href="<?=base_url()?>assets/css/portal-layout.css">
     <!-- End Layout styles -->
     <link rel="shortcut icon" href="<?=base_url()?>assets/images/favicon.png" />
   	
-	<script>
+    <script>
 	
 	$(function(){
 		
@@ -59,9 +60,11 @@
       <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
           <a class="navbar-brand brand-logo" href="<?=site_url("dashboard")?>">
-            <img src="<?=base_url()?>assets/images/dashboard_logo.png" alt="logo" /> </a>
+            <img src="<?=base_url()?>assets/images/dashboard_logo.png" alt="logo" />
+          </a>
           <a class="navbar-brand brand-logo-mini" href="<?=site_url("dashboard")?>">
-            <img src="<?=base_url()?>assets/images/logo-mini.svg" alt="logo" /> </a>
+            <img src="<?=base_url()?>assets/images/logo-mini.svg" alt="logo" />
+          </a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-center">
           <!-- SCHOOL YEAR Options -->
