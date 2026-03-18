@@ -316,11 +316,11 @@
 			</div>
 			<div class="col-md-6">
 			  <div class="form-group row">
-				<label class="col-sm-3 col-form-label">Work Phone #</label>
-				<div class="col-sm-9">
-				  <input type="text" name="father_contact1" value="<?=set_value('father_contact1',$row->father_contact1)?>" class="form-control" />
+					<label class="col-sm-3 col-form-label">Work Phone #</label>
+					<div class="col-sm-9">
+				  	  <input type="text" name="father_contact1" value="<?=set_value('father_contact1',$row->father_contact1)?>" class="form-control" />
+					</div>
 				</div>
-			  </div>
 			</div>
 		  </div>
 		  <div class="row">
@@ -329,6 +329,16 @@
 				<label class="col-sm-3 col-form-label">Personal Cell #</label>
 				<div class="col-sm-9">
 				  <input type="text" name="father_contact2" value="<?=set_value('father_contact2',$row->father_contact2)?>" class="form-control" />
+				</div>
+			  </div>
+			</div>
+		  </div>
+		  <div class="row">
+			<div class="col-md-6">
+			  <div class="form-group row">
+				<label class="col-sm-3 col-form-label">FB Messenger</label>
+				<div class="col-sm-9">
+				  <input type="text" name="father_fbmessenger" value="<?=set_value('father_fbmessenger',$row->father_fbmessenger)?>" class="form-control" />
 				</div>
 			  </div>
 			</div>
@@ -410,6 +420,16 @@
 			  </div>
 			</div>
 		  </div>
+		  <div class="row">
+			<div class="col-md-6">
+			  <div class="form-group row">
+				<label class="col-sm-3 col-form-label">FB Messenger</label>
+				<div class="col-sm-9">
+				  <input type="text" name="mother_fbmessenger" value="<?=set_value('mother_fbmessenger',$row->mother_fbmessenger)?>" class="form-control" />
+				</div>
+			  </div>
+			</div>
+		  </div>
 		 
 		  <p class="card-description text-info"> Emergency Contact: (Other than Parent) </p>
 		  <div class="row">
@@ -448,7 +468,7 @@
 			</div>
 			<div class="col-md-6">
 			  <div class="form-group row">
-				<label class="col-sm-3 col-form-label">Work Phone No.</label>
+				<label class="col-sm-3 col-form-label">Parent's Work Phone No.</label>
 				<div class="col-sm-9">
 				  <input type="text" name="work_phone" value="<?=set_value('work_phone',$row->work_phone)?>" class="form-control" />
 				</div>

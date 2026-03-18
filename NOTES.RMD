@@ -86,3 +86,7 @@ ALTER TABLE `register`
 ADD COLUMN `birthdate` DATE NULL AFTER `lastname`,
 ADD COLUMN `lrn` VARCHAR(20) NULL AFTER `birthdate`,
 ADD COLUMN `school_id` VARCHAR(20) NULL AFTER `lrn`;
+
+
+-- ADD A NEW COLUMN ON THE students
+ALTER TABLE `students` ADD `mother_fbmessenger` VARCHAR(255) NULL AFTER `father_fbmessenger`;

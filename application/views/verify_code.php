@@ -55,7 +55,7 @@
                   
                   <div class="delivery-info">
                     <p><i class="mdi mdi-email-outline"></i> Email: <strong><?=$masked_email?></strong></p>
-                    <p><i class="mdi mdi-cellphone"></i> Phone: <strong><?=$masked_mobile?></strong></p>
+                    <!-- <p><i class="mdi mdi-cellphone"></i> Phone: <strong><?=$masked_mobile?></strong></p> -->
                   </div>
                   
                   <form action="<?=site_url('login/verify_code_submit')?>" method="post">
@@ -71,12 +71,12 @@
                       </div>
                       
                       <div class="text-center mt-3">
-                          <p class="countdown">Resend code in <span id="countdown">60</span> seconds</p>
+                          <p class="countdown">Resend code in <span id="countdown">180</span> seconds</p>
                           <p><a href="javascript:void(0)" class="resend-link disabled" id="resend-link"><i class="mdi mdi-refresh"></i> Resend Code</a></p>
                       </div>
                       
                       <div class="form-group mt-3">
-                        <a href="<?=site_url("login/cancel_reset")?>" class="auth-submit-btn auth-submit-btn-outline btn-block">
+                        <a href="<?=site_url("login/cancel_reset")?>" class="auth-submit-btn auth-submit-btn-outline btn-block text-center">
                           <i class="mdi mdi-close mr-2"></i> Cancel
                         </a>
                       </div>
@@ -99,11 +99,11 @@
             $('#code').focus();
             $('#code').on('input', function(e) { this.value = this.value.replace(/[^0-9]/g, ''); });
             
-            var countdownSeconds = 60;
+            var countdownSeconds = 180;
             var countdownInterval;
             
             function startCountdown() {
-                countdownSeconds = 60;
+                countdownSeconds = 180;
                 $('#countdown').text(countdownSeconds);
                 $('#resend-link').addClass('disabled');
                 

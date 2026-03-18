@@ -267,9 +267,9 @@
 		  <div class="parent-info-block">
 		  <div class="row">
 			<div class="col-md-12">
-			  <div class="form-group row">
-				<label class="col-sm-4 col-form-label label-title">Father Information</label>
-				<div class="col-sm-8"></div>
+			  <div class="">
+				  <p class="card-description text-info"> Father's Information </p>
+				<div class=></div>	
 			  </div>
 			</div>
 		  </div>
@@ -318,11 +318,24 @@
 				</div>
 			  </div>
 			</div>
+						<!-- ADDED: Father FB Messenger -->
 			<div class="col-md-6">
 			  <div class="form-group row">
-				<label class="col-sm-4 col-form-label">Work Phone #</label>
+				<label class="col-sm-4 col-form-label">FB Messenger</label>
 				<div class="col-sm-8">
-				  <?=$row->father_contact1?>
+				  <?php if(!empty($row->father_fbmessenger)): ?>
+				    <?php 
+				      $fb_link = $row->father_fbmessenger;
+				      if (strpos($fb_link, 'http') === false) {
+				          $fb_link = "https://www.facebook.com/search/top/?q=" . urlencode($fb_link);
+				      }
+				    ?>
+				    <a href="<?= $fb_link ?>" target="_blank" style="color:#1877F2;text-decoration:none;display:inline-flex;align-items:center;gap:5px;">
+				      <i class="mdi mdi-facebook"></i> <?=$row->father_fbmessenger?>
+				    </a>
+				  <?php else: ?>
+				    <span class="text-muted">-</span>
+				  <?php endif; ?>
 				</div>
 			  </div>
 			</div>
@@ -341,9 +354,9 @@
 		  
 		  <div class="row">
 			<div class="col-md-12">
-			  <div class="form-group row">
-				<label class="col-sm-4 col-form-label label-title">Mother Information</label>
-				<div class="col-sm-8"></div>
+			  <div class="">
+				<p class="card-description text-info"> Mother's Information </p>
+				<div class=""></div>
 			  </div>
 			</div>
 		  </div>
@@ -392,6 +405,27 @@
 				</div>
 			  </div>
 			</div>
+			<!-- ADDED: Mother FB Messenger -->
+			<div class="col-md-6">
+			  <div class="form-group row">
+				<label class="col-sm-4 col-form-label">FB Messenger</label>
+				<div class="col-sm-8">
+				  <?php if(!empty($row->mother_fbmessenger)): ?>
+				    <?php 
+				      $fb_link = $row->mother_fbmessenger;
+				      if (strpos($fb_link, 'http') === false) {
+				          $fb_link = "https://www.facebook.com/search/top/?q=" . urlencode($fb_link);
+				      }
+				    ?>
+				    <a href="<?= $fb_link ?>" target="_blank" style="color:#1877F2;text-decoration:none;display:inline-flex;align-items:center;gap:5px;">
+				      <i class="mdi mdi-facebook"></i> <?=$row->mother_fbmessenger?>
+				    </a>
+				  <?php else: ?>
+				    <span class="text-muted">-</span>
+				  <?php endif; ?>
+				</div>
+			  </div>
+			</div>
 		  </div>
 		  
 		  
@@ -408,9 +442,9 @@
 			</div>
 			<div class="col-md-6">
 			  <div class="form-group row">
-				<label class="col-sm-4 col-form-label">FB Private Messenger Name</label>
+				<label class="col-sm-4 col-form-label">Personal Cell #</label>
 				<div class="col-sm-8">
-				  <?=$row->fbmessenger?>
+				   <?=$row->mother_contact2?>
 				</div>
 			  </div>
 			</div>
@@ -430,20 +464,11 @@
 			  <div class="form-group row">
 				<label class="col-sm-4 col-form-label">Work Phone #</label>
 				<div class="col-sm-8">
-				  <?=$row->mother_contact1?>
+				  <?=$row->work_phone?>
 				</div>
 			  </div>
 			</div>
-		  </div>
-		  <div class="row">
-			<div class="col-md-6">
-			  <div class="form-group row">
-				<label class="col-sm-4 col-form-label">Personal Cell #</label>
-				<div class="col-sm-8">
-				  <?=$row->mother_contact2?>
-				</div>
-			  </div>
-			</div>
+			
 		  </div>
 		 
 		  <p class="card-description text-info"> Emergency Contact: (Other than Parent) </p>
@@ -476,9 +501,9 @@
 			</div>
 			<div class="col-md-6">
 			  <div class="form-group row">
-				<label class="col-sm-4 col-form-label">Work Phone No.</label>
+				<label class="col-sm-4 col-form-label">Home Landline</label>
 				<div class="col-sm-8">
-				  <?=$row->work_phone?>
+				  <?=$row->other_homelandline?>
 				</div>
 			  </div>
 			</div>
@@ -489,14 +514,6 @@
 				<label class="col-sm-4 col-form-label"> Personal Cell No.</label>
 				<div class="col-sm-8">
 				  <?=$row->personal_cell?>
-				</div>
-			  </div>
-			</div>
-			<div class="col-md-6">
-			  <div class="form-group row">
-				<label class="col-sm-4 col-form-label">Home Landline</label>
-				<div class="col-sm-8">
-				  <?=$row->other_homelandline?>
 				</div>
 			  </div>
 			</div>
@@ -566,9 +583,9 @@
 				</div>
 			  </div>
 			</div>
-			
-		  </div>
-		  
+			  
+		</div>
+
 	  </div>
 	</div> 
 	

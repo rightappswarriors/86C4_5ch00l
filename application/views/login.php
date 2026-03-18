@@ -18,6 +18,7 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="<?=base_url()?>assets/css/shared/style.css">
     <link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/auth.css">
+    <link rel="stylesheet" href="<?=base_url()?>assets/css/login.css">
 	<link rel="shortcut icon" href="<?=base_url()?>assets/images/favicon.png" />
   </head>
   <body>
@@ -51,22 +52,8 @@
                 ?>
 			  
                 <form method="POST" action="<?=site_url("login/validation")?>" class="auth-form">
-                  <!-- [Team Note - 2026-03-09] Login identifier selector (LRN / School ID / Email / Phone) -->
-                  <div class="form-group">
-                    <label class="form-label">Login Using</label>
-                    <div class="input-group">
-                      <select name="login_type" id="login_type" class="form-control login-type-select">
-                        <?php $selected_login_type = set_value('login_type', 'email'); ?>
-                        <option value="email" <?=($selected_login_type === 'email' ? 'selected' : '')?>>Email Address</option>
-                        <option value="mobile" <?=($selected_login_type === 'mobile' ? 'selected' : '')?>>Phone Number</option>
-                      </select>
-                      <div class="input-group-append">
-                        <span class="input-group-text">
-                          <i class="mdi mdi-format-list-bulleted"></i>
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                  <!-- Hidden input to store the selected login method -->
+                  <input type="hidden" name="login_type" id="login_type" value="email">
                   <div class="form-group">
                     <label class="form-label" id="login_identifier_label">Email Address</label>
                     <div class="input-group">
@@ -97,6 +84,23 @@
                     </div>
                     <a href="<?=site_url("login/forgotpass_gate")?>" class="forgot-password">Forgot Password?</a>
                   </div>
+
+                  <!-- Login Method Icon Selector below Remember Me -->
+                  <div class="form-group login-method-selector-bottom">
+                    <label class="form-label">Select Login Method</label>
+                    <div class="login-method-icons">
+                      <button type="button" class="login-method-btn active" data-method="email" title="Login with Email">
+                        <i class="mdi mdi-gmail"></i>
+                      </button>
+                      <button type="button" class="login-method-btn" data-method="mobile" title="Login with Phone Number">
+                        <i class="mdi mdi-phone"></i>
+                      </button>
+                      <button type="button" class="login-method-btn" data-method="facebook" title="Login with Facebook">
+                        <i class="mdi mdi-facebook"></i>
+                      </button>
+                    </div>
+                  </div>
+
 				  <div class="form-group mt-4">
                     <button type="submit" class="auth-submit-btn" name="login">
                       <i class="mdi mdi-login mr-2"></i> Login
@@ -129,13 +133,13 @@
     <script src="<?=base_url()?>assets/js/shared/misc.js"></script>
     <script>
       (function () {
-        // [Team Note - 2026-03-09]
-        // Keeps login identifier label/placeholder synced with selected login type.
-        var loginType = document.getElementById('login_type');
+        // Login method icon button functionality
+        var loginMethodBtns = document.querySelectorAll('.login-method-btn');
         var identifierLabel = document.getElementById('login_identifier_label');
         var identifierInput = document.getElementById('login_identifier');
-
-        if (!loginType || !identifierLabel || !identifierInput) {
+        var loginTypeInput = document.getElementById('login_type');
+        
+        if (!loginMethodBtns.length || !identifierLabel || !identifierInput) {
           return;
         }
 
@@ -147,17 +151,39 @@
           mobile: {
             label: 'Phone Number',
             placeholder: 'Enter your Phone Number'
+          },
+          facebook: {
+            label: 'Facebook Username',
+            placeholder: 'Enter your Facebook Username'
           }
         };
 
-        function applyLoginType() {
-          var selected = loginConfig[loginType.value] || loginConfig.email;
-          identifierLabel.textContent = selected.label;
-          identifierInput.placeholder = selected.placeholder;
+        function applyLoginMethod(method) {
+          // Update active button
+          loginMethodBtns.forEach(function(btn) {
+            btn.classList.remove('active');
+            if (btn.dataset.method === method) {
+              btn.classList.add('active');
+            }
+          });
+          
+          // Update label and placeholder
+          var config = loginConfig[method] || loginConfig.email;
+          identifierLabel.textContent = config.label;
+          identifierInput.placeholder = config.placeholder;
+          
+          // Update hidden login_type input for form submission
+          if (loginTypeInput) {
+            loginTypeInput.value = method;
+          }
         }
 
-        loginType.addEventListener('change', applyLoginType);
-        applyLoginType();
+        // Add click event to buttons
+        loginMethodBtns.forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            applyLoginMethod(this.dataset.method);
+          });
+        });
       })();
     </script>
     <!-- endinject -->

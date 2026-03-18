@@ -393,7 +393,7 @@ $(function(){
 			<div class="col-md-4">
 				<div class="form-group">
 					<label class="form-label">FB Messenger</label>
-					<input type="text" name="fbmessenger" value="<?=set_value('fbmessenger')?>" class="form-control" placeholder="Enter FB Messenger Name" />
+					<input type="text" name="mother_fbmessenger" value="<?=set_value('mother_fbmessenger')?>" class="form-control" placeholder="Enter FB Messenger Name" />
 				</div>
 			</div>
 		  </div>
@@ -438,6 +438,13 @@ $(function(){
 					<input type="text" name="place_employment" value="<?=set_value('place_employment')?>" class="form-control" placeholder="Enter Place of Employment" />
 				</div>
 			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label class="form-label">Parent's Work Phone</label>
+					<input type="text" name="work_phone" value="<?=set_value('work_phone')?>" class="form-control" placeholder="Enter Parent's Work Phone" />
+				</div>
+			</div>
+			
 			<div class="col-md-4">
 				<div class="form-group">
 					<label class="form-label">Home Landline</label>
