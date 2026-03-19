@@ -152,6 +152,11 @@
 		background: #f9fafb;
 		color: #6b7280;
 	}
+	.form-control[readonly] {
+		background: #f9fafb;
+		color: #6b7280;
+		cursor: not-allowed;
+	}
 	.save-btn {
 		background: linear-gradient(135deg, #10b981 0%, #059669 100%);
 		border: none;
@@ -301,10 +306,8 @@
 				</div>
 			</div>
 
-			<div style="text-align: center; margin-top: 1.5rem;">
-				<button type="button" class="edit-btn" onclick="toggleEditForm()">
-					<i class="mdi mdi-pencil"></i> Edit Profile
-				</button>
+			<div class="alert-success" style="background: #eff6ff; color: #1d4ed8; margin-top: 1.5rem;">
+				<i class="mdi mdi-shield-account"></i> Profile updates and password changes require admin permission first.
 			</div>
 		</div>
 	</div>
@@ -316,10 +319,14 @@
 				<i class="mdi mdi-pencil"></i>
 			</div>
 			<h3>Edit Profile</h3>
-			<p>Update your information below</p>
+			<p>All profile changes require admin approval</p>
 		</div>
 		<div class="profile-body">
 			<?=validation_errors()?>
+
+			<div class="alert-success" style="background: #eff6ff; color: #1d4ed8;">
+				<i class="mdi mdi-shield-account"></i> Your profile is view-only. Please ask the admin for permission before changing any information or password.
+			</div>
 
 			<form class="enroll-form" action="<?=site_url("myprofile/updateinfo_submit/")?>" method="POST">
 				<div class="enroll-section">
@@ -345,13 +352,13 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label class="form-label">First Name</label>
-							<input type="text" name="firstname" value="<?= set_value('firstname',$row->firstname) ?>" class="form-control" placeholder="Enter First Name" />
+							<input type="text" name="firstname" value="<?= set_value('firstname',$row->firstname) ?>" class="form-control" placeholder="Enter First Name" readonly />
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label class="form-label">Last Name</label>
-							<input type="text" name="lastname" value="<?= set_value('lastname',$row->lastname) ?>" class="form-control" placeholder="Enter Last Name" />
+							<input type="text" name="lastname" value="<?= set_value('lastname',$row->lastname) ?>" class="form-control" placeholder="Enter Last Name" readonly />
 						</div>
 					</div>
 				</div>
@@ -360,7 +367,7 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label class="form-label">E-mail</label>
-							<input type="text" name="emailadd" value="<?= set_value('emailadd',$row->emailadd) ?>" class="form-control" placeholder="Enter Email Address" />
+							<input type="text" name="emailadd" value="<?= set_value('emailadd',$row->emailadd) ?>" class="form-control" placeholder="Enter Email Address" readonly />
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -379,13 +386,13 @@
 					<div class="col-md-6">
 						<div class="form-group">
 							<label class="form-label">New Password</label>
-							<input type="password" name="cpassword" value="" class="form-control" placeholder="Enter New Password" />
+							<input type="password" name="cpassword" value="" class="form-control" placeholder="Ask admin to change password" readonly />
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label class="form-label">Repeat New Password</label>
-							<input type="password" name="rpassword" value="" class="form-control" placeholder="Repeat New Password" />
+							<input type="password" name="rpassword" value="" class="form-control" placeholder="Ask admin to change password" readonly />
 						</div>
 					</div>
 				</div>
@@ -394,8 +401,8 @@
 					<button type="button" class="cancel-btn" onclick="toggleEditForm()">
 						<i class="mdi mdi-close"></i> Cancel
 					</button>
-					<button type="submit" class="save-btn" name="submit" value="UPDATE">
-						<i class="mdi mdi-check"></i> Save Changes
+					<button type="submit" class="save-btn" name="submit" value="UPDATE" disabled>
+						<i class="mdi mdi-check"></i> Admin Approval Required
 					</button>
 				</div>
 			</form>

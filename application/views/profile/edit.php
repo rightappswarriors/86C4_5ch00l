@@ -43,7 +43,7 @@
 		<form class="enroll-form" action="<?=site_url("myprofile/updateinfo_submit/")?>" method="POST">
 		  
 		  <div class="enroll-instruction">
-			<i class="mdi mdi-information-outline"></i> Please update your profile information.
+			<i class="mdi mdi-information-outline"></i> Your profile is view-only. Any changes, including password updates, require admin permission first.
 		  </div>
 
 		  <div class="enroll-section">
@@ -69,13 +69,13 @@
 			<div class="col-md-6">
 				<div class="form-group">
 					<label class="form-label">First Name</label>
-					<input type="text" name="firstname" value="<?= set_value('firstname',$row->firstname) ?>" class="form-control" placeholder="Enter First Name" />
+					<input type="text" name="firstname" value="<?= set_value('firstname',$row->firstname) ?>" class="form-control" placeholder="Enter First Name" readonly />
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="form-group">
 					<label class="form-label">Last Name</label>
-					<input type="text" name="lastname" value="<?= set_value('lastname',$row->lastname) ?>" class="form-control" placeholder="Enter Last Name" />
+					<input type="text" name="lastname" value="<?= set_value('lastname',$row->lastname) ?>" class="form-control" placeholder="Enter Last Name" readonly />
 				</div>
 			</div>
 		  </div>
@@ -84,7 +84,7 @@
 			<div class="col-md-6">
 				<div class="form-group">
 					<label class="form-label">E-mail</label>
-					<input type="text" name="emailadd" value="<?= set_value('emailadd',$row->emailadd) ?>" class="form-control" placeholder="Enter Email Address" />
+					<input type="text" name="emailadd" value="<?= set_value('emailadd',$row->emailadd) ?>" class="form-control" placeholder="Enter Email Address" readonly />
 				</div>
 			</div>
 			<div class="col-md-6">
@@ -122,19 +122,19 @@
 			<div class="col-md-6">
 				<div class="form-group">
 					<label class="form-label">Change Password</label>
-					<input type="password" name="cpassword" value="" class="form-control" placeholder="Enter New Password" />
+					<input type="password" name="cpassword" value="" class="form-control" placeholder="Ask admin to change password" readonly />
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="form-group">
 					<label class="form-label">Repeat New Password</label>
-					<input type="password" name="rpassword" value="" class="form-control" placeholder="Repeat New Password" />
+					<input type="password" name="rpassword" value="" class="form-control" placeholder="Ask admin to change password" readonly />
 				</div>
 			</div>
 		  </div>
 		  
 		  <div style="text-align:center;margin:0 auto; margin-top: 20px;">
-		  <input type="submit" class="btn btn-lg btn-success" name="submit" value="UPDATE">
+		  <input type="submit" class="btn btn-lg btn-secondary" name="submit" value="ADMIN APPROVAL REQUIRED" disabled>
 		  </div>
 
 		</form>

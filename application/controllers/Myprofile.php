@@ -35,41 +35,8 @@ class Myprofile extends CI_Controller {
 	
 	public function updateinfo_submit()
 	{
-		$id = $this->session->userdata('current_userid');
-		
-		$this->form_validation->set_rules('firstname', 'First Name', 'required|trim');
-		$this->form_validation->set_rules('emailadd', 'E-mail', 'required|trim|valid_email');
-		$this->form_validation->set_rules('lastname', 'Last Name', 'required|trim');
-		$this->form_validation->set_rules('cpassword', 'New Password', 'trim|matches[rpassword]');
-		$this->form_validation->set_rules('rpassword', 'Repeat Password', 'trim');
-	
-		$this->form_validation->set_error_delimiters('<div class="text-danger" style="margin-bottom:10px;">', '</div>');
-		
-		if($this->form_validation->run())
-		{
-			
-			$data = array(
-				'emailadd'  => $this->input->post('emailadd'),
-				'lastname'  => $this->input->post('lastname'),
-				'firstname'  => $this->input->post('firstname')
-			);
-			
-			if( strlen(trim($this->input->post('cpassword')))>0 ){
-				$data['userpass'] = md5($this->input->post('cpassword'));
-			}
-			
-			$this->profile_model->updateinfo($data);
-			
-			//message successful	
-			$this->session->set_flashdata('message', "Successfully updated your profile!");
-			$this->session->set_userdata('current_firstname', $this->input->post('firstname'));
-			redirect("myprofile");
-			
-			
-		}else{
-			
-			$this->index();
-		}		
+		$this->session->set_flashdata('message', "Changes to your profile, including password updates, require admin permission first.");
+		redirect("myprofile");
 	}
 	
 	public function grades()

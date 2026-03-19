@@ -6,6 +6,7 @@
 	$def_assessment = $default_ass->row();
 	$indntals_list = explode(",",$def_assessment->incidentals);
 	$msclns_list = explode(",",$def_assessment->miscellaneous);
+	$can_view_detailed_soa = !empty($can_view_detailed_soa);
 	
 	// ASSESSMENT
 	if($query_ass->num_rows()>0){
@@ -383,17 +384,26 @@
 					<?php
 					$tmsclns = 0;
 					foreach($msclns_list as $ind=>$msclns_val):
-						if(isset($msclns[$ind]) && $msclns[$ind]>0):
-						$tmsclns += $msclns[$ind];
+						$misc_value = isset($msclns[$ind]) ? (float) $msclns[$ind] : 0;
+						if($misc_value > 0):
+						$tmsclns += $misc_value;
+						if($can_view_detailed_soa):
 					?>
 					<div class="info-row">
 						<div class="info-label"><?=$msclns_val?></div>
-						<div class="info-value text-right"><?=number_format($msclns[$ind])?></div>
+						<div class="info-value text-right"><?=number_format($misc_value,2)?></div>
 					</div>
 					<?php
 						endif;
+						endif;
 					endforeach;
+					if(!$can_view_detailed_soa):
 					?>
+					<div class="info-row">
+						<div class="info-label">Miscellaneous Total</div>
+						<div class="info-value text-right"><?=number_format($tmsclns,2)?></div>
+					</div>
+					<?php endif; ?>
 					<hr>
 					<table width="100%">
 						<tr>
@@ -439,6 +449,7 @@
 		
 	</div>
 	
+	<?php if($can_view_detailed_soa): ?>
 	<!-- Payment History -->
 	<div class="card">
 		<div class="card-header">
@@ -490,6 +501,7 @@
 			</table>
 		</div>
 	</div>
+	<?php endif; ?>
 	
 	<!-- Footer -->
 	<div style="margin-top: 30px; text-align: center; color: #666; font-size: 12px;">

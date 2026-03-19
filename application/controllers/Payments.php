@@ -39,7 +39,8 @@ class Payments extends CI_Controller {
 			'query_ass' => $this->students_model->assessment_check( $enroll_id ),
 			'default_ass' => $this->payments_model->default_assessment(),
 			'query_payments' => $this->payments_model->getStudentPaymentsPaid( $studentid,$enroll_id ),
-			'paid_enroll' => $this->payments_model->getStudentPaymentsPaidEnroll( $studentid,$enroll_id )
+			'paid_enroll' => $this->payments_model->getStudentPaymentsPaidEnroll( $studentid,$enroll_id ),
+			'can_view_detailed_soa' => $this->can_view_detailed_soa()
 		);
 		$this->load->view('template', $data);	
 		
@@ -56,7 +57,8 @@ class Payments extends CI_Controller {
 			'query_ass' => $this->students_model->assessment_check( $enroll_id ),
 			'default_ass' => $this->payments_model->default_assessment(),
 			'query_payments' => $this->payments_model->getStudentPaymentsPaid( $studentid,$enroll_id ),
-			'paid_enroll' => $this->payments_model->getStudentPaymentsPaidEnroll( $studentid,$enroll_id )
+			'paid_enroll' => $this->payments_model->getStudentPaymentsPaidEnroll( $studentid,$enroll_id ),
+			'can_view_detailed_soa' => $this->can_view_detailed_soa()
 		);
 		$this->load->view('template_print', $data);	
 		
@@ -292,6 +294,13 @@ class Payments extends CI_Controller {
 			$this->session->set_flashdata('message', "Successfully updated!");
 			redirect("students/details/".$studentid);
 		}
+	}
+
+	private function can_view_detailed_soa()
+	{
+		$current_usertype = (string) $this->session->userdata('current_usertype');
+
+		return $current_usertype === 'Admin';
 	}
 	
 }

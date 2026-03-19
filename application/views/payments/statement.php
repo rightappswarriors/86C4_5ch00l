@@ -6,6 +6,7 @@
 	$def_assessment = $default_ass->row();
 	$indntals_list = explode(",",$def_assessment->incidentals);
 	$msclns_list = explode(",",$def_assessment->miscellaneous);
+	$can_view_detailed_soa = !empty($can_view_detailed_soa);
 	
 	// ASSESSMENT
 	if($query_ass->num_rows()>0){
@@ -157,17 +158,26 @@
 					<?php
 				$tmsclns = 0;
 				foreach($msclns_list as $ind=>$msclns_val):
-					if($msclns[$ind]>0){
-					$tmsclns += $msclns[$ind];
+					$misc_value = isset($msclns[$ind]) ? (float) $msclns[$ind] : 0;
+					if($misc_value > 0){
+					$tmsclns += $misc_value;
+					if ($can_view_detailed_soa):
 				?>
 				<div class="row">
 					<label class="col-sm-6 col-form-label"><code class="text-info"><?=$msclns_val?></code></label>
-					<div class="col-sm-6 text-right"><code class="text-info"><?=number_format($msclns[$ind])?></code></div>
+					<div class="col-sm-6 text-right"><code class="text-info"><?=number_format($misc_value,2)?></code></div>
 				</div>
 				<?php
+					endif;
 					}
 				endforeach;
+				if (!$can_view_detailed_soa):
 				?>
+				<div class="row">
+					<label class="col-sm-6 col-form-label"><code class="text-info">Miscellaneous Total</code></label>
+					<div class="col-sm-6 text-right"><code class="text-info"><?=number_format($tmsclns,2)?></code></div>
+				</div>
+				<?php endif; ?>
 					<hr>
 					<table width="100%">
 						<tr>
@@ -202,6 +212,7 @@
 		</div>
 		
 		
+		<?php if ($can_view_detailed_soa): ?>
 		<div class="table-responsive">
 		  <table class="table table-striped table-hover">
 			<thead>
@@ -247,6 +258,7 @@
 			
 		  </table>
 		</div>
+		<?php endif; ?>
 		
 		
 	  </div>
