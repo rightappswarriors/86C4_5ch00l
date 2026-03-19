@@ -113,9 +113,9 @@ class Students extends CI_Controller {
 		
 		$this->form_validation->set_rules('province', 'Province', 'required|trim');
 		$this->form_validation->set_rules('country', 'Country', 'required|trim');
-		$this->form_validation->set_rules('lastschool', 'Last School', 'required|trim');
-		$this->form_validation->set_rules('lastschoolyear', 'Last School Year', 'required|trim');
-		$this->form_validation->set_rules('lastschoolgrade', 'Last School Grade', 'required|trim');
+		$this->form_validation->set_rules('lastschool', 'Last School', '|trim');
+		$this->form_validation->set_rules('lastschoolyear', 'Last School Year', '|trim');
+		$this->form_validation->set_rules('lastschoolgrade', 'Last School Grade', '|trim');
 		
 		$this->form_validation->set_rules('father_firstname', 'Father Firstname', 'required|trim');
 		$this->form_validation->set_rules('father_lastname', 'Father Lastname', 'required|trim');

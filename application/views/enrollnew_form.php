@@ -17,8 +17,10 @@ $(function(){
 	$("input[name='newold']").change(function() {
 		if(this.value === "transferee") {
 			$("#transferee_section").show();
+			$("#transferee_fields").show();
 		} else {
 			$("#transferee_section").hide();
+			$("#transferee_fields").hide();
 		}
 	});
 	
@@ -26,8 +28,10 @@ $(function(){
 	var selectedValue = $("input[name='newold']:checked").val();
 	if(selectedValue === "transferee") {
 		$("#transferee_section").show();
+		$("#transferee_fields").show();
 	} else {
 		$("#transferee_section").hide();
+		$("#transferee_fields").hide();
 	}
 	
 });
@@ -174,11 +178,11 @@ $(function(){
 		  </div>
 		  
 		  <!-- For Transferees Section -->
-		  <div class="enroll-section" id="transferee_section">
+		  <div class="enroll-section" id="transferee_section" style="display:none;">
 			<h5 class="enroll-section-title"><i class="mdi mdi-swap-horizontal"></i> FOR TRANSFEREES</h5>
 		  </div>
 		  
-		  <div class="row" id="transferee_fields">
+		  <div class="row" id="transferee_fields" style="display:none;">
 			<div class="col-md-6">
 				<div class="form-group">
 					<label class="form-label">School Name</label>
