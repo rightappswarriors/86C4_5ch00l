@@ -1,4 +1,13 @@
 <li class="nav-item nav-category">Main Menu</li>
+
+<!-- New Student/Transferee Enrollment Procedures - Shown at Top -->
+<li class="nav-item" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; margin: 5px 10px;">
+  <a class="nav-link" href="#" data-toggle="modal" data-target="#enrollmentStepsModal">
+	<i class="menu-icon typcn typcn-th-list text-white"></i>
+	<span class="menu-title text-white font-weight-bold">Enrollment Procedures</span>
+  </a>
+</li>
+
 <li class="nav-item">
   <a class="nav-link" href="<?=site_url("dashboard")?>">
 	<i class="menu-icon typcn typcn-document-text"></i>

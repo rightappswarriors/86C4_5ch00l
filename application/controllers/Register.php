@@ -14,11 +14,54 @@ class Register extends CI_Controller {
 	
 	public function index()
 	{
-		$this->load->view('register');
+		// Redirect to role selection page
+		redirect('register/select_role');
+	}
+
+	public function select_role()
+	{
+		$this->load->view('select_role');
+	}
+
+	public function parent()
+	{
+		$data['role'] = 'parent';
+		$this->load->view('register', $data);
+	}
+
+	public function student()
+	{
+		$data['role'] = 'student';
+		$this->load->view('register', $data);
 	}
 	
 	function validation()
 	{
+		$role = $this->input->post('role', TRUE) ?: 'parent';
+		
+		// For student registration, validate that LRN or School ID is provided
+		if ($role === 'student') {
+			$lrn = trim($this->input->post('lrn', TRUE));
+			$school_id = trim($this->input->post('school_id', TRUE));
+			
+			// Check if LRN or School ID is provided
+			if (empty($lrn) && empty($school_id)) {
+				$this->session->set_flashdata('error', 'LRN or School ID is required for student registration. Please contact the school administration for assistance.');
+				$data['role'] = 'student';
+				$this->load->view('register', $data);
+				return;
+			}
+			
+			// Check if student is enrolled in the system
+			if (!$this->register_model->is_student_enrolled($lrn, $school_id)) {
+				// Student not enrolled - show error
+				$this->session->set_flashdata('error', 'Student not found. Please ensure you have been enrolled by a parent first. Contact the school administration for assistance.');
+				$data['role'] = 'student';
+				$this->load->view('register', $data);
+				return;
+			}
+		}
+		
 		$this->set_register_validation_rules();
 		
 		if($this->form_validation->run())
@@ -33,7 +76,9 @@ class Register extends CI_Controller {
 		}
 		else
 		{
-			$this->index();
+			// Get the role from the hidden form field and reload the appropriate view
+			$data['role'] = $role;
+			$this->load->view('register', $data);
 		}
 	}
 
@@ -52,10 +97,17 @@ class Register extends CI_Controller {
 
 	private function build_register_data()
 	{
-		// Determine user type based on LRN or School ID
+		// Determine user type based on role from form or LRN/School ID
 		$lrn = $this->get_clean_post('lrn');
 		$school_id = $this->get_clean_post('school_id');
-		$usertype = (!empty($lrn) || !empty($school_id)) ? 'Student' : 'Parent';
+		$role = $this->get_clean_post('role');
+		
+		// Use role from form if provided, otherwise determine from LRN/School ID
+		if (!empty($role)) {
+			$usertype = ($role === 'student') ? 'Student' : 'Parent';
+		} else {
+			$usertype = (!empty($lrn) || !empty($school_id)) ? 'Student' : 'Parent';
+		}
 		
 		return array(
 			'emailadd'  => $this->get_clean_post('emailadd'),

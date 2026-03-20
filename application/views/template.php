@@ -202,6 +202,152 @@
   <script src="<?=base_url('assets')?>/js/buttons.html5.min.js"></script>
   
   <?php $this->load->view('support_chat_widget'); ?>
-  
-  </body>
+
+<!-- Enrollment Procedures Modal -->
+<div class="modal fade" id="enrollmentStepsModal" tabindex="-1" role="dialog" aria-labelledby="enrollmentStepsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content" style="border-radius: 15px; overflow: hidden;">
+      <div class="modal-header bg-gradient-primary text-white" style="padding: 20px 25px;">
+        <div>
+          <h4 class="modal-title font-weight-bold" id="enrollmentStepsModalLabel">
+            <i class="mdi mdi-school"></i> Enrollment Procedures
+          </h4>
+          <p class="mb-0 small">7-Step Guide for New Students & Transferees</p>
+        </div>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" style="opacity: 1;">
+          <span aria-hidden="true" style="font-size: 28px;">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="padding: 25px;">
+        <div class="enrollment-timeline">
+          
+          <!-- Online Section -->
+          <div class="timeline-section mb-4">
+            <div class="d-flex align-items-center mb-3">
+              <span class="badge badge-primary badge-pill p-2 mr-2" style="font-size: 14px;">
+                <i class="mdi mdi-laptop"></i> ONLINE
+              </span>
+            </div>
+            <div class="step-box">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h6 class="font-weight-bold mb-1">Online Registration & Fetcher's ID</h6>
+                <p class="mb-0 text-muted">Register at: <a href="https://portal.bobhughes.edu.ph/" target="_blank" class="text-primary font-weight-bold">portal.bobhughes.edu.ph</a></p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- In Person Section -->
+          <div class="timeline-section">
+            <div class="d-flex align-items-center mb-3">
+              <span class="badge badge-success badge-pill p-2 mr-2" style="font-size: 14px;">
+                <i class="mdi mdi-account-location"></i> IN PERSON
+              </span>
+            </div>
+            
+            <div class="step-box">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h6 class="font-weight-bold mb-1">Diagnostic Test / Academic Assessment</h6>
+                <p class="mb-0 text-muted">Student undergoes assessment for grade placement</p>
+              </div>
+            </div>
+            
+            <div class="step-box">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h6 class="font-weight-bold mb-1">Financial Assessment</h6>
+                <p class="mb-0 text-muted">Meet with accounting office for tuition & payment plans</p>
+              </div>
+            </div>
+            
+            <div class="step-box">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <h6 class="font-weight-bold mb-1">Interview with Principal</h6>
+                <p class="mb-0 text-muted">
+                  <span class="badge badge-warning text-dark">RR - Grade 3</span> Parents Only
+                  <span class="mx-1">|</span>
+                  <span class="badge badge-info">Grades 4-12</span> Parents + Students
+                </p>
+              </div>
+            </div>
+            
+            <div class="step-box">
+              <div class="step-number">5</div>
+              <div class="step-content">
+                <h6 class="font-weight-bold mb-1">Down Payment</h6>
+                <p class="mb-0 text-muted">Pay <span class="text-success font-weight-bold">PHP 15,000</span> to Accounting Office</p>
+              </div>
+            </div>
+            
+            <div class="step-box">
+              <div class="step-number">6</div>
+              <div class="step-content">
+                <h6 class="font-weight-bold mb-1">Submit Documents</h6>
+                <p class="mb-0 text-muted">Submit signed documents & sign for Fetcher's ID</p>
+              </div>
+            </div>
+            
+            <div class="step-box">
+              <div class="step-number">7</div>
+              <div class="step-content">
+                <h6 class="font-weight-bold mb-1">PACeS Issuance</h6>
+                <p class="mb-0 text-muted">Submit enrollment proof to L.C. Supervisor</p>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      <div class="modal-footer" style="padding: 15px 25px;">
+        <button type="button" class="btn btn-primary btn-lg btn-block" data-dismiss="modal">
+          <i class="mdi mdi-check-circle"></i> Got It!
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.step-box {
+  display: flex;
+  align-items: flex-start;
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 12px;
+  border-left: 4px solid #4caf50;
+  transition: all 0.3s ease;
+}
+.step-box:hover {
+  background: #e8f5e9;
+  transform: translateX(5px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.step-number {
+  min-width: 35px;
+  height: 35px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+  margin-right: 15px;
+}
+.timeline-section:first-child .step-box {
+  border-left-color: #667eea;
+}
+.timeline-section:first-child .step-number {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+</style>
+
+</body>
 </html>

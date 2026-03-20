@@ -135,6 +135,37 @@ class Students_model extends CI_Model
 			$parent_search = " and a.user_id = '" . $this->session->userdata('current_userid') . "'";
 		}
 
+			// Filter for Student user type - show only the logged-in student's own record
+		if ($this->session->userdata('current_usertype') == 'Student') {
+			$current_userid = (int) $this->session->userdata('current_userid');
+			
+			// Get the current user's info from register table
+			$user_query = $this->db->select('lrn, school_id')->from('register')->where('id', $current_userid)->get();
+			$user_lrn = '';
+			$user_school_id = '';
+			
+			if ($user_query->num_rows() > 0) {
+				$user_data = $user_query->row();
+				$user_lrn = $user_data->lrn;
+				$user_school_id = $user_data->school_id;
+			}
+			
+			// Build filter conditions
+			$conditions = array("a.user_id = " . $current_userid);
+			
+			if (!empty($user_lrn)) {
+				$conditions[] = "a.lrn = '" . $this->db->escape_str($user_lrn) . "'";
+			}
+			
+			if (!empty($user_school_id)) {
+				$conditions[] = "(a.school_id = '" . $this->db->escape_str($user_school_id) . "' OR a.studentno = '" . $this->db->escape_str($user_school_id) . "')";
+			}
+			
+			if (!empty($conditions)) {
+				$parent_search = " and (" . implode(" OR ", $conditions) . ")";
+			}
+		}
+
 		$withstatus = "";
 		if ($this->uri->segment(3)) {
 			$statsearch = $this->uri->segment(3);

@@ -4,7 +4,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Register :: CBHCA Portal</title>
+    <title><?= isset($role) && $role === 'student' ? 'Student' : 'Parent' ?> Register :: CBHCA Portal</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="<?=base_url()?>assets/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="<?=base_url()?>assets/vendors/iconfonts/ionicons/css/ionicons.css">
@@ -245,16 +245,23 @@
                 <div class="school-logo">
                   <i class="mdi mdi-school"></i>
                 </div>
-			  	<h2>Create Account</h2>
+			  	<h2><?= isset($role) && $role === 'student' ? 'Student Registration' : 'Parent Registration' ?></h2>
 			  	<p>Join CBHCA Portal today</p>
 			  </div>
 			  
+			  <?php if ($this->session->flashdata('error')): ?>
+			  <div class="alert alert-danger" style="margin-bottom: 20px;">
+				<i class="mdi mdi-alert-circle"></i> <?= $this->session->flashdata('error') ?>
+			  </div>
+			  <?php endif; ?>
 			  <?=validation_errors()?>
 			  <?php
 			    $has_student_details = set_value('lrn') || set_value('school_id');
+			    $current_role = isset($role) ? $role : 'parent';
 			  ?>
 			  
                 <form method="POST" action="<?=site_url("register/validation")?>" class="auth-form">
+                  <input type="hidden" name="role" value="<?= $current_role ?>">
                   
                   <div class="form-group">
 					<label class="form-label">Email Address</label>
@@ -344,62 +351,44 @@
                     </div>
                   </div>
 
-                  <div class="student-toggle-card">
+                  <?php if ($current_role === 'student'): ?>
+                  <div class="student-toggle-card" style="background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); border: 2px solid #6366f1;">
                     <div class="student-toggle-copy">
-                      <h5>Are you a student?</h5>
-                      <p>Click Yes to add your account details.</p>
+                      <h5 style="color: #6366f1;">Student Registration</h5>
+                      <p>Please provide your LRN or School ID for verification.</p>
+                    </div>
+                    <div class="form-group mb-2 mt-3">
+                      <label class="form-label">LRN (Learner Reference Number)</label>
+                      <div class="input-group input-group-merged">
+                        <input type="text" name="lrn" value="<?=set_value('lrn')?>" class="form-control form-control-lg" placeholder="Enter your LRN">
+                        <div class="input-group-append">
+                          <span class="input-group-text">
+                            <i class="mdi mdi-card-account-details"></i>
+                          </span>
+                        </div>
+                      </div>
                     </div>
 
-                    <button
-                      type="button"
-                      class="student-toggle-btn"
-                      id="studentToggleBtn"
-                      aria-expanded="<?=$has_student_details ? 'true' : 'false'?>"
-                      aria-controls="studentExtraFields">
-                      Yes
-                    </button>
-
-                    <div
-                      class="student-extra-fields<?=$has_student_details ? ' is-open' : ''?>"
-                      id="studentExtraFields"
-                      <?=$has_student_details ? '' : 'hidden'?>>
-                      <div class="form-group mb-2">
-                        <label class="form-label">LRN</label>
-                        <div class="input-group input-group-merged">
-                          <input type="text" name="lrn" value="<?=set_value('lrn')?>" class="form-control form-control-lg" placeholder="Enter your LRN">
-                          <div class="input-group-append">
-                            <span class="input-group-text">
-                              <i class="mdi mdi-card-account-details"></i>
-                            </span>
-                          </div>
+                    <div class="form-group mb-0">
+                      <label class="form-label">School ID</label>
+                      <div class="input-group input-group-merged">
+                        <input type="text" name="school_id" value="<?=set_value('school_id')?>" class="form-control form-control-lg" placeholder="Enter your School ID">
+                        <div class="input-group-append">
+                          <span class="input-group-text">
+                            <i class="mdi mdi-card-bulleted-outline"></i>
+                          </span>
                         </div>
-                      </div>
-
-                      <div class="form-group mb-0">
-                        <label class="form-label">School ID</label>
-                        <div class="input-group input-group-merged">
-                          <input type="text" name="school_id" value="<?=set_value('school_id')?>" class="form-control form-control-lg" placeholder="Enter your School ID">
-                          <div class="input-group-append">
-                            <span class="input-group-text">
-                              <i class="mdi mdi-card-bulleted-outline"></i>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div
-                        class="student-remove-wrap<?=$has_student_details ? ' is-visible' : ''?>"
-                        id="studentRemoveWrap"
-                        <?=$has_student_details ? '' : 'hidden'?>>
-                        <button
-                          type="button"
-                          class="student-remove-btn"
-                          id="studentRemoveBtn">
-                          Close
-                        </button>
                       </div>
                     </div>
                   </div>
+                  <?php else: ?>
+                  <div class="student-toggle-card" style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); border: 2px solid #10b981;">
+                    <div class="student-toggle-copy">
+                      <h5 style="color: #10b981;">Parent Registration</h5>
+                      <p>Register as a parent to enroll your child and manage their education.</p>
+                    </div>
+                  </div>
+                  <?php endif; ?>
                    
                   <div class="form-group mt-4">
                     <button type="submit" class="auth-submit-btn btn btn-lg btn-block font-weight-bold transition-btn">

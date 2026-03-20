@@ -6,6 +6,72 @@ class Register_model extends CI_Model
 		$this->db->insert('register', $data);
 		return $this->db->insert_id();
 	}
+
+	/**
+	 * Check if a student is enrolled in the system using LRN or School ID
+	 * @param string $lrn - Learner Reference Number
+	 * @param string $school_id - School ID
+	 * @return bool - true if student exists, false otherwise
+	 */
+	function is_student_enrolled($lrn, $school_id)
+	{
+		if (empty($lrn) && empty($school_id)) {
+			return false;
+		}
+
+		// Query students table joined with enrolled table to check enrollment status
+		$this->db->select('students.*');
+		$this->db->from('students');
+		$this->db->join('enrolled', 'enrolled.studentid = students.id');
+		$this->db->where('enrolled.deleted', 'no');
+		
+		if (!empty($lrn)) {
+			$this->db->where('students.lrn', $lrn);
+		}
+		
+		if (!empty($school_id)) {
+			$this->db->or_where('students.school_id', $school_id);
+		}
+		
+		$query = $this->db->get();
+		
+		return ($query->num_rows() > 0);
+	}
+
+	/**
+	 * Get student info by LRN or School ID
+	 * @param string $lrn - Learner Reference Number
+	 * @param string $school_id - School ID
+	 * @return object|null - student record or null
+	 */
+	function get_student_by_identifier($lrn, $school_id)
+	{
+		if (empty($lrn) && empty($school_id)) {
+			return null;
+		}
+
+		// Query students table joined with enrolled table to check enrollment status
+		$this->db->select('students.*');
+		$this->db->from('students');
+		$this->db->join('enrolled', 'enrolled.studentid = students.id');
+		$this->db->where('enrolled.deleted', 'no');
+		
+		if (!empty($lrn)) {
+			$this->db->where('students.lrn', $lrn);
+		}
+		
+		if (!empty($school_id)) {
+			$this->db->or_where('students.school_id', $school_id);
+		}
+		
+		$query = $this->db->get();
+		
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}
+		
+		return null;
+	}
 	
 	function interview_schedule($data){
 		
