@@ -7,6 +7,7 @@
 	$indntals_list = explode(",",$def_assessment->incidentals);
 	$msclns_list = explode(",",$def_assessment->miscellaneous);
 	$can_view_detailed_soa = !empty($can_view_detailed_soa);
+	$can_print_soa = !empty($can_print_soa);
 	
 	// ASSESSMENT
 	if($query_ass->num_rows()>0){
@@ -121,7 +122,7 @@
 		
 		<div class="row">
 			<div class="col-md-12" style="text-align:right;">
-				<a href="<?=site_url("payments/statement/".$row->id)?>" title="Refresh" class="btn btn-icons btn-secondary btn-rounded"><i class='mdi mdi-refresh'></i></a>&nbsp;<a href="<?=site_url("payments/statement_print/".$row->id)?>" title="Print" class="btn btn-icons btn-secondary btn-rounded"><i class='mdi mdi-printer'></i></a>
+				<a href="<?=site_url("payments/statement/".$row->id)?>" title="Refresh" class="btn btn-icons btn-secondary btn-rounded"><i class='mdi mdi-refresh'></i></a><?php if ($can_print_soa): ?>&nbsp;<a href="<?=site_url("payments/statement_print/".$row->id)?>" title="Print" class="btn btn-icons btn-secondary btn-rounded"><i class='mdi mdi-printer'></i></a><?php endif; ?>
 			</div>
 		</div><br>
 		

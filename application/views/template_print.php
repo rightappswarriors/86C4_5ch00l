@@ -29,7 +29,7 @@
     <!-- Layout styles -->
     <link rel="stylesheet" href="<?=dirname(base_url())?>/assets/css/demo_1/style.css">
     <!-- End Layout styles -->
-    <link rel="shortcut icon" href="<?=dirname(base_url())?>/assets/images/favicon.png" />
+    <link rel="shortcut icon" href="<?=base_url()?>assets/images/favicon.png" />
 
 	<link rel="stylesheet" href="<?=dirname(base_url())?>/assets/css/Dashboard/template_print.css">
 	
@@ -166,7 +166,7 @@
 	<!-- Print Header with Actions -->
 	<div class="print-header">
 		<div class="logo-section">
-			<img src="<?=dirname(base_url())?>/assets/images/logo_portal.png" alt="School Logo">
+			<img src="<?=base_url()?>assets/images/logo_portal.png" alt="School Logo">
 			<div class="school-info">
 				<h4>CEBU BOB HUGHES CHRISTIAN ACADEMY, INC.</h4>
 				<p>55 Katipunan St., Brgy. Calamba, Cebu City 6000</p>

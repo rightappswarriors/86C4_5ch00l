@@ -6,6 +6,11 @@
 	$def_assessment = $default_ass->row();
 	$indntals_list = explode(",",$def_assessment->incidentals);
 	$msclns_list = explode(",",$def_assessment->miscellaneous);
+	$assessment_copies = array(
+		'School Copy',
+		"Parent's Copy",
+		"Student's Copy"
+	);
 	
 	// ASSESSMENT
 	if($query_ass->num_rows()>0){
@@ -71,6 +76,14 @@
 	margin: 0 auto;
 }
 
+.assessment-copy {
+	margin-bottom: 32px;
+}
+
+.assessment-copy:last-child {
+	margin-bottom: 0;
+}
+
 .school-header {
 	background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
 	color: white;
@@ -80,6 +93,21 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+}
+
+.copy-badge {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 8px 16px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.18);
+	border: 1px solid rgba(255, 255, 255, 0.45);
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	white-space: nowrap;
 }
 
 .school-header .school-logo img {
@@ -226,6 +254,16 @@
 }
 
 @media print {
+	.assessment-copy {
+		page-break-after: always;
+		break-after: page;
+	}
+
+	.assessment-copy:last-child {
+		page-break-after: auto;
+		break-after: auto;
+	}
+
 	.school-header {
 		background: none !important;
 		color: #333 !important;
@@ -268,231 +306,235 @@
 </style>
 
 <div class="print-content">
-	<!-- School Header -->
-	<div class="school-header">
-		<div class="school-logo">
-			<img src="<?=dirname(base_url())?>/assets/images/logo_portal.png" alt="School Logo">
+	<?php foreach ($assessment_copies as $copy_label): ?>
+	<div class="assessment-copy">
+		<!-- School Header -->
+		<div class="school-header">
+			<div class="school-logo">
+				<img src="<?=base_url()?>assets/images/logo_portal.png" alt="School Logo">
+			</div>
+			<div class="school-details">
+				<h2>CEBU BOB HUGHES CHRISTIAN ACADEMY, INC.</h2>
+				<p>A Ministry of Cebu Bible Baptist Church, Inc.</p>
+				<p>55 Katipunan St., Brgy. Calamba, Cebu City 6000</p>
+				<p>Tel No. 032-422-0700 / 0945 856 8571</p>
+			</div>
+			<div class="copy-badge"><?=$copy_label?></div>
 		</div>
-		<div class="school-details">
-			<h2>CEBU BOB HUGHES CHRISTIAN ACADEMY, INC.</h2>
-			<p>A Ministry of Cebu Bible Baptist Church, Inc.</p>
-			<p>55 Katipunan St., Brgy. Calamba, Cebu City 6000</p>
-			<p>Tel No. 032-422-0700 / 0945 856 8571</p>
-		</div>
-	</div>
 
-	<!-- Student Info Box -->
-	<div class="student-info-box">
-		<h4>STUDENT INFORMATION</h4>
-		<div class="info-grid">
-			<div class="info-row">
-				<div class="info-label">Student Name:</div>
-				<div class="info-value"><?= $row->lastname . ", " . $row->firstname . " " . $row->middlename ?></div>
-			</div>
-			<div class="info-row">
-				<div class="info-label">Grade Level:</div>
-				<div class="info-value"><?=$row->gradelevel?></div>
-			</div>
-			<div class="info-row">
-				<div class="info-label">ID Number:</div>
-				<div class="info-value"><?=$row->studentno ?: 'N/A'?></div>
-			</div>
-			<div class="info-row">
-				<div class="info-label">School Year:</div>
-				<div class="info-value"><?=date('Y')?></div>
+		<!-- Student Info Box -->
+		<div class="student-info-box">
+			<h4>STUDENT INFORMATION</h4>
+			<div class="info-grid">
+				<div class="info-row">
+					<div class="info-label">Student Name:</div>
+					<div class="info-value"><?= $row->lastname . ", " . $row->firstname . " " . $row->middlename ?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">Grade Level:</div>
+					<div class="info-value"><?=$row->gradelevel?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">ID Number:</div>
+					<div class="info-value"><?=$row->studentno ?: 'N/A'?></div>
+				</div>
+				<div class="info-row">
+					<div class="info-label">School Year:</div>
+					<div class="info-value"><?=date('Y')?></div>
+				</div>
 			</div>
 		</div>
-	</div>
 
-	<div class="card">
-		<div class="card-header">
-			FINANCIAL ASSESSMENT
+		<div class="card">
+			<div class="card-header">
+				FINANCIAL ASSESSMENT
+			</div>
+			<div class="card-body">
+				
+				<!-- Incidentals -->
+				<div class="section-title">INCIDENTALS</div>
+				<table class="print-table">
+					<thead>
+						<tr>
+							<th>Particulars</th>
+							<th class="text-right">Amount</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						$tindntals = 0;
+						foreach($indntals_list as $ind=>$indntals_val):
+							if(isset($indntals[$ind]) && $indntals[$ind]>0):
+							$tindntals += $indntals[$ind];
+						?>
+						<tr>
+							<td><?=$indntals_val?></td>
+							<td class="text-right"><?=number_format($indntals[$ind],2)?></td>
+						</tr>
+						<?php
+							endif;
+						endforeach;
+						?>
+						<tr>
+							<td><strong>TOTAL INCIDENTALS</strong></td>
+							<td class="text-right"><strong><?=number_format($tindntals,2)?></strong></td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<!-- Miscellaneous -->
+				<div class="section-title">MISCELLANEOUS</div>
+				<table class="print-table">
+					<thead>
+						<tr>
+							<th>Particulars</th>
+							<th class="text-right">Amount</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						$tmsclns = 0;
+						foreach($msclns_list as $ind=>$msclns_val):
+							if(isset($msclns[$ind]) && $msclns[$ind]>0):
+							$tmsclns += $msclns[$ind];
+						?>
+						<tr>
+							<td><?=$msclns_val?></td>
+							<td class="text-right"><?=number_format($msclns[$ind],2)?></td>
+						</tr>
+						<?php
+							endif;
+						endforeach;
+						?>
+						<tr>
+							<td><strong>TOTAL MISCELLANEOUS</strong></td>
+							<td class="text-right"><strong><?=number_format($tmsclns,2)?></strong></td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<!-- Total Computation -->
+				<div class="section-title">TOTAL COMPUTATION</div>
+				<table class="print-table">
+					<tbody>
+						<tr>
+							<td>TUITION</td>
+							<td class="text-right"><?=number_format($tuition,2)?></td>
+						</tr>
+						<tr>
+							<td>REGISTRATION</td>
+							<td class="text-right"><?=number_format($registration,2)?></td>
+						</tr>
+						<tr>
+							<td>TOTAL MISCELLANEOUS</td>
+							<td class="text-right"><?=number_format($tmsclns,2)?></td>
+						</tr>
+						<tr>
+							<td>TOTAL INCIDENTALS</td>
+							<td class="text-right"><?=number_format($tindntals,2)?></td>
+						</tr>
+						<tr style="background: #e8f5e9;">
+							<td><strong>ASSESSMENT TOTAL</strong></td>
+							<td class="text-right"><strong class="total"><?=number_format($total_ass,2)?></strong></td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<!-- Basic Computation -->
+				<div class="section-title">BASIC COMPUTATION</div>
+				<table class="print-table">
+					<tbody>
+						<tr>
+							<td>Payment upon enrollment</td>
+							<td class="text-right"><?=number_format($paymentenroll,2)?></td>
+						</tr>
+						<tr style="background: #fff3e0;">
+							<td><strong>BALANCE</strong></td>
+							<td class="text-right"><strong class="highlight"><?=number_format($balance,2)?></strong></td>
+						</tr>
+						<tr>
+							<td><strong>Due every 5th of the month (9 months)</strong></td>
+							<td class="text-right"><strong><?=number_format($monthly,2)?></strong></td>
+						</tr>
+					</tbody>
+				</table>
+				
+			</div>
 		</div>
-		<div class="card-body">
-			
-			<!-- Incidentals -->
-			<div class="section-title">INCIDENTALS</div>
-			<table class="print-table">
-				<thead>
-					<tr>
-						<th>Particulars</th>
-						<th class="text-right">Amount</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php
-					$tindntals = 0;
-					foreach($indntals_list as $ind=>$indntals_val):
-						if(isset($indntals[$ind]) && $indntals[$ind]>0):
-						$tindntals += $indntals[$ind];
-					?>
-					<tr>
-						<td><?=$indntals_val?></td>
-						<td class="text-right"><?=number_format($indntals[$ind],2)?></td>
-					</tr>
-					<?php
-						endif;
-					endforeach;
-					?>
-					<tr>
-						<td><strong>TOTAL INCIDENTALS</strong></td>
-						<td class="text-right"><strong><?=number_format($tindntals,2)?></strong></td>
-					</tr>
-				</tbody>
-			</table>
-			
-			<!-- Miscellaneous -->
-			<div class="section-title">MISCELLANEOUS</div>
-			<table class="print-table">
-				<thead>
-					<tr>
-						<th>Particulars</th>
-						<th class="text-right">Amount</th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php
-					$tmsclns = 0;
-					foreach($msclns_list as $ind=>$msclns_val):
-						if(isset($msclns[$ind]) && $msclns[$ind]>0):
-						$tmsclns += $msclns[$ind];
-					?>
-					<tr>
-						<td><?=$msclns_val?></td>
-						<td class="text-right"><?=number_format($msclns[$ind],2)?></td>
-					</tr>
-					<?php
-						endif;
-					endforeach;
-					?>
-					<tr>
-						<td><strong>TOTAL MISCELLANEOUS</strong></td>
-						<td class="text-right"><strong><?=number_format($tmsclns,2)?></strong></td>
-					</tr>
-				</tbody>
-			</table>
-			
-			<!-- Total Computation -->
-			<div class="section-title">TOTAL COMPUTATION</div>
-			<table class="print-table">
-				<tbody>
-					<tr>
-						<td>TUITION</td>
-						<td class="text-right"><?=number_format($tuition,2)?></td>
-					</tr>
-					<tr>
-						<td>REGISTRATION</td>
-						<td class="text-right"><?=number_format($registration,2)?></td>
-					</tr>
-					<tr>
-						<td>TOTAL MISCELLANEOUS</td>
-						<td class="text-right"><?=number_format($tmsclns,2)?></td>
-					</tr>
-					<tr>
-						<td>TOTAL INCIDENTALS</td>
-						<td class="text-right"><?=number_format($tindntals,2)?></td>
-					</tr>
-					<tr style="background: #e8f5e9;">
-						<td><strong>ASSESSMENT TOTAL</strong></td>
-						<td class="text-right"><strong class="total"><?=number_format($total_ass,2)?></strong></td>
-					</tr>
-				</tbody>
-			</table>
-			
-			<!-- Basic Computation -->
-			<div class="section-title">BASIC COMPUTATION</div>
-			<table class="print-table">
-				<tbody>
-					<tr>
-						<td>Payment upon enrollment</td>
-						<td class="text-right"><?=number_format($paymentenroll,2)?></td>
-					</tr>
-					<tr style="background: #fff3e0;">
-						<td><strong>BALANCE</strong></td>
-						<td class="text-right"><strong class="highlight"><?=number_format($balance,2)?></strong></td>
-					</tr>
-					<tr>
-						<td><strong>Due every 5th of the month (9 months)</strong></td>
-						<td class="text-right"><strong><?=number_format($monthly,2)?></strong></td>
-					</tr>
-				</tbody>
-			</table>
-			
+
+		<!-- PACE Order -->
+		<div class="card">
+			<div class="card-header">
+				PACE ORDER (To Begin Work)
+			</div>
+			<div class="card-body">
+				<table class="print-table">
+					<thead>
+						<tr>
+							<th>Subject</th>
+							<th class="text-right">Begin</th>
+							<th class="text-right">End</th>
+							<th class="text-right">Gaps</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Math</td>
+							<td class="text-right"><?=$math[0] ?: '-'?></td>
+							<td class="text-right"><?=$math[1] ?: '-'?></td>
+							<td class="text-right"><?=$math[2] ?: '-'?></td>
+						</tr>
+						<tr>
+							<td>English</td>
+							<td class="text-right"><?=$eng[0] ?: '-'?></td>
+							<td class="text-right"><?=$eng[1] ?: '-'?></td>
+							<td class="text-right"><?=$eng[2] ?: '-'?></td>
+						</tr>
+						<tr>
+							<td>Science</td>
+							<td class="text-right"><?=$science[0] ?: '-'?></td>
+							<td class="text-right"><?=$science[1] ?: '-'?></td>
+							<td class="text-right"><?=$science[2] ?: '-'?></td>
+						</tr>
+						<tr>
+							<td>Social Studies</td>
+							<td class="text-right"><?=$sstudies[0] ?: '-'?></td>
+							<td class="text-right"><?=$sstudies[1] ?: '-'?></td>
+							<td class="text-right"><?=$sstudies[2] ?: '-'?></td>
+						</tr>
+						<tr>
+							<td>Word Building</td>
+							<td class="text-right"><?=$wbuilding[0] ?: '-'?></td>
+							<td class="text-right"><?=$wbuilding[1] ?: '-'?></td>
+							<td class="text-right"><?=$wbuilding[2] ?: '-'?></td>
+						</tr>
+						<tr>
+							<td>Literature</td>
+							<td class="text-right"><?=$literature[0] ?: '-'?></td>
+							<td class="text-right"><?=$literature[1] ?: '-'?></td>
+							<td class="text-right">-</td>
+						</tr>
+						<tr>
+							<td>Filipino</td>
+							<td class="text-right"><?=$filipino[0] ?: '-'?></td>
+							<td class="text-right"><?=$filipino[1] ?: '-'?></td>
+							<td class="text-right">-</td>
+						</tr>
+						<tr>
+							<td>A.P.</td>
+							<td class="text-right"><?=$ap[0] ?: '-'?></td>
+							<td class="text-right"><?=$ap[1] ?: '-'?></td>
+							<td class="text-right">-</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		<!-- Footer -->
+		<div style="margin-top: 30px; text-align: center; color: #666; font-size: 12px;">
+			<p>Generated on: <?=date('F d, Y h:i A')?></p>
 		</div>
 	</div>
-	
-	<!-- PACE Order -->
-	<div class="card">
-		<div class="card-header">
-			PACE ORDER (To Begin Work)
-		</div>
-		<div class="card-body">
-			<table class="print-table">
-				<thead>
-					<tr>
-						<th>Subject</th>
-						<th class="text-right">Begin</th>
-						<th class="text-right">End</th>
-						<th class="text-right">Gaps</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Math</td>
-						<td class="text-right"><?=$math[0] ?: '-'?></td>
-						<td class="text-right"><?=$math[1] ?: '-'?></td>
-						<td class="text-right"><?=$math[2] ?: '-'?></td>
-					</tr>
-					<tr>
-						<td>English</td>
-						<td class="text-right"><?=$eng[0] ?: '-'?></td>
-						<td class="text-right"><?=$eng[1] ?: '-'?></td>
-						<td class="text-right"><?=$eng[2] ?: '-'?></td>
-					</tr>
-					<tr>
-						<td>Science</td>
-						<td class="text-right"><?=$science[0] ?: '-'?></td>
-						<td class="text-right"><?=$science[1] ?: '-'?></td>
-						<td class="text-right"><?=$science[2] ?: '-'?></td>
-					</tr>
-					<tr>
-						<td>Social Studies</td>
-						<td class="text-right"><?=$sstudies[0] ?: '-'?></td>
-						<td class="text-right"><?=$sstudies[1] ?: '-'?></td>
-						<td class="text-right"><?=$sstudies[2] ?: '-'?></td>
-					</tr>
-					<tr>
-						<td>Word Building</td>
-						<td class="text-right"><?=$wbuilding[0] ?: '-'?></td>
-						<td class="text-right"><?=$wbuilding[1] ?: '-'?></td>
-						<td class="text-right"><?=$wbuilding[2] ?: '-'?></td>
-					</tr>
-					<tr>
-						<td>Literature</td>
-						<td class="text-right"><?=$literature[0] ?: '-'?></td>
-						<td class="text-right"><?=$literature[1] ?: '-'?></td>
-						<td class="text-right">-</td>
-					</tr>
-					<tr>
-						<td>Filipino</td>
-						<td class="text-right"><?=$filipino[0] ?: '-'?></td>
-						<td class="text-right"><?=$filipino[1] ?: '-'?></td>
-						<td class="text-right">-</td>
-					</tr>
-					<tr>
-						<td>A.P.</td>
-						<td class="text-right"><?=$ap[0] ?: '-'?></td>
-						<td class="text-right"><?=$ap[1] ?: '-'?></td>
-						<td class="text-right">-</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
-	
-	<!-- Footer -->
-	<div style="margin-top: 30px; text-align: center; color: #666; font-size: 12px;">
-		<p>Generated on: <?=date('F d, Y h:i A')?></p>
-	</div>
-	
+	<?php endforeach; ?>
 </div>

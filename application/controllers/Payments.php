@@ -2,6 +2,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Payments extends CI_Controller {
+
+	private const USER_TYPE_ADMIN = 'Admin';
+	private const USER_TYPE_ACCOUNTING = 'Accounting';
+	private const USER_TYPE_PRINCIPAL = 'Principal';
+	private const USER_TYPE_REGISTRAR = 'Registrar';
+	private const USER_TYPE_PARENT = 'Parent';
+	private const PRINT_BLOCK_MESSAGE = 'Printing the SOA is not available for this account.';
 	
 	//private $profile_pic;
 	public function __construct()
@@ -30,18 +37,8 @@ class Payments extends CI_Controller {
 	public function statement()
 	{
 		$studentid = $this->uri->segment(3);
-		$enroll_id = $this->students_model->enroll_info($studentid);		
-		$data = array(
-			'title'     =>   'State of Account',
-			'template'   =>   'payments/statement',
-			'query' => $this->students_model->search_student_info($studentid),
-			'profile_pic' => $this->students_model->profile_pic( $studentid ),
-			'query_ass' => $this->students_model->assessment_check( $enroll_id ),
-			'default_ass' => $this->payments_model->default_assessment(),
-			'query_payments' => $this->payments_model->getStudentPaymentsPaid( $studentid,$enroll_id ),
-			'paid_enroll' => $this->payments_model->getStudentPaymentsPaidEnroll( $studentid,$enroll_id ),
-			'can_view_detailed_soa' => $this->can_view_detailed_soa()
-		);
+		$data = $this->build_statement_data($studentid);
+		$data['template'] = 'payments/statement';
 		$this->load->view('template', $data);	
 		
 	}
@@ -49,17 +46,13 @@ class Payments extends CI_Controller {
 	public function statement_print()
 	{
 		$studentid = $this->uri->segment(3);
-		$enroll_id = $this->students_model->enroll_info($studentid);		
-		$data = array(
-			'title'     =>   'State of Account',
-			'template'   =>   'payments/statement_print',
-			'query' => $this->students_model->search_student_info($studentid),
-			'query_ass' => $this->students_model->assessment_check( $enroll_id ),
-			'default_ass' => $this->payments_model->default_assessment(),
-			'query_payments' => $this->payments_model->getStudentPaymentsPaid( $studentid,$enroll_id ),
-			'paid_enroll' => $this->payments_model->getStudentPaymentsPaidEnroll( $studentid,$enroll_id ),
-			'can_view_detailed_soa' => $this->can_view_detailed_soa()
-		);
+
+		if (!$this->can_print_soa()) {
+			$this->redirect_to_statement($studentid, self::PRINT_BLOCK_MESSAGE);
+		}
+
+		$data = $this->build_statement_data($studentid);
+		$data['template'] = 'payments/statement_print';
 		$this->load->view('template_print', $data);	
 		
 	}
@@ -298,9 +291,50 @@ class Payments extends CI_Controller {
 
 	private function can_view_detailed_soa()
 	{
-		$current_usertype = (string) $this->session->userdata('current_usertype');
+		return $this->current_user_type() === self::USER_TYPE_ADMIN;
+	}
 
-		return $current_usertype === 'Admin';
+	private function can_print_soa()
+	{
+		return in_array($this->current_user_type(), $this->printable_user_types(), true);
+	}
+
+	private function current_user_type()
+	{
+		return (string) $this->session->userdata('current_usertype');
+	}
+
+	private function build_statement_data($studentid)
+	{
+		$enroll_id = $this->students_model->enroll_info($studentid);
+
+		return array(
+			'title' => 'State of Account',
+			'query' => $this->students_model->search_student_info($studentid),
+			'profile_pic' => $this->students_model->profile_pic($studentid),
+			'query_ass' => $this->students_model->assessment_check($enroll_id),
+			'default_ass' => $this->payments_model->default_assessment(),
+			'query_payments' => $this->payments_model->getStudentPaymentsPaid($studentid, $enroll_id),
+			'paid_enroll' => $this->payments_model->getStudentPaymentsPaidEnroll($studentid, $enroll_id),
+			'can_view_detailed_soa' => $this->can_view_detailed_soa(),
+			'can_print_soa' => $this->can_print_soa()
+		);
+	}
+
+	private function printable_user_types()
+	{
+		return array(
+			self::USER_TYPE_ADMIN,
+			self::USER_TYPE_ACCOUNTING,
+			self::USER_TYPE_PRINCIPAL,
+			self::USER_TYPE_REGISTRAR
+		);
+	}
+
+	private function redirect_to_statement($studentid, $message)
+	{
+		$this->session->set_flashdata('message', $message);
+		redirect('payments/statement/' . $studentid);
 	}
 	
 }
