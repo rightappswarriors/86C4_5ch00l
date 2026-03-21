@@ -1,126 +1,12 @@
 
 <link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/enrollment.css">
-<!-- QR Code Library -->
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
 
-<style>
-/* QR Code Modal Styles */
-.qr-modal-overlay {
-	display: none;
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 9999;
-	backdrop-filter: blur(8px);
-	-webkit-backdrop-filter: blur(8px);
-	background-color: rgba(0, 0, 0, 0.5);
-}
-.qr-modal-content {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	background: white;
-	padding: 30px;
-	border-radius: 15px;
-	box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-	text-align: center;
-	max-width: 90%;
-	width: 400px;
-}
-.qr-modal-title {
-	font-size: 20px;
-	font-weight: bold;
-	margin-bottom: 20px;
-	color: #333;
-}
-#qrcode-container {
-	display: flex;
-	justify-content: center;
-	margin: 20px 0;
-}
-#qrcode-container canvas {
-	border: 5px solid #4a4a4a;
-	border-radius: 8px;
-}
-.qr-modal-buttons {
-	display: flex;
-	gap: 15px;
-	justify-content: center;
-	margin-top: 20px;
-}
-.qr-btn {
-	padding: 10px 25px;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	font-size: 14px;
-	font-weight: bold;
-}
-.qr-btn-confirm {
-	background-color: #4CAF50;
-	color: white;
-}
-.qr-btn-confirm:hover {
-	background-color: #45a049;
-}
-.qr-btn-cancel {
-	background-color: #f44336;
-	color: white;
-}
-.qr-btn-cancel:hover {
-	background-color: #da190b;
-}
-</style>
 
 <script>
 $(function(){
 	
 	$("#chkconfirmed").click(function() {
 		$("#btnsubmit").attr("disabled", !this.checked);
-	});
-	
-	// Show QR modal on enroll button click
-	$("#btnsubmit").click(function(e) {
-		e.preventDefault();
-		
-		// Get form data
-		var formData = $("#frmenroll").serialize();
-		
-		// Clear previous QR code
-		$("#qrcode-container").empty();
-		
-		// Generate QR code from form data
-		QRCode.toCanvas(formData, { width: 250, margin: 2 }, function(error, canvas) {
-			if (error) {
-				console.error(error);
-				return;
-			}
-			$("#qrcode-container").append(canvas);
-		});
-		
-		// Show modal with blurred background
-		$(".qr-modal-overlay").fadeIn(300);
-	});
-	
-	// Confirm and submit form
-	$("#qr-confirm-btn").click(function() {
-		$(".qr-modal-overlay").fadeOut(200);
-		$("#frmenroll").submit();
-	});
-	
-	// Cancel and close modal
-	$("#qr-cancel-btn").click(function() {
-		$(".qr-modal-overlay").fadeOut(200);
-	});
-	
-	// Close modal on overlay click
-	$(".qr-modal-overlay").click(function(e) {
-		if (e.target === this) {
-			$(this).fadeOut(200);
-		}
 	});
 	
 	$("#frmenroll").submit(function(){
@@ -649,24 +535,6 @@ $(function(){
 
 		</form>
 		
-		<!-- QR Code Modal -->
-		<div class="qr-modal-overlay" id="qr-modal">
-			<div class="qr-modal-content">
-				<div class="qr-modal-title">
-					<i class="mdi mdi-qrcode"></i> Enrollment Form QR Code
-				</div>
-				<p>Scan this QR code to save the enrollment information:</p>
-				<div id="qrcode-container"></div>
-				<div class="qr-modal-buttons">
-					<button type="button" class="qr-btn qr-btn-confirm" id="qr-confirm-btn">
-						<i class="mdi mdi-check"></i> Confirm & Submit
-					</button>
-					<button type="button" class="qr-btn qr-btn-cancel" id="qr-cancel-btn">
-						<i class="mdi mdi-close"></i> Cancel
-					</button>
-				</div>
-			</div>
-		</div>
 		
 		</div>
 	  </div>

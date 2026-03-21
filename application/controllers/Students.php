@@ -212,6 +212,7 @@ class Students extends CI_Controller {
 			{
 				//message successful	
 				$this->session->set_flashdata('message', "Successfully added new student!");
+				
 				redirect("students/enrollnew_success/".$id);
 			}
 		}

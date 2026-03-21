@@ -70,7 +70,7 @@
 			  <!--<a class="nav-link" href="<?=site_url("students")?>">-->
 			  <a class="nav-link" data-toggle="collapse" href="#ui-students" aria-expanded="false" aria-controls="ui-students">
 				<i class="menu-icon typcn typcn-coffee"></i>
-				<span class="menu-title">Students (<?=$strcount?>)</span>
+				<span class="menu-title">Child (<?=$strcount?>)</span>
 				<i class="menu-arrow"></i>
 			  </a>
 			  <div class="collapse" id="ui-students">
@@ -98,7 +98,7 @@
 		<li class="nav-item">
 		  <a class="nav-link" href="<?=site_url("students")?>">
 			<i class="menu-icon typcn typcn-shopping-bag"></i>
-			<span class="menu-title">Students (<?=$strcount?>)</span>
+			<span class="menu-title">Child (<?=$strcount?>)</span>
 		  </a>
 		</li><li class="nav-item">
 		  <a class="nav-link" href="<?=site_url("students/enroll_readhandbook")?>">

@@ -18,7 +18,7 @@
 			}
 			?>
 
-			<h3 class="students-header" style="text-align:center;">Students
+			<h3 class="students-header" style="text-align:center;"><?php echo ($this->session->userdata('current_usertype') == 'Parent') ? 'Child' : 'Students'; ?>
 				<?= ($this->uri->segment(3) ? "(" . $this->uri->segment(3) . ")" : "") ?>
 			</h3>
 
