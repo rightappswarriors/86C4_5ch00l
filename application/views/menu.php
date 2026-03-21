@@ -187,10 +187,9 @@
 </li>
 
 <li class="nav-item">
-  <a class="nav-link" data-toggle="collapse" href="#ui-user" aria-expanded="false" aria-controls="ui-user">
+  <a class="nav-link" href="<?=site_url("logout")?>">
 	<i class="menu-icon typcn typcn-coffee"></i>
-	<span class="menu-title">My Profile</span>
-	<i class="menu-arrow"></i>
+	<span class="menu-title">Log Out</span>
   </a>
   <div class="collapse" id="ui-user">
 	<ul class="nav flex-column sub-menu">

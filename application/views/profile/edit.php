@@ -114,24 +114,6 @@
 			</div>
 		  </div>
 		  
-		  <div class="enroll-section">
-			<h5 class="enroll-section-title"><i class="mdi mdi-lock"></i> CHANGE PASSWORD</h5>
-		  </div>
-		  
-		  <div class="row">
-			<div class="col-md-6">
-				<div class="form-group">
-					<label class="form-label">Change Password</label>
-					<input type="password" name="cpassword" value="" class="form-control" placeholder="Ask admin to change password" readonly />
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="form-group">
-					<label class="form-label">Repeat New Password</label>
-					<input type="password" name="rpassword" value="" class="form-control" placeholder="Ask admin to change password" readonly />
-				</div>
-			</div>
-		  </div>
 		  
 		  <div style="text-align:center;margin:0 auto; margin-top: 20px;">
 		  <input type="submit" class="btn btn-lg btn-secondary" name="submit" value="ADMIN APPROVAL REQUIRED" disabled>

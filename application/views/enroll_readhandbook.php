@@ -1,5 +1,12 @@
 <script>
 $(function(){
+	// Show modal on page load
+	$('#handbookModal').modal('show');
+
+	// Handle proceed button in modal
+	$('#btnReadHandbook').click(function(){
+		$('#handbookModal').modal('hide');
+	});
 	// Initially disable the checkbox until user scrolls to bottom
 	$("#chkconfirmed").prop("disabled", true);
 	$("#chkconfirmed").closest(".form-check-label").css("opacity", "0.6");
@@ -42,6 +49,28 @@ $(function(){
 	
 });
 </script>
+
+<!-- Modal Popup -->
+<div class="modal fade" id="handbookModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+        <h5 class="modal-title text-white"><i class="mdi mdi-alert-circle"></i> IMPORTANT: Read the Handbook First</h5>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 18px;">Read the Handbook first before proceeding to enroll a child.</p>
+        <p>Please take time to browse and read our handbook thoroughly. This is for the benefit of our students to help in their learning process within the Academy.</p>
+        <p>There are some latest updates made by our Academy Administration and Faculties especially under policies.</p>
+        <hr>
+        <p class="text-muted"><em>Click the button below to proceed to the Handbook and Enrollment Form.</em></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-lg btn-success btn-fw" id="btnReadHandbook"><i class="mdi mdi-book-open"></i> Continue to Read the Handbook</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="col-lg-12 grid-margin stretch-card">
 <div class="card">
   <div class="card-body">

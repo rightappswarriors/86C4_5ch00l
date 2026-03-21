@@ -376,14 +376,13 @@ class Students extends CI_Controller {
 		
 		$data = array(
 			'title'     =>   'STUDENTS // Assessment Print',
-			'template'   =>   'students/assessment_print',
 			'query' => $this->students_model->search_student_info($studentid),
 			'query_ass' => $this->students_model->assessment_check( $enroll_id ),
 			'profile_pic' => $this->students_model->profile_pic( $studentid ),
 			'default_ass' => $this->payments_model->default_assessment()
 		);
 		
-		$this->load->view('template_print', $data);
+		$this->load->view('students/assessment_print', $data);
 	}
 	
 	public function payments(){
