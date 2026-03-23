@@ -113,9 +113,9 @@ class Students extends CI_Controller {
 		
 		$this->form_validation->set_rules('province', 'Province', 'required|trim');
 		$this->form_validation->set_rules('country', 'Country', 'required|trim');
-		$this->form_validation->set_rules('lastschool', 'Last School', '|trim');
-		$this->form_validation->set_rules('lastschoolyear', 'Last School Year', '|trim');
-		$this->form_validation->set_rules('lastschoolgrade', 'Last School Grade', '|trim');
+		$this->form_validation->set_rules('lastschool', 'Last School', 'required|trim');
+		$this->form_validation->set_rules('lastschoolyear', 'Last School Year', 'required|trim');
+		$this->form_validation->set_rules('lastschoolgrade', 'Last School Grade', 'required|trim');
 		
 		$this->form_validation->set_rules('father_firstname', 'Father Firstname', 'required|trim');
 		$this->form_validation->set_rules('father_lastname', 'Father Lastname', 'required|trim');
@@ -298,10 +298,27 @@ class Students extends CI_Controller {
 	
 	public function enrollnew_success($id)
 	{
+		// Get enrollment info
+		$enroll_qry = $this->db->query("select * from enrolled where studentid = " . $id . " and deleted = 'no' order by addeddate desc limit 1");
+		$enroll = $enroll_qry->num_rows() > 0 ? $enroll_qry->row() : null;
+		
+		$current_schoolyear = $this->session->userdata('current_schoolyear') ?? date('Y');
+		
+		// Get student info
+		$student = $this->students_model->search_student_info($id)->row();
+		
+		// Generate print URL - simpler is better for QR scanning
+		$print_url = site_url("students/enrollment_receipt/" . $id);
+		
+		// Generate QR code with just the URL - larger size for better scanning
+		$qr_code_url = "https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=" . urlencode($print_url);
+		
 		$data = array(
 		'title'     =>   'STUDENTS // Enroll Student',
 		'template'   =>   'parent/enrollnew_success',
 		'student_id'   =>   $id,
+		'qr_code_url' => $qr_code_url,
+		'print_url' => $print_url
 		);
 		$this->load->view('template', $data);	
 	}
@@ -383,6 +400,51 @@ class Students extends CI_Controller {
 		);
 		
 		$this->load->view('students/assessment_print', $data);
+	}
+	
+	public function enrollment_receipt()
+	{
+		$studentid = $this->uri->segment(3);
+		$query = $this->students_model->search_student_info($studentid);
+		
+		if($query->num_rows() > 0) {
+			$row = $query->row();
+			$enroll_id = $this->students_model->enroll_info($studentid);
+			
+			$data = array(
+				'title'     =>   'Enrollment Receipt',
+				'template'   =>   'students/enrollment_receipt',
+				'query' => $query,
+				'enroll_id' => $enroll_id
+			);
+			
+			$this->load->view('students/enrollment_receipt', $data);
+		} else {
+			redirect('students');
+		}
+	}
+
+	// Landing page to view student info and enrollment receipt for review
+	public function view_student_info()
+	{
+		$studentid = $this->uri->segment(3);
+		$query = $this->students_model->search_student_info($studentid);
+		
+		if($query->num_rows() > 0) {
+			$enroll_id = $this->students_model->enroll_info($studentid);
+			
+			$data = array(
+				'title'     =>   'View Student Info - Review',
+				'template'   =>   'students/view_student_info',
+				'query' => $query,
+				'enroll_id' => $enroll_id,
+				'profile_pic' => $this->students_model->profile_pic($studentid)
+			);
+			
+			$this->load->view('template', $data);
+		} else {
+			redirect('students');
+		}
 	}
 	
 	public function payments(){

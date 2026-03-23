@@ -14,26 +14,9 @@ $(function(){
 		return true;
 	});
 	
-	// Transferee radio toggle
-	$("input[name='newold']").change(function() {
-		if(this.value === "transferee") {
-			$("#transferee_section").show();
-			$("#transferee_fields").show();
-		} else {
-			$("#transferee_section").hide();
-			$("#transferee_fields").hide();
-		}
-	});
-	
-	// Initialize transferee section visibility based on radio selection
-	var selectedValue = $("input[name='newold']:checked").val();
-	if(selectedValue === "transferee") {
-		$("#transferee_section").show();
-		$("#transferee_fields").show();
-	} else {
-		$("#transferee_section").hide();
-		$("#transferee_fields").hide();
-	}
+	// Always show transferee section (unhidden)
+	$("#transferee_section").show();
+	$("#transferee_fields").show();
 	
 });
 </script>
@@ -84,10 +67,6 @@ $(function(){
 						<label class="radio-label">
 							<input name="newold" value="old" type="radio" <?=set_radio('newold', 'old')?>> 
 							Old Student
-						</label>
-						<label class="radio-label">
-							<input name="newold" value="transferee" type="radio" id="is_transferee" <?=set_radio('newold', 'transferee')?>> 
-							Transferee
 						</label>
 					</div>
 				</div>
@@ -179,11 +158,11 @@ $(function(){
 		  </div>
 		  
 		  <!-- For Transferees Section -->
-		  <div class="enroll-section" id="transferee_section" style="display:none;">
+		  <div class="enroll-section" id="transferee_section">
 			<h5 class="enroll-section-title"><i class="mdi mdi-swap-horizontal"></i> FOR TRANSFEREES</h5>
 		  </div>
 		  
-		  <div class="row" id="transferee_fields" style="display:none;">
+		  <div class="row" id="transferee_fields">
 			<div class="col-md-6">
 				<div class="form-group">
 					<label class="form-label">School Name</label>
