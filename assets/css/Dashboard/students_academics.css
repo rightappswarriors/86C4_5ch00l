@@ -1,0 +1,219 @@
+/* Academics Page UI */
+.academics-page .academics-card {
+    border: 0;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(17, 24, 39, 0.08);
+    overflow: hidden;
+}
+
+.academics-page .academics-card .card-body {
+    padding: 1.5rem 1.75rem 2rem;
+    background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+}
+
+.academics-page .heading {
+    text-align: center;
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: 0.2px;
+}
+
+.academics-page .tab {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: #f8fafc;
+    padding: 0.35rem;
+    margin-bottom: 1rem;
+}
+
+.academics-page .tab .tablinks {
+    border: 0;
+    border-radius: 10px;
+    background: transparent;
+    color: #334155;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.6rem 1rem;
+    line-height: 1.2;
+    box-shadow: none;
+}
+
+.academics-page .tab .tablinks.active {
+    color: #ffffff;
+    background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+    box-shadow: 0 6px 14px rgba(37, 99, 235, 0.26);
+}
+
+.academics-page .tabcontent {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+    padding: 1rem 1rem 1.1rem;
+    overflow: auto;
+    max-height: 70vh;
+}
+
+.academics-page .academics-last-update {
+    margin: 0.25rem 0 1rem;
+    font-size: 1rem;
+    color: #1e3a8a;
+    font-weight: 600;
+    background: linear-gradient(90deg, #f8fbff 0%, #eef5ff 100%);
+    border: 1px solid #dbeafe;
+    border-radius: 10px;
+    padding: 0.5rem 0.75rem;
+}
+
+.academics-page .academics-last-update code {
+    background: #f1f5f9;
+    border-radius: 6px;
+    color: #dc2626;
+    padding: 0.1rem 0.35rem;
+}
+
+.academics-page .academics-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.academics-page .academics-table-paces {
+    border: 1px solid #d9e2ee;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+}
+
+.academics-page .academics-table-paces tr {
+    transition: background-color 0.15s ease;
+}
+
+.academics-page .academics-table-paces tr:nth-child(odd) td {
+    background: #fcfdff !important;
+}
+
+.academics-page .academics-table-paces tr:nth-child(even) td {
+    background: #f7faff !important;
+}
+
+.academics-page .academics-table-paces tr:hover td {
+    background: #eef6ff !important;
+}
+
+.academics-page .academics-table-paces td:first-child {
+    background: linear-gradient(180deg, #eff6ff 0%, #e6f0ff 100%) !important;
+    color: #0f172a;
+    font-weight: 700;
+    border-right: 1px solid #cfe0f5 !important;
+    border-top: 1px solid #dbe7f7 !important;
+    padding: 6px 10px !important;
+    min-width: 130px;
+}
+
+.academics-page .academics-table-paces td:not(:first-child) {
+    border-right: 1px solid #dbe7f7 !important;
+    border-top: 1px solid #dbe7f7 !important;
+    padding: 5px 4px !important;
+}
+
+.academics-page .academics-table-paces code {
+    background: rgba(37, 99, 235, 0.08);
+    color: #1d4ed8;
+    border-radius: 4px;
+    padding: 0 3px;
+    font-weight: 700;
+}
+
+.academics-page .academics-table-conventional th {
+    background: #eff6ff;
+    color: #1e3a8a;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-bottom: 1px solid #dbeafe;
+    padding: 0.55rem 0.45rem;
+}
+
+.academics-page .academics-table-conventional td {
+    border-bottom: 1px solid #e5edf8;
+    padding: 0.45rem 0.5rem !important;
+    font-size: 0.9rem;
+    color: #1f2937;
+}
+
+.academics-page .academics-table-conventional tr:nth-child(odd) td {
+    background: #fbfdff;
+}
+
+.academics-page .academics-table-conventional tr:nth-child(even) td {
+    background: #f4f8ff;
+}
+
+.academics-page .academics-table-conventional tr:hover td {
+    background: #eaf2ff;
+}
+
+.academics-page .academics-table td,
+.academics-page .academics-table th {
+    vertical-align: top;
+}
+
+.academics-page .academics-table input.form-control {
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    min-height: 30px;
+    font-size: 0.82rem;
+    box-shadow: none;
+    background: #ffffff;
+}
+
+.academics-page .academics-table input.form-control:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2);
+}
+
+.academics-page input[type="radio"] {
+    transform: scale(0.9);
+    accent-color: #2563eb;
+}
+
+.academics-page .academics-empty-state {
+    margin: 0.5rem 0;
+    text-align: center;
+    font-size: 1rem;
+    color: #475569;
+    background: #f8fafc;
+    border: 1px dashed #cbd5e1;
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.academics-page .academics-actions {
+    text-align: left;
+}
+
+.academics-page .academics-actions .btn-primary {
+    border-radius: 999px;
+    padding: 0.7rem 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0.25px;
+    box-shadow: 0 8px 16px rgba(37, 99, 235, 0.24);
+}
+
+@media (max-width: 991px) {
+    .academics-page .heading {
+        font-size: 1.6rem;
+    }
+
+    .academics-page .tab {
+        gap: 0.35rem;
+    }
+
+    .academics-page .tab .tablinks {
+        font-size: 0.85rem;
+        padding: 0.5rem 0.7rem;
+    }
+}

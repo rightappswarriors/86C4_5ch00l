@@ -126,11 +126,13 @@
 	
 ?>
 
+<link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/students_academics.css">
+
 <?php $this->load->view("students/menu",$data) ?>
 
-<div class="col-lg-12 grid-margin stretch-card">
+<div class="col-lg-12 grid-margin stretch-card academics-page">
 
-	<div class="card">
+	<div class="card academics-card">
 	  <div class="card-body">
 	 
 		<?php
@@ -144,7 +146,7 @@
 	 
 		<form action="<?=site_url("students/academics_submit/".$this->uri->segment(3))?>" method="post">
 	 
-		<h3 class="heading" style="text-align:center;">Academics</h3>
+		<h3 class="heading">Academics</h3>
 		<br>
 		
 		<div class="tab">
@@ -157,10 +159,10 @@
 		<div id="paces_tab" class="tabcontent">
 			
 			<div class="col-md-12">
-			<p><div class="text-center">Last update made by Mr./Ms. <code><?=$lastupdateby?></code></div></p>
+			<p class="academics-last-update text-center">Last update made by Mr./Ms. <code><?=$lastupdateby?></code></p>
 			<div class="form-group row">
 			  
-			  <table border="0">
+			  <table border="0" class="academics-table academics-table-paces">
 			  <!--<thead>
 				<th></th>
 				<th colspan="20"></th>
@@ -471,10 +473,10 @@
 		<div id="conventional_tab" class="tabcontent">
 		
 			<div class="col-md-12">
-				<p><div class="text-center">Last update made by Mr./Ms. <code><?=$lastupdateby?></code></div></p>
+				<p class="academics-last-update text-center">Last update made by Mr./Ms. <code><?=$lastupdateby?></code></p>
 				<div class="form-group row">
 				  
-					<table border="0" width='100%'>
+					<table border="0" width='100%' class="academics-table academics-table-conventional">
 						<thead>
 							<th width="20%" class="text-center">Subject</th>
 							<th width="20%" class="text-center">1st Qtr</th>
@@ -554,14 +556,14 @@
 		
 		<div id="gradesummary_tab" class="tabcontent">
 		<br>
-		<p>UNDER CONSTRUCTION!</p>
+		<p class="academics-empty-state">Grade summary will be available soon.</p>
 		</div>
 		
 		<br>
 		<?php 
 	  if( $this->session->userdata('current_usertype') == 'Teacher' or $this->session->userdata('current_usertype') == 'Principal'):
 		?>
-		<div class="col-md-6" style="text-align:left;">
+		<div class="col-md-6 academics-actions">
 		<input type="submit" class="btn btn-lg btn-primary" value="UPDATE Academics">
 		</div>
 		<?php endif; ?>

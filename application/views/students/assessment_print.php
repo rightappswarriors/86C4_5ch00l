@@ -1,168 +1,264 @@
-<?php 
-	
-	$row = $query->row(); 
-	$data = array( 'row'  => $row );
-	
-	$def_assessment = $default_ass->row();
-	$indntals_list = explode(",",$def_assessment->incidentals);
-	$msclns_list = explode(",",$def_assessment->miscellaneous);
-	
-	$current_schoolyear = $this->session->userdata('current_schoolyear') ?? date('Y');
-	
-	if($query_ass->num_rows()>0){
-		
-		$row_as = $query_ass->row(); 
-		$indntals = explode(",",$row_as->incidentals);
-		$msclns = explode(",",$row_as->miscellaneous);
-		
-		$tuition = $row_as->tuition;
-		$registration = $row_as->registration;
-		$total_msclns = array_sum( $msclns );
-		$total_indntals = array_sum( $indntals );
-		$total_ass = $total_msclns + $total_indntals + $registration + $tuition;
-		$paymentenroll = $row_as->payment;
-		$balance = $total_ass - $paymentenroll;
-		$monthly = $balance/9;
-		
-	}else{
-		
-		$indntals = explode(",",$def_assessment->incidentals_val);
-		$msclns = explode(",",$def_assessment->miscellaneous_val);
-		
-		$tuition = $def_assessment->tuition;
-		$registration = $def_assessment->registration;
-		$paymentenroll = $def_assessment->payment_enroll;
-		
-		$total_msclns = array_sum( $msclns );
-		$total_indntals = array_sum( $indntals );
-		$total_ass = $total_msclns + $total_indntals + $registration + $tuition;
-		$balance = $total_ass - $paymentenroll;
-		$monthly = $balance/9;
-		
-	}
-?>
+<?php
+$row = $query->row();
+$defaultAssessment = $default_ass->row();
 
+$gradeBand = static function ($gradeLevel) {
+    $value = strtoupper(trim((string) $gradeLevel));
+
+    if ($value === '') {
+        return 'G4-10';
+    }
+
+    // Explicit handling for known labels used in this system.
+    if (preg_match('/\b(?:LEVEL|GRADE)\s*-?\s*(?:10|11|12|[4-9])\b/i', $value)) {
+        return 'G4-10';
+    }
+
+    if (preg_match('/\b(?:LEVEL|GRADE)\s*-?\s*[1-3]\b/i', $value)) {
+        return 'RR-G3';
+    }
+
+    // Strict token matching prevents accidental substring matches.
+    $tokens = preg_split('/[^A-Z0-9]+/', $value, -1, PREG_SPLIT_NO_EMPTY);
+    if (in_array('RR', $tokens, true) || in_array('ABCS', $tokens, true) || in_array('K1', $tokens, true) || in_array('K2', $tokens, true)) {
+        return 'RR-G3';
+    }
+
+    if (preg_match('/\b(10|11|12|[4-9])\b/', $value)) {
+        return 'G4-10';
+    }
+
+    if (preg_match('/(?:GRADE|LEVEL)?\s*-?\s*(\d{1,2})/i', $value, $match)) {
+        return ((int) $match[1] <= 3) ? 'RR-G3' : 'G4-10';
+    }
+
+    return 'G4-10';
+};
+
+$formatMoney = static function ($amount) {
+    return number_format((float) $amount, 2);
+};
+
+$parseCsvNumbers = static function ($csv) {
+    $parts = array_map('trim', explode(',', (string) $csv));
+    $parts = array_filter($parts, static function ($value) {
+        return $value !== '';
+    });
+
+    return array_map('floatval', $parts);
+};
+
+$incidentalsLabels = array(
+    'PACEs',
+    'TLE',
+    'HELE',
+    'MAPEH',
+    'Parent Orientation',
+    'Handbook',
+    'Goal/Progress Chart Cover',
+    'Flags',
+    'ID',
+    'Notebook',
+    'Closing Fee',
+    "Fetcher\'s ID",
+    "Founder\'s Day",
+    'Graduation Fee',
+    'Congress Fee',
+    'Late Fee',
+    'CEM'
+);
+
+$gradeLabel = $gradeBand($row->gradelevel);
+$assetBaseUrl = rtrim(dirname(site_url()), '/\\');
+
+$logoDataUri = '';
+$logoCandidates = array(
+    FCPATH . 'assets/images/logo_portal.png',
+    FCPATH . 'assets/images/dashboard_logo.png'
+);
+
+foreach ($logoCandidates as $logoPath) {
+    if (is_readable($logoPath)) {
+        $logoContent = @file_get_contents($logoPath);
+        if ($logoContent !== false) {
+            $logoDataUri = 'data:image/png;base64,' . base64_encode($logoContent);
+            break;
+        }
+    }
+}
+
+$logoSrc = $logoDataUri !== '' ? $logoDataUri : ($assetBaseUrl . '/assets/images/logo_portal.png');
+
+$assessmentSource = $query_ass->num_rows() > 0 ? $query_ass->row() : null;
+
+$tuition = (float) ($assessmentSource ? $assessmentSource->tuition : $defaultAssessment->tuition);
+$registration = (float) ($assessmentSource ? $assessmentSource->registration : $defaultAssessment->registration);
+
+$miscellaneousValues = $assessmentSource
+    ? $parseCsvNumbers($assessmentSource->miscellaneous)
+    : $parseCsvNumbers($defaultAssessment->miscellaneous_val);
+$incidentalValues = $assessmentSource
+    ? $parseCsvNumbers($assessmentSource->incidentals)
+    : $parseCsvNumbers($defaultAssessment->incidentals_val);
+
+$totalMiscellaneous = array_sum($miscellaneousValues);
+$totalIncidentals = array_sum($incidentalValues);
+$totalAssessment = $tuition + $registration + $totalMiscellaneous + $totalIncidentals;
+
+$line = static function ($width = 120) {
+    return '<span class="fill" style="width:' . (int) $width . 'px;"></span>';
+};
+
+$renderIncidentals = static function () use ($incidentalsLabels) {
+    foreach ($incidentalsLabels as $label) {
+        ?>
+        <div class="row-line"><span class="left-label"><?= htmlspecialchars($label, ENT_QUOTES, 'UTF-8'); ?></span><span class="right-fill"></span></div>
+        <?php
+    }
+};
+
+$renderComputation = static function () use ($formatMoney, $tuition, $registration, $totalMiscellaneous, $totalIncidentals) {
+    ?>
+    <div class="row-line"><span class="left-label">TUITION</span><span class="money"><?= $formatMoney($tuition); ?></span></div>
+    <div class="row-line"><span class="left-label">REGISTRATION</span><span class="money"><?= $formatMoney($registration); ?></span></div>
+    <div class="row-line"><span class="left-label">TOTAL MISCELLANEOUS</span><span class="money"><?= $formatMoney($totalMiscellaneous); ?></span></div>
+    <div class="row-line"><span class="left-label">TOTAL INCIDENTALS</span><span class="money"><?= $formatMoney($totalIncidentals); ?></span></div>
+    <?php
+};
+
+$renderSummary = static function () use ($formatMoney, $totalAssessment) {
+    ?>
+    <div class="summary-box">
+        <div class="s-row"><span>TOTAL ASSESSMENT:</span><span class="money"><?= $formatMoney($totalAssessment); ?></span></div>
+        <div class="s-row"><span>Paid upon enrolment:</span><span class="s-fill"></span></div>
+        <div class="s-row"><span>Balance:</span><span class="s-fill"></span></div>
+        <div class="s-row due"><span>Due every 5<sup>th</sup> of the month:</span><span class="s-fill"></span></div>
+        <div class="s-row"><span>Payment received by:</span><span class="s-fill"></span></div>
+    </div>
+    <?php
+};
+?>
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title>Financial Assessment - <?= $row->firstname . " " . $row->lastname ?></title>
-	<style>
-		* { margin: 0; padding: 0; box-sizing: border-box; }
-		body { font-family: Arial, sans-serif; font-size: 10pt; line-height: 1.0; color: #000; background: #fff; }
-		
-		.page { width: 8.5in; min-height: 11in; margin: 0 auto; padding: 0.25in; }
-		
-		.header { text-align: center; font-size: 14pt; font-weight: bold; margin-bottom: 10px; }
-		
-		.info-row { margin-bottom: 6px; font-size: 10pt; }
-		.info-row .label { font-weight: bold; }
-		.info-row .field { display: inline-block; border-bottom: 1px solid #000; min-width: 200px; padding: 0 2px; }
-		.info-row .small { display: inline-block; border-bottom: 1px solid #000; min-width: 60px; padding: 0 2px; }
-		
-		.section-title { font-weight: bold; font-size: 10pt; margin-top: 8px; margin-bottom: 4px; }
-		
-		.fee-row { margin-bottom: 2px; font-size: 9pt; }
-		.fee-row .label { display: inline-block; width: 180px; }
-		.fee-row .field { display: inline-block; border-bottom: 1px solid #000; min-width: 80px; text-align: right; padding-right: 3px; }
-		
-		.incidentals-grid { margin-top: 4px; }
-		.incidentals-grid .row { display: flex; }
-		.incidentals-grid .col { width: 50%; }
-		.incidentals-grid .item { font-size: 8pt; margin-bottom: 1px; }
-		.incidentals-grid .item .label { display: inline-block; width: 110px; }
-		.incidentals-grid .item .field { display: inline-block; border-bottom: 1px solid #000; min-width: 55px; text-align: right; padding-right: 3px; }
-		
-		.total-line { font-weight: bold; font-size: 10pt; border-top: 1px solid #000; padding-top: 2px; margin-top: 2px; }
-		
-		.payment-row { margin-bottom: 3px; font-size: 9pt; }
-		.payment-row .label { display: inline-block; width: 160px; }
-		.payment-row .field { display: inline-block; border-bottom: 1px solid #000; min-width: 80px; text-align: right; padding-right: 3px; }
-		
-		.agreement { margin-top: 10px; font-size: 7pt; font-style: italic; line-height: 1.2; padding: 5px; border: 1px solid #999; }
-		
-		.sigs { margin-top: 15px; display: flex; justify-content: space-between; }
-		.sigs .sig { width: 45%; }
-		.sigs .sig-line { border-bottom: 1px solid #000; margin-top: 20px; }
-		.sigs .sig-label { font-size: 8pt; margin-top: 2px; }
-		
-		@media print {
-			body { margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-			.page { width: 100%; min-height: auto; margin: 0; padding: 0.2in; }
-			@page { size: letter portrait; margin: 0; }
-		}
-		
-		@media screen {
-			body { background: #666; padding: 15px; }
-			.page { background: #fff; box-shadow: 0 0 8px rgba(0,0,0,0.3); margin-bottom: 15px; }
-			.toolbar { text-align: center; padding: 12px; background: #222; color: #fff; position: sticky; top: 0; z-index: 100; }
-			.toolbar button { padding: 8px 16px; font-size: 13px; cursor: pointer; background: #2196F3; color: white; border: none; border-radius: 3px; margin: 0 4px; }
-			.toolbar button:hover { background: #1976D2; }
-		}
-	</style>
+    <meta charset="utf-8">
+    <title>Financial Assessment Print</title>
+    <link rel="stylesheet" href="<?= base_url(); ?>assets/css/Dashboard/students_assessment_print.css">
 </head>
 <body>
-
 <div class="toolbar">
-	<button onclick="window.print()">PRINT / SAVE PDF</button>
-	<button onclick="window.close()">CLOSE</button>
+    <button onclick="window.print()">PRINT / SAVE PDF</button>
+    <button onclick="window.close()">CLOSE</button>
 </div>
 
 <div class="page">
-	<div class="header">FINANCIAL ASSESSMENT FORM</div>
-	
-	<div class="info-row">
-		<span class="label">NAME:</span>
-		<span class="field"><?= strtoupper($row->firstname . " " . $row->lastname) ?></span>
-		<span class="label" style="margin-left:20px;">DATE:</span>
-		<span class="small"><?= date('m/d/Y') ?></span>
-	</div>
-	
-	<div class="info-row">
-		<span class="label">GRADE: (RR-G3/G4-10)</span>
-		<span class="small"><?= strtoupper($row->gradelevel) ?></span>
-		<span class="label" style="margin-left:20px;">S.Y.:</span>
-		<span class="small"><?= $current_schoolyear ?></span>
-	</div>
-	
-	<div class="section-title">TOTAL COMPUTATION</div>
-	<div class="fee-row"><span class="label">TUITION</span><span class="field"><?= number_format($tuition, 2) ?></span></div>
-	<div class="fee-row"><span class="label">REGISTRATION</span><span class="field"><?= number_format($registration, 2) ?></span></div>
-	<div class="fee-row"><span class="label">TOTAL MISCELLANEOUS</span><span class="field"><?= number_format($total_msclns, 2) ?></span></div>
-	<div class="fee-row"><span class="label">TOTAL INCIDENTALS</span><span class="field"><?= number_format($total_indntals, 2) ?></span></div>
-	
-	<div class="section-title">INCIDENTALS</div>
-	<div class="incidentals-grid">
-		<div class="row">
-			<div class="col">
-				<?php $half = ceil(count($indntals_list) / 2); for($i = 0; $i < $half && $i < count($indntals_list); $i++): ?>
-				<div class="item"><span class="label"><?= $indntals_list[$i] ?></span><span class="field"><?= number_format($indntals[$i] ?? 0, 2) ?></span></div>
-				<?php endfor; ?>
-			</div>
-			<div class="col">
-				<?php for($i = $half; $i < count($indntals_list); $i++): ?>
-				<div class="item"><span class="label"><?= $indntals_list[$i] ?></span><span class="field"><?= number_format($indntals[$i] ?? 0, 2) ?></span></div>
-				<?php endfor; ?>
-			</div>
-		</div>
-	</div>
-	
-	<div class="total-line"><span class="label">TOTAL ASSESSMENT:</span><span class="field"><?= number_format($total_ass, 2) ?></span></div>
-	
-	<div class="payment-row"><span class="label">Paid upon enrolment:</span><span class="field"><?= number_format($paymentenroll, 2) ?></span></div>
-	<div class="payment-row"><span class="label">Balance:</span><span class="field"><?= number_format($balance, 2) ?></span></div>
-	<div class="payment-row"><span class="label">Due every 5th of the month:</span><span class="field"><?= number_format($monthly, 2) ?></span></div>
-	<div class="payment-row"><span class="label">Payment received by:</span><span class="field"></span></div>
-	
-	<div class="agreement">
-		We the undersigned pledge to abide by the CHURCH-SCHOOL POLICY, DISCIPLINE, RULES AND REGULATIONS and the NO PAYMENT; NO STAMPING OF PACEs policy (1 month overdue) without reservations.
-	</div>
-	
-	<div class="sigs">
-		<div class="sig"><div class="sig-line"></div><div class="sig-label">Father's Signature over Printed Name</div></div>
-		<div class="sig"><div class="sig-line"></div><div class="sig-label">Mother's Signature Over Printed Name</div></div>
-	</div>
+    <section class="single-copy">
+        <div class="school-header">
+            <img src="<?= htmlspecialchars($logoSrc, ENT_QUOTES, 'UTF-8'); ?>" alt="School Logo">
+            <div class="school-lines">
+                <div>CEBU BOB HUGHES CHRISTIAN ACADEMY, INC.</div>
+                <div class="small">a Ministry of Cebu Bible Baptist Church, Inc.</div>
+                <div class="small">55 Katipunan street, Brgy. Calamba, Cebu City 6000</div>
+                <div class="small">Tel NO. 032-422-0700</div>
+            </div>
+        </div>
+
+        <div class="copy-caption">FINANCIAL ASSESSEMENT FORM</div>
+
+        <div class="meta-row">
+            <div>NAME: <?= $line(245); ?></div>
+            <div>DATE: <?= $line(95); ?></div>
+        </div>
+        <div class="meta-row">
+            <div>GRADE:(<?= htmlspecialchars($gradeLabel, ENT_QUOTES, 'UTF-8'); ?>)<?= $line(90); ?></div>
+            <div>S.Y.: <?= $line(95); ?></div>
+        </div>
+
+        <div class="section-grid">
+            <div>
+                <div class="section-head">INCIDENTALS</div>
+                <?php $renderIncidentals(); ?>
+            </div>
+            <div>
+                <div class="section-head">TOTAL COMPUTATION</div>
+                <?php $renderComputation(); ?>
+                <?php $renderSummary(); ?>
+            </div>
+        </div>
+
+        <div class="pledge">
+            We the undersigned pledge to abide by the CHURCH-SCHOOL POLICY,<br>
+            DISCIPLINE, RULES AND REGULATIONS and the NO PAYMENT; NO STAMPING<br>
+            OF PACEs policy (1 month overdue) without reservations.
+        </div>
+
+        <div class="signature">
+            <div class="line"></div>
+            Father's Signature over Printed Name
+        </div>
+        <div class="signature signature-mother">
+            <div class="line"></div>
+            Mother's Signature Over Printed Name
+        </div>
+    </section>
 </div>
 
+<div class="page">
+    <section class="single-copy mini">
+        <div class="mini-copy-label">STUDENT COPY</div>
+
+        <div class="meta-row">
+            <div>NAME: <?= $line(245); ?></div>
+            <div>DATE: <?= $line(95); ?></div>
+        </div>
+        <div class="meta-row">
+            <div>GRADE:(<?= htmlspecialchars($gradeLabel, ENT_QUOTES, 'UTF-8'); ?>)<?= $line(90); ?></div>
+            <div>S.Y.: <?= $line(95); ?></div>
+        </div>
+
+        <div class="copy-caption">FINANCIAL ASSESSEMENT FORM</div>
+
+        <div class="section-grid">
+            <div>
+                <div class="section-head">INCIDENTALS</div>
+                <?php $renderIncidentals(); ?>
+            </div>
+            <div>
+                <div class="section-head">TOTAL COMPUTATION</div>
+                <?php $renderComputation(); ?>
+                <?php $renderSummary(); ?>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div class="page">
+    <section class="single-copy mini">
+        <div class="office-label">ACCOUNTING OFFICE COPY</div>
+
+        <div class="meta-row">
+            <div>NAME: <?= $line(245); ?></div>
+            <div>DATE: <?= $line(95); ?></div>
+        </div>
+        <div class="meta-row">
+            <div>GRADE:(<?= htmlspecialchars($gradeLabel, ENT_QUOTES, 'UTF-8'); ?>)<?= $line(90); ?></div>
+            <div>S.Y.: <?= $line(95); ?></div>
+        </div>
+
+        <div class="copy-caption">FINANCIAL ASSESSEMENT FORM</div>
+
+        <div class="section-grid">
+            <div>
+                <div class="section-head">INCIDENTALS</div>
+                <?php $renderIncidentals(); ?>
+            </div>
+            <div>
+                <div class="section-head">TOTAL COMPUTATION</div>
+                <?php $renderComputation(); ?>
+                <?php $renderSummary(); ?>
+            </div>
+        </div>
+    </section>
+</div>
 </body>
 </html>
