@@ -50,5 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'login';
+$route['enroll/view_student_info/(:num)'] = 'students/view_student_info/$1';
+$route['enroll/enrollment_receipt/(:num)'] = 'students/enrollment_receipt/$1';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
