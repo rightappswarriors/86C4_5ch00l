@@ -6,6 +6,57 @@
 	$def_assessment = $default_ass->row();
 	$indntals_list = explode(",",$def_assessment->incidentals);
 	$msclns_list = explode(",",$def_assessment->miscellaneous);
+
+	$grade_band = function($gradelevel){
+		$value = strtoupper(trim((string) $gradelevel));
+
+		if ($value === '') {
+			return 'G4-10';
+		}
+
+		if (preg_match('/\b(?:LEVEL|GRADE)\s*-?\s*(?:10|11|12|[4-9])\b/i', $value)) {
+			return 'G4-10';
+		}
+
+		if (preg_match('/\b(?:LEVEL|GRADE)\s*-?\s*[1-3]\b/i', $value)) {
+			return 'RR-G3';
+		}
+
+		$tokens = preg_split('/[^A-Z0-9]+/', $value, -1, PREG_SPLIT_NO_EMPTY);
+		if (in_array('RR', $tokens, true) || in_array('ABCS', $tokens, true) || in_array('K1', $tokens, true) || in_array('K2', $tokens, true)) {
+			return 'RR-G3';
+		}
+
+		if (preg_match('/\b(10|11|12|[4-9])\b/', $value)) {
+			return 'G4-10';
+		}
+
+		if (preg_match('/(?:GRADE|LEVEL)?\s*-?\s*(\d{1,2})/i', $value, $match)) {
+			return ((int) $match[1] <= 3) ? 'RR-G3' : 'G4-10';
+		}
+
+		return 'G4-10';
+	};
+
+	$g4_10_incidentals = array(
+		'PACEs',
+		'TLE',
+		'HELE',
+		'MAPEH',
+		'Parent Orientation',
+		'Handbook',
+		'Goal/Progress Chart Cover',
+		'Flags',
+		'ID',
+		'Notebook',
+		'Closing Fee',
+		"Fetcher\'s ID",
+		"Founder\'s Day",
+		'Graduation Fee',
+		'Congress Fee',
+		'Late Fee',
+		'CEM'
+	);
 	
 	// ASSESSMENT
 	if($query_ass->num_rows()>0){
@@ -61,7 +112,64 @@
 		$as_id = 0;
 		
 	}
+
+	$current_grade_band = $grade_band(isset($row->gradelevel) ? $row->gradelevel : '');
+	if($current_grade_band === 'G4-10' && count($indntals_list) === count($g4_10_incidentals)){
+		$indntals_list = $g4_10_incidentals;
+	}
 ?>
+
+<style>
+.assessment-total-box {
+	border: 2px solid #48b8ff;
+	padding: 10px 12px 8px;
+	margin-top: 10px;
+}
+
+.assessment-total-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 4px;
+	font-size: 12px;
+}
+
+.assessment-total-row:last-child {
+	margin-bottom: 0;
+}
+
+.assessment-total-row label {
+	width: 170px;
+	margin: 0;
+	font-weight: 700;
+	color: #000;
+}
+
+.assessment-total-row.assessment-due-row label {
+	color: #1298f6;
+}
+
+.assessment-total-input {
+	width: 120px;
+	margin-left: auto;
+	border: 0;
+	border-bottom: 1px solid #000;
+	border-radius: 0;
+	background: transparent;
+	height: 20px;
+	padding: 0;
+	text-align: right;
+	font-size: 12px;
+	font-weight: 700;
+	box-shadow: none !important;
+}
+
+.assessment-total-input[disabled] {
+	background: transparent;
+	opacity: 1;
+	color: #000;
+}
+</style>
 
 <script>
 $(function(){	
@@ -187,7 +295,7 @@ function humanizeNumber(n) {
 				<div class="form-group row">
 					<label class="col-sm-4 col-form-label"><?=$indntals_val?></label>
 					<div class="col-sm-6">
-					  <input type="text" name="indntals[]" value="<?=$indntals[$ind]?>" class="form-control" />
+					  <input type="text" name="indntals[]" value="<?=isset($indntals[$ind]) ? $indntals[$ind] : '0'?>" class="form-control" />
 					</div>
 				</div>
 				<?php
@@ -196,19 +304,9 @@ function humanizeNumber(n) {
 			</div>
 			
 			<div class="col-md-6">
-			<p class="card-description text-info">MISCELLANEOUS</p>	
-				<?php
-				foreach($msclns_list as $ind=>$msclns_val):
-				?>
-				<div class="form-group row">
-					<label class="col-sm-4 col-form-label"><?=$msclns_val?></label>
-					<div class="col-sm-6">
-					  <input type="text" name="msclns[]" value="<?=$msclns[$ind]?>" class="form-control" />
-					</div>
-				</div>
-				<?php
-				endforeach;
-				?>
+				<?php foreach($msclns_list as $ind=>$msclns_val): ?>
+				<input type="hidden" name="msclns[]" value="<?=isset($msclns[$ind]) ? $msclns[$ind] : '0'?>" />
+				<?php endforeach; ?>
 			  
 			  <hr>
 			  <p class="card-description text-info">TOTAL COMPUTATION</p>	
@@ -232,30 +330,29 @@ function humanizeNumber(n) {
 				<div class="col-sm-6">
 				  <input type="text" id="totalinc" name="totalinc" value="<?=set_value('totalinc',number_format($total_indntals,2))?>" class="form-control" disabled />
 				</div>
-			  </div><div class="form-group row">
-				<label class="col-sm-4 col-form-label"><b>ASSESSMENT TOTAL</b></label>
-				<div class="col-sm-6">
-				  <input type="text" id="asstotal" name="asstotal" style="font-weight:bold;border:2px solid #999" value="<?=set_value('asstotal',number_format($total_ass,2))?>" class="form-control" disabled /> 
-				  <input type="hidden" id="asstotal_hidden" name="asstotal_hidden" value="<?=$total_ass?>">
-				</div>
 			  </div>
 			  
-			  <hr>
-			  <p class="card-description text-info">BASIC COMPUTATION</p>	
-			  <div class="form-group row">
-				<label class="col-sm-4 col-form-label"><b>Payment upon enrollment</b></label>
-				<div class="col-sm-6">
-				  <input type="text" id="paymentenroll" name="paymentenroll" value="<?=set_value('paymentenroll',$paymentenroll)?>" class="form-control" />
+			  <div class="assessment-total-box">
+				<div class="assessment-total-row">
+					<label>TOTAL ASSESSMENT:</label>
+					<input type="text" id="asstotal" name="asstotal" value="<?=set_value('asstotal',number_format($total_ass,2))?>" class="assessment-total-input" disabled />
+					<input type="hidden" id="asstotal_hidden" name="asstotal_hidden" value="<?=$total_ass?>">
 				</div>
-			  </div><div class="form-group row">
-				<label class="col-sm-4 col-form-label"><b>BALANCE</b></label>
-				<div class="col-sm-6">
-				  <input type="text" id="balance" name="balance" value="<?=set_value('balance',number_format($balance,2))?>" class="form-control" disabled/>
+				<div class="assessment-total-row">
+					<label>Paid upon enrolments:</label>
+					<input type="text" id="paymentenroll" name="paymentenroll" value="<?=set_value('paymentenroll',$paymentenroll)?>" class="assessment-total-input" />
 				</div>
-			  </div><div class="form-group row">
-				<label class="col-sm-4 col-form-label"><b>Due every 5th of the month:</b></label>
-				<div class="col-sm-6">
-				  <input type="text" id="monthdue" name="monthdue" value="<?=set_value('monthdue',number_format($monthly,2))?>" class="form-control" disabled/>
+				<div class="assessment-total-row">
+					<label>Balance:</label>
+					<input type="text" id="balance" name="balance" value="<?=set_value('balance',number_format($balance,2))?>" class="assessment-total-input" disabled/>
+				</div>
+				<div class="assessment-total-row assessment-due-row">
+					<label>Due every 5<sup>th</sup> of the month:</label>
+					<input type="text" id="monthdue" name="monthdue" value="<?=set_value('monthdue',number_format($monthly,2))?>" class="assessment-total-input" disabled/>
+				</div>
+				<div class="assessment-total-row">
+					<label>Payment received by:</label>
+					<input type="text" value="" class="assessment-total-input" disabled />
 				</div>
 			  </div>
 			  
