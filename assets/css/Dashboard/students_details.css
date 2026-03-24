@@ -53,15 +53,15 @@ p.text-info{
 
 /* Blue Section Headers */
 .grid-margin .card p.card-description.text-info {
-	background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+	background: #2563eb;
 	border-left: 4px solid #2563eb;
 	border-radius: 10px;
-	color: #1e40af !important;
+	color:  #fff !important;
 	font-size: 1rem;
 	font-weight: 600;
 	padding: 1rem 1.25rem;
 	margin: 1.5rem 0 1.25rem;
-	text-align: left;
+	text-align: center;
 }
 
 /* Label + Value styling to match enrollment */
