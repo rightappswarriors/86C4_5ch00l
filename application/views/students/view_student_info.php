@@ -190,8 +190,8 @@ $enroll_date = $enroll ? date('F j, Y', strtotime($enroll->addeddate)) : date('F
 	
 	// Generate QR codes on page load
 	document.addEventListener('DOMContentLoaded', function() {
-		// Student Info QR
-		var qrVerifyData = <?= json_encode($qr_data_verify) ?>;
+		// Student Info QR - URL to this page for verification
+		var qrVerifyData = "<?= site_url('enroll/view_student_info/' . $row->id) ?>";
 		var qrVerifyCanvas = document.getElementById('qr-verify-canvas');
 		if(qrVerifyCanvas) {
 			QRCode.toCanvas(qrVerifyCanvas, qrVerifyData, { width: 150 }, function(error) {
@@ -199,8 +199,8 @@ $enroll_date = $enroll ? date('F j, Y', strtotime($enroll->addeddate)) : date('F
 			});
 		}
 		
-		// Enrollment Receipt QR
-		var qrReceiptData = <?= json_encode($qr_data_receipt) ?>;
+		// Enrollment Receipt QR - URL to enrollment receipt
+		var qrReceiptData = "<?= site_url('enroll/enrollment_receipt/' . $row->id) ?>";
 		var qrReceiptCanvas = document.getElementById('qr-receipt-canvas');
 		if(qrReceiptCanvas) {
 			QRCode.toCanvas(qrReceiptCanvas, qrReceiptData, { width: 150 }, function(error) {

@@ -57,12 +57,8 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 	var studentId = <?= $student_id ?>;
-	var qrData = JSON.stringify({
-		'type': 'ENROLLMENT_RECEIPT',
-		'student_id': studentId,
-		'name': 'BHCA Student',
-		'date': new Date().toISOString().split('T')[0]
-	});
+	// QR code now contains a URL that redirects to enrollment receipt
+	var qrData = "<?= site_url('enroll/enrollment_receipt/') ?>" + studentId;
 	var canvas = document.getElementById('qr-success-canvas');
 	if(canvas) {
 		QRCode.toCanvas(canvas, qrData, { width: 250 }, function(error) {

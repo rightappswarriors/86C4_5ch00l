@@ -104,7 +104,8 @@ $enroll_date = $enroll ? date('F j, Y', strtotime($enroll->addeddate)) : date('F
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-	var qrVerifyData = <?= json_encode($qr_data_verify) ?>;
+	// QR code now contains a URL for verification
+	var qrVerifyData = "<?= site_url('enroll/view_student_info/' . $row->id) ?>";
 	var qrVerifyCanvas = document.getElementById('qr-verify-canvas');
 	if(qrVerifyCanvas) {
 		QRCode.toCanvas(qrVerifyCanvas, qrVerifyData, { width: 150 }, function(error) {
