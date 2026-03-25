@@ -90,3 +90,26 @@ ADD COLUMN `school_id` VARCHAR(20) NULL AFTER `lrn`;
 
 -- ADD A NEW COLUMN ON THE students
 ALTER TABLE `students` ADD `mother_fbmessenger` VARCHAR(255) NULL AFTER `father_fbmessenger`;
+
+
+
+
+SUPERADMIN
+USER:noieadmin
+PASS:admin123
+
+ADMIN
+USER:curtadmin
+PASS:admin123
+
+teacher
+USER:maquino
+PASS:bhcatemp
+
+accounting
+user:iponte
+pass:bhcatemp
+
+registrar
+user:registrar
+pass:bhcatemp

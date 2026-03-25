@@ -1,8 +1,10 @@
 /* Admin Dashboard Styling */
+
+/* Main Cards */
 .admin-dashboard .enroll-card {
     border: none;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     overflow: hidden;
     background: #fff;
     margin-bottom: 1.5rem;
@@ -18,46 +20,270 @@
 .admin-dashboard .enroll-header h4 {
     margin: 0;
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 1rem;
+}
+
+.admin-dashboard .enroll-header-gradient {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #fff;
+    padding: 1rem 1.5rem;
+}
+
+.admin-dashboard .enroll-header-gradient h4 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1rem;
 }
 
 .admin-dashboard .enroll-section {
-    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
     border-radius: 10px;
-    padding: 1rem 1.25rem;
+    padding: 0.875rem 1rem;
     margin-bottom: 1rem;
     border-left: 4px solid #2563eb;
 }
 
 .admin-dashboard .enroll-section-title {
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     color: #1e40af;
     margin: 0;
 }
 
 .admin-dashboard .card-body {
-    padding: 1.5rem;
+    padding: 1.25rem;
 }
 
+/* Table Styling */
 .admin-dashboard .table thead th {
-    background: #f3f4f6;
-    color: #374151;
+    background: #f8fafc;
+    color: #475569;
     font-weight: 600;
-    border-bottom: 2px solid #e5e7eb;
+    border-bottom: 2px solid #e2e8f0;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.75rem 1rem;
+}
+
+.admin-dashboard .table tbody td {
+    padding: 0.875rem 1rem;
+    vertical-align: middle;
+    border-bottom: 1px solid #f1f5f9;
 }
 
 .admin-dashboard .table tbody tr:hover {
-    background: #f9fafb;
+    background: #f8fafc;
 }
 
+.admin-dashboard .table {
+    margin-bottom: 0;
+}
+
+/* Buttons */
 .admin-dashboard .btn-primary {
     background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
     border: none;
     border-radius: 8px;
     padding: 0.5rem 1rem;
+    font-weight: 500;
+    font-size: 0.875rem;
 }
 
 .admin-dashboard .btn-primary:hover {
     background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+}
+
+.admin-dashboard .btn-light {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    color: #64748b;
+    border-radius: 6px;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8rem;
+}
+
+.admin-dashboard .btn-light:hover {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+/* Stat Cards */
+.stat-card {
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+.stat-card-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: #fff;
+}
+
+.stat-card-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #fff;
+}
+
+.stat-card-info {
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+    color: #fff;
+}
+
+.stat-card-warning {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: #fff;
+}
+
+.stat-card-body {
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stat-icon i {
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.stat-content {
+    text-align: right;
+}
+
+.stat-label {
+    margin: 0;
+    font-size: 0.8rem;
+    opacity: 0.9;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-number {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+/* Badge Styling */
+.admin-dashboard .badge {
+    padding: 0.35em 0.65em;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.badge-primary {
+    background-color: #3b82f6;
+    color: #fff;
+}
+
+.badge-success {
+    background-color: #10b981;
+    color: #fff;
+}
+
+.badge-info {
+    background-color: #06b6d4;
+    color: #fff;
+}
+
+.badge-warning {
+    background-color: #f59e0b;
+    color: #fff;
+}
+
+.badge-danger {
+    background-color: #ef4444;
+    color: #fff;
+}
+
+.badge-light {
+    background-color: #f1f5f9;
+    color: #475569;
+}
+
+/* Level List */
+.level-list {
+    max-height: 280px;
+    overflow-y: auto;
+}
+
+.level-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.level-list::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.level-list::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 2px;
+}
+
+.level-list .border-bottom:last-child {
+    border-bottom: none !important;
+}
+
+/* Progress Bar */
+.progress {
+    height: 6px;
+    border-radius: 3px;
+    background: #e2e8f0;
+}
+
+.progress-bar {
+    border-radius: 3px;
+}
+
+/* Dot Indicator */
+.dot-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991px) {
+    .stat-card-body {
+        padding: 1rem;
+    }
+    
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .stat-icon i {
+        font-size: 1.25rem;
+    }
+    
+    .stat-number {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .admin-dashboard .col-md-3,
+    .admin-dashboard .col-md-4,
+    .admin-dashboard .col-md-8 {
+        margin-bottom: 1rem;
+    }
 }

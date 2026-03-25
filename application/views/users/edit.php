@@ -42,7 +42,17 @@
 			  <div class="form-group row">
 				<label class="col-sm-3 col-form-label">User Type</label>
 				<div class="col-sm-9">
-				  <input type="text" name="usertype" value="<?= set_value("usertype",$row->usertype) ?>" class="form-control" />
+				  <?php
+					$user_types = array(
+						'' => '-- Select User Type --',
+						'Admin' => 'Admin',
+						'Registrar' => 'Registrar',
+						'Teacher' => 'Teacher',
+						'Accounting' => 'Accounting'
+					);
+					$selected = set_value('usertype', $row->usertype);
+					echo form_dropdown('usertype', $user_types, $selected, 'class="form-control"');
+				  ?>
 				</div>
 			  </div>
 			</div>
@@ -115,7 +125,7 @@
 			  </div>
 			</div>
 		  </div>
-			
+		  
 		  
 		  <div style="text-align:center;margin:0 auto;">
 		  <input type="submit" class="btn btn-lg btn-success" name="submit" value="UPDATE">
