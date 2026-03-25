@@ -7,6 +7,24 @@
 	$indntals_list = explode(",",$def_assessment->incidentals);
 	$msclns_list = explode(",",$def_assessment->miscellaneous);
 	$can_view_detailed_soa = !empty($can_view_detailed_soa);
+	$assetBaseUrl = rtrim(dirname(site_url()), '/\\');
+	$logoDataUri = '';
+	$logoCandidates = array(
+		FCPATH . 'assets/images/logo_portal.png',
+		FCPATH . 'assets/images/dashboard_logo.png'
+	);
+
+	foreach ($logoCandidates as $logoPath) {
+		if (is_readable($logoPath)) {
+			$logoContent = @file_get_contents($logoPath);
+			if ($logoContent !== false) {
+				$logoDataUri = 'data:image/png;base64,' . base64_encode($logoContent);
+				break;
+			}
+		}
+	}
+
+	$logoSrc = $logoDataUri !== '' ? $logoDataUri : ($assetBaseUrl . '/assets/images/logo_portal.png');
 	
 	// ASSESSMENT
 	if($query_ass->num_rows()>0){
@@ -316,7 +334,7 @@
 	<!-- School Header -->
 	<div class="school-header">
 		<div class="school-logo">
-			<img src="<?=dirname(base_url())?>/assets/images/logo_portal.png" alt="School Logo">
+			<img src="<?= htmlspecialchars($logoSrc, ENT_QUOTES, 'UTF-8'); ?>" alt="School Logo">
 		</div>
 		<div class="school-details">
 			<h2>CEBU BOB HUGHES CHRISTIAN ACADEMY, INC.</h2>

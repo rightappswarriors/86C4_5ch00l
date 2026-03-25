@@ -10,9 +10,19 @@ class Users extends CI_Controller {
 			$this->session->set_flashdata('message', "You need to be logged in to access the page.");
 			redirect("login");
 		}
+		if(!$this->can_manage_users()){
+			$this->session->set_flashdata('message', "You are not allowed to access System Users.");
+			redirect("dashboard");
+		}
 		//$this->load->model('profile_model');
 		$this->load->model('users_model');
 
+	}
+
+	private function can_manage_users()
+	{
+		return $this->session->userdata('current_usertype') == 'Admin'
+			|| $this->session->userdata('current_usertype_display') == 'Super Admin';
 	}
 	
 	public function index()
@@ -43,6 +53,8 @@ class Users extends CI_Controller {
 		$this->form_validation->set_rules('mobileno', 'Mobile No./Login', 'required|trim');
 		$this->form_validation->set_rules('firstname', 'First Name', 'required|trim');
 		$this->form_validation->set_rules('lastname', 'Last Name', 'required|trim');
+		$this->form_validation->set_rules('emailadd', 'E-mail', 'trim|valid_email');
+		$this->form_validation->set_rules('birthdate', 'Birthdate', 'trim');
 		$this->form_validation->set_rules('cpassword', 'New Password', 'trim|matches[rpassword]');
 		$this->form_validation->set_rules('rpassword', 'Repeat Password', 'trim');
 	
@@ -53,10 +65,13 @@ class Users extends CI_Controller {
 			
 			$data = array(
 				'mobileno'  => $this->input->post('mobileno'),
+				'emailadd'  => $this->input->post('emailadd'),
 				'gradelevel'  => $this->input->post('gradelevel'),
 				'gradelevel1'  => $this->input->post('gradelevel1'),
 				'lastname'  => $this->input->post('lastname'),
 				'firstname'  => $this->input->post('firstname'),
+				'middlename'  => $this->input->post('middlename'),
+				'birthdate'  => $this->input->post('birthdate') ?: null,
 				'userpass'  => md5($this->input->post('cpassword')),
 				'usertype'  => $this->input->post('usertype')
 			);
@@ -102,6 +117,8 @@ class Users extends CI_Controller {
 		$this->form_validation->set_rules('mobileno', 'Mobile No./Login', 'required|trim');
 		$this->form_validation->set_rules('firstname', 'First Name', 'required|trim');
 		$this->form_validation->set_rules('lastname', 'Last Name', 'required|trim');
+		$this->form_validation->set_rules('emailadd', 'E-mail', 'trim|valid_email');
+		$this->form_validation->set_rules('birthdate', 'Birthdate', 'trim');
 		$this->form_validation->set_rules('cpassword', 'New Password', 'trim|matches[rpassword]');
 		$this->form_validation->set_rules('rpassword', 'Repeat Password', 'trim');
 	
@@ -112,11 +129,14 @@ class Users extends CI_Controller {
 			
 			$data = array(
 				'mobileno'  => $this->input->post('mobileno'),
+				'emailadd'  => $this->input->post('emailadd'),
 				'gradelevel'  => $this->input->post('gradelevel'),
 				'gradelevel1'  => $this->input->post('gradelevel1'),
 				'usertype'  => $this->input->post('usertype'),
 				'lastname'  => $this->input->post('lastname'),
-				'firstname'  => $this->input->post('firstname')
+				'firstname'  => $this->input->post('firstname'),
+				'middlename'  => $this->input->post('middlename'),
+				'birthdate'  => $this->input->post('birthdate') ?: null
 			);
 			
 			if( strlen(trim($this->input->post('cpassword')))>0 ){

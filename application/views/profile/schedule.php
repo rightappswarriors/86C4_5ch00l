@@ -1,140 +1,145 @@
-<link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/enrollment.css">
+<?php
+$student_name = trim(($student->firstname ?? '') . ' ' . ($student->lastname ?? ''));
+$student_name = $student_name !== '' ? $student_name : 'Student';
+$subjects = isset($subjects) ? $subjects : array();
+$pace_progress = isset($pace_progress) ? $pace_progress : array();
+$conventional_subjects = isset($conventional_subjects) ? $conventional_subjects : array();
+?>
+
 <style>
-	.schedule-container {
-		padding: 1.5rem;
+.schedule-page {
+	background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);
+	padding-top: .25rem;
+}
+.schedule-shell {
+	background: #fff;
+	border-radius: 22px;
+	box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+	overflow: hidden;
+	margin-bottom: 1.5rem;
+}
+.schedule-hero {
+	background: linear-gradient(135deg, #059669 0%, #10b981 55%, #34d399 100%);
+	color: #fff;
+	padding: 1.75rem;
+}
+.schedule-body {
+	padding: 1.5rem;
+}
+.schedule-back {
+	display: inline-flex;
+	align-items: center;
+	gap: .45rem;
+	margin-bottom: 1rem;
+	font-weight: 600;
+}
+.schedule-grid {
+	display: grid;
+	grid-template-columns: 1.2fr .8fr;
+	gap: 1rem;
+}
+.schedule-card {
+	border: 1px solid #d1fae5;
+	border-radius: 18px;
+	padding: 1.1rem;
+	background: #fcfffd;
+}
+.schedule-card h4 {
+	margin-bottom: .9rem;
+	font-weight: 700;
+}
+.schedule-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+	gap: .75rem;
+}
+.schedule-pill {
+	border-radius: 14px;
+	padding: .85rem 1rem;
+	background: #ecfdf5;
+	border: 1px solid #a7f3d0;
+	font-weight: 600;
+	color: #065f46;
+}
+.schedule-note {
+	border: 1px dashed #86efac;
+	border-radius: 16px;
+	padding: 1rem;
+	background: #f0fdf4;
+	color: #166534;
+}
+.schedule-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+.schedule-table th,
+.schedule-table td {
+	padding: .75rem;
+	border-bottom: 1px solid #e5e7eb;
+}
+.schedule-table th {
+	text-transform: uppercase;
+	font-size: .8rem;
+	color: #475569;
+	background: #f8fafc;
+}
+.schedule-empty {
+	border: 1px dashed #cbd5e1;
+	border-radius: 16px;
+	padding: 2rem 1rem;
+	text-align: center;
+	color: #64748b;
+	background: #f8fafc;
+}
+@media (max-width: 900px) {
+	.schedule-grid {
+		grid-template-columns: 1fr;
 	}
-	.schedule-card {
-		border: none;
-		border-radius: 16px;
-		box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-		overflow: hidden;
-		background: #fff;
-		margin-bottom: 1.5rem;
-	}
-	.schedule-header {
-		background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-		color: white;
-		padding: 1.5rem;
-		text-align: center;
-	}
-	.schedule-avatar {
-		width: 80px;
-		height: 80px;
-		border-radius: 50%;
-		background: white;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		margin: 0 auto 1rem;
-		font-size: 2.5rem;
-		color: #059669;
-		box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-	}
-	.schedule-header h3 {
-		margin: 0;
-		font-weight: 700;
-	}
-	.schedule-header p {
-		margin: 0.5rem 0 0;
-		opacity: 0.9;
-		font-size: 0.9rem;
-	}
-	.schedule-body {
-		padding: 1.5rem;
-	}
-	.schedule-table {
-		width: 100%;
-		border-collapse: collapse;
-		margin-top: 1rem;
-	}
-	.schedule-table th,
-	.schedule-table td {
-		padding: 1rem;
-		text-align: left;
-		border-bottom: 1px solid #e5e7eb;
-	}
-	.schedule-table th {
-		background: #f9fafb;
-		font-weight: 600;
-		color: #374151;
-		font-size: 0.85rem;
-		text-transform: uppercase;
-		letter-spacing: 0.5px;
-	}
-	.schedule-table td {
-		color: #6b7280;
-	}
-	.schedule-empty {
-		text-align: center;
-		padding: 3rem;
-		color: #9ca3af;
-	}
-	.schedule-empty i {
-		font-size: 3rem;
-		margin-bottom: 1rem;
-		display: block;
-		color: #d1d5db;
-	}
-	.schedule-empty p {
-		font-size: 1.1rem;
-		margin: 0;
-	}
-	.back-btn {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
-		border: none;
-		border-radius: 8px;
-		padding: 0.6rem 1.25rem;
-		font-weight: 600;
-		font-size: 0.9rem;
-		color: white;
-		cursor: pointer;
-		text-decoration: none;
-		transition: all 0.3s ease;
-		margin-bottom: 1.5rem;
-	}
-	.back-btn:hover {
-		transform: translateY(-2px);
-		box-shadow: 0 4px 15px rgba(107, 114, 128, 0.4);
-		color: white;
-	}
+}
 </style>
 
-<div class="col-lg-12 grid-margin schedule-container">
-	<a href="<?=site_url('dashboard')?>" class="back-btn">
-		<i class="mdi mdi-arrow-left"></i> Back to Dashboard
-	</a>
-
-	<!-- Schedule Display Card -->
-	<div class="card schedule-card">
-		<div class="schedule-header">
-			<div class="schedule-avatar">
-				<i class="mdi mdi-calendar-clock"></i>
-			</div>
-			<h3>Class Schedule</h3>
-			<p>View your daily timetable</p>
+<div class="col-md-12 schedule-page">
+	<div class="schedule-shell">
+		<div class="schedule-hero">
+			<h2><i class="mdi mdi-calendar-clock"></i> Class Schedule</h2>
+			<p>Learning overview for <?=htmlspecialchars($student_name)?></p>
 		</div>
 		<div class="schedule-body">
-			<table class="schedule-table">
-				<thead>
-					<tr>
-						<th>Time</th>
-						<th>Subject</th>
-						<th>Teacher</th>
-						<th>Room</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td colspan="4" class="schedule-empty">
-							<i class="mdi mdi-calendar-blank"></i>
-							<p>No class schedule available yet</p>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<a href="<?=site_url('dashboard')?>" class="schedule-back"><i class="mdi mdi-arrow-left"></i> Back to Dashboard</a>
+
+			<div class="schedule-grid">
+				<div class="schedule-card">
+					<h4>Current Subject Load</h4>
+					<?php if (count($subjects) > 0): ?>
+						<div class="schedule-list">
+							<?php foreach ($subjects as $subject): ?>
+								<div class="schedule-pill"><?=htmlspecialchars($subject)?></div>
+							<?php endforeach; ?>
+						</div>
+					<?php else: ?>
+						<div class="schedule-empty">No enrolled subjects are available yet.</div>
+					<?php endif; ?>
+				</div>
+
+				<div class="schedule-card">
+					<h4>Student Snapshot</h4>
+					<table class="schedule-table">
+						<tbody>
+							<tr><th>Grade Level</th><td><?=htmlspecialchars($student->gradelevel ?? '-')?></td></tr>
+							<tr><th>Status</th><td><?=htmlspecialchars($student->enrollstatus ?? 'No active enrollment')?></td></tr>
+							<tr><th>PACE Subjects</th><td><?=count($pace_progress)?></td></tr>
+							<tr><th>Conventional</th><td><?=count($conventional_subjects)?></td></tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div class="schedule-card" style="margin-top:1rem;">
+				<h4>Published Timetable</h4>
+				<div class="schedule-note">
+					No dedicated class timetable table exists in the current system yet, so this page shows the student's active learning load and enrollment context instead of fake time slots.
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

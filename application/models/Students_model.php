@@ -119,7 +119,7 @@ class Students_model extends CI_Model
 	function students_newold($newold)
 	{
 		$thisnewold = " and b.newold = '$newold'";
-		$query = "select a.*,b.newold,b.gradelevel,b.status as enrollstatus, c.firstname as user_firstname, 
+		$query = "select a.*,b.id as enroll_id,b.newold,b.gradelevel,b.status as enrollstatus, c.firstname as user_firstname, 
 		c.lastname as user_lastname, c.lastlogin as user_lastlogin, c.mobileno as user_mobileno from students a 
 		join enrolled b on b.studentid = a.id 
 		left join register c on c.id = a.user_id 
@@ -174,7 +174,7 @@ class Students_model extends CI_Model
 			}
 		}
         
-        $query = "select a.*,b.ableforpt,b.newold,b.gradelevel,b.status as enrollstatus, c.firstname as user_firstname, c.lastname as user_lastname, c.lastlogin as user_lastlogin, c.mobileno as user_mobileno 
+        $query = "select a.*,b.id as enroll_id,b.ableforpt,b.newold,b.gradelevel,b.status as enrollstatus, c.firstname as user_firstname, c.lastname as user_lastname, c.lastlogin as user_lastlogin, c.mobileno as user_mobileno 
             from students a 
 			join enrolled b on b.studentid = a.id 
 			left join register c on c.id = a.user_id 
@@ -310,7 +310,7 @@ class Students_model extends CI_Model
 	{
 		// REGISTRAR
 		//if($this->session->userdata('current_usertype') == 'Registrar' || $this->session->userdata('current_usertype') == 'Admin'){
-		$query = "select a.*,b.newold,b.gradelevel,b.status as enrollstatus, c.firstname as user_firstname, 
+		$query = "select a.*,b.id as enroll_id,b.newold,b.gradelevel,b.status as enrollstatus, c.firstname as user_firstname, 
 			c.lastname as user_lastname, c.lastlogin as user_lastlogin, c.mobileno as user_mobileno from students a 
 			join enrolled b on b.studentid = a.id 
 			left join register c on c.id = a.user_id 
@@ -371,7 +371,7 @@ class Students_model extends CI_Model
 
 	function getRecentActive()
 	{
-		$str_qry = "select a.*,b.newold,b.gradelevel,b.status as enrollstatus, c.firstname as user_firstname, 
+		$str_qry = "select a.*,b.id as enroll_id,b.newold,b.gradelevel,b.status as enrollstatus, c.firstname as user_firstname, 
 			c.lastname as user_lastname, c.lastlogin as user_lastlogin, c.mobileno as user_mobileno from students a 
 			join enrolled b on b.studentid = a.id 
 			left join register c on c.id = a.user_id 

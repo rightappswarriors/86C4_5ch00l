@@ -87,11 +87,15 @@ class Login_model extends CI_Model
 
 	private function set_user_session($user)
 	{
+		$rawUsertype = (string) $user->usertype;
+		$effectiveUsertype = $rawUsertype === 'Super Admin' ? 'Admin' : $rawUsertype;
+
 		$this->session->set_userdata('logged_in', 1);
 		$this->session->set_userdata('current_userid', $user->id);
 		$this->session->set_userdata('current_firstname', $user->firstname);
 		$this->session->set_userdata('current_mobileno', $user->mobileno);
-		$this->session->set_userdata('current_usertype', $user->usertype);
+		$this->session->set_userdata('current_usertype', $effectiveUsertype);
+		$this->session->set_userdata('current_usertype_display', $rawUsertype);
 	}
 
 	private function set_schoolyear_session()

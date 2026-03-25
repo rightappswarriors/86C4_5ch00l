@@ -102,7 +102,7 @@
                  <div class="dropdown-header text-center">
                    <img class="img-md rounded-circle" src="<?=base_url()?>assets/images/faces/face8.png" alt="Profile image">
                    <p class="mb-1 mt-3 font-weight-bold text-dark" style="font-size:16px;"><?=$this->session->userdata('current_firstname')?></p>
-				  <p class="font-weight-bold text-dark mb-0" style="font-size:14px;"><?=$this->session->userdata('current_usertype')?></p>
+				  <p class="font-weight-bold text-dark mb-0" style="font-size:14px;"><?=$this->session->userdata('current_usertype_display') ?: $this->session->userdata('current_usertype')?></p>
 				  <p class="font-weight-bold text-dark mb-0" style="font-size:14px;"><?=$this->session->userdata('current_mobileno')?></p>
                      
                  </div>
