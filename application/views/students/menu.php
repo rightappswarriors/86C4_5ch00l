@@ -1,18 +1,18 @@
 <link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/action_menu.css">
 
 <div class="col-md-12">
-<div class="row" style="margin-bottom:20px;">
+<div class="row student-page-header">
 
 <div class="col-sm-10">
     <div class="student-info-card">
-        <h3 style="margin:0;"> <?= $row->firstname . " " . $row->lastname ?> 
-            <span class="status-badge status-pending" style="background:rgba(255,255,255,0.3);"><?=$row->newold?> student</span> 
+        <h3 class="student-summary-name"> <?= $row->firstname . " " . $row->lastname ?> 
+            <span class="status-badge status-student-type"><?=$row->newold?> student</span> 
             <span class="status-badge status-interview"><?=$row->enrollstatus?></span>
         </h3>
-        <p style="margin:10px 0 0 0;opacity:0.9;"><i class="mdi mdi-alert-circle"></i> Issue PACE? <?=$row->ableforpt?></p>
+        <p class="student-summary-meta"><i class="mdi mdi-alert-circle"></i> Issue PACE? <?=$row->ableforpt?></p>
     </div>
 </div>
-<div class="col-sm-2" style="text-align:center;">
+<div class="col-sm-2 student-photo-wrap">
     <img src="<?=$profile_pic?>" class="student-profile-img">
 </div>
 

@@ -7,32 +7,32 @@
 
 <link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/students_details.css">
 
-<div class="col-lg-12 grid-margin stretch-card">
+<div class="col-lg-12 grid-margin stretch-card student-details-page">
 
-	<div class="card">
+	<div class="card student-details-card">
 	  <div class="card-body">
 	 
 		<?php
 		if($this->session->flashdata('message'))
 		{
-			echo '<div class="text-primary" style="margin-bottom:10px;">
+			echo '<div class="student-details-flash text-primary">
 				'.$this->session->flashdata("message").'
 			</div>';
 		}
 		?>
 	 
-		<h3 class="heading" style="text-align:center;">Student Information</h3>
+		<h3 class="heading student-details-title">Student Information</h3>
 		<?=validation_errors()?>
-		<div class="row">
+		<div class="row student-details-toolbar">
 		<div class="col-md-12 text-right pb-2">
 		<a href="<?=site_url("students/details_print/".$this->uri->segment(3))?>" title="Print" class="btn btn-icons btn-secondary btn-rounded"><i class='mdi mdi-printer'></i></a>
 		</div>
 		</div>
-		<div class="row">
+		<div class="row student-details-actions">
 			<?php if($this->session->userdata('current_usertype') == 'Accounting' or $this->session->userdata('current_usertype') == 'Registrar'):?>
-			<div class="col-md-6" style="text-align:left;">							
+			<div class="col-md-6 student-details-actions-left">							
 				<div class="dropdown">
-					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <code class="text-dark">Change Status:</code> <code class="text-danger"><?=$row->enrollstatus?></code> </button>
+					<button class="btn btn-secondary dropdown-toggle student-details-dropdown" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <code class="text-dark">Change Status:</code> <code class="text-danger"><?=$row->enrollstatus?></code> </button>
 					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
 						<code><a class="dropdown-item" href="<?=site_url("students/changestatus/Active/".$row->id)?>">Active</a>
 						<a class="dropdown-item" href="<?=site_url("students/changestatus/Pending/".$row->id)?>">Pending</a>
@@ -47,9 +47,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6" style="text-align:right;">
+			<div class="col-md-6 student-details-actions-right">
 			<div class="dropdown">
-					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <code class="text-dark">Scholar?</code> <code class="text-danger"><?=$row->scholar?></code> </button>
+					<button class="btn btn-secondary dropdown-toggle student-details-dropdown" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <code class="text-dark">Scholar?</code> <code class="text-danger"><?=$row->scholar?></code> </button>
 					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
 						<code><a class="dropdown-item" href="<?=site_url("payments/scholar/Yes/".$row->id)?>">Yes</a>
 						<a class="dropdown-item" href="<?=site_url("payments/scholar/No/".$row->id)?>">No</a></code>
@@ -58,9 +58,9 @@
 			</div>	
 			
 			<br><br>
-			<div class="col-md-6" style="text-align:right;">
+			<div class="col-md-6 student-details-actions-right">
 			<?php else: ?>
-			<div class="col-md-12" style="text-align:right;">
+			<div class="col-md-12 student-details-actions-right">
 			<?php endif; ?>
 				<!--<a href="#" class="btn btn-icons btn-secondary btn-rounded"><i class='mdi mdi-printer'></i></a>-->
 			</div>

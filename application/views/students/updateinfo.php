@@ -3,24 +3,26 @@
 	$data = array( 'row'  => $row );
 ?>
 
+<link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/students_updateinfo.css">
+
 <?php $this->load->view("students/menu",$data) ?>
 
-<div class="col-lg-12 grid-margin stretch-card">
+<div class="col-lg-12 grid-margin stretch-card update-info-page">
 
-	<div class="card">
+	<div class="card update-info-card">
 	  <div class="card-body">
 	 
-		<h3 class="heading" style="text-align:center;">Update Student Information</h3>
+		<h3 class="heading update-info-title">Update Student Information</h3>
 		
 		<?=validation_errors()?>
 		
 		<div class="row">
-			<div class="col-md-12" style="text-align:right;">
+			<div class="col-md-12 update-info-toolbar">
 		<a href="<?=site_url("students/print_info/".$row->id)?>" class="btn btn-icons btn-secondary btn-rounded"><i class='mdi mdi-printer'></i></a>
 		</div>
 		</div>
 		
-		<form class="form-sample" action="<?=site_url("students/updateinfo_submit/".$row->id)?>" method="POST">
+		<form class="form-sample update-info-form" action="<?=site_url("students/updateinfo_submit/".$row->id)?>" method="POST">
 		  <p class="card-description text-info"> Fields with * are required. </p>
 		  
 		  <div class="row">
@@ -580,7 +582,7 @@
 			</div>
 		  </div>
 		  
-		  <div style="text-align:center;margin:0 auto;">
+		  <div class="update-info-submit">
 		  <input type="submit" class="btn btn-lg btn-success" name="submit" value="UPDATE">
 		  </div>
 

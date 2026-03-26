@@ -8,6 +8,72 @@ p.text-info{
 	font-size:16px;
 }
 
+.student-details-page .student-details-card {
+	border: none;
+	border-radius: 20px;
+	box-shadow: 0 18px 40px rgba(15, 23, 42, 0.09);
+	overflow: hidden;
+	background: linear-gradient(180deg, #f8fbff 0%, #ffffff 18%);
+	margin: 20px;
+}
+
+.student-details-page .student-details-title {
+	margin: 0;
+	text-align: center;
+	padding: 1.6rem 2rem 1.1rem;
+	font-size: 1.95rem;
+	font-weight: 700;
+	letter-spacing: -0.02em;
+}
+
+.student-details-page .student-details-flash {
+	margin: 1.25rem 2rem 0;
+	padding: 0.9rem 1.1rem;
+	border-radius: 14px;
+	background: #eff6ff;
+	border: 1px solid #bfdbfe;
+	font-weight: 600;
+}
+
+.student-details-page .student-details-toolbar {
+	padding: 0 2rem;
+	margin-bottom: 0.25rem;
+}
+
+.student-details-page .student-details-actions {
+	padding: 0 2rem 0.75rem;
+	align-items: center;
+}
+
+.student-details-page .student-details-actions-left {
+	text-align: left;
+}
+
+.student-details-page .student-details-actions-right {
+	text-align: right;
+}
+
+.student-details-page .student-details-dropdown,
+.student-details-page .student-details-toolbar .btn {
+	border-radius: 999px;
+	box-shadow: 0 10px 24px rgba(15, 23, 42, 0.10);
+}
+
+.student-details-page .student-details-dropdown {
+	padding: 0.7rem 1rem;
+	background: #fff;
+	color: #0f172a;
+	border: 1px solid #dbe3ef;
+}
+
+.student-details-page .student-details-dropdown:hover,
+.student-details-page .student-details-dropdown:focus {
+	background: #fff;
+	color: #0f172a;
+	border-color: #bfd2eb;
+	box-shadow: 0 12px 28px rgba(37, 99, 235, 0.14);
+}
+
 /* Card Container Styles */
 .grid-margin .card {
 	border: none;
@@ -119,6 +185,7 @@ p.text-info{
 	width: auto !important;
 	padding-left: 8px !important;
 	padding-right: 8px !important;
+	min-width: 0 !important;
 }
 
 /* Label column styling */
@@ -127,9 +194,26 @@ p.text-info{
 	text-align: right;
 }
 
-/* Input column styling */
+.grid-margin .card .form-group.row .col-sm-4 {
+	text-align: right;
+}
+
+/* Input/value column styling */
+.grid-margin .card .form-group.row .col-sm-8,
 .grid-margin .card .form-group.row .col-sm-9 {
 	flex: 1 !important;
+	min-width: 0 !important;
+	max-width: 100% !important;
+	overflow-wrap: anywhere;
+	word-break: break-word;
+	white-space: normal;
+	line-height: 1.5;
+}
+
+.grid-margin .card .col-form-label {
+	font-weight: 600;
+	color: #374151;
+	text-align: right;
 }
 
 /* Parent Info Block Styling */
@@ -163,6 +247,21 @@ p.text-info{
 	width: auto !important;
 	padding-left: 8px !important;
 	padding-right: 8px !important;
+	min-width: 0 !important;
+}
+
+.parent-info-block .form-group.row .col-sm-4 {
+	text-align: right;
+}
+
+.parent-info-block .form-group.row .col-sm-8 {
+	flex: 1 !important;
+	min-width: 0 !important;
+	max-width: 100% !important;
+	overflow-wrap: anywhere;
+	word-break: break-word;
+	white-space: normal;
+	line-height: 1.5;
 }
 
 /* Form Controls Styling */
@@ -181,4 +280,33 @@ p.text-info{
 .grid-margin .card .form-check {
 	margin: 0;
 	padding: 8px 0;
+}
+
+@media (max-width: 767.98px) {
+	.student-details-page .student-details-card {
+		margin: 12px 0 16px;
+		border-radius: 16px;
+	}
+
+	.student-details-page .student-details-title {
+		padding: 1.35rem 1rem 1rem;
+		font-size: 1.55rem;
+	}
+
+	.student-details-page .student-details-flash,
+	.student-details-page .student-details-toolbar,
+	.student-details-page .student-details-actions {
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+
+	.student-details-page .student-details-actions-left,
+	.student-details-page .student-details-actions-right {
+		text-align: left;
+		margin-bottom: 0.75rem;
+	}
+
+	.student-details-page .student-details-dropdown {
+		width: 100%;
+	}
 }
