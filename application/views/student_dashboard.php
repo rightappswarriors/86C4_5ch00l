@@ -70,6 +70,20 @@ if (strtolower((string) $enrollment_status) === 'active') {
                         <small style="opacity:0.8;font-size:0.7rem;">Status: <?=$enrollment_status?></small>
                     </a>
                 </div>
+                <div class="col-6 col-md-4">
+                    <a href="<?=site_url('classroom/student_classes')?>" class="action-btn" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                        <i class="mdi mdi-school"></i>
+                        <span>My Classes</span>
+                        <small style="opacity:0.8;font-size:0.7rem;">View joined classes</small>
+                    </a>
+                </div>
+                <div class="col-6 col-md-4">
+                    <a href="<?=site_url('classroom/student_join')?>" class="action-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="mdi mdi-plus-box"></i>
+                        <span>Join Class</span>
+                        <small style="opacity:0.8;font-size:0.7rem;">Enter class code</small>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

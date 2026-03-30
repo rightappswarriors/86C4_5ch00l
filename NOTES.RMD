@@ -113,3 +113,120 @@ pass:bhcatemp
 registrar
 user:registrar
 pass:bhcatemp
+
+
+
+--------------------------------------------------------------------
+-- Classroom System Database Tables for BHCA School System
+-- Created: 2026-03-30
+
+-- Table: classroom_classes
+-- Stores class information created by teachers
+CREATE TABLE IF NOT EXISTS `classroom_classes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `class_name` varchar(255) NOT NULL,
+  `subject_name` varchar(255) NOT NULL,
+  `teacher_name` varchar(255) NOT NULL,
+  `teacher_id` int(11) NOT NULL,
+  `room` varchar(100) DEFAULT NULL,
+  `class_code` varchar(20) NOT NULL UNIQUE,
+  `description` text,
+  `school_year` varchar(20) DEFAULT NULL,
+  `status` enum('active','inactive','archived') DEFAULT 'active',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  INDEX `teacher_id` (`teacher_id`),
+  INDEX `class_code` (`class_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Table: classroom_students
+-- Links students to classes (similar to Google Classroom join)
+CREATE TABLE IF NOT EXISTS `classroom_students` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `class_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `student_name` varchar(255) NOT NULL,
+  `joined_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `status` enum('active','inactive') DEFAULT 'active',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `class_student` (`class_id`, `student_id`),
+  INDEX `class_id` (`class_id`),
+  INDEX `student_id` (`student_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Table: classroom_announcements
+-- Teacher announcements for each class
+CREATE TABLE IF NOT EXISTS `classroom_announcements` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `class_id` int(11) NOT NULL,
+  `teacher_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `priority` enum('normal','important','urgent') DEFAULT 'normal',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  INDEX `class_id` (`class_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Table: classroom_activities
+-- Activities/assignments given by teachers
+CREATE TABLE IF NOT EXISTS `classroom_activities` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `class_id` int(11) NOT NULL,
+  `teacher_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text,
+  `due_date` datetime DEFAULT NULL,
+  `points` int(11) DEFAULT NULL,
+  `attachment_path` varchar(500) DEFAULT NULL,
+  `attachment_name` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  INDEX `class_id` (`class_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Table: classroom_submissions
+-- Student activity submissions
+CREATE TABLE IF NOT EXISTS `classroom_submissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `activity_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `student_name` varchar(255) NOT NULL,
+  `file_path` varchar(500) NOT NULL,
+  `file_name` varchar(255) NOT NULL,
+  `comment` text,
+  `submitted_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `grade` int(11) DEFAULT NULL,
+  `feedback` text,
+  `graded_at` datetime DEFAULT NULL,
+  `status` enum('pending','submitted','graded','returned') DEFAULT 'submitted',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `activity_student` (`activity_id`, `student_id`),
+  INDEX `activity_id` (`activity_id`),
+  INDEX `student_id` (`student_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Table: classroom_meetings
+-- Online meeting/schedule for classes
+CREATE TABLE IF NOT EXISTS `classroom_meetings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `class_id` int(11) NOT NULL,
+  `teacher_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `meeting_link` varchar(500) DEFAULT NULL,
+  `meeting_platform` varchar(100) DEFAULT 'Google Meet',
+  `scheduled_date` date NOT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time DEFAULT NULL,
+  `description` text,
+  `is_recurring` enum('no','daily','weekly') DEFAULT 'no',
+  `status` enum('scheduled','ongoing','completed','cancelled') DEFAULT 'scheduled',
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  INDEX `class_id` (`class_id`),
+  INDEX `scheduled_date` (`scheduled_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
