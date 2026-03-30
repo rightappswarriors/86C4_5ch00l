@@ -168,6 +168,15 @@
     text-align: center;
 }
 
+.student-dashboard .action-btn small {
+    text-align: center;
+}
+
+.student-dashboard .action-btn-caption {
+    opacity: 0.8;
+    font-size: 0.7rem;
+}
+
 .student-dashboard .action-grades {
     background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
     color: white;
@@ -196,6 +205,63 @@
 .student-dashboard .action-enrollment {
     background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
     color: white;
+}
+
+.student-dashboard .action-classes {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    color: #fff !important;
+}
+
+.student-dashboard .action-join {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: #fff !important;
+}
+
+.student-dashboard .action-classes i,
+.student-dashboard .action-classes span,
+.student-dashboard .action-classes small,
+.student-dashboard .action-join i,
+.student-dashboard .action-join span,
+.student-dashboard .action-join small {
+    color: #fff !important;
+    opacity: 1 !important;
+}
+
+.student-action-modal-content {
+    border-radius: 15px;
+    overflow: hidden;
+    border: 0;
+}
+
+.student-action-modal-header {
+    padding: 20px 25px;
+}
+
+.student-action-modal-close {
+    opacity: 1;
+}
+
+.student-action-modal-close span {
+    font-size: 28px;
+}
+
+.student-action-modal-body {
+    padding: 0;
+    background: #fff;
+}
+
+.student-action-modal-frame {
+    display: block;
+    width: 100%;
+    height: 75vh;
+    border: 0;
+    background: #fff;
+}
+
+@media (max-width: 991px) {
+    .student-action-modal-frame {
+        height: 70vh;
+    }
 }
 
 .student-dashboard .bank-info {

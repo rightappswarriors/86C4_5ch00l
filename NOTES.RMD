@@ -129,15 +129,15 @@ CREATE TABLE IF NOT EXISTS `classroom_classes` (
   `teacher_name` varchar(255) NOT NULL,
   `teacher_id` int(11) NOT NULL,
   `room` varchar(100) DEFAULT NULL,
-  `class_code` varchar(20) NOT NULL UNIQUE,
+  `class_code` varchar(20) NOT NULL,
   `description` text,
   `school_year` varchar(20) DEFAULT NULL,
   `status` enum('active','inactive','archived') DEFAULT 'active',
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  INDEX `teacher_id` (`teacher_id`),
-  INDEX `class_code` (`class_code`)
+  UNIQUE KEY `ux_class_code` (`class_code`),
+  INDEX `idx_teacher_id` (`teacher_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Table: classroom_students

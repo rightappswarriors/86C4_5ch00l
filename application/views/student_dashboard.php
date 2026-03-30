@@ -7,6 +7,22 @@ $payment_count = isset($current_student_payments_count) ? (int) $current_student
 $enrollment_status = isset($current_student->enrollstatus) ? $current_student->enrollstatus : 'Pending';
 $grade_level = isset($current_student->gradelevel) ? $current_student->gradelevel : '-';
 $status_class = 'status-pending';
+$dashboard_classroom_modals = array(
+    'classes' => array(
+        'id' => 'studentClassesModal',
+        'title' => 'My Classes',
+        'subtitle' => 'View joined classes',
+        'icon' => 'mdi mdi-school',
+        'url' => site_url('classroom/student_classes'),
+    ),
+    'join' => array(
+        'id' => 'studentJoinModal',
+        'title' => 'Join Class',
+        'subtitle' => 'Enter class code',
+        'icon' => 'mdi mdi-plus-box',
+        'url' => site_url('classroom/student_join'),
+    ),
+);
 if (strtolower((string) $enrollment_status) === 'active') {
     $status_class = 'status-enrolled';
 } elseif (strtolower((string) $enrollment_status) === 'inactive') {
@@ -71,17 +87,17 @@ if (strtolower((string) $enrollment_status) === 'active') {
                     </a>
                 </div>
                 <div class="col-6 col-md-4">
-                    <a href="<?=site_url('classroom/student_classes')?>" class="action-btn" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                    <a href="#" class="action-btn action-classes" data-toggle="modal" data-target="#<?=$dashboard_classroom_modals['classes']['id']?>">
                         <i class="mdi mdi-school"></i>
                         <span>My Classes</span>
-                        <small style="opacity:0.8;font-size:0.7rem;">View joined classes</small>
+                        <small class="action-btn-caption">View joined classes</small>
                     </a>
                 </div>
                 <div class="col-6 col-md-4">
-                    <a href="<?=site_url('classroom/student_join')?>" class="action-btn" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <a href="#" class="action-btn action-join" data-toggle="modal" data-target="#<?=$dashboard_classroom_modals['join']['id']?>">
                         <i class="mdi mdi-plus-box"></i>
                         <span>Join Class</span>
-                        <small style="opacity:0.8;font-size:0.7rem;">Enter class code</small>
+                        <small class="action-btn-caption">Enter class code</small>
                     </a>
                 </div>
             </div>
@@ -165,3 +181,26 @@ if (strtolower((string) $enrollment_status) === 'active') {
         </div>
     </div>
 </div>
+
+<?php foreach ($dashboard_classroom_modals as $modal): ?>
+<div class="modal fade" id="<?=$modal['id']?>" tabindex="-1" role="dialog" aria-labelledby="<?=$modal['id']?>Label" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content student-action-modal-content">
+            <div class="modal-header bg-gradient-primary text-white student-action-modal-header">
+                <div>
+                    <h4 class="modal-title font-weight-bold" id="<?=$modal['id']?>Label">
+                        <i class="<?=$modal['icon']?>"></i> <?=$modal['title']?>
+                    </h4>
+                    <p class="mb-0 small"><?=$modal['subtitle']?></p>
+                </div>
+                <button type="button" class="close text-white student-action-modal-close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body student-action-modal-body">
+                <iframe class="student-action-modal-frame" src="<?=$modal['url']?>" loading="lazy" title="<?=$modal['title']?>"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endforeach; ?>
