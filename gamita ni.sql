@@ -13734,3 +13734,95 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+-- All Classroom Tables for bbccolle_beta_bhcaportal database
+-- Run this SQL to create all required classroom tables
+
+-- 1. classroom_classes - Main classes table
+CREATE TABLE IF NOT EXISTS `classroom_classes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `teacher_id` int(11) NOT NULL,
+  `class_name` varchar(255) NOT NULL,
+  `subject_name` varchar(255) DEFAULT NULL,
+  `class_code` varchar(10) NOT NULL,
+  `description` text,
+  `school_year` varchar(20) DEFAULT NULL,
+  `status` enum('active','archived') DEFAULT 'active',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `class_code` (`class_code`),
+  KEY `teacher_id` (`teacher_id`),
+  KEY `status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 2. classroom_students - Students enrolled in classes
+CREATE TABLE IF NOT EXISTS `classroom_students` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `class_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `student_name` varchar(255) NOT NULL,
+  `status` enum('active','inactive') DEFAULT 'active',
+  `joined_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `class_id` (`class_id`),
+  KEY `student_id` (`student_id`),
+  KEY `status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 3. classroom_announcements - Class announcements
+CREATE TABLE IF NOT EXISTS `classroom_announcements` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `class_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `class_id` (`class_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 4. classroom_activities - Class activities/assignments
+CREATE TABLE IF NOT EXISTS `classroom_activities` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `class_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text,
+  `due_date` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `class_id` (`class_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 5. classroom_submissions - Student submissions
+CREATE TABLE IF NOT EXISTS `classroom_submissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `activity_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `content` text,
+  `grade` varchar(20) DEFAULT NULL,
+  `feedback` text,
+  `status` enum('submitted','graded') DEFAULT 'submitted',
+  `submitted_at` datetime DEFAULT NULL,
+  `graded_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `activity_id` (`activity_id`),
+  KEY `student_id` (`student_id`),
+  KEY `status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 6. classroom_meetings - Online meetings/schedules
+CREATE TABLE IF NOT EXISTS `classroom_meetings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `class_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `meeting_link` varchar(500) DEFAULT NULL,
+  `scheduled_date` date DEFAULT NULL,
+  `start_time` time DEFAULT NULL,
+  `end_time` time DEFAULT NULL,
+  `status` enum('scheduled','completed','cancelled') DEFAULT 'scheduled',
+  `created_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `class_id` (`class_id`),
+  KEY `scheduled_date` (`scheduled_date`),
+  KEY `status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -4,6 +4,7 @@
 <style>
 .activity-submissions-container {
     padding: 20px;
+    font-family: "roboto", sans-serif;
 }
 
 .back-link {

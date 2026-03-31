@@ -4,6 +4,7 @@
 <style>
 .teacher-classes-container {
     padding: 20px;
+    font-family: "roboto", sans-serif;
 }
 
 .page-header {
@@ -17,12 +18,12 @@
 
 .page-header h2 {
     margin: 0;
-    color: #333;
+    color: #2196F3;
     font-weight: 600;
 }
 
 .btn-create {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
     color: #fff;
     border: none;
     padding: 12px 25px;
@@ -58,7 +59,7 @@
 }
 
 .class-card-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
     color: #fff;
     padding: 20px;
     position: relative;
@@ -104,7 +105,7 @@
 }
 
 .info-item i {
-    color: #667eea;
+    color: #2196F3;
     font-size: 18px;
 }
 
@@ -112,6 +113,7 @@
     font-size: 12px;
     color: #666;
     text-transform: uppercase;
+    font-weight: 700;
 }
 
 .info-item .value {
@@ -142,22 +144,22 @@
 }
 
 .btn-view {
-    background: #667eea;
+    background: #2196F3;
     color: #fff;
 }
 
 .btn-view:hover {
-    background: #5568d3;
+    background: #1976D2;
     color: #fff;
 }
 
 .btn-delete {
-    background: #dc3545;
+    background: #6c757d;
     color: #fff;
 }
 
 .btn-delete:hover {
-    background: #c82333;
+    background: #5a6268;
     color: #fff;
 }
 
@@ -232,13 +234,14 @@
 }
 
 .modal-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
     color: #fff;
     padding: 20px;
     border-radius: 12px 12px 0 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-family: "roboto", sans-serif;
 }
 
 .modal-header h4 {
@@ -302,7 +305,7 @@ textarea.form-control {
 }
 
 .btn-modal-submit {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
     color: #fff;
     border: none;
     padding: 12px 25px;
@@ -314,7 +317,7 @@ textarea.form-control {
 
 .btn-modal-submit:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
 }
 
 .btn-modal-cancel {
@@ -340,7 +343,7 @@ textarea.form-control {
 }
 
 .back-link {
-    color: #667eea;
+    color: #2196F3;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -350,7 +353,11 @@ textarea.form-control {
 }
 
 .back-link:hover {
-    color: #5568d3;
+    color: #1976D2;
+}
+
+.fa-chalkboard {
+    color: #2196F3;
 }
 </style>
 

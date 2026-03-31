@@ -4,10 +4,11 @@
 <style>
 .class-view-container {
     padding: 20px;
+    font-family: "roboto", sans-serif;
 }
 
 .class-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
     color: #fff;
     padding: 25px;
     border-radius: 12px;
@@ -70,7 +71,7 @@
 
 .stat-card i {
     font-size: 30px;
-    color: #667eea;
+    color: #2196F3;
     margin-bottom: 10px;
 }
 
@@ -124,7 +125,7 @@
 }
 
 .section-header h4 i {
-    color: #667eea;
+    color: #2196F3;
 }
 
 .section-body {
@@ -270,7 +271,7 @@
 }
 
 .btn-submit-activity {
-    background: #667eea;
+    background: #2196F3;
     color: #fff;
     border: none;
     padding: 8px 15px;
@@ -283,7 +284,7 @@
 }
 
 .btn-submit-activity:hover {
-    background: #5568d3;
+    background: #1976D2;
 }
 
 /* Modal Styles */
@@ -314,7 +315,7 @@
 }
 
 .modal-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
     color: #fff;
     padding: 20px;
     border-radius: 12px 12px 0 0;
@@ -348,6 +349,7 @@
     margin-bottom: 5px;
     font-weight: 500;
     color: #333;
+    font-family: "roboto", sans-serif;
 }
 
 .form-control {
@@ -364,7 +366,7 @@
 }
 
 .btn-modal-submit {
-    background: #667eea;
+    background: #2196F3;
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -417,7 +419,7 @@
         <div class="class-code-display">
             <i class="fas fa-code"></i>
             <?=$class->class_code?>
-            <span style="font-size: 12px; opacity: 0.8;">(Share with students)</span>
+            <span style="font-size: 12px;">(Share with students)</span>
         </div>
     </div>
     
