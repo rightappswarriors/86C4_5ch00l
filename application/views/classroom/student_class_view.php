@@ -402,8 +402,8 @@
 </style>
 
 <div class="class-view-container">
-    <a href="<?=site_url('classroom/student_classes')?>" class="back-link">
-        <i class="fas fa-arrow-left"></i> Back to My Classes
+    <a href="<?=site_url('dashboard')?>" class="back-link" style="display:inline-flex; align-items:center; gap:5px; color:#10b981; text-decoration:none; margin-bottom:15px;">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
     </a>
     
     <div class="class-header">
