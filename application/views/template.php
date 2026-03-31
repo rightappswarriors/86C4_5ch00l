@@ -55,6 +55,37 @@
 	
   </head>
   <body>
+    <?php
+    $current_usertype = strtolower((string) $this->session->userdata('current_usertype'));
+    $student_notification_count = 0;
+    $student_notification_preview = array();
+    $student_notification_tables = array(
+      'classroom_students',
+      'classroom_classes',
+      'classroom_activities',
+      'classroom_announcements',
+    );
+    $student_notifications_ready = true;
+    $student_user_id = $this->session->userdata('current_userid');
+
+    if ($current_usertype === 'student') {
+      foreach ($student_notification_tables as $table_name) {
+        if (!$this->db->table_exists($table_name)) {
+          $student_notifications_ready = false;
+          break;
+        }
+      }
+
+      if ($student_notifications_ready) {
+        $this->load->model('Classroom_model', 'student_classroom_model');
+
+        if (isset($this->student_classroom_model) && is_object($this->student_classroom_model)) {
+          $student_notification_count = $this->student_classroom_model->count_recent_student_notifications($student_user_id, 7);
+          $student_notification_preview = $this->student_classroom_model->get_student_notifications($student_user_id, 3);
+        }
+      }
+    }
+    ?>
     <div class="container-scroller">
       <!-- partial:../../partials/_navbar.html -->
       <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
@@ -106,6 +137,24 @@
 				  <p class="font-weight-bold text-dark mb-0" style="font-size:14px;"><?=$this->session->userdata('current_mobileno')?></p>
                      
                  </div>
+                 <?php if ($current_usertype === 'student'): ?>
+                 <a class="dropdown-item d-flex justify-content-between align-items-center" href="<?=site_url('classroom/student_notifications')?>">
+                   <span><i class="mdi mdi-bell-outline mr-2"></i>Notifications</span>
+                   <?php if ($student_notification_count > 0): ?>
+                   <span class="badge badge-pill badge-danger"><?=$student_notification_count?></span>
+                   <?php endif; ?>
+                 </a>
+                 <?php if (!empty($student_notification_preview)): ?>
+                 <div class="notification-preview-list">
+                   <?php foreach ($student_notification_preview as $preview_item): ?>
+                   <a href="<?=site_url('classroom/student_class/' . $preview_item->class_id)?>" class="notification-preview-item">
+                     <div class="notification-preview-title"><?=htmlspecialchars($preview_item->title, ENT_QUOTES, 'UTF-8')?></div>
+                     <div class="notification-preview-meta"><?=$preview_item->class_name?><?php if (!empty($preview_item->created_at)): ?> | <?=date('M d', strtotime($preview_item->created_at))?><?php endif; ?></div>
+                   </a>
+                   <?php endforeach; ?>
+                 </div>
+                 <?php endif; ?>
+                 <?php endif; ?>
                  <a class="dropdown-item" href="<?=site_url("myprofile")?>">My Account</a>
                </div>
              </li>
@@ -141,7 +190,7 @@
           <!-- partial:../../partials/_footer.html -->
           <footer class="footer">
             <div class="container-fluid clearfix">
-              <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © <?php echo date("Y"); ?> <a href="http://www.bobhughes.edu.ph/" target="_blank">Bob Hughes Christian Academy</a>. All rights reserved.</span>
+              <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright Â© <?php echo date("Y"); ?> <a href="http://www.bobhughes.edu.ph/" target="_blank">Bob Hughes Christian Academy</a>. All rights reserved.</span>
               <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">support@bobhughes.edu.ph <i class="mdi mdi-heart text-danger"></i>
               </span>
             </div>

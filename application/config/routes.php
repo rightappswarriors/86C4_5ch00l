@@ -58,6 +58,7 @@ $route['classroom/student_class/(:num)'] = 'classroom/student_class_view/$1';
 $route['classroom/activity_submissions/(:num)'] = 'classroom/activity_submissions/$1';
 $route['classroom/student_join'] = 'classroom/student_join';
 $route['classroom/student_classes'] = 'classroom/student_classes';
+$route['classroom/student_notifications'] = 'classroom/student_notifications';
 $route['enroll/view_student_info/(:num)'] = 'students/view_student_info/$1';
 $route['enroll/enrollment_receipt/(:num)'] = 'students/enrollment_receipt/$1';
 $route['404_override'] = '';

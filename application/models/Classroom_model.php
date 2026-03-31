@@ -109,6 +109,106 @@ class Classroom_model extends CI_Model {
         return $this->db->get();
     }
 
+    // Get recent classroom notifications for a student
+    public function get_student_notifications($student_id, $limit = 20) {
+        $student_id = (int) $student_id;
+        $limit = max(1, (int) $limit);
+
+        $sql = "
+            SELECT notifications.*
+            FROM (
+                SELECT
+                    'activity' AS notification_type,
+                    ca.id AS source_id,
+                    ca.class_id,
+                    cc.class_name,
+                    cc.subject_name,
+                    cc.teacher_name,
+                    ca.title,
+                    ca.description AS body,
+                    ca.due_date,
+                    ca.created_at
+                FROM classroom_students cs
+                INNER JOIN classroom_classes cc
+                    ON cc.id = cs.class_id
+                   AND cc.status = 'active'
+                INNER JOIN classroom_activities ca
+                    ON ca.class_id = cc.id
+                WHERE cs.student_id = ?
+                  AND cs.status = 'active'
+                  AND (cs.joined_at IS NULL OR ca.created_at >= cs.joined_at)
+
+                UNION ALL
+
+                SELECT
+                    'announcement' AS notification_type,
+                    can.id AS source_id,
+                    can.class_id,
+                    cc.class_name,
+                    cc.subject_name,
+                    cc.teacher_name,
+                    can.title,
+                    can.content AS body,
+                    NULL AS due_date,
+                    can.created_at
+                FROM classroom_students cs
+                INNER JOIN classroom_classes cc
+                    ON cc.id = cs.class_id
+                   AND cc.status = 'active'
+                INNER JOIN classroom_announcements can
+                    ON can.class_id = cc.id
+                WHERE cs.student_id = ?
+                  AND cs.status = 'active'
+                  AND (cs.joined_at IS NULL OR can.created_at >= cs.joined_at)
+            ) notifications
+            ORDER BY notifications.created_at DESC
+            LIMIT {$limit}
+        ";
+
+        return $this->db->query($sql, array($student_id, $student_id))->result();
+    }
+
+    // Count recent student notifications for the dropdown badge
+    public function count_recent_student_notifications($student_id, $days = 7) {
+        $student_id = (int) $student_id;
+        $days = max(1, (int) $days);
+
+        $sql = "
+            SELECT COUNT(*) AS total_notifications
+            FROM (
+                SELECT ca.created_at
+                FROM classroom_students cs
+                INNER JOIN classroom_classes cc
+                    ON cc.id = cs.class_id
+                   AND cc.status = 'active'
+                INNER JOIN classroom_activities ca
+                    ON ca.class_id = cc.id
+                WHERE cs.student_id = ?
+                  AND cs.status = 'active'
+                  AND (cs.joined_at IS NULL OR ca.created_at >= cs.joined_at)
+                  AND ca.created_at >= DATE_SUB(NOW(), INTERVAL {$days} DAY)
+
+                UNION ALL
+
+                SELECT can.created_at
+                FROM classroom_students cs
+                INNER JOIN classroom_classes cc
+                    ON cc.id = cs.class_id
+                   AND cc.status = 'active'
+                INNER JOIN classroom_announcements can
+                    ON can.class_id = cc.id
+                WHERE cs.student_id = ?
+                  AND cs.status = 'active'
+                  AND (cs.joined_at IS NULL OR can.created_at >= cs.joined_at)
+                  AND can.created_at >= DATE_SUB(NOW(), INTERVAL {$days} DAY)
+            ) notifications
+        ";
+
+        $query = $this->db->query($sql, array($student_id, $student_id))->row();
+
+        return $query ? (int) $query->total_notifications : 0;
+    }
+
     // Get students in a class
     public function get_class_students($class_id) {
         $this->db->where('class_id', $class_id);

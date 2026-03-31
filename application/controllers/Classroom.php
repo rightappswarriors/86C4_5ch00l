@@ -447,6 +447,23 @@ class Classroom extends CI_Controller {
         $this->load->view('classroom/student_classes', $data);
     }
 
+    // Student notifications feed
+    public function student_notifications()
+    {
+        $student_id = $this->session->userdata('current_userid');
+        if (empty($student_id)) {
+            $this->session->set_flashdata('error', 'Please login to view your notifications');
+            redirect('login');
+            return;
+        }
+
+        $data['title'] = 'Notifications';
+        $data['template'] = 'classroom/student_notifications';
+        $data['notifications'] = $this->classroom_model->get_student_notifications($student_id, 25);
+
+        $this->load->view('template', $data);
+    }
+
     // Student class view
     public function student_class_view($class_id)
     {
