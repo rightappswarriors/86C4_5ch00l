@@ -22,7 +22,7 @@
 }
 
 .btn-join {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
     color: #fff;
     border: none;
     padding: 12px 25px;
@@ -49,7 +49,7 @@
     margin-bottom: 20px;
     overflow: hidden;
     transition: all 0.3s ease;
-    border-left: 5px solid #10b981;
+    border-left: 5px solid #2196F3;
 }
 
 .class-card:hover {
@@ -58,7 +58,7 @@
 }
 
 .class-card-header {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
     color: #fff;
     padding: 20px;
 }
@@ -91,7 +91,7 @@
 }
 
 .info-item i {
-    color: #10b981;
+    color: #2196F3;
     font-size: 18px;
 }
 
@@ -129,7 +129,7 @@
 }
 
 .btn-view {
-    background: #10b981;
+    background: #2196F3;
     color: #fff;
 }
 
@@ -182,7 +182,7 @@
 </style>
 
 <div class="student-classes-container">
-    <a href="<?=site_url('dashboard')?>" class="back-link" style="display:inline-flex; align-items:center; gap:5px; color:#10b981; text-decoration:none; margin-bottom:15px;">
+    <a href="<?=site_url('dashboard')?>" class="back-link" style="display:inline-flex; align-items:center; gap:5px; color:#2196F3; text-decoration:none; margin-bottom:15px;">
         <i class="fas fa-arrow-left"></i> Back to Dashboard
     </a>
     <div class="page-header">

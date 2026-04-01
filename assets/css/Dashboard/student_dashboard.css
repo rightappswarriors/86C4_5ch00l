@@ -121,7 +121,7 @@
 }
 
 .student-dashboard .welcome-card {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
     border-radius: 12px;
     padding: 2rem;
     color: white;
@@ -213,7 +213,7 @@
 }
 
 .student-dashboard .action-join {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%) !important;
     color: #fff !important;
 }
 
