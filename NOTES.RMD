@@ -330,3 +330,49 @@ CREATE TABLE IF NOT EXISTS `classroom_meetings` (
   PRIMARY KEY (`id`),
   KEY `class_id` (`class_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--SETTINGS QUERY
+
+CREATE TABLE IF NOT EXISTS `student_settings` (
+  `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `student_user_id` BIGINT(20) NOT NULL,
+  `dark_mode` TINYINT(1) NOT NULL DEFAULT 0,
+  `font_size` VARCHAR(20) NOT NULL DEFAULT 'medium',
+  `compact_layout` TINYINT(1) NOT NULL DEFAULT 0,
+  `default_landing_page` VARCHAR(50) NOT NULL DEFAULT 'dashboard',
+  `default_schoolyear_id` INT NULL DEFAULT NULL,
+  `remember_sidebar_state` TINYINT(1) NOT NULL DEFAULT 1,
+  `high_contrast` TINYINT(1) NOT NULL DEFAULT 0,
+  `reduce_motion` TINYINT(1) NOT NULL DEFAULT 0,
+  `larger_text` TINYINT(1) NOT NULL DEFAULT 0,
+  `hide_mobile_number` TINYINT(1) NOT NULL DEFAULT 0,
+  `hide_profile_photo` TINYINT(1) NOT NULL DEFAULT 0,
+  `limit_personal_details` TINYINT(1) NOT NULL DEFAULT 0,
+  `show_welcome_card` TINYINT(1) NOT NULL DEFAULT 1,
+  `compact_dashboard_cards` TINYINT(1) NOT NULL DEFAULT 0,
+  `emphasize_primary_actions` TINYINT(1) NOT NULL DEFAULT 1,
+  `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_student_user_id` (`student_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE `student_settings`
+MODIFY `student_user_id` BIGINT(20) NOT NULL;
+
+ALTER TABLE `student_settings`
+ADD CONSTRAINT `fk_student_settings_register`
+FOREIGN KEY (`student_user_id`) REFERENCES `register` (`id`)
+ON DELETE CASCADE
+ON UPDATE CASCADE;
+
+INSERT INTO `student_settings` (`student_user_id`)
+SELECT `id`
+FROM `register`
+WHERE `usertype` = 'Student'
+AND NOT EXISTS (
+  SELECT 1
+  FROM `student_settings`
+  WHERE `student_settings`.`student_user_id` = `register`.`id`
+);
+

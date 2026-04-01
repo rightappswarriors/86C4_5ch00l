@@ -177,6 +177,15 @@
     font-size: 0.7rem;
 }
 
+.student-dashboard .student-dashboard-flash,
+.student-dashboard .student-dashboard-center {
+    text-align: center;
+}
+
+.student-dashboard .student-dashboard-flash {
+    margin-bottom: 10px;
+}
+
 .student-dashboard .action-grades {
     background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
     color: white;
@@ -204,6 +213,11 @@
 
 .student-dashboard .action-enrollment {
     background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+}
+
+.student-dashboard .action-settings {
+    background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
     color: white;
 }
 
@@ -277,6 +291,14 @@
     font-size: 1rem;
 }
 
+.student-dashboard .info-header-payment {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.student-dashboard .info-header-notices {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
 .student-dashboard .status-badge {
     display: inline-block;
     padding: 0.5rem 1rem;
@@ -298,4 +320,88 @@
 .student-dashboard .status-not-enrolled {
     background: #fee2e2;
     color: #991b1b;
+}
+
+body.student-hide-welcome-card .student-dashboard .welcome-card {
+    display: none;
+}
+
+body.student-compact-dashboard .student-dashboard .action-btn {
+    min-height: 112px;
+    padding: 1.25rem 1rem;
+}
+
+body.student-compact-dashboard .student-dashboard .action-btn i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+body.student-soft-primary-actions .student-dashboard .action-btn {
+    box-shadow: none;
+}
+
+body.student-theme-dark .student-dashboard .info-card {
+    background: #111827 !important;
+    border: 1px solid #334155;
+    box-shadow: 0 14px 34px rgba(2, 6, 23, 0.3);
+}
+
+body.student-theme-dark .student-dashboard .card-body {
+    background: #111827 !important;
+    color: #e2e8f0 !important;
+}
+
+body.student-theme-dark .student-dashboard .card-body p,
+body.student-theme-dark .student-dashboard .card-body li,
+body.student-theme-dark .student-dashboard .card-body small,
+body.student-theme-dark .student-dashboard .card-body h3,
+body.student-theme-dark .student-dashboard .card-body h4,
+body.student-theme-dark .student-dashboard .card-body h5,
+body.student-theme-dark .student-dashboard .card-body strong,
+body.student-theme-dark .student-dashboard .card-body span,
+body.student-theme-dark .student-dashboard .card-body i,
+body.student-theme-dark .student-dashboard .card-body .text-muted,
+body.student-theme-dark .student-dashboard .card-body .text-info,
+body.student-theme-dark .student-dashboard .card-body .text-primary,
+body.student-theme-dark .student-dashboard .card-body .text-success,
+body.student-theme-dark .student-dashboard .card-body .text-warning,
+body.student-theme-dark .student-dashboard .card-body .text-danger {
+    color: #e2e8f0 !important;
+}
+
+body.student-theme-dark .student-dashboard hr {
+    border-color: #334155;
+}
+
+body.student-theme-dark .student-dashboard .bank-info {
+    background: #1e293b !important;
+    border-left-color: #38bdf8;
+}
+
+body.student-theme-dark .student-dashboard .bank-info code {
+    color: #e2e8f0 !important;
+}
+
+body.student-theme-dark .student-dashboard .list-ticked li::before,
+body.student-theme-dark .student-dashboard .list-arrow li::before,
+body.student-theme-dark .student-dashboard .list-star li::before {
+    color: #f87171 !important;
+}
+
+body.student-theme-dark .student-dashboard .status-badge.status-pending,
+body.student-theme-dark .student-dashboard .status-badge.status-pending i {
+    background: #fef3c7;
+    color: #92400e !important;
+}
+
+body.student-theme-dark .student-dashboard .status-badge.status-enrolled,
+body.student-theme-dark .student-dashboard .status-badge.status-enrolled i {
+    background: #d1fae5;
+    color: #065f46 !important;
+}
+
+body.student-theme-dark .student-dashboard .status-badge.status-not-enrolled,
+body.student-theme-dark .student-dashboard .status-badge.status-not-enrolled i {
+    background: #fee2e2;
+    color: #991b1b !important;
 }

@@ -48,42 +48,42 @@ if (strtolower((string) $enrollment_status) === 'active') {
                     <a href="<?=site_url('myprofile/grades')?>" class="action-btn action-grades">
                         <i class="mdi mdi-chart-line"></i>
                         <span>My Grades</span>
-                        <small style="opacity:0.8;font-size:0.7rem;">View your grades</small>
+                        <small class="action-btn-caption">View your grades</small>
                     </a>
                 </div>
                 <div class="col-6 col-md-4">
                     <a href="<?=site_url('myprofile/schedule')?>" class="action-btn action-schedule">
                         <i class="mdi mdi-calendar-clock"></i>
                         <span>Class Schedule</span>
-                        <small style="opacity:0.8;font-size:0.7rem;">Daily timetable</small>
+                        <small class="action-btn-caption">Daily timetable</small>
                     </a>
                 </div>
                 <div class="col-6 col-md-4">
                     <a href="<?=site_url('myprofile/subjects')?>" class="action-btn action-subjects">
                         <i class="mdi mdi-book-open-page-variant"></i>
                         <span>My Subjects</span>
-                        <small style="opacity:0.8;font-size:0.7rem;"><?=$subject_count?> Subjects enrolled</small>
+                        <small class="action-btn-caption"><?=$subject_count?> Subjects enrolled</small>
                     </a>
                 </div>
                 <div class="col-6 col-md-4">
                     <a href="<?=site_url('myprofile')?>" class="action-btn action-profile">
                         <i class="mdi mdi-account-circle"></i>
                         <span>My Profile</span>
-                        <small style="opacity:0.8;font-size:0.7rem;">Edit your info</small>
+                        <small class="action-btn-caption">Edit your info</small>
                     </a>
                 </div>
                 <div class="col-6 col-md-4">
                     <a href="<?=site_url('myprofile/payments')?>" class="action-btn action-payment">
                         <i class="mdi mdi-credit-card"></i>
                         <span>Payments</span>
-                        <small style="opacity:0.8;font-size:0.7rem;"><?=$payment_count?> Transactions</small>
+                        <small class="action-btn-caption"><?=$payment_count?> Transactions</small>
                     </a>
                 </div>
                 <div class="col-6 col-md-4">
                     <a href="<?=site_url('myprofile/enrollment')?>" class="action-btn action-enrollment">
                         <i class="mdi mdi-file-document"></i>
                         <span>Enrollment</span>
-                        <small style="opacity:0.8;font-size:0.7rem;">Status: <?=$enrollment_status?></small>
+                        <small class="action-btn-caption">Status: <?=$enrollment_status?></small>
                     </a>
                 </div>
                 <div class="col-6 col-md-4">
@@ -111,7 +111,7 @@ if (strtolower((string) $enrollment_status) === 'active') {
         </div>
         <div class="card-body">
             <?php if($this->session->flashdata('message')): ?>
-                <div class="text-danger" style="text-align:center;margin-bottom:10px;">
+                <div class="student-dashboard-flash text-danger">
                     <?=$this->session->flashdata('message')?>
                 </div>
             <?php endif; ?>
@@ -122,7 +122,7 @@ if (strtolower((string) $enrollment_status) === 'active') {
                 </span>
             </div>
             
-            <p style="text-align:center;">
+            <p class="student-dashboard-center">
                 <a href="<?=site_url('myprofile/enrollment')?>" type="button" class="btn btn-primary">
                     <i class="mdi mdi-eye"></i> View Enrollment Details
                 </a>
@@ -147,7 +147,7 @@ if (strtolower((string) $enrollment_status) === 'active') {
 
     <!-- Payment Information Card -->
     <div class="card info-card">
-        <div class="info-header" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+        <div class="info-header info-header-payment">
             <h4 class="mb-0"><i class="mdi mdi-cash-multiple"></i> Payment Information</h4>
         </div>
         <div class="card-body">
@@ -169,7 +169,7 @@ if (strtolower((string) $enrollment_status) === 'active') {
 
     <!-- Important Notices Card -->
     <div class="card info-card">
-        <div class="info-header" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+        <div class="info-header info-header-notices">
             <h4 class="mb-0"><i class="mdi mdi-bell-ring"></i> Important Notices</h4>
         </div>
         <div class="card-body">

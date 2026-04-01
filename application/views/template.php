@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="<?=base_url()?>assets/vendors/iconfonts/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="<?=base_url()?>assets/vendors/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="<?=base_url()?>assets/vendors/css/vendor.bundle.addons.css">
-    <link rel="stylesheet" href="<?=base_url()?>assets/vendors/css/vendor.bundle.addons.css">
    	
 	<link rel="stylesheet" href="<?=base_url()?>assets/css/tabs.css">
 	<script src="<?=base_url()?>assets/js/tabs.js"></script>
@@ -54,9 +53,63 @@
 	</script>
 	
   </head>
-  <body>
+  <?php
+    $CI =& get_instance();
+    $current_usertype = strtolower((string) $CI->session->userdata('current_usertype'));
+    $student_user_id = $CI->session->userdata('current_userid');
+    $student_portal_settings = array();
+    $body_classes = array();
+    $hide_profile_photo = false;
+    $hide_mobile_number = false;
+    $limit_personal_details = false;
+    $remember_sidebar_state = true;
+
+    if ($current_usertype === 'student') {
+      $CI->load->model('student_settings_model');
+      $student_portal_settings = $CI->student_settings_model->get_or_create_for_user($student_user_id);
+
+      if (!empty($student_portal_settings['dark_mode'])) {
+        $body_classes[] = 'student-theme-dark';
+      }
+
+      if (!empty($student_portal_settings['compact_layout'])) {
+        $body_classes[] = 'student-layout-compact';
+      }
+
+      if (!empty($student_portal_settings['high_contrast'])) {
+        $body_classes[] = 'student-high-contrast';
+      }
+
+      if (!empty($student_portal_settings['reduce_motion'])) {
+        $body_classes[] = 'student-reduce-motion';
+      }
+
+      if (!empty($student_portal_settings['larger_text']) || ($student_portal_settings['font_size'] ?? '') === 'large') {
+        $body_classes[] = 'student-font-large';
+      } elseif (($student_portal_settings['font_size'] ?? '') === 'small') {
+        $body_classes[] = 'student-font-small';
+      }
+
+      if (empty($student_portal_settings['show_welcome_card'])) {
+        $body_classes[] = 'student-hide-welcome-card';
+      }
+
+      if (!empty($student_portal_settings['compact_dashboard_cards'])) {
+        $body_classes[] = 'student-compact-dashboard';
+      }
+
+      if (empty($student_portal_settings['emphasize_primary_actions'])) {
+        $body_classes[] = 'student-soft-primary-actions';
+      }
+
+      $hide_profile_photo = !empty($student_portal_settings['hide_profile_photo']);
+      $hide_mobile_number = !empty($student_portal_settings['hide_mobile_number']);
+      $limit_personal_details = !empty($student_portal_settings['limit_personal_details']);
+      $remember_sidebar_state = !empty($student_portal_settings['remember_sidebar_state']);
+    }
+  ?>
+  <body class="<?=htmlspecialchars(implode(' ', $body_classes), ENT_QUOTES, 'UTF-8')?>" data-sidebar-memory="<?=$remember_sidebar_state ? '1' : '0'?>">
     <?php
-    $current_usertype = strtolower((string) $this->session->userdata('current_usertype'));
     $student_notification_count = 0;
     $student_notification_preview = array();
     $student_notification_tables = array(
@@ -108,18 +161,18 @@
                 <div class="d-inline-flex mr-0 mr-md-3">
                    
                 </div>
-                <span class="text-success" style="font-weight:bold;"><?=$this->session->userdata('current_schoolyear')?></span>
+                <span class="text-success current-schoolyear-label"><?=$this->session->userdata('current_schoolyear')?></span>
               </a>
-              <div style="text-align:center;" class="dropdown-menu dropdown-menu-left navbar-dropdown py-2" aria-labelledby="LanguageDropdown">
+              <div class="dropdown-menu dropdown-menu-left navbar-dropdown py-2 schoolyear-dropdown-menu" aria-labelledby="LanguageDropdown">
 				<?php
 				$otherschoolyears = $this->session->userdata('other_schoolyears');
 				foreach($otherschoolyears as $index_s=>$otherschoolyears):
 					if($this->session->userdata('current_schoolyearid')!=$index_s){
-					?><a style="line-height:25px;cursor:pointer;" class="dropdown-item-schoolyear" id="<?=$index_s?>" alt="<?=$otherschoolyears?>"><?=$otherschoolyears?></a><br><?php }
+					?><a class="dropdown-item-schoolyear schoolyear-dropdown-item" id="<?=$index_s?>" alt="<?=$otherschoolyears?>"><?=$otherschoolyears?></a><br><?php }
 				endforeach;
 				?>
               </div>
-            </li><li style="font-weight:bold;">// <?=$title?></li>
+            </li><li class="page-title-label">// <?=$title?></li>
           </ul>
           
 		  
@@ -128,13 +181,26 @@
 			
              <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
                <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                 <img class="img-xs rounded-circle" src="<?=base_url()?>assets/images/faces/face8.png" alt="Profile image"> </a>
+                 <?php if ($hide_profile_photo): ?>
+                 <span class="profile-avatar-placeholder profile-avatar-placeholder-nav"><i class="mdi mdi-account-circle"></i></span>
+                 <?php else: ?>
+                 <img class="img-xs rounded-circle" src="<?=base_url()?>assets/images/faces/face8.png" alt="Profile image">
+                 <?php endif; ?>
+               </a>
                <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                  <div class="dropdown-header text-center">
+                   <?php if ($hide_profile_photo): ?>
+                   <span class="profile-avatar-placeholder profile-avatar-placeholder-menu"><i class="mdi mdi-account-circle"></i></span>
+                   <?php else: ?>
                    <img class="img-md rounded-circle" src="<?=base_url()?>assets/images/faces/face8.png" alt="Profile image">
-                   <p class="mb-1 mt-3 font-weight-bold text-dark" style="font-size:16px;"><?=$this->session->userdata('current_firstname')?></p>
-				  <p class="font-weight-bold text-dark mb-0" style="font-size:14px;"><?=$this->session->userdata('current_usertype_display') ?: $this->session->userdata('current_usertype')?></p>
-				  <p class="font-weight-bold text-dark mb-0" style="font-size:14px;"><?=$this->session->userdata('current_mobileno')?></p>
+                   <?php endif; ?>
+                   <p class="mb-1 mt-3 font-weight-bold text-dark profile-name"><?=$this->session->userdata('current_firstname')?></p>
+				  <p class="font-weight-bold text-dark mb-0 profile-detail"><?=$this->session->userdata('current_usertype_display') ?: $this->session->userdata('current_usertype')?></p>
+				  <?php if (!$limit_personal_details && !$hide_mobile_number): ?>
+				  <p class="font-weight-bold text-dark mb-0 profile-detail"><?=$this->session->userdata('current_mobileno')?></p>
+				  <?php elseif ($limit_personal_details): ?>
+				  <p class="font-weight-bold text-dark mb-0 profile-detail">Private student profile</p>
+				  <?php endif; ?>
                      
                  </div>
                  <?php if ($current_usertype === 'student'): ?>
@@ -156,6 +222,12 @@
                  <?php endif; ?>
                  <?php endif; ?>
                  <a class="dropdown-item" href="<?=site_url("myprofile")?>">My Account</a>
+                 <?php if ($current_usertype === 'student'): ?>
+                 <a class="dropdown-item d-flex justify-content-between align-items-center" href="<?=site_url("myprofile/settings")?>">
+                   <span><i class="mdi mdi-cog-outline mr-2"></i>Settings</span>
+                   <i class="mdi mdi-chevron-right"></i>
+                 </a>
+                 <?php endif; ?>
                </div>
              </li>
           </ul>
@@ -217,14 +289,21 @@
         var sidebarToggleKey = 'sidebarTextHidden';
         var $body = $('body');
         var $sidebarToggle = $('.sidebar-text-toggle');
+        var shouldRememberSidebar = $body.data('sidebar-memory') === 1 || $body.data('sidebar-memory') === '1';
 
-        if (localStorage.getItem(sidebarToggleKey) === '1') {
+        if (shouldRememberSidebar && localStorage.getItem(sidebarToggleKey) === '1') {
           $body.addClass('sidebar-text-hidden');
+        } else if (!shouldRememberSidebar) {
+          localStorage.removeItem(sidebarToggleKey);
         }
 
         $sidebarToggle.on('click', function () {
           $body.toggleClass('sidebar-text-hidden');
-          localStorage.setItem(sidebarToggleKey, $body.hasClass('sidebar-text-hidden') ? '1' : '0');
+          if (shouldRememberSidebar) {
+            localStorage.setItem(sidebarToggleKey, $body.hasClass('sidebar-text-hidden') ? '1' : '0');
+          } else {
+            localStorage.removeItem(sidebarToggleKey);
+          }
         });
       });
     </script>
@@ -243,25 +322,25 @@
  <!-- Enrollment Procedures Modal -->
  <div class="modal fade" id="enrollmentStepsModal" tabindex="-1" role="dialog" aria-labelledby="enrollmentStepsModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-lg" role="document">
-     <div class="modal-content" style="border-radius: 15px; overflow: hidden;">
-       <div class="modal-header bg-gradient-primary text-white" style="padding: 20px 25px;">
+     <div class="modal-content enrollment-modal-content">
+       <div class="modal-header bg-gradient-primary text-white enrollment-modal-header">
          <div>
            <h4 class="modal-title font-weight-bold" id="enrollmentStepsModalLabel">
              <i class="mdi mdi-school"></i> Enrollment Procedures
            </h4>
            <p class="mb-0 small">7-Step Guide for New Students & Transferees</p>
          </div>
-         <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" style="opacity: 1;">
-           <span aria-hidden="true" style="font-size: 28px;">&times;</span>
+         <button type="button" class="close text-white enrollment-modal-close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true" class="enrollment-modal-close-icon">&times;</span>
          </button>
        </div>
-       <div class="modal-body" style="padding: 25px;">
+       <div class="modal-body enrollment-modal-body">
          <div class="enrollment-timeline">
            
            <!-- Online Section -->
            <div class="timeline-section mb-4">
              <div class="d-flex align-items-center mb-3">
-               <span class="badge badge-primary badge-pill p-2 mr-2" style="font-size: 14px;">
+               <span class="badge badge-primary badge-pill p-2 mr-2 enrollment-section-badge">
                  <i class="mdi mdi-laptop"></i> ONLINE
                </span>
              </div>
@@ -277,7 +356,7 @@
            <!-- In Person Section -->
            <div class="timeline-section">
              <div class="d-flex align-items-center mb-3">
-               <span class="badge badge-success badge-pill p-2 mr-2" style="font-size: 14px;">
+               <span class="badge badge-success badge-pill p-2 mr-2 enrollment-section-badge">
                  <i class="mdi mdi-account-location"></i> IN PERSON
                </span>
              </div>
@@ -337,7 +416,7 @@
            
          </div>
        </div>
-       <div class="modal-footer" style="padding: 15px 25px;">
+       <div class="modal-footer enrollment-modal-footer">
          <button type="button" class="btn btn-primary btn-lg btn-block" data-dismiss="modal">
            <i class="mdi mdi-check-circle"></i> Got It!
          </button>
@@ -345,46 +424,6 @@
      </div>
    </div>
  </div>
-
- <style>
- .step-box {
-   display: flex;
-   align-items: flex-start;
-   background: #f8f9fa;
-   border-radius: 10px;
-   padding: 15px;
-   margin-bottom: 12px;
-   border-left: 4px solid #4caf50;
-   transition: all 0.3s ease;
- }
- .step-box:hover {
-   background: #e8f5e9;
-   transform: translateX(5px);
-   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
- }
- .step-number {
-   min-width: 35px;
-   height: 35px;
-   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-   color: white;
-   border-radius: 50%;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   font-weight: bold;
-   font-size: 16px;
-   margin-right: 15px;
- }
- .timeline-section:first-child .step-box {
-   border-left-color: #667eea;
- }
- .timeline-section:first-child .step-number {
-   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
- }
- .bg-gradient-primary {
-   background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
- }
- </style>
 
  </body>
 </html>

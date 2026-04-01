@@ -13,6 +13,7 @@ class Myprofile extends CI_Controller {
 		$this->load->model('profile_model');
 		$this->load->model('students_model');
 		$this->load->model('payments_model');
+		$this->load->model('student_settings_model');
 
 	}
 	
@@ -65,7 +66,7 @@ class Myprofile extends CI_Controller {
 		$this->form_validation->set_rules('birthdate', 'Birthdate', 'trim');
 		$this->form_validation->set_rules('cpassword', 'New Password', 'trim|matches[rpassword]');
 		$this->form_validation->set_rules('rpassword', 'Repeat Password', 'trim');
-		$this->form_validation->set_error_delimiters('<div class="text-danger" style="margin-bottom:10px;">', '</div>');
+		$this->form_validation->set_error_delimiters('<div class="form-error-message">', '</div>');
 
 		if (!$this->form_validation->run()) {
 			$this->index();
@@ -93,6 +94,54 @@ class Myprofile extends CI_Controller {
 
 		$this->session->set_flashdata('message', "Successfully updated your profile.");
 		redirect("myprofile");
+	}
+
+	public function settings()
+	{
+		if (!$this->is_student_account()) {
+			redirect("myprofile");
+			return;
+		}
+
+		$data = array(
+			'title' => 'Student Settings',
+			'template' => 'profile/settings',
+			'settings' => $this->student_settings_model->get_or_create_for_user($this->session->userdata('current_userid')),
+			'schoolyear_options' => $this->get_schoolyear_options(),
+			'landing_page_options' => $this->get_landing_page_options(),
+		);
+
+		$this->load->view('template', $data);
+	}
+
+	public function save_settings()
+	{
+		if (!$this->is_student_account()) {
+			redirect("myprofile");
+			return;
+		}
+
+		$payload = array(
+			'dark_mode' => $this->input->post('dark_mode'),
+			'font_size' => $this->input->post('font_size'),
+			'compact_layout' => $this->input->post('compact_layout'),
+			'default_landing_page' => $this->input->post('default_landing_page'),
+			'default_schoolyear_id' => $this->input->post('default_schoolyear_id'),
+			'remember_sidebar_state' => $this->input->post('remember_sidebar_state'),
+			'high_contrast' => $this->input->post('high_contrast'),
+			'reduce_motion' => $this->input->post('reduce_motion'),
+			'larger_text' => $this->input->post('larger_text'),
+			'hide_mobile_number' => $this->input->post('hide_mobile_number'),
+			'hide_profile_photo' => $this->input->post('hide_profile_photo'),
+			'limit_personal_details' => $this->input->post('limit_personal_details'),
+			'show_welcome_card' => $this->input->post('show_welcome_card'),
+			'compact_dashboard_cards' => $this->input->post('compact_dashboard_cards'),
+			'emphasize_primary_actions' => $this->input->post('emphasize_primary_actions'),
+		);
+
+		$this->student_settings_model->save_for_user($this->session->userdata('current_userid'), $payload);
+		$this->session->set_flashdata('message', 'Student settings saved successfully.');
+		redirect('myprofile/settings');
 	}
 	
 	public function grades()
@@ -240,6 +289,47 @@ class Myprofile extends CI_Controller {
 		$student->has_student_record = false;
 
 		return $student;
+	}
+
+	private function is_student_account()
+	{
+		return strtolower((string) $this->session->userdata('current_usertype')) === 'student';
+	}
+
+	private function get_schoolyear_options()
+	{
+		$options = array();
+		$schoolyears = $this->session->userdata('other_schoolyears');
+		if (!is_array($schoolyears)) {
+			return $options;
+		}
+
+		foreach ($schoolyears as $id => $label) {
+			$options[(int) $id] = $label;
+		}
+
+		$current_id = (int) $this->session->userdata('current_schoolyearid');
+		$current_label = (string) $this->session->userdata('current_schoolyear');
+		if ($current_id > 0 && $current_label !== '' && !isset($options[$current_id])) {
+			$options[$current_id] = $current_label;
+		}
+
+		ksort($options);
+
+		return $options;
+	}
+
+	private function get_landing_page_options()
+	{
+		return array(
+			'dashboard' => 'Dashboard',
+			'grades' => 'My Grades',
+			'schedule' => 'Class Schedule',
+			'subjects' => 'My Subjects',
+			'payments' => 'Payments',
+			'enrollment' => 'Enrollment',
+			'settings' => 'Settings',
+		);
 	}
 
 	private function empty_query()

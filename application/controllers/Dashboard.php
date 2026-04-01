@@ -13,15 +13,30 @@ class Dashboard extends CI_Controller {
 		}
 		$this->load->model('students_model');
 		$this->load->model('payments_model');
+		$this->load->model('student_settings_model');
 	}
 	
 	public function index()
 	{
 		//print_r($this->session->userdata);
 		
-		$this->session->set_flashdata('message', "<span style='font-weight:bold;'>New School Year activated ".$this->session->userdata('current_schoolyear')."</span>");
-		
 		$usertype = strtolower($this->session->userdata('current_usertype'));
+
+		if ($usertype === 'student') {
+			$settings = $this->student_settings_model->get_or_create_for_user($this->session->userdata('current_userid'));
+			$this->apply_preferred_schoolyear($settings);
+			if (empty($this->session->userdata('student_default_landing_applied'))) {
+				$this->session->set_userdata('student_default_landing_applied', 1);
+				$destination = $this->get_student_default_landing_path($settings['default_landing_page']);
+				if ($destination !== 'dashboard') {
+					redirect($destination);
+					return;
+				}
+			}
+		}
+
+		$this->session->set_flashdata('message', "New School Year activated ".$this->session->userdata('current_schoolyear'));
+
 		$data = array(
 		'title'     =>   'DASHBOARD',
 		'template'   =>   $usertype.'_dashboard'
@@ -70,8 +85,39 @@ class Dashboard extends CI_Controller {
 		
 		$this->session->set_userdata('current_schoolyearid', $this->input->post('sy_id') );
 		$this->session->set_userdata('current_schoolyear', $this->input->post('sy_name') );
-		$this->session->set_flashdata('message', "<span style='font-weight:bold;'>Current School Year activated ".$this->session->userdata('current_schoolyear')."</span>");
+		$this->session->set_flashdata('message', "Current School Year activated ".$this->session->userdata('current_schoolyear'));
 		
+	}
+
+	private function apply_preferred_schoolyear($settings)
+	{
+		$preferred_id = isset($settings['default_schoolyear_id']) ? (int) $settings['default_schoolyear_id'] : 0;
+		if ($preferred_id <= 0) {
+			return;
+		}
+
+		$schoolyears = $this->session->userdata('other_schoolyears');
+		if (!is_array($schoolyears) || !isset($schoolyears[$preferred_id])) {
+			return;
+		}
+
+		$this->session->set_userdata('current_schoolyearid', $preferred_id);
+		$this->session->set_userdata('current_schoolyear', $schoolyears[$preferred_id]);
+	}
+
+	private function get_student_default_landing_path($page)
+	{
+		$map = array(
+			'dashboard' => 'dashboard',
+			'grades' => 'myprofile/grades',
+			'schedule' => 'myprofile/schedule',
+			'subjects' => 'myprofile/subjects',
+			'payments' => 'myprofile/payments',
+			'enrollment' => 'myprofile/enrollment',
+			'settings' => 'myprofile/settings',
+		);
+
+		return isset($map[$page]) ? $map[$page] : 'dashboard';
 	}
 	
 }

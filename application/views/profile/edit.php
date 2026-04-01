@@ -21,6 +21,7 @@
 ?>
 
 <link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/enrollment.css">
+<link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/profile.css">
 
 <div class="col-lg-12 grid-margin enroll-main-container">
 
@@ -31,12 +32,12 @@
 			<h2><i class="mdi mdi-account"></i> MY PROFILE</h2>
 		</div>
 		
-		<div style="padding: 1.5rem 2rem;">
+		<div class="profile-content">
 		
 		<?php
 		if($this->session->flashdata('message'))
 		{
-			echo '<div class="text-primary" style="margin-bottom:10px;">
+			echo '<div class="text-primary profile-flash-message">
 				'.$this->session->flashdata("message").'
 			</div>';
 		}
@@ -123,7 +124,7 @@
 		  </div>
 		  
 		  
-		  <div style="text-align:center;margin:0 auto; margin-top: 20px;">
+		  <div class="profile-form-actions">
 		  <?php if($can_self_manage): ?>
 		  	<div class="row">
 		  		<div class="col-md-6">
