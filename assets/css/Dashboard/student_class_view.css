@@ -1,0 +1,481 @@
+/* Student Class View Page Styles */
+
+.class-view-container {
+    padding: 20px;
+}
+
+.class-header {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.class-header h2 {
+    margin: 0 0 10px 0;
+    font-weight: 600;
+}
+
+.class-header .subject {
+    opacity: 0.9;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.class-header .teacher-info {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.back-link {
+    color: #fff;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 15px;
+    opacity: 0.9;
+}
+
+.back-link:hover {
+    opacity: 1;
+    color: #fff;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 25px;
+}
+
+@media (max-width: 992px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card-section {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+.section-header {
+    background: #f8f9fa;
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.section-header h4 {
+    margin: 0;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-header h4 i {
+    color: #10b981;
+}
+
+.section-body {
+    padding: 20px;
+}
+
+.announcement-item {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background: #f8f9fa;
+    border-left: 4px solid #10b981;
+}
+
+.announcement-item:last-child {
+    margin-bottom: 0;
+}
+
+.announcement-item.important {
+    border-left-color: #f39c12;
+    background: #fffbf0;
+}
+
+.announcement-item.urgent {
+    border-left-color: #e74c3c;
+    background: #fff5f5;
+}
+
+.announcement-title {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.announcement-content {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.announcement-meta {
+    font-size: 12px;
+    color: #999;
+}
+
+.activity-item {
+    padding: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.activity-title {
+    font-weight: 600;
+    color: #333;
+    font-size: 16px;
+}
+
+.activity-due {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    white-space: nowrap;
+}
+
+.activity-due.overdue {
+    background: #fee;
+    color: #c00;
+}
+
+.activity-due.upcoming {
+    background: #ffeeba;
+    color: #856404;
+}
+
+.activity-due.normal {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.activity-description {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.activity-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+}
+
+.activity-points {
+    color: #10b981;
+    font-weight: 600;
+}
+
+.activity-status {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.activity-status.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.activity-status.submitted {
+    background: #d4edda;
+    color: #155724;
+}
+
+.activity-status.graded {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.btn-submit {
+    background: #10b981;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-submit:hover {
+    background: #059669;
+}
+
+.btn-view-submission {
+    background: #6c757d;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.btn-view-submission:hover {
+    background: #5a6268;
+    color: #fff;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: #fff;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #fff;
+    padding: 20px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h4 {
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #10b981;
+}
+
+.file-upload {
+    border: 2px dashed #ccc;
+    padding: 30px;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.file-upload:hover {
+    border-color: #10b981;
+    background: #f0fdf4;
+}
+
+.file-upload input {
+    display: none;
+}
+
+.file-upload i {
+    font-size: 40px;
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.file-upload p {
+    margin: 0;
+    color: #666;
+}
+
+.btn-modal-submit {
+    background: #10b981;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btn-modal-cancel {
+    background: #6c757d;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.empty-list {
+    text-align: center;
+    padding: 30px;
+    color: #999;
+}
+
+.empty-list i {
+    font-size: 40px;
+    color: #ddd;
+    margin-bottom: 10px;
+}
+
+.alert {
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.alert-error {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Meeting Styles */
+.meeting-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-radius: 8px;
+    background: #f8f9fa;
+    margin-bottom: 12px;
+    gap: 15px;
+}
+
+.meeting-item.today {
+    background: #e8f5e9;
+    border-left: 4px solid #10b981;
+}
+
+.meeting-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 70px;
+}
+
+.date-badge {
+    background: #667eea;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.meeting-item.today .date-badge {
+    background: #10b981;
+}
+
+.time-small {
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+}
+
+.meeting-info {
+    flex: 1;
+}
+
+.meeting-info h5 {
+    margin: 0 0 5px 0;
+    color: #333;
+    font-weight: 600;
+}
+
+.meeting-info p {
+    margin: 0;
+    font-size: 13px;
+    color: #666;
+}
+
+.platform-badge {
+    display: inline-block;
+    background: #e0f2f1;
+    color: #10b981;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.btn-join-meeting {
+    display: inline-block;
+    background: #10b981;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+.btn-join-meeting:hover {
+    background: #059669;
+}

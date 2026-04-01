@@ -1,0 +1,176 @@
+/* Student Join Class Page Styles */
+
+.join-class-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.join-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.join-header {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #fff;
+    padding: 30px;
+    text-align: center;
+}
+
+.join-header h3 {
+    margin: 0 0 10px 0;
+    font-weight: 600;
+}
+
+.join-header p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+.join-body {
+    padding: 30px;
+}
+
+.join-form {
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
+
+.form-group label .required {
+    color: #e74c3c;
+}
+
+.form-control {
+    width: 100%;
+    padding: 14px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    outline: none;
+}
+
+.btn-join {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #fff;
+    border: none;
+    padding: 14px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.btn-join:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+}
+
+.help-text {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+    margin-top: 20px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.help-text i {
+    color: #10b981;
+    margin-right: 5px;
+}
+
+.alert {
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.alert-success {
+    background: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
+}
+
+.alert-error {
+    background: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+.alert-warning {
+    background: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+}
+
+.info-box {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #10b981;
+}
+
+.info-box h4 {
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.info-box p {
+    margin: 0;
+    color: #666;
+}
+
+.class-preview {
+    display: none;
+    background: #f0fdf4;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    border: 2px solid #10b981;
+}
+
+.class-preview.show {
+    display: block;
+}
+
+.class-preview h4 {
+    margin: 0 0 10px 0;
+    color: #059669;
+}
+
+.class-preview p {
+    margin: 5px 0;
+    color: #333;
+}
+
+.class-preview .teacher {
+    color: #666;
+    font-size: 14px;
+}

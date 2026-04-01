@@ -1,0 +1,254 @@
+/* Teacher Activity View Page Styles */
+
+.activity-submissions-container {
+    padding: 20px;
+    font-family: "roboto", sans-serif;
+}
+
+.back-link {
+    color: #667eea;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.back-link:hover {
+    color: #5568d3;
+}
+
+.page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+}
+
+.page-header h2 {
+    margin: 0 0 10px 0;
+}
+
+.activity-details {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.submission-table {
+    width: 100%;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+    overflow: hidden;
+}
+
+.submission-table thead {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+}
+
+.submission-table thead th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.submission-table tbody tr {
+    border-bottom: 1px solid #eee;
+    transition: background 0.3s;
+}
+
+.submission-table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.submission-table tbody td {
+    padding: 15px;
+    vertical-align: middle;
+}
+
+.student-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.student-avatar {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 600;
+}
+
+.file-cell a {
+    color: #667eea;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.file-cell a:hover {
+    text-decoration: underline;
+}
+
+.grade-badge {
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.grade-badge.pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.grade-badge.graded {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.status-badge.submitted {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.status-badge.graded {
+    background: #d4edda;
+    color: #155724;
+}
+
+.btn-grade {
+    background: #667eea;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.btn-grade:hover {
+    background: #5568d3;
+}
+
+/* Grade Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: #fff;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+}
+
+.modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 20px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h4 {
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.btn-submit {
+    background: #667eea;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btn-cancel {
+    background: #6c757d;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.empty-state i {
+    font-size: 60px;
+    color: #ddd;
+    margin-bottom: 20px;
+}

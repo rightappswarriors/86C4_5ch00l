@@ -60,7 +60,12 @@ class Classroom extends CI_Controller {
 
         if ($this->classroom_model->create_class($data)) {
             $this->session->set_flashdata('success', 'Class created successfully! Share this code with your students.');
-            redirect('classroom/teacher');
+            // Check if request came from modal
+            if ($this->input->get('modal') === 'true') {
+                redirect('classroom/teacher?modal=true&created=1');
+            } else {
+                redirect('classroom/teacher');
+            }
         } else {
             $this->session->set_flashdata('error', 'Failed to create class. Please try again.');
             redirect('classroom/create_class');
@@ -356,7 +361,7 @@ class Classroom extends CI_Controller {
         redirect('classroom/teacher_class/' . $class_id);
     }
 
-    // Delete class
+    // Delete class (archive - soft delete)
     public function delete_class($class_id)
     {
         $teacher_id = $this->session->userdata('current_userid');
@@ -380,6 +385,34 @@ class Classroom extends CI_Controller {
             $this->session->set_flashdata('success', 'Class archived successfully');
         } else {
             $this->session->set_flashdata('error', 'Failed to archive class');
+        }
+        redirect('classroom/teacher');
+    }
+
+    // Permanent delete class
+    public function permanent_delete_class($class_id)
+    {
+        $teacher_id = $this->session->userdata('current_userid');
+        
+        // Verify the teacher owns this class
+        $class = $this->classroom_model->get_class($class_id);
+        if ($class->num_rows() == 0) {
+            $this->session->set_flashdata('error', 'Class not found');
+            redirect('classroom/teacher');
+            return;
+        }
+        
+        $class_data = $class->row();
+        if ($class_data->teacher_id != $teacher_id) {
+            $this->session->set_flashdata('error', 'You do not have permission to delete this class');
+            redirect('classroom/teacher');
+            return;
+        }
+
+        if ($this->classroom_model->permanent_delete_class($class_id)) {
+            $this->session->set_flashdata('success', 'Class deleted permanently');
+        } else {
+            $this->session->set_flashdata('error', 'Failed to delete class');
         }
         redirect('classroom/teacher');
     }

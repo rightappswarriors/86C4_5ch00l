@@ -53,10 +53,23 @@ class Classroom_model extends CI_Model {
         return $this->db->update('classroom_classes', $data);
     }
 
-    // Delete class (soft delete)
+    // Delete class (soft delete - archives the class)
     public function delete_class($class_id) {
         $this->db->where('id', $class_id);
         return $this->db->update('classroom_classes', array('status' => 'archived'));
+    }
+
+    // Permanent delete class
+    public function permanent_delete_class($class_id) {
+        // Delete related records first
+        $this->db->where('class_id', $class_id);
+        $this->db->delete('classroom_students');
+        
+        $this->db->where('class_id', $class_id);
+        $this->db->delete('classroom_activities');
+        
+        $this->db->where('id', $class_id);
+        return $this->db->delete('classroom_classes');
     }
 
     // =====================

@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/teacher_dashboard.css">
-<link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/classroom.css">
+<link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/teacher_dashboard_classroom.css">
 <style>
 .teacher-dashboard .student-card {
     border: none;
@@ -108,12 +108,12 @@
                 <div class="card-body">
                     <h4 class="card-title text-white"><i class="fas fa-chalkboard"></i> Classroom</h4>
                     <p class="text-white mb-3">Manage your online classes</p>
-                    <a href="<?=site_url('classroom/teacher')?>" class="btn btn-light">
+                    <button class="btn btn-light" id="btnMyClasses">
                         <i class="fas fa-list"></i> My Classes
-                    </a>
-                    <a href="<?=site_url('classroom/teacher')?>" class="btn btn-light ml-2">
+                    </button>
+                    <button class="btn btn-light ml-2" id="btnCreateClass">
                         <i class="fas fa-plus"></i> Create
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -180,7 +180,93 @@
     </div>
 </div>
 
+<!-- Teacher Classroom Section Wrapper -->
+<div class="teacher-classroom-modal">
+
+<!-- Teacher Classes Modal -->
+<div id="teacherClassesModal" class="modal">
+    <div class="modal-content" style="max-width: 90%; width: 1000px;">
+        <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <div>
+                <h4 style="color: white; margin: 0;" id="teacherClassesModalLabel">
+                    <i class="fas fa-chalkboard" style="color: white;"></i> My Classes
+                </h4>
+                <p style="color: white; margin: 5px 0 0 0; font-size: 0.85rem;">View and manage your classes</p>
+            </div>
+            <button type="button" class="modal-close" onclick="closeTeacherClassesModal()" style="color: white; opacity: 1;">
+                &times;
+            </button>
+        </div>
+        <div class="modal-body" style="padding: 0; max-height: 70vh; overflow-y: auto;">
+            <iframe id="teacherClassesFrame" src="<?=site_url('classroom/teacher')?>" style="width: 100%; height: 70vh; border: none;" loading="lazy" title="My Classes"></iframe>
+        </div>
+    </div>
+</div>
+
+<!-- Teacher Create Class Modal -->
+<div id="teacherCreateClassModal" class="modal">
+    <div class="modal-content" style="max-width: 90%; width: 1000px;">
+        <div class="modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <div>
+                <h4 style="color: white; margin: 0;" id="teacherCreateClassModalLabel">
+                    <i class="fas fa-plus-circle" style="color: white;"></i> Create New Class
+                </h4>
+                <p style="color: white; margin: 5px 0 0 0; font-size: 0.85rem;">Create a new class for your students</p>
+            </div>
+            <button type="button" class="modal-close" onclick="closeTeacherCreateClassModal()" style="color: white; opacity: 1;">
+                &times;
+            </button>
+        </div>
+        <div class="modal-body" style="padding: 0; max-height: 70vh; overflow-y: auto;">
+            <iframe id="createClassFrame" src="<?=site_url('classroom/create_class')?>?modal=true" style="width: 100%; height: 70vh; border: none;" loading="lazy" title="Create Class"></iframe>
+        </div>
+    </div>
+</div>
+
 <script>
+// Check URL for created parameter and update iframe src
+$(document).ready(function() {
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('created') === '1') {
+        // Update iframe src to include created parameter
+        var iframe = document.getElementById('teacherClassesFrame');
+        if (iframe) {
+            iframe.src = '<?=site_url('classroom/teacher')?>?created=1';
+        }
+        // Show the classes modal
+        $('#teacherClassesModal').addClass('show');
+    }
+});
+
+// Modal button click handlers
+$('#btnMyClasses').on('click', function() {
+    var iframe = document.getElementById('teacherClassesFrame');
+    if (iframe && iframe.src.indexOf('created=1') === -1) {
+        iframe.src = '<?=site_url('classroom/teacher')?>';
+    }
+    $('#teacherClassesModal').addClass('show');
+});
+
+$('#btnCreateClass').on('click', function() {
+    $('#teacherCreateClassModal').addClass('show');
+});
+
+function openTeacherClassesModal() {
+    $('#teacherClassesModal').addClass('show');
+}
+
+function closeTeacherClassesModal() {
+    $('#teacherClassesModal').removeClass('show');
+}
+
+function openTeacherCreateClassModal() {
+    $('#teacherCreateClassModal').addClass('show');
+}
+
+function closeTeacherCreateClassModal() {
+    $('#teacherCreateClassModal').removeClass('show');
+}
+
 $(document).ready(function() {
     $('.table1').DataTable( {
         "searching": false,
@@ -190,5 +276,14 @@ $(document).ready(function() {
             $('a.paginate_button').addClass("btn btn-sm");
         }
     } );
+    
+    // Close modal when clicking outside
+    $('#teacherClassesModal, #teacherCreateClassModal').on('click', function(event) {
+        if (event.target === this) {
+            $(this).removeClass('show');
+        }
+    });
 } );
 </script>
+
+</div> <!-- End teacher-classroom-modal -->

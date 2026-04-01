@@ -1,376 +1,12 @@
-<link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/classroom.css">
+<link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/teacher_classes.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-<style>
-.teacher-classes-container {
-    padding: 20px;
-    font-family: "roboto", sans-serif;
-}
-
-.page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.page-header h2 {
-    margin: 0;
-    color: #2196F3;
-    font-weight: 600;
-}
-
-.btn-create {
-    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
-    color: #fff;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s ease;
-    border: none;
-}
-
-.btn-create:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-    color: #fff;
-}
-
-.class-card {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
-    margin-bottom: 20px;
-    overflow: hidden;
-    transition: all 0.3s ease;
-}
-
-.class-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-}
-
-.class-card-header {
-    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
-    color: #fff;
-    padding: 20px;
-    position: relative;
-}
-
-.class-card-header h4 {
-    margin: 0 0 5px 0;
-    font-weight: 600;
-}
-
-.class-card-header .subject {
-    opacity: 0.9;
-    font-size: 14px;
-}
-
-.class-code-badge {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: rgba(255,255,255,0.2);
-    padding: 8px 15px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 1px;
-}
-
-.class-card-body {
-    padding: 20px;
-}
-
-.class-info {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-    margin-bottom: 15px;
-}
-
-.info-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.info-item i {
-    color: #2196F3;
-    font-size: 18px;
-}
-
-.info-item .label {
-    font-size: 12px;
-    color: #666;
-    text-transform: uppercase;
-    font-weight: 700;
-}
-
-.info-item .value {
-    font-weight: 600;
-    color: #333;
-}
-
-.class-actions {
-    display: flex;
-    gap: 10px;
-    padding-top: 15px;
-    border-top: 1px solid #eee;
-    flex-wrap: wrap;
-}
-
-.btn-action {
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    transition: all 0.3s ease;
-    border: none;
-}
-
-.btn-view {
-    background: #2196F3;
-    color: #fff;
-}
-
-.btn-view:hover {
-    background: #1976D2;
-    color: #fff;
-}
-
-.btn-delete {
-    background: #6c757d;
-    color: #fff;
-}
-
-.btn-delete:hover {
-    background: #5a6268;
-    color: #fff;
-}
-
-.empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 15px rgba(0,0,0,0.08);
-}
-
-.empty-state i {
-    font-size: 60px;
-    color: #ddd;
-    margin-bottom: 20px;
-}
-
-.empty-state h4 {
-    color: #666;
-    margin-bottom: 10px;
-}
-
-.empty-state p {
-    color: #999;
-    margin-bottom: 20px;
-}
-
-.alert {
-    padding: 15px 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-
-.alert-success {
-    background: #d4edda;
-    border: 1px solid #c3e6cb;
-    color: #155724;
-}
-
-.alert-error {
-    background: #f8d7da;
-    border: 1px solid #f5c6cb;
-    color: #721c24;
-}
-
-/* Modal Styles */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1050;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-}
-
-.modal.show {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-content {
-    background: #fff;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 500px;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-}
-
-.modal-header {
-    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
-    color: #fff;
-    padding: 20px;
-    border-radius: 12px 12px 0 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-family: "roboto", sans-serif;
-}
-
-.modal-header h4 {
-    margin: 0;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.modal-close {
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 24px;
-    cursor: pointer;
-    opacity: 0.8;
-}
-
-.modal-close:hover {
-    opacity: 1;
-}
-
-.modal-body {
-    padding: 25px;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: #333;
-}
-
-.form-group label .required {
-    color: #e74c3c;
-}
-
-.form-control {
-    width: 100%;
-    padding: 12px 15px;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
-
-.form-control:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    outline: none;
-}
-
-textarea.form-control {
-    min-height: 100px;
-    resize: vertical;
-}
-
-.btn-modal-submit {
-    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
-    color: #fff;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.btn-modal-submit:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.4);
-}
-
-.btn-modal-cancel {
-    background: #6c757d;
-    color: #fff;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.btn-modal-cancel:hover {
-    background: #5a6268;
-}
-
-.modal-footer {
-    padding: 15px 25px 25px;
-    display: flex;
-    gap: 10px;
-    justify-content: flex-end;
-}
-
-.back-link {
-    color: #2196F3;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    margin-bottom: 20px;
-    font-weight: 500;
-}
-
-.back-link:hover {
-    color: #1976D2;
-}
-
-.fa-chalkboard {
-    color: #2196F3;
-}
-</style>
-
 <div class="teacher-classes-container">
-    <a href="<?=site_url('dashboard')?>" class="back-link">
-        <i class="fas fa-arrow-left"></i> Back to Dashboard
-    </a>
-    
     <div class="page-header">
         <h2><i class="fas fa-chalkboard"></i> My Classes</h2>
-        <button class="btn-create" onclick="openModal()">
+        <a href="<?=site_url('classroom/create_class')?>" class="btn-create">
             <i class="fas fa-plus"></i> Create Class
-        </button>
+        </a>
     </div>
     
     <?php if($this->session->flashdata('success')): ?>
@@ -386,6 +22,12 @@ textarea.form-control {
     <?php endif; ?>
     
     <?php if($classes->num_rows() > 0): ?>
+        <div class="classes-header">
+            <h3>My Classes (<?=$classes->num_rows()?>)</h3>
+            <a href="<?=site_url('classroom/create_class')?>" class="btn-create">
+                <i class="fas fa-plus"></i> Create New Class
+            </a>
+        </div>
         <?php foreach($classes->result() as $class): ?>
             <div class="class-card">
                 <div class="class-card-header">
@@ -430,12 +72,15 @@ textarea.form-control {
                         <p style="color: #666; margin-bottom: 15px;"><?=$class->description?></p>
                     <?php endif; ?>
                     <div class="class-actions">
-                        <a href="<?=site_url('classroom/teacher_class/'.$class->id)?>" class="btn-action btn-view">
+                        <button class="btn-action btn-view" onclick="viewClass(<?=$class->id?>)">
                             <i class="fas fa-eye"></i> View Class
-                        </a>
-                        <a href="<?=site_url('classroom/delete_class/'.$class->id)?>" class="btn-action btn-delete" onclick="return confirm('Are you sure you want to archive this class?')">
+                        </button>
+                        <button class="btn-action btn-archive" onclick="archiveClass(<?=$class->id?>)">
                             <i class="fas fa-archive"></i> Archive
-                        </a>
+                        </button>
+                        <button class="btn-action btn-delete-class" onclick="deleteClass(<?=$class->id?>)">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
                     </div>
                 </div>
             </div>
@@ -494,6 +139,19 @@ textarea.form-control {
     </div>
 </div>
 
+<!-- View Class Modal -->
+<div id="viewClassModal" class="modal">
+    <div class="modal-content" style="max-width: 90%; width: 1000px;">
+        <div class="modal-header">
+            <h4><i class="fas fa-chalkboard"></i> Class Details</h4>
+            <button class="modal-close" onclick="closeViewClassModal()">&times;</button>
+        </div>
+        <div class="modal-body" style="padding: 0; max-height: 75vh; overflow-y: auto;">
+            <iframe id="classViewFrame" src="" style="width: 100%; height: 75vh; border: none;" loading="lazy" title="Class View"></iframe>
+        </div>
+    </div>
+</div>
+
 <script>
 function openModal() {
     document.getElementById('createClassModal').classList.add('show');
@@ -502,6 +160,51 @@ function openModal() {
 function closeModal() {
     document.getElementById('createClassModal').classList.remove('show');
 }
+
+function viewClass(classId) {
+    document.getElementById('classViewFrame').src = '<?=site_url('classroom/teacher_class_view/')?>' + classId + '?modal=true';
+    document.getElementById('viewClassModal').classList.add('show');
+}
+
+function closeViewClassModal() {
+    document.getElementById('viewClassModal').classList.remove('show');
+}
+
+function archiveClass(classId) {
+    if (confirm('Are you sure you want to archive this class?')) {
+        window.location.href = '<?=site_url('classroom/delete_class/')?>' + classId;
+    }
+}
+
+function deleteClass(classId) {
+    if (confirm('Are you sure you want to permanently delete this class? This will also delete all students and activities in this class.')) {
+        window.location.href = '<?=site_url('classroom/permanent_delete_class/')?>' + classId;
+    }
+}
+
+// Check URL for created parameter and auto-refresh
+$(document).ready(function() {
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('created') === '1') {
+        // Class was just created, refresh and show success
+        // Remove the query param to clean URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+        
+        // Show success message with Create Another Class button
+        setTimeout(function() {
+            $('.teacher-classes-container').prepend(
+                '<div class="alert alert-success">' +
+                    '<div style="display: flex; justify-content: space-between; align-items: center;">' +
+                        '<span>Class created successfully! Share this code with your students.</span>' +
+                        '<button class="btn-create-another" onclick="openModal()">' +
+                            '<i class="fas fa-plus"></i> Create Another Class' +
+                        '</button>' +
+                    '</div>' +
+                '</div>'
+            );
+        }, 100);
+    }
+});
 
 // Close modal when clicking outside
 window.onclick = function(event) {
