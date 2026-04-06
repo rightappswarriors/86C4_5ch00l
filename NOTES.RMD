@@ -376,3 +376,84 @@ AND NOT EXISTS (
   WHERE `student_settings`.`student_user_id` = `register`.`id`
 );
 
+--My Gradebook QUERY
+CREATE TABLE IF NOT EXISTS `gradebook_configs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `teacher_id` bigint(20) NOT NULL,
+  `schoolyear_id` int(11) NOT NULL,
+  `schoolyear_label` varchar(50) NOT NULL,
+  `class_name` varchar(150) NOT NULL,
+  `subject_name` varchar(150) NOT NULL,
+  `term_system` varchar(20) NOT NULL DEFAULT 'quarterly',
+  `ww_weight` decimal(5,2) NOT NULL DEFAULT 20.00,
+  `pt_weight` decimal(5,2) NOT NULL DEFAULT 40.00,
+  `qa_weight` decimal(5,2) NOT NULL DEFAULT 40.00,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_gradebook_configs_teacher_schoolyear` (`teacher_id`,`schoolyear_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS `gradebook_students` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `gradebook_id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `enroll_id` int(11) DEFAULT NULL,
+  `student_no` varchar(50) DEFAULT NULL,
+  `lrn` varchar(50) DEFAULT NULL,
+  `full_name` varchar(200) NOT NULL,
+  `grade_level` varchar(50) DEFAULT NULL,
+  `status` varchar(20) NOT NULL DEFAULT 'active',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_gradebook_student` (`gradebook_id`,`student_id`),
+  KEY `idx_gradebook_students_gradebook_status` (`gradebook_id`,`status`),
+  KEY `idx_gradebook_students_student_id` (`student_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS `gradebook_activities` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `gradebook_id` int(11) NOT NULL,
+  `title` varchar(200) NOT NULL,
+  `category` varchar(10) NOT NULL,
+  `activity_type` varchar(50) DEFAULT NULL,
+  `total_points` decimal(8,2) NOT NULL DEFAULT 0.00,
+  `due_date` date DEFAULT NULL,
+  `competency_tag` varchar(100) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_gradebook_activities_gradebook` (`gradebook_id`),
+  KEY `idx_gradebook_activities_category` (`category`),
+  KEY `idx_gradebook_activities_competency` (`competency_tag`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS `gradebook_scores` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `activity_id` int(11) NOT NULL,
+  `gradebook_student_id` int(11) NOT NULL,
+  `score` decimal(8,2) DEFAULT NULL,
+  `remarks` varchar(20) NOT NULL DEFAULT 'missing',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_gradebook_score` (`activity_id`,`gradebook_student_id`),
+  KEY `idx_gradebook_scores_student` (`gradebook_student_id`),
+  KEY `idx_gradebook_scores_remarks` (`remarks`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS `gradebook_feedback` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `gradebook_id` int(11) NOT NULL,
+  `gradebook_student_id` int(11) NOT NULL,
+  `activity_id` int(11) DEFAULT NULL,
+  `feedback_type` varchar(30) NOT NULL DEFAULT 'general',
+  `comment` text NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_gradebook_feedback_gradebook` (`gradebook_id`),
+  KEY `idx_gradebook_feedback_student` (`gradebook_student_id`),
+  KEY `idx_gradebook_feedback_activity` (`activity_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

@@ -1,942 +1,230 @@
-<link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/teacher_class_view.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
+<?php
+$active_tab = isset($selected_tab) ? $selected_tab : 'setup';
+$current_gradebook_id = !empty($gradebook['id']) ? (int) $gradebook['id'] : 0;
+$selected_activity_id = !empty($selected_activity['id']) ? (int) $selected_activity['id'] : 0;
+?>
 <style>
-.gradebook-container {
-    padding: 20px;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-.gradebook-header {
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-    color: white;
-    padding: 25px;
-    border-radius: 12px;
-    margin-bottom: 25px;
-}
-.gradebook-header h2 {
-    margin: 0 0 10px 0;
-    font-size: 1.75rem;
-}
-.gradebook-header p {
-    margin: 0;
-    opacity: 0.9;
-}
-.gradebook-tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 25px;
-    border-bottom: 2px solid #e5e7eb;
-    padding-bottom: 0;
-}
-.gradebook-tab {
-    padding: 12px 20px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    color: #6b7280;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -2px;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.gradebook-tab:hover {
-    color: #3b82f6;
-}
-.gradebook-tab.active {
-    color: #3b82f6;
-    border-bottom-color: #3b82f6;
-}
-.gradebook-tab i {
-    font-size: 16px;
-}
-.tab-content {
-    display: none;
-}
-.tab-content.active {
-    display: block;
-}
-.card-section {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    margin-bottom: 25px;
-    overflow: hidden;
-}
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 18px 22px;
-    background: #f9fafb;
-    border-bottom: 1px solid #e5e7eb;
-}
-.section-header h4 {
-    margin: 0;
-    color: #1f2937;
-    font-size: 1.1rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.section-header h4 i {
-    color: #3b82f6;
-}
-.section-body {
-    padding: 22px;
-}
-.btn-primary-gradebook {
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.2s;
-}
-.btn-primary-gradebook:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-}
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-    margin-bottom: 25px;
-}
-.stat-card-gradebook {
-    background: white;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-.stat-card-gradebook i {
-    font-size: 28px;
-    color: #3b82f6;
-    width: 50px;
-    height: 50px;
-    background: #eff6ff;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.stat-card-gradebook .number {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: #1f2937;
-}
-.stat-card-gradebook .label {
-    font-size: 0.85rem;
-    color: #6b7280;
-}
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-}
-.form-group-gradebook {
-    margin-bottom: 18px;
-}
-.form-group-gradebook label {
-    display: block;
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: 8px;
-    font-size: 0.9rem;
-}
-.form-group-gradebook label .required {
-    color: #ef4444;
-}
-.form-control-gradebook {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-.form-control-gradebook:focus {
-    outline: none;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-}
-textarea.form-control-gradebook {
-    min-height: 100px;
-    resize: vertical;
-}
-select.form-control-gradebook {
-    background: white;
-}
-.weight-input-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-.weight-input-group .weight-label {
-    min-width: 140px;
-    font-weight: 500;
-    color: #374151;
-}
-.weight-input-group input[type="number"] {
-    width: 100px;
-    padding: 8px 12px;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    text-align: center;
-}
-.weight-total {
-    padding: 12px 15px;
-    background: #f3f4f6;
-    border-radius: 8px;
-    font-weight: 600;
-    display: flex;
-    justify-content: space-between;
-}
-.weight-total.valid {
-    background: #d1fae5;
-    color: #065f46;
-}
-.weight-total.invalid {
-    background: #fee2e2;
-    color: #991b1b;
-}
-.table-gradebook {
-    width: 100%;
-    border-collapse: collapse;
-}
-.table-gradebook th {
-    background: #3b82f6;
-    color: white;
-    padding: 14px 16px;
-    text-align: left;
-    font-weight: 600;
-    font-size: 0.9rem;
-}
-.table-gradebook td {
-    padding: 14px 16px;
-    border-bottom: 1px solid #e5e7eb;
-    font-size: 0.9rem;
-}
-.table-gradebook tr:hover {
-    background: #f9fafb;
-}
-.table-gradebook .status-badge {
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
-}
-.status-active { background: #d1fae5; color: #065f46; }
-.status-inactive { background: #f3f4f6; color: #6b7280; }
-.status-dropped { background: #fee2e2; color: #991b1b; }
-.status-transferee { background: #fef3c7; color: #92400e; }
-.bulk-input-area {
-    background: #f9fafb;
-    border: 2px dashed #d1d5db;
-    border-radius: 12px;
-    padding: 30px;
-    text-align: center;
-    margin-bottom: 20px;
-}
-.bulk-input-area i {
-    font-size: 48px;
-    color: #9ca3af;
-    margin-bottom: 15px;
-}
-.bulk-input-area p {
-    color: #6b7280;
-    margin-bottom: 15px;
-}
-.analytics-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin-bottom: 25px;
-}
-.analytics-card {
-    background: white;
-    border-radius: 12px;
-    padding: 22px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-}
-.analytics-card h4 {
-    margin: 0 0 15px 0;
-    color: #1f2937;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.analytics-card h4 i {
-    color: #3b82f6;
-}
-.analytics-card p {
-    color: #6b7280;
-    font-size: 0.9rem;
-    margin-bottom: 10px;
-}
-.alert-atrisk {
-    padding: 12px 16px;
-    background: #fef2f2;
-    border-left: 4px solid #ef4444;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-    font-size: 0.9rem;
-}
-.alert-success-card {
-    padding: 12px 16px;
-    background: #f0fdf4;
-    border-left: 4px solid #22c55e;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.9rem;
-}
-.empty-state {
-    text-align: center;
-    padding: 50px 20px;
-    color: #6b7280;
-}
-.empty-state i {
-    font-size: 48px;
-    color: #d1d5db;
-    margin-bottom: 15px;
-}
-.empty-state h4 {
-    margin: 0 0 10px 0;
-    color: #374151;
-}
-.modal-gradebook {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    z-index: 1000;
-    overflow-y: auto;
-}
-.modal-gradebook.show {
-    display: block;
-}
-.modal-content-gradebook {
-    background: white;
-    margin: 5% auto;
-    width: 90%;
-    max-width: 600px;
-    border-radius: 12px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-}
-.modal-header-gradebook {
-    padding: 20px 25px;
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-    border-radius: 12px 12px 0 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.modal-header-gradebook h4 {
-    margin: 0;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.modal-close-gradebook {
-    background: transparent;
-    border: none;
-    color: white;
-    font-size: 28px;
-    cursor: pointer;
-    line-height: 1;
-}
-.modal-body-gradebook {
-    padding: 25px;
-}
-.modal-footer-gradebook {
-    padding: 18px 25px;
-    background: #f9fafb;
-    border-top: 1px solid #e5e7eb;
-    border-radius: 0 0 12px 12px;
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-}
-.btn-cancel {
-    padding: 10px 20px;
-    background: #f3f4f6;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-    color: #374151;
-}
-.btn-cancel:hover {
-    background: #e5e7eb;
-}
-.btn-save {
-    padding: 10px 20px;
-    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-    color: white;
-}
-.btn-save:hover {
-    transform: translateY(-1px);
-}
+.gradebook-wrap{padding:20px;max-width:1480px;margin:0 auto}.gb-head{background:linear-gradient(135deg,#0f766e,#1d4ed8);color:#fff;border-radius:16px;padding:24px;margin-bottom:20px}.gb-head h2{margin:0 0 8px}.gb-head p{margin:0}.gb-tabs{display:flex;flex-wrap:wrap;gap:8px;border-bottom:2px solid #e5e7eb;margin-bottom:20px}.gb-tab{padding:12px 16px;text-decoration:none;color:#64748b;font-weight:600;border-bottom:3px solid transparent;margin-bottom:-2px}.gb-tab.active{color:#0f766e;border-bottom-color:#0f766e}.gb-panel{display:none}.gb-panel.active{display:block}.gb-card{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(15,23,42,.08);margin-bottom:20px;overflow:hidden}.gb-card-h{padding:18px 22px;background:#f8fafc;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;gap:12px;align-items:center}.gb-card-b{padding:22px}.gb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}.gb-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:20px}.gb-stat{background:#fff;border-radius:16px;padding:18px;box-shadow:0 8px 30px rgba(15,23,42,.08)}.gb-stat .n{font-size:1.9rem;font-weight:700}.gb-form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}.gb-group{margin-bottom:16px}.gb-group label{display:block;margin-bottom:8px;font-weight:600;color:#334155}.gb-input{width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:10px 12px}.gb-btn,.gb-btn2,.gb-btn3{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:10px;padding:10px 16px;text-decoration:none;font-weight:600;cursor:pointer}.gb-btn{background:#0f766e;color:#fff}.gb-btn2{background:#e2e8f0;color:#0f172a}.gb-btn3{background:#dc2626;color:#fff}.gb-table{width:100%;border-collapse:collapse}.gb-table th,.gb-table td{padding:12px 10px;border-bottom:1px solid #e5e7eb;vertical-align:top}.gb-table th{background:#f8fafc;color:#334155;font-size:.86rem;text-transform:uppercase}.gb-badge{padding:4px 10px;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase}.gb-active{background:#dcfce7;color:#166534}.gb-dropped{background:#fee2e2;color:#991b1b}.gb-transferred{background:#fef3c7;color:#92400e}.gb-alert{border-radius:12px;padding:14px 16px;margin-bottom:16px;font-weight:600}.gb-ok{background:#ecfdf5;color:#047857}.gb-err{background:#fef2f2;color:#b91c1c}.gb-info{background:#eff6ff;color:#1d4ed8}.gb-empty{text-align:center;padding:32px 18px;color:#64748b;border:2px dashed #cbd5e1;border-radius:14px}
 </style>
+<div class="gradebook-wrap">
+  <div class="gb-head">
+    <h2><i class="fas fa-book"></i> My Gradebook</h2>
+    <p>Backend-backed setup, students, activities, scores, analytics, feedback, and reports.</p>
+    <?php if (!empty($gradebooks)): ?>
+      <form method="get" action="<?=site_url('academics/gradebook')?>" style="margin-top:14px;">
+        <input type="hidden" name="tab" value="<?=$active_tab?>">
+        <select name="gradebook_id" class="gb-input" style="max-width:420px;border:0" onchange="this.form.submit()">
+          <?php foreach ($gradebooks as $item): ?>
+            <option value="<?=$item['id']?>" <?=((int) $item['id'] === $current_gradebook_id) ? 'selected' : ''?>><?=html_escape($item['class_name'])?> | <?=html_escape($item['subject_name'])?> | <?=html_escape($item['schoolyear_label'])?></option>
+          <?php endforeach; ?>
+        </select>
+      </form>
+    <?php endif; ?>
+  </div>
 
-<div class="gradebook-container">
-    <div class="gradebook-header">
-        <h2><i class="fas fa-book"></i> My Gradebook</h2>
-        <p>Manage your student grades, activities, and generate reports</p>
-    </div>
-    
-    <div class="gradebook-tabs">
-        <button class="gradebook-tab active" data-tab="setup">
-            <i class="fas fa-cog"></i> 1. Set Up
-        </button>
-        <button class="gradebook-tab" data-tab="students">
-            <i class="fas fa-users"></i> 2. Students
-        </button>
-        <button class="gradebook-tab" data-tab="activities">
-            <i class="fas fa-tasks"></i> 3. Activities
-        </button>
-        <button class="gradebook-tab" data-tab="scores">
-            <i class="fas fa-pen"></i> 4. Encode Scores
-        </button>
-        <button class="gradebook-tab" data-tab="compute">
-            <i class="fas fa-calculator"></i> 5. Compute Grades
-        </button>
-        <button class="gradebook-tab" data-tab="competencies">
-            <i class="fas fa-chart-line"></i> 6. Competencies
-        </button>
-        <button class="gradebook-tab" data-tab="analytics">
-            <i class="fas fa-chart-bar"></i> 7. Analytics
-        </button>
-        <button class="gradebook-tab" data-tab="feedback">
-            <i class="fas fa-comment"></i> 8. Feedback
-        </button>
-        <button class="gradebook-tab" data-tab="reports">
-            <i class="fas fa-file-alt"></i> 9. Reports
-        </button>
-    </div>
-    
-    <!-- Tab 1: Set Up Gradebook -->
-    <div class="tab-content active" id="setup">
-        <div class="card-section">
-            <div class="section-header">
-                <h4><i class="fas fa-cog"></i> Set Up Gradebook</h4>
-            </div>
-            <div class="section-body">
-                <div class="form-grid">
-                    <div class="form-group-gradebook">
-                        <label>Class Name <span class="required">*</span></label>
-                        <input type="text" class="form-control-gradebook" placeholder="e.g., Grade 7 - Science">
-                    </div>
-                    <div class="form-group-gradebook">
-                        <label>Subject <span class="required">*</span></label>
-                        <input type="text" class="form-control-gradebook" placeholder="e.g., Science">
-                    </div>
-                </div>
-                <div class="form-group-gradebook">
-                    <label>School Year <span class="required">*</span></label>
-                    <select class="form-control-gradebook">
-                        <option value="2026">2026 - 2027</option>
-                        <option value="2025">2025 - 2026</option>
-                    </select>
-                </div>
-                <div class="form-group-gradebook">
-                    <label>Term System</label>
-                    <select class="form-control-gradebook">
-                        <option value="3term">3-Term (Quarterly)</option>
-                        <option value="2sem">2-Semester</option>
-                    </select>
-                </div>
-                <hr style="margin: 25px 0; border: none; border-top: 1px solid #e5e7eb;">
-                <h4 style="margin: 0 0 20px 0; color: #1f2937;"><i class="fas fa-balance-scale"></i> Grading Components & Weights</h4>
-                <div class="weight-input-group">
-                    <span class="weight-label">Written Work (WW)</span>
-                    <input type="number" placeholder="20" value="20">%
-                </div>
-                <div class="weight-input-group">
-                    <span class="weight-label">Performance Tasks (PT)</span>
-                    <input type="number" placeholder="40" value="40">%
-                </div>
-                <div class="weight-input-group">
-                    <span class="weight-label">Quarterly Assessment (QA)</span>
-                    <input type="number" placeholder="40" value="40">%
-                </div>
-                <div class="weight-total">
-                    <span>Total</span>
-                    <span>100%</span>
-                </div>
-                <div style="margin-top: 20px;">
-                    <button class="btn-primary-gradebook">
-                        <i class="fas fa-save"></i> Save Configuration
-                    </button>
-                </div>
-            </div>
+  <?php if (!$schema_ready): ?><div class="gb-alert gb-err">The gradebook tables do not exist yet. Import the SQL schema first, then reload this page.</div><?php endif; ?>
+  <?php if ($this->session->flashdata('success')): ?><div class="gb-alert gb-ok"><?=strip_tags($this->session->flashdata('success'))?></div><?php endif; ?>
+  <?php if ($this->session->flashdata('error')): ?><div class="gb-alert gb-err"><?=strip_tags($this->session->flashdata('error'))?></div><?php endif; ?>
+  <?php if ($this->session->flashdata('message')): ?><div class="gb-alert gb-info"><?=strip_tags($this->session->flashdata('message'))?></div><?php endif; ?>
+
+  <div class="gb-tabs">
+    <?php $tabs = array('setup'=>'1. Set Up','students'=>'2. Students','activities'=>'3. Activities','scores'=>'4. Encode Scores','compute'=>'5. Compute Grades','competencies'=>'6. Competencies','analytics'=>'7. Analytics','feedback'=>'8. Feedback','reports'=>'9. Reports'); ?>
+    <?php foreach ($tabs as $key => $label): ?>
+      <a class="gb-tab <?=$active_tab === $key ? 'active' : ''?>" href="<?=site_url('academics/gradebook?' . http_build_query(array('gradebook_id' => $current_gradebook_id, 'tab' => $key, 'activity_id' => $selected_activity_id ?: null)))?>"><?=$label?></a>
+    <?php endforeach; ?>
+  </div>
+
+  <div class="gb-panel <?=$active_tab === 'setup' ? 'active' : ''?>">
+    <div class="gb-card"><div class="gb-card-h"><h4>Set Up Gradebook</h4></div><div class="gb-card-b">
+      <form method="post" action="<?=site_url('gradebook/save_gradebook')?>">
+        <input type="hidden" name="gradebook_id" value="<?=$current_gradebook_id?>">
+        <div class="gb-form-grid">
+          <div class="gb-group"><label>Class Name</label><input type="text" name="class_name" class="gb-input" value="<?=!empty($gradebook['class_name']) ? html_escape($gradebook['class_name']) : ''?>" placeholder="e.g., Grade 7 - Science"></div>
+          <div class="gb-group"><label>Subject</label><input type="text" name="subject_name" class="gb-input" value="<?=!empty($gradebook['subject_name']) ? html_escape($gradebook['subject_name']) : ''?>" placeholder="e.g., Science"></div>
+          <div class="gb-group"><label>School Year</label><input type="text" class="gb-input" value="<?=html_escape((string) $this->session->userdata('current_schoolyear'))?>" disabled></div>
+          <div class="gb-group"><label>Term System</label><select name="term_system" class="gb-input"><option value="quarterly" <?=(!empty($gradebook['term_system']) && $gradebook['term_system'] === 'quarterly') ? 'selected' : ''?>>Quarterly</option><option value="semester" <?=(!empty($gradebook['term_system']) && $gradebook['term_system'] === 'semester') ? 'selected' : ''?>>Semester</option></select></div>
+          <div class="gb-group"><label>Written Work (WW) %</label><input type="number" step="0.01" name="ww_weight" class="gb-input" value="<?=!empty($gradebook['ww_weight']) ? $gradebook['ww_weight'] : '20'?>"></div>
+          <div class="gb-group"><label>Performance Tasks (PT) %</label><input type="number" step="0.01" name="pt_weight" class="gb-input" value="<?=!empty($gradebook['pt_weight']) ? $gradebook['pt_weight'] : '40'?>"></div>
+          <div class="gb-group"><label>Quarterly Assessment (QA) %</label><input type="number" step="0.01" name="qa_weight" class="gb-input" value="<?=!empty($gradebook['qa_weight']) ? $gradebook['qa_weight'] : '40'?>"></div>
         </div>
-    </div>
-    
-    <!-- Tab 2: Add Students -->
-    <div class="tab-content" id="students">
-        <div class="stats-grid">
-            <div class="stat-card-gradebook">
-                <i class="fas fa-users"></i>
-                <div>
-                    <div class="number">0</div>
-                    <div class="label">Total Students</div>
-                </div>
-            </div>
-            <div class="stat-card-gradebook">
-                <i class="fas fa-user-check"></i>
-                <div>
-                    <div class="number">0</div>
-                    <div class="label">Active</div>
-                </div>
-            </div>
-            <div class="stat-card-gradebook">
-                <i class="fas fa-user-minus"></i>
-                <div>
-                    <div class="number">0</div>
-                    <div class="label">Dropped</div>
-                </div>
-            </div>
-            <div class="stat-card-gradebook">
-                <i class="fas fa-user-plus"></i>
-                <div>
-                    <div class="number">0</div>
-                    <div class="label">Transferees</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card-section">
-            <div class="section-header">
-                <h4><i class="fas fa-user-plus"></i> Add Students</h4>
-                <button class="btn-primary-gradebook" onclick="openModal('importStudentsModal')">
-                    <i class="fas fa-file-import"></i> Import Class List
-                </button>
-            </div>
-            <div class="section-body">
-                <div class="empty-state">
-                    <i class="fas fa-users"></i>
-                    <h4>No Students Yet</h4>
-                    <p>Import your class list or add students manually</p>
-                    <button class="btn-primary-gradebook" onclick="openModal('importStudentsModal')">
-                        <i class="fas fa-file-import"></i> Import Class List
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card-section">
-            <div class="section-header">
-                <h4><i class="fas fa-user-minus"></i> Manage Transfer & Dropped Students</h4>
-            </div>
-            <div class="section-body">
-                <div class="empty-state">
-                    <i class="fas fa-user-clock"></i>
-                    <h4>No Transfer/Dropped Students</h4>
-                    <p>Students who transferred or dropped will appear here</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Tab 3: Create Activities -->
-    <div class="tab-content" id="activities">
-        <div class="card-section">
-            <div class="section-header">
-                <h4><i class="fas fa-tasks"></i> Create Activity</h4>
-                <button class="btn-primary-gradebook" onclick="openModal('createActivityModal')">
-                    <i class="fas fa-plus"></i> New Activity
-                </button>
-            </div>
-            <div class="section-body">
-                <div class="empty-state">
-                    <i class="fas fa-clipboard-list"></i>
-                    <h4>No Activities Yet</h4>
-                    <p>Create quizzes, tasks, or exams for your students</p>
-                    <button class="btn-primary-gradebook" onclick="openModal('createActivityModal')">
-                        <i class="fas fa-plus"></i> Create First Activity
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="card-section">
-            <div class="section-header">
-                <h4><i class="fas fa-tags"></i> Activity Categories</h4>
-            </div>
-            <div class="section-body">
-                <table class="table-gradebook">
-                    <thead>
-                        <tr>
-                            <th>Category</th>
-                            <th>Weight</th>
-                            <th>Activities</th>
-                            <th>Total Points</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Written Work (WW)</td>
-                            <td>20%</td>
-                            <td>0</td>
-                            <td>0</td>
-                        </tr>
-                        <tr>
-                            <td>Performance Tasks (PT)</td>
-                            <td>40%</td>
-                            <td>0</td>
-                            <td>0</td>
-                        </tr>
-                        <tr>
-                            <td>Quarterly Assessment (QA)</td>
-                            <td>40%</td>
-                            <td>0</td>
-                            <td>0</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Tab 4: Encode Scores -->
-    <div class="tab-content" id="scores">
-        <div class="card-section">
-            <div class="section-header">
-                <h4><i class="fas fa-pen"></i> Encode Scores</h4>
-                <div>
-                    <button class="btn-cancel" onclick="openModal('bulkInputModal')">
-                        <i class="fas fa-list"></i> Bulk Input
-                    </button>
-                </div>
-            </div>
-            <div class="section-body">
-                <div class="form-group-gradebook">
-                    <label>Select Activity</label>
-                    <select class="form-control-gradebook">
-                        <option value="">Select an activity...</option>
-                    </select>
-                </div>
-                
-                <div class="bulk-input-area">
-                    <i class="fas fa-keyboard"></i>
-                    <p>Select an activity above to encode student scores</p>
-                    <p style="font-size: 0.85rem;">Mark scores as: <span class="status-badge status-active">Complete</span> <span class="status-badge status-inactive">Missing</span> <span class="status-badge status-dropped">Late</span> <span class="status-badge status-transferee">Excused</span></p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Tab 5: Auto Compute Grades -->
-    <div class="tab-content" id="compute">
-        <div class="card-section">
-            <div class="section-header">
-                <h4><i class="fas fa-calculator"></i> Compute Grades</h4>
-                <button class="btn-primary-gradebook">
-                    <i class="fas fa-sync-alt"></i> Recalculate All
-                </button>
-            </div>
-            <div class="section-body">
-                <div class="form-grid">
-                    <div class="form-group-gradebook">
-                        <label>Compute For</label>
-                        <select class="form-control-gradebook">
-                            <option value="all">All Students</option>
-                            <option value="quarter">Current Quarter</option>
-                        </select>
-                    </div>
-                    <div class="form-group-gradebook">
-                        <label>Grade Computation Method</label>
-                        <select class="form-control-gradebook">
-                            <option value="deped">DepEd Transmutation</option>
-                            <option value="standard">Standard Percentage</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div style="margin-top: 25px;">
-                    <h4 style="margin: 0 0 15px 0;"><i class="fas fa-info-circle"></i> How Grades Are Computed</h4>
-                    <ol style="color: #6b7280; padding-left: 20px; line-height: 1.8;">
-                        <li>Scores are converted to percentages based on total points</li>
-                        <li>Percentages are weighted using WW/PT/QA weights</li>
-                        <li>Initial grade is computed: (WW% × WW weight) + (PT% × PT weight) + (QA% × QA weight)</li>
-                        <li>DepEd transmutation table is applied to get final grade</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Tab 6: Track Competencies -->
-    <div class="tab-content" id="competencies">
-        <div class="card-section">
-            <div class="section-header">
-                <h4><i class="fas fa-chart-line"></i> Track Competencies</h4>
-            </div>
-            <div class="section-body">
-                <div class="empty-state">
-                    <i class="fas fa-bullseye"></i>
-                    <h4>No Competencies Tracked</h4>
-                    <p>Competencies will be tracked once activities are tagged and scores are encoded</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Tab 7: Review Analytics -->
-    <div class="tab-content" id="analytics">
-        <div class="analytics-cards">
-            <div class="analytics-card">
-                <h4><i class="fas fa-chart-pie"></i> Class Performance</h4>
-                <p>Average: --</p>
-                <p>Highest: --</p>
-                <p>Lowest: --</p>
-            </div>
-            <div class="analytics-card">
-                <h4><i class="fas fa-exclamation-triangle"></i> At-Risk Students</h4>
-                <div class="empty-state" style="padding: 20px 0;">
-                    <p>No at-risk students identified</p>
-                </div>
-            </div>
-            <div class="analytics-card">
-                <h4><i class="fas fa-trophy"></i> Top Performers</h4>
-                <div class="empty-state" style="padding: 20px 0;">
-                    <p>No top performers yet</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Tab 8: Add Feedback -->
-    <div class="tab-content" id="feedback">
-        <div class="card-section">
-            <div class="section-header">
-                <h4><i class="fas fa-comment"></i> Add Feedback</h4>
-            </div>
-            <div class="section-body">
-                <div class="form-group-gradebook">
-                    <label>Select Student</label>
-                    <select class="form-control-gradebook">
-                        <option value="">Select a student...</option>
-                    </select>
-                </div>
-                <div class="form-group-gradebook">
-                    <label>Feedback Type</label>
-                    <select class="form-control-gradebook">
-                        <option value="general">General Comment</option>
-                        <option value="activity">Per Activity</option>
-                        <option value="quarterly">Quarterly Feedback</option>
-                    </select>
-                </div>
-                <div class="form-group-gradebook">
-                    <label>Comment</label>
-                    <textarea class="form-control-gradebook" placeholder="Enter your feedback..."></textarea>
-                </div>
-                <button class="btn-primary-gradebook">
-                    <i class="fas fa-save"></i> Save Feedback
-                </button>
-            </div>
-        </div>
-        
-        <div class="card-section">
-            <div class="section-header">
-                <h4><i class="fas fa-history"></i> Feedback History</h4>
-            </div>
-            <div class="section-body">
-                <div class="empty-state">
-                    <i class="fas fa-comments"></i>
-                    <h4>No Feedback Yet</h4>
-                    <p>Feedback history will appear here</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Tab 9: Generate Reports -->
-    <div class="tab-content" id="reports">
-        <div class="card-section">
-            <div class="section-header">
-                <h4><i class="fas fa-file-alt"></i> Generate Reports</h4>
-            </div>
-            <div class="section-body">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-                    <div style="padding: 25px; background: #f9fafb; border-radius: 12px; text-align: center;">
-                        <i class="fas fa-file-pdf" style="font-size: 48px; color: #3b82f6; margin-bottom: 15px;"></i>
-                        <h4 style="margin: 0 0 10px 0;">SF9 Report Cards</h4>
-                        <p style="color: #6b7280; margin-bottom: 15px;">Generate DepEd SF9 formatted report cards</p>
-                        <button class="btn-primary-gradebook">
-                            <i class="fas fa-download"></i> Generate
-                        </button>
-                    </div>
-                    <div style="padding: 25px; background: #f9fafb; border-radius: 12px; text-align: center;">
-                        <i class="fas fa-table" style="font-size: 48px; color: #3b82f6; margin-bottom: 15px;"></i>
-                        <h4 style="margin: 0 0 10px 0;">Class Records</h4>
-                        <p style="color: #6b7280; margin-bottom: 15px;">Download class grade records</p>
-                        <button class="btn-primary-gradebook">
-                            <i class="fas fa-download"></i> Generate
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+        <button type="submit" class="gb-btn"><i class="fas fa-save"></i> Save Configuration</button>
+      </form>
+    </div></div>
+  </div>
+
+  <div class="gb-panel <?=$active_tab === 'students' ? 'active' : ''?>">
+    <?php if (!empty($gradebook)): ?>
+      <div class="gb-stats">
+        <div class="gb-stat"><div>Total Students</div><div class="n"><?=isset($overview['student_total']) ? $overview['student_total'] : 0?></div></div>
+        <div class="gb-stat"><div>Active</div><div class="n"><?=isset($overview['student_active']) ? $overview['student_active'] : 0?></div></div>
+        <div class="gb-stat"><div>Dropped</div><div class="n"><?=isset($overview['student_dropped']) ? $overview['student_dropped'] : 0?></div></div>
+        <div class="gb-stat"><div>Transferred</div><div class="n"><?=isset($overview['student_transferred']) ? $overview['student_transferred'] : 0?></div></div>
+      </div>
+      <div class="gb-card"><div class="gb-card-h"><h4>Import Students</h4></div><div class="gb-card-b">
+        <form method="post" action="<?=site_url('gradebook/import_students')?>" enctype="multipart/form-data">
+          <input type="hidden" name="gradebook_id" value="<?=$current_gradebook_id?>">
+          <div class="gb-form-grid">
+            <div class="gb-group"><label>Student IDs / School IDs / LRN</label><textarea name="student_identifiers" class="gb-input" style="min-height:110px" placeholder="2025001&#10;LRN1234567890&#10;541"></textarea></div>
+            <div class="gb-group"><label>CSV Upload</label><input type="file" name="student_csv" class="gb-input" accept=".csv"><p style="margin-top:8px;color:#64748b">Each row uses its first non-empty cell as the identifier.</p></div>
+          </div>
+          <button type="submit" class="gb-btn"><i class="fas fa-file-import"></i> Import Students</button>
+        </form>
+      </div></div>
+      <div class="gb-card"><div class="gb-card-h"><h4>Class List</h4></div><div class="gb-card-b">
+        <?php if (empty($students)): ?><div class="gb-empty">No students have been imported into this gradebook yet.</div><?php else: ?>
+          <div class="table-responsive"><table class="gb-table"><thead><tr><th>Student</th><th>Student No</th><th>LRN</th><th>Grade Level</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+          <?php foreach ($students as $student): ?><tr>
+            <td><?=html_escape($student['full_name'])?></td><td><?=html_escape($student['student_no'])?></td><td><?=html_escape($student['lrn'])?></td><td><?=html_escape($student['grade_level'])?></td>
+            <td><span class="gb-badge gb-<?=html_escape($student['status'])?>"><?=html_escape($student['status'])?></span></td>
+            <td>
+              <a class="gb-btn2" href="<?=site_url('gradebook/update_student_status/' . $current_gradebook_id . '/' . $student['id'] . '/active')?>">Active</a>
+              <a class="gb-btn2" href="<?=site_url('gradebook/update_student_status/' . $current_gradebook_id . '/' . $student['id'] . '/transferred')?>">Transferred</a>
+              <a class="gb-btn3" href="<?=site_url('gradebook/update_student_status/' . $current_gradebook_id . '/' . $student['id'] . '/dropped')?>">Dropped</a>
+            </td>
+          </tr><?php endforeach; ?></tbody></table></div>
+        <?php endif; ?>
+      </div></div>
+    <?php else: ?><div class="gb-empty">Create a gradebook configuration first before importing students.</div><?php endif; ?>
+  </div>
+
+  <div class="gb-panel <?=$active_tab === 'activities' ? 'active' : ''?>">
+    <?php if (!empty($gradebook)): ?>
+      <div class="gb-card"><div class="gb-card-h"><h4>Create Activity</h4></div><div class="gb-card-b">
+        <form method="post" action="<?=site_url('gradebook/create_activity')?>">
+          <input type="hidden" name="gradebook_id" value="<?=$current_gradebook_id?>">
+          <div class="gb-form-grid">
+            <div class="gb-group"><label>Activity Title</label><input type="text" name="title" class="gb-input" placeholder="Quiz 1: Introduction"></div>
+            <div class="gb-group"><label>Category</label><select name="category" class="gb-input"><option value="WW">Written Work</option><option value="PT">Performance Task</option><option value="QA">Quarterly Assessment</option></select></div>
+            <div class="gb-group"><label>Activity Type</label><input type="text" name="activity_type" class="gb-input" placeholder="Quiz / Project / Exam"></div>
+            <div class="gb-group"><label>Total Points</label><input type="number" step="0.01" min="1" name="total_points" class="gb-input" placeholder="100"></div>
+            <div class="gb-group"><label>Due Date</label><input type="date" name="due_date" class="gb-input"></div>
+            <div class="gb-group"><label>Competency Tag</label><input type="text" name="competency_tag" class="gb-input" placeholder="e.g., S7ES-IIIa-1"></div>
+          </div>
+          <button type="submit" class="gb-btn"><i class="fas fa-plus"></i> Create Activity</button>
+        </form>
+      </div></div>
+
+      <div class="gb-card"><div class="gb-card-h"><h4>Activity Categories</h4></div><div class="gb-card-b">
+        <div class="table-responsive"><table class="gb-table"><thead><tr><th>Category</th><th>Weight</th><th>Activities</th><th>Total Points</th></tr></thead><tbody>
+          <?php foreach ($category_summary as $category => $summary): ?>
+            <tr><td><?=html_escape($category)?></td><td><?=html_escape($summary['weight'])?>%</td><td><?=html_escape($summary['activities'])?></td><td><?=html_escape($summary['total_points'])?></td></tr>
+          <?php endforeach; ?>
+        </tbody></table></div>
+      </div></div>
+
+      <div class="gb-card"><div class="gb-card-h"><h4>Created Activities</h4></div><div class="gb-card-b">
+        <?php if (empty($activities)): ?><div class="gb-empty">No activities yet. Create the first one above.</div><?php else: ?>
+          <div class="table-responsive"><table class="gb-table"><thead><tr><th>Title</th><th>Category</th><th>Type</th><th>Points</th><th>Competency</th><th>Encoded</th><th></th></tr></thead><tbody>
+          <?php foreach ($activities as $activity): ?><tr>
+            <td><?=html_escape($activity['title'])?></td><td><?=html_escape($activity['category'])?></td><td><?=html_escape($activity['activity_type'])?></td><td><?=html_escape($activity['total_points'])?></td><td><?=html_escape($activity['competency_tag'])?></td><td><?=html_escape($activity['encoded_scores'])?> / <?=html_escape($activity['score_rows'])?></td>
+            <td><a class="gb-btn2" href="<?=site_url('academics/gradebook?' . http_build_query(array('gradebook_id' => $current_gradebook_id, 'tab' => 'scores', 'activity_id' => $activity['id'])))?>">Encode Scores</a></td>
+          </tr><?php endforeach; ?></tbody></table></div>
+        <?php endif; ?>
+      </div></div>
+    <?php else: ?><div class="gb-empty">Create a gradebook configuration first before adding activities.</div><?php endif; ?>
+  </div>
+
+  <div class="gb-panel <?=$active_tab === 'scores' ? 'active' : ''?>">
+    <?php if (!empty($gradebook)): ?>
+      <div class="gb-card"><div class="gb-card-h">
+        <h4>Encode Scores</h4>
+        <form method="get" action="<?=site_url('academics/gradebook')?>" style="margin:0">
+          <input type="hidden" name="gradebook_id" value="<?=$current_gradebook_id?>">
+          <input type="hidden" name="tab" value="scores">
+          <select name="activity_id" class="gb-input" onchange="this.form.submit()">
+            <option value="">Select an activity</option>
+            <?php foreach ($activities as $activity): ?>
+              <option value="<?=$activity['id']?>" <?=((int) $activity['id'] === $selected_activity_id) ? 'selected' : ''?>><?=html_escape($activity['title'])?> (<?=html_escape($activity['category'])?>)</option>
+            <?php endforeach; ?>
+          </select>
+        </form>
+      </div><div class="gb-card-b">
+        <?php if (empty($selected_activity)): ?><div class="gb-empty">Select or create an activity first.</div><?php else: ?>
+          <p style="color:#64748b">Encoding scores for <strong><?=html_escape($selected_activity['title'])?></strong>, total points: <strong><?=html_escape($selected_activity['total_points'])?></strong></p>
+          <form method="post" action="<?=site_url('gradebook/save_scores')?>">
+            <input type="hidden" name="gradebook_id" value="<?=$current_gradebook_id?>">
+            <input type="hidden" name="activity_id" value="<?=$selected_activity_id?>">
+            <div class="table-responsive"><table class="gb-table"><thead><tr><th>Student</th><th>Status</th><th>Score</th><th>Remarks</th></tr></thead><tbody>
+            <?php foreach ($activity_sheet as $row): ?><tr>
+              <td><?=html_escape($row['full_name'])?></td><td><?=html_escape($row['student_status'])?></td>
+              <td><input type="number" step="0.01" min="0" max="<?=html_escape($selected_activity['total_points'])?>" name="scores[<?=$row['gradebook_student_id']?>][score]" class="gb-input" style="width:95px" value="<?=$row['score'] !== null ? html_escape($row['score']) : ''?>"></td>
+              <td><select name="scores[<?=$row['gradebook_student_id']?>][remarks]" class="gb-input"><?php foreach (array('complete','missing','late','excused') as $remark): ?><option value="<?=$remark?>" <?=$row['remarks'] === $remark ? 'selected' : ''?>><?=ucfirst($remark)?></option><?php endforeach; ?></select></td>
+            </tr><?php endforeach; ?></tbody></table></div>
+            <button type="submit" class="gb-btn"><i class="fas fa-save"></i> Save Scores</button>
+          </form>
+        <?php endif; ?>
+      </div></div>
+    <?php else: ?><div class="gb-empty">Create a gradebook configuration first before encoding scores.</div><?php endif; ?>
+  </div>
+
+  <div class="gb-panel <?=$active_tab === 'compute' ? 'active' : ''?>">
+    <?php if (!empty($gradebook)): ?>
+      <div class="gb-card"><div class="gb-card-h"><h4>Computed Grades</h4></div><div class="gb-card-b">
+        <?php if (empty($results['rows'])): ?><div class="gb-empty">Import students and encode scores to compute grades.</div><?php else: ?>
+          <div class="table-responsive"><table class="gb-table"><thead><tr><th>Student</th><th>WW %</th><th>PT %</th><th>QA %</th><th>Initial Grade</th><th>Final Grade</th></tr></thead><tbody>
+          <?php foreach ($results['rows'] as $row): ?><tr>
+            <td><?=html_escape($row['student']['full_name'])?></td><td><?=html_escape($row['ww_percent'])?></td><td><?=html_escape($row['pt_percent'])?></td><td><?=html_escape($row['qa_percent'])?></td><td><?=html_escape($row['initial_grade'])?></td><td><strong><?=html_escape($row['final_grade'])?></strong></td>
+          </tr><?php endforeach; ?></tbody></table></div>
+        <?php endif; ?>
+      </div></div>
+    <?php else: ?><div class="gb-empty">Create a gradebook configuration first before computing grades.</div><?php endif; ?>
+  </div>
+
+  <div class="gb-panel <?=$active_tab === 'competencies' ? 'active' : ''?>">
+    <?php if (!empty($gradebook)): ?>
+      <div class="gb-card"><div class="gb-card-h"><h4>Competency Tracking</h4></div><div class="gb-card-b">
+        <?php if (empty($competencies)): ?><div class="gb-empty">Add competency tags to activities to start tracking mastery.</div><?php else: ?>
+          <div class="table-responsive"><table class="gb-table"><thead><tr><th>Competency Tag</th><th>Activities</th><th>Average %</th><th>Students</th></tr></thead><tbody>
+          <?php foreach ($competencies as $competency): ?><tr>
+            <td><?=html_escape($competency['competency_tag'])?></td><td><?=html_escape($competency['activities'])?></td><td><?=($competency['average_percent'] !== null) ? html_escape($competency['average_percent']) : '--'?></td><td><?=html_escape($competency['student_count'])?></td>
+          </tr><?php endforeach; ?></tbody></table></div>
+        <?php endif; ?>
+      </div></div>
+    <?php else: ?><div class="gb-empty">Create a gradebook configuration first before tracking competencies.</div><?php endif; ?>
+  </div>
+
+  <div class="gb-panel <?=$active_tab === 'analytics' ? 'active' : ''?>">
+    <?php if (!empty($gradebook)): ?>
+      <div class="gb-grid">
+        <div class="gb-card"><div class="gb-card-h"><h4>Class Performance</h4></div><div class="gb-card-b"><p>Average: <strong><?=($results['average'] !== null) ? html_escape($results['average']) : '--'?></strong></p><p>Highest: <strong><?=($results['highest'] !== null) ? html_escape($results['highest']) : '--'?></strong></p><p>Lowest: <strong><?=($results['lowest'] !== null) ? html_escape($results['lowest']) : '--'?></strong></p></div></div>
+        <div class="gb-card"><div class="gb-card-h"><h4>At-Risk Students</h4></div><div class="gb-card-b"><?php if (empty($results['at_risk'])): ?><p style="color:#64748b">No at-risk students identified.</p><?php else: ?><?php foreach ($results['at_risk'] as $row): ?><p><?=html_escape($row['student']['full_name'])?>: <strong><?=html_escape($row['final_grade'])?></strong></p><?php endforeach; ?><?php endif; ?></div></div>
+        <div class="gb-card"><div class="gb-card-h"><h4>Top Performers</h4></div><div class="gb-card-b"><?php if (empty($results['top_performers'])): ?><p style="color:#64748b">No computed grades yet.</p><?php else: ?><?php foreach ($results['top_performers'] as $row): ?><p><?=html_escape($row['student']['full_name'])?>: <strong><?=html_escape($row['final_grade'])?></strong></p><?php endforeach; ?><?php endif; ?></div></div>
+      </div>
+    <?php else: ?><div class="gb-empty">Create a gradebook configuration first before reviewing analytics.</div><?php endif; ?>
+  </div>
+
+  <div class="gb-panel <?=$active_tab === 'feedback' ? 'active' : ''?>">
+    <?php if (!empty($gradebook)): ?>
+      <div class="gb-card"><div class="gb-card-h"><h4>Add Feedback</h4></div><div class="gb-card-b">
+        <form method="post" action="<?=site_url('gradebook/save_feedback')?>">
+          <input type="hidden" name="gradebook_id" value="<?=$current_gradebook_id?>">
+          <div class="gb-form-grid">
+            <div class="gb-group"><label>Student</label><select name="gradebook_student_id" class="gb-input"><option value="">Select a student</option><?php foreach ($students as $student): ?><option value="<?=$student['id']?>"><?=html_escape($student['full_name'])?></option><?php endforeach; ?></select></div>
+            <div class="gb-group"><label>Feedback Type</label><select name="feedback_type" class="gb-input"><option value="general">General Comment</option><option value="activity">Per Activity</option><option value="quarterly">Quarterly Feedback</option></select></div>
+            <div class="gb-group"><label>Related Activity</label><select name="activity_id" class="gb-input"><option value="">Optional</option><?php foreach ($activities as $activity): ?><option value="<?=$activity['id']?>"><?=html_escape($activity['title'])?></option><?php endforeach; ?></select></div>
+          </div>
+          <div class="gb-group"><label>Comment</label><textarea name="comment" class="gb-input" style="min-height:110px" placeholder="Enter teacher feedback here..."></textarea></div>
+          <button type="submit" class="gb-btn"><i class="fas fa-save"></i> Save Feedback</button>
+        </form>
+      </div></div>
+
+      <div class="gb-card"><div class="gb-card-h"><h4>Feedback History</h4></div><div class="gb-card-b">
+        <?php if (empty($feedback_history)): ?><div class="gb-empty">No feedback has been recorded yet.</div><?php else: ?>
+          <div class="table-responsive"><table class="gb-table"><thead><tr><th>Date</th><th>Student</th><th>Type</th><th>Activity</th><th>Comment</th></tr></thead><tbody>
+          <?php foreach ($feedback_history as $item): ?><tr>
+            <td><?=!empty($item['created_at']) ? html_escape(date('M d, Y h:i A', strtotime($item['created_at']))) : ''?></td><td><?=html_escape($item['full_name'])?></td><td><?=html_escape($item['feedback_type'])?></td><td><?=html_escape($item['activity_title'])?></td><td><?=nl2br(html_escape($item['comment']))?></td>
+          </tr><?php endforeach; ?></tbody></table></div>
+        <?php endif; ?>
+      </div></div>
+    <?php else: ?><div class="gb-empty">Create a gradebook configuration first before saving feedback.</div><?php endif; ?>
+  </div>
+
+  <div class="gb-panel <?=$active_tab === 'reports' ? 'active' : ''?>">
+    <?php if (!empty($gradebook)): ?>
+      <div class="gb-grid">
+        <div class="gb-card"><div class="gb-card-h"><h4>Class Record CSV</h4></div><div class="gb-card-b"><p style="color:#64748b">Exports percentages, initial grades, and final grades.</p><a class="gb-btn" href="<?=site_url('gradebook/report/' . $current_gradebook_id . '/class_record')?>">Download Class Record</a></div></div>
+        <div class="gb-card"><div class="gb-card-h"><h4>Report Card CSV</h4></div><div class="gb-card-b"><p style="color:#64748b">Exports final grades with latest teacher feedback.</p><a class="gb-btn" href="<?=site_url('gradebook/report/' . $current_gradebook_id . '/report_card')?>">Download Report Card</a></div></div>
+      </div>
+    <?php else: ?><div class="gb-empty">Create a gradebook configuration first before generating reports.</div><?php endif; ?>
+  </div>
 </div>
-
-<!-- Import Students Modal -->
-<div id="importStudentsModal" class="modal-gradebook">
-    <div class="modal-content-gradebook">
-        <div class="modal-header-gradebook">
-            <h4><i class="fas fa-file-import"></i> Import Class List</h4>
-            <button class="modal-close-gradebook" onclick="closeModal('importStudentsModal')">&times;</button>
-        </div>
-        <div class="modal-body-gradebook">
-            <div class="form-group-gradebook">
-                <label>Upload CSV File</label>
-                <input type="file" class="form-control-gradebook" accept=".csv">
-                <p style="font-size: 0.85rem; color: #6b7280; margin-top: 5px;">Format: Student ID, Name, Email</p>
-            </div>
-            <div class="form-group-gradebook">
-                <label>Or Enter Student IDs (one per line)</label>
-                <textarea class="form-control-gradebook" placeholder="STU-0001&#10;STU-0002&#10;STU-0003"></textarea>
-            </div>
-        </div>
-        <div class="modal-footer-gradebook">
-            <button class="btn-cancel" onclick="closeModal('importStudentsModal')">Cancel</button>
-            <button class="btn-save"><i class="fas fa-upload"></i> Import</button>
-        </div>
-    </div>
-</div>
-
-<!-- Create Activity Modal -->
-<div id="createActivityModal" class="modal-gradebook">
-    <div class="modal-content-gradebook">
-        <div class="modal-header-gradebook">
-            <h4><i class="fas fa-plus-circle"></i> Create Activity</h4>
-            <button class="modal-close-gradebook" onclick="closeModal('createActivityModal')">&times;</button>
-        </div>
-        <div class="modal-body-gradebook">
-            <div class="form-group-gradebook">
-                <label>Activity Title <span class="required">*</span></label>
-                <input type="text" class="form-control-gradebook" placeholder="e.g., Quiz 1: Introduction">
-            </div>
-            <div class="form-group-gradebook">
-                <label>Category <span class="required">*</span></label>
-                <select class="form-control-gradebook">
-                    <option value="ww">Written Work (WW)</option>
-                    <option value="pt">Performance Tasks (PT)</option>
-                    <option value="qa">Quarterly Assessment (QA)</option>
-                </select>
-            </div>
-            <div class="form-group-gradebook">
-                <label>Activity Type</label>
-                <select class="form-control-gradebook">
-                    <option value="quiz">Quiz</option>
-                    <option value="assignment">Assignment</option>
-                    <option value="exam">Exam</option>
-                    <option value="project">Project</option>
-                    <option value="presentation">Presentation</option>
-                </select>
-            </div>
-            <div class="form-group-gradebook">
-                <label>Total Points <span class="required">*</span></label>
-                <input type="number" class="form-control-gradebook" placeholder="100">
-            </div>
-            <div class="form-group-gradebook">
-                <label>Due Date</label>
-                <input type="date" class="form-control-gradebook">
-            </div>
-            <div class="form-group-gradebook">
-                <label>Learning Competency Tag</label>
-                <input type="text" class="form-control-gradebook" placeholder="e.g., S7ES-IIIa-1">
-            </div>
-        </div>
-        <div class="modal-footer-gradebook">
-            <button class="btn-cancel" onclick="closeModal('createActivityModal')">Cancel</button>
-            <button class="btn-save"><i class="fas fa-save"></i> Create Activity</button>
-        </div>
-    </div>
-</div>
-
-<!-- Bulk Input Modal -->
-<div id="bulkInputModal" class="modal-gradebook">
-    <div class="modal-content-gradebook">
-        <div class="modal-header-gradebook">
-            <h4><i class="fas fa-list"></i> Bulk Input</h4>
-            <button class="modal-close-gradebook" onclick="closeModal('bulkInputModal')">&times;</button>
-        </div>
-        <div class="modal-body-gradebook">
-            <div class="form-group-gradebook">
-                <label>Select Activity <span class="required">*</span></label>
-                <select class="form-control-gradebook">
-                    <option value="">Select an activity...</option>
-                </select>
-            </div>
-            <div class="form-group-gradebook">
-                <label>Enter Scores (one per line)</label>
-                <textarea class="form-control-gradebook" placeholder="Student ID, Score&#10;STU-0001, 85&#10;STU-0002, 90&#10;STU-0003, --" style="min-height: 150px;"></textarea>
-                <p style="font-size: 0.85rem; color: #6b7280; margin-top: 5px;">Use "--" for missing, "L" for late, "E" for excused</p>
-            </div>
-        </div>
-        <div class="modal-footer-gradebook">
-            <button class="btn-cancel" onclick="closeModal('bulkInputModal')">Cancel</button>
-            <button class="btn-save"><i class="fas fa-save"></i> Save Scores</button>
-        </div>
-    </div>
-</div>
-
-<script>
-// Tab switching
-document.querySelectorAll('.gradebook-tab').forEach(tab => {
-    tab.addEventListener('click', function() {
-        document.querySelectorAll('.gradebook-tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        
-        this.classList.add('active');
-        document.getElementById(this.dataset.tab).classList.add('active');
-    });
-});
-
-// Modal functions
-function openModal(modalId) {
-    document.getElementById(modalId).classList.add('show');
-}
-
-function closeModal(modalId) {
-    document.getElementById(modalId).classList.remove('show');
-}
-
-// Close modal when clicking outside
-window.onclick = function(event) {
-    if (event.target.classList.contains('modal-gradebook')) {
-        event.target.classList.remove('show');
-    }
-}
-</script>

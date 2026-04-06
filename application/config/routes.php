@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'login';
 $route['academics'] = 'academics/index';
-$route['academics/gradebook'] = 'academics/gradebook';
+$route['academics/gradebook'] = 'gradebook/index';
 $route['classroom'] = 'classroom/teacher_index';
 $route['classroom/teacher'] = 'classroom/teacher_index';
 $route['classroom/create_class'] = 'classroom/create_class';
