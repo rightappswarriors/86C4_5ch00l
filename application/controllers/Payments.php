@@ -34,6 +34,24 @@ class Payments extends CI_Controller {
 		
 	}
 	
+	public function print_payment(){
+		
+		$paymentid = $this->uri->segment(3);
+		
+		$query = $this->payments_model->getPaymentById($paymentid);
+		
+		if($query->num_rows() > 0){
+			$data = array(
+				'title'     =>   'Payment Receipt',
+				'template'   =>   'payments/payment_print',
+				'payment' => $query->row()
+			);
+			$this->load->view('template_print', $data);	
+		} else {
+			redirect('payments');
+		}
+	}
+	
 	public function statement()
 	{
 		$studentid = $this->uri->segment(3);

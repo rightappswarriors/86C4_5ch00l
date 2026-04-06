@@ -121,6 +121,13 @@ class Payments_model extends CI_Model
 		
 	}
 	
+	function getPaymentById($id){
+		return $this->db->query("select a.*,b.firstname,b.lastname from payments a 
+		left join students b on b.id = a.student_id 
+		left join enrolled c on c.id = a.enroll_id  
+		where a.id = $id and a.deleted = 'no'");
+	}
+	
 	function getRecentPayments(){
 		
 		return $this->db->query("select a.*,b.firstname,b.lastname from payments a 

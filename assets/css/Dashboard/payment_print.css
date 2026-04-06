@@ -1,0 +1,119 @@
+/* Payment Receipt Print Styles */
+.payment-receipt {
+    max-width: 550px;
+    margin: 20px auto;
+    padding: 0;
+}
+
+.payment-receipt .receipt-header {
+    text-align: center;
+    border-bottom: 2px solid #2196f3;
+    padding: 20px 25px;
+    background: #f8f9fa;
+}
+
+.payment-receipt .receipt-header h2 {
+    margin: 0 0 8px 0;
+    color: #1a73e8;
+    font-size: 24px;
+}
+
+.payment-receipt .receipt-header p {
+    margin: 2px 0;
+    color: #555;
+    font-size: 12px;
+}
+
+.payment-receipt .receipt-body {
+    padding: 25px;
+    background: white;
+}
+
+.payment-receipt .receipt-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f0f4f8;
+    border-radius: 8px;
+}
+
+.payment-receipt .receipt-info p {
+    margin: 0;
+    font-size: 13px;
+}
+
+.payment-receipt .receipt-info strong {
+    color: #333;
+}
+
+.payment-receipt .receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.payment-receipt .receipt-table th,
+.payment-receipt .receipt-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e8e8e8;
+    font-size: 14px;
+}
+
+.payment-receipt .receipt-table th {
+    background: #f5f7fa;
+    font-weight: 600;
+    color: #444;
+    width: 35%;
+}
+
+.payment-receipt .receipt-table td {
+    color: #333;
+}
+
+.payment-receipt .receipt-total {
+    text-align: right;
+    font-size: 22px;
+    font-weight: bold;
+    padding: 18px 25px;
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    border-radius: 10px;
+    color: #2e7d32;
+    margin-bottom: 20px;
+}
+
+.payment-receipt .receipt-footer {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px dashed #ccc;
+    color: #666;
+    font-size: 12px;
+}
+
+.payment-receipt .receipt-footer p {
+    margin: 4px 0;
+}
+
+.payment-receipt .receipt-footer .date-printed {
+    margin-top: 12px;
+    color: #999;
+    font-size: 10px;
+}
+
+.payment-receipt .badge-success {
+    background: #28a745;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+}
+
+.payment-receipt .badge-danger {
+    background: #dc3545;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+}
