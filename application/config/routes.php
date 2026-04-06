@@ -50,6 +50,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'login';
+$route['academics'] = 'academics/index';
+$route['academics/gradebook'] = 'academics/gradebook';
 $route['classroom'] = 'classroom/teacher_index';
 $route['classroom/teacher'] = 'classroom/teacher_index';
 $route['classroom/create_class'] = 'classroom/create_class';

@@ -10,6 +10,13 @@ class Academics extends CI_Controller {
 			$this->session->set_flashdata('message', "You need to be logged in to access the page.");
 			redirect("login");
 		}
+		
+		$allowed = array('teacher', 'admin');
+		$usertype = strtolower($this->session->userdata('current_usertype'));
+		if(!in_array($usertype, $allowed)){
+			$this->session->set_flashdata('error', 'You do not have permission to access this page.');
+			redirect("dashboard");
+		}
 
 	}
 	
@@ -21,5 +28,15 @@ class Academics extends CI_Controller {
 		);
 		$this->load->view('template', $data);	
 		
+	}
+
+	public function gradebook()
+	{		
+		$data = array(
+			'title'     =>   'Gradebook',
+			'template'   =>   'academics/gradebook'
+		);
+		
+		$this->load->view('template', $data);	
 	}
 }

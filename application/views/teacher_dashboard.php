@@ -118,6 +118,19 @@
             </div>
         </div>
     
+        <!-- Gradebook Section -->
+        <div class="col-md-12 grid-margin stretch-card">
+            <div class="card" style="background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);">
+                <div class="card-body">
+                    <h4 class="card-title text-white"><i class="fas fa-book"></i> Gradebook</h4>
+                    <p class="text-white mb-3">Manage your students grades</p>
+                    <a href="<?=site_url('academics/gradebook')?>" class="btn btn-light">
+                        <i class="fas fa-list"></i> My Gradebook
+                    </a>
+                </div>
+            </div>
+        </div>
+    
         <!-- New/Old Students -->
         <div class="col-md-12 grid-margin stretch-card">
             <div class="card">
@@ -223,6 +236,7 @@
     </div>
 </div>
 
+
 <script>
 // Check URL for created parameter and update iframe src
 $(document).ready(function() {
@@ -250,6 +264,11 @@ $('#btnMyClasses').on('click', function() {
 $('#btnCreateClass').on('click', function() {
     $('#teacherCreateClassModal').addClass('show');
 });
+
+function openGradebookModal() {
+    // Redirect to gradebook page
+    window.location.href = '<?=site_url('academics/gradebook')?>';
+}
 
 function openTeacherClassesModal() {
     $('#teacherClassesModal').addClass('show');
