@@ -39,6 +39,26 @@
     padding: 12px;
     vertical-align: middle;
 }
+.teacher-dashboard .table-responsive {
+    overflow-x: scroll;
+    scrollbar-color: #b3b3b3 #e3e3e3;
+    scrollbar-width: thin;
+}
+.teacher-dashboard .table-responsive::-webkit-scrollbar {
+    height: 11px;
+}
+.teacher-dashboard .table-responsive::-webkit-scrollbar-track {
+    background: #e3e3e3;
+}
+.teacher-dashboard .table-responsive::-webkit-scrollbar-thumb {
+    background: #b3b3b3;
+}
+.teacher-dashboard .table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #b3b3b3;
+}
+.teacher-dashboard .table-responsive::-webkit-scrollbar-button {
+    background: #e3e3e3;
+}
 .teacher-dashboard .btn-primary {
     background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
     border: none;

@@ -3,23 +3,32 @@ $active_tab = isset($selected_tab) ? $selected_tab : 'setup';
 $current_gradebook_id = !empty($gradebook['id']) ? (int) $gradebook['id'] : 0;
 $selected_activity_id = !empty($selected_activity['id']) ? (int) $selected_activity['id'] : 0;
 ?>
-<style>
-.gradebook-wrap{padding:20px;max-width:1480px;margin:0 auto}.gb-head{background:linear-gradient(135deg,#0f766e,#1d4ed8);color:#fff;border-radius:16px;padding:24px;margin-bottom:20px}.gb-head h2{margin:0 0 8px}.gb-head p{margin:0}.gb-tabs{display:flex;flex-wrap:wrap;gap:8px;border-bottom:2px solid #e5e7eb;margin-bottom:20px}.gb-tab{padding:12px 16px;text-decoration:none;color:#64748b;font-weight:600;border-bottom:3px solid transparent;margin-bottom:-2px}.gb-tab.active{color:#0f766e;border-bottom-color:#0f766e}.gb-panel{display:none}.gb-panel.active{display:block}.gb-card{background:#fff;border-radius:16px;box-shadow:0 8px 30px rgba(15,23,42,.08);margin-bottom:20px;overflow:hidden}.gb-card-h{padding:18px 22px;background:#f8fafc;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;gap:12px;align-items:center}.gb-card-b{padding:22px}.gb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}.gb-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:20px}.gb-stat{background:#fff;border-radius:16px;padding:18px;box-shadow:0 8px 30px rgba(15,23,42,.08)}.gb-stat .n{font-size:1.9rem;font-weight:700}.gb-form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}.gb-group{margin-bottom:16px}.gb-group label{display:block;margin-bottom:8px;font-weight:600;color:#334155}.gb-input{width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:10px 12px}.gb-btn,.gb-btn2,.gb-btn3{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:10px;padding:10px 16px;text-decoration:none;font-weight:600;cursor:pointer}.gb-btn{background:#0f766e;color:#fff}.gb-btn2{background:#e2e8f0;color:#0f172a}.gb-btn3{background:#dc2626;color:#fff}.gb-table{width:100%;border-collapse:collapse}.gb-table th,.gb-table td{padding:12px 10px;border-bottom:1px solid #e5e7eb;vertical-align:top}.gb-table th{background:#f8fafc;color:#334155;font-size:.86rem;text-transform:uppercase}.gb-badge{padding:4px 10px;border-radius:999px;font-size:.78rem;font-weight:700;text-transform:uppercase}.gb-active{background:#dcfce7;color:#166534}.gb-dropped{background:#fee2e2;color:#991b1b}.gb-transferred{background:#fef3c7;color:#92400e}.gb-alert{border-radius:12px;padding:14px 16px;margin-bottom:16px;font-weight:600}.gb-ok{background:#ecfdf5;color:#047857}.gb-err{background:#fef2f2;color:#b91c1c}.gb-info{background:#eff6ff;color:#1d4ed8}.gb-empty{text-align:center;padding:32px 18px;color:#64748b;border:2px dashed #cbd5e1;border-radius:14px}
-</style>
+<link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/gradebook.css">
 <div class="gradebook-wrap">
   <div class="gb-head">
-    <h2><i class="fas fa-book"></i> My Gradebook</h2>
-    <p>Backend-backed setup, students, activities, scores, analytics, feedback, and reports.</p>
-    <?php if (!empty($gradebooks)): ?>
-      <form method="get" action="<?=site_url('academics/gradebook')?>" style="margin-top:14px;">
-        <input type="hidden" name="tab" value="<?=$active_tab?>">
-        <select name="gradebook_id" class="gb-input" style="max-width:420px;border:0" onchange="this.form.submit()">
-          <?php foreach ($gradebooks as $item): ?>
-            <option value="<?=$item['id']?>" <?=((int) $item['id'] === $current_gradebook_id) ? 'selected' : ''?>><?=html_escape($item['class_name'])?> | <?=html_escape($item['subject_name'])?> | <?=html_escape($item['schoolyear_label'])?></option>
-          <?php endforeach; ?>
-        </select>
-      </form>
-    <?php endif; ?>
+    <div class="gb-head-top">
+      <div>
+        <div class="gb-kicker"><i class="fas fa-layer-group"></i> Teacher Workspace</div>
+        <h2><i class="fas fa-book"></i> My Gradebook</h2>
+        <p>Set up your class record, manage learners, encode scores, monitor competencies, and export reports from one clean workspace.</p>
+      </div>
+      <div class="gb-head-side">
+        <div class="gb-head-note">
+          <strong>9-step flow</strong><br>
+          Move from setup to reports without leaving the page.
+        </div>
+        <?php if (!empty($gradebooks)): ?>
+          <form method="get" action="<?=site_url('academics/gradebook')?>" class="gb-select-form">
+            <input type="hidden" name="tab" value="<?=$active_tab?>">
+            <select name="gradebook_id" class="gb-input gb-select-input" onchange="this.form.submit()">
+              <?php foreach ($gradebooks as $item): ?>
+                <option value="<?=$item['id']?>" <?=((int) $item['id'] === $current_gradebook_id) ? 'selected' : ''?>><?=html_escape($item['class_name'])?> | <?=html_escape($item['subject_name'])?> | <?=html_escape($item['schoolyear_label'])?></option>
+              <?php endforeach; ?>
+            </select>
+          </form>
+        <?php endif; ?>
+      </div>
+    </div>
   </div>
 
   <?php if (!$schema_ready): ?><div class="gb-alert gb-err">The gradebook tables do not exist yet. Import the SQL schema first, then reload this page.</div><?php endif; ?>
@@ -28,9 +37,25 @@ $selected_activity_id = !empty($selected_activity['id']) ? (int) $selected_activ
   <?php if ($this->session->flashdata('message')): ?><div class="gb-alert gb-info"><?=strip_tags($this->session->flashdata('message'))?></div><?php endif; ?>
 
   <div class="gb-tabs">
-    <?php $tabs = array('setup'=>'1. Set Up','students'=>'2. Students','activities'=>'3. Activities','scores'=>'4. Encode Scores','compute'=>'5. Compute Grades','competencies'=>'6. Competencies','analytics'=>'7. Analytics','feedback'=>'8. Feedback','reports'=>'9. Reports'); ?>
-    <?php foreach ($tabs as $key => $label): ?>
-      <a class="gb-tab <?=$active_tab === $key ? 'active' : ''?>" href="<?=site_url('academics/gradebook?' . http_build_query(array('gradebook_id' => $current_gradebook_id, 'tab' => $key, 'activity_id' => $selected_activity_id ?: null)))?>"><?=$label?></a>
+    <?php $tabs = array(
+      'setup'=>array('no'=>'1','title'=>'Set Up','desc'=>'Class setup'),
+      'students'=>array('no'=>'2','title'=>'Students','desc'=>'Class list'),
+      'activities'=>array('no'=>'3','title'=>'Activities','desc'=>'Quizzes and tasks'),
+      'scores'=>array('no'=>'4','title'=>'Encode Scores','desc'=>'Student results'),
+      'compute'=>array('no'=>'5','title'=>'Compute Grades','desc'=>'Final grades'),
+      'competencies'=>array('no'=>'6','title'=>'Competencies','desc'=>'Skill tracking'),
+      'analytics'=>array('no'=>'7','title'=>'Analytics','desc'=>'Class insights'),
+      'feedback'=>array('no'=>'8','title'=>'Feedback','desc'=>'Teacher notes'),
+      'reports'=>array('no'=>'9','title'=>'Reports','desc'=>'Export files')
+    ); ?>
+    <?php foreach ($tabs as $key => $tab): ?>
+      <a class="gb-tab <?=$active_tab === $key ? 'active' : ''?>" href="<?=site_url('academics/gradebook?' . http_build_query(array('gradebook_id' => $current_gradebook_id, 'tab' => $key, 'activity_id' => $selected_activity_id ?: null)))?>">
+        <span class="gb-tab-no"><?=$tab['no']?></span>
+        <span class="gb-tab-copy">
+          <span class="gb-tab-title"><?=$tab['title']?></span>
+          <span class="gb-tab-desc"><?=$tab['desc']?></span>
+        </span>
+      </a>
     <?php endforeach; ?>
   </div>
 
@@ -64,8 +89,8 @@ $selected_activity_id = !empty($selected_activity['id']) ? (int) $selected_activ
         <form method="post" action="<?=site_url('gradebook/import_students')?>" enctype="multipart/form-data">
           <input type="hidden" name="gradebook_id" value="<?=$current_gradebook_id?>">
           <div class="gb-form-grid">
-            <div class="gb-group"><label>Student IDs / School IDs / LRN</label><textarea name="student_identifiers" class="gb-input" style="min-height:110px" placeholder="2025001&#10;LRN1234567890&#10;541"></textarea></div>
-            <div class="gb-group"><label>CSV Upload</label><input type="file" name="student_csv" class="gb-input" accept=".csv"><p style="margin-top:8px;color:#64748b">Each row uses its first non-empty cell as the identifier.</p></div>
+            <div class="gb-group"><label>Student IDs / School IDs / LRN</label><textarea name="student_identifiers" class="gb-input gb-textarea" placeholder="2025001&#10;LRN1234567890&#10;541"></textarea></div>
+            <div class="gb-group"><label>CSV Upload</label><input type="file" name="student_csv" class="gb-input" accept=".csv"><p class="gb-help">Each row uses its first non-empty cell as the identifier.</p></div>
           </div>
           <button type="submit" class="gb-btn"><i class="fas fa-file-import"></i> Import Students</button>
         </form>
@@ -128,7 +153,7 @@ $selected_activity_id = !empty($selected_activity['id']) ? (int) $selected_activ
     <?php if (!empty($gradebook)): ?>
       <div class="gb-card"><div class="gb-card-h">
         <h4>Encode Scores</h4>
-        <form method="get" action="<?=site_url('academics/gradebook')?>" style="margin:0">
+        <form method="get" action="<?=site_url('academics/gradebook')?>" class="gb-inline-form">
           <input type="hidden" name="gradebook_id" value="<?=$current_gradebook_id?>">
           <input type="hidden" name="tab" value="scores">
           <select name="activity_id" class="gb-input" onchange="this.form.submit()">
@@ -140,14 +165,14 @@ $selected_activity_id = !empty($selected_activity['id']) ? (int) $selected_activ
         </form>
       </div><div class="gb-card-b">
         <?php if (empty($selected_activity)): ?><div class="gb-empty">Select or create an activity first.</div><?php else: ?>
-          <p style="color:#64748b">Encoding scores for <strong><?=html_escape($selected_activity['title'])?></strong>, total points: <strong><?=html_escape($selected_activity['total_points'])?></strong></p>
+          <p class="gb-muted">Encoding scores for <strong><?=html_escape($selected_activity['title'])?></strong>, total points: <strong><?=html_escape($selected_activity['total_points'])?></strong></p>
           <form method="post" action="<?=site_url('gradebook/save_scores')?>">
             <input type="hidden" name="gradebook_id" value="<?=$current_gradebook_id?>">
             <input type="hidden" name="activity_id" value="<?=$selected_activity_id?>">
             <div class="table-responsive"><table class="gb-table"><thead><tr><th>Student</th><th>Status</th><th>Score</th><th>Remarks</th></tr></thead><tbody>
             <?php foreach ($activity_sheet as $row): ?><tr>
               <td><?=html_escape($row['full_name'])?></td><td><?=html_escape($row['student_status'])?></td>
-              <td><input type="number" step="0.01" min="0" max="<?=html_escape($selected_activity['total_points'])?>" name="scores[<?=$row['gradebook_student_id']?>][score]" class="gb-input" style="width:95px" value="<?=$row['score'] !== null ? html_escape($row['score']) : ''?>"></td>
+              <td><input type="number" step="0.01" min="0" max="<?=html_escape($selected_activity['total_points'])?>" name="scores[<?=$row['gradebook_student_id']?>][score]" class="gb-input gb-input-sm" value="<?=$row['score'] !== null ? html_escape($row['score']) : ''?>"></td>
               <td><select name="scores[<?=$row['gradebook_student_id']?>][remarks]" class="gb-input"><?php foreach (array('complete','missing','late','excused') as $remark): ?><option value="<?=$remark?>" <?=$row['remarks'] === $remark ? 'selected' : ''?>><?=ucfirst($remark)?></option><?php endforeach; ?></select></td>
             </tr><?php endforeach; ?></tbody></table></div>
             <button type="submit" class="gb-btn"><i class="fas fa-save"></i> Save Scores</button>
@@ -187,8 +212,8 @@ $selected_activity_id = !empty($selected_activity['id']) ? (int) $selected_activ
     <?php if (!empty($gradebook)): ?>
       <div class="gb-grid">
         <div class="gb-card"><div class="gb-card-h"><h4>Class Performance</h4></div><div class="gb-card-b"><p>Average: <strong><?=($results['average'] !== null) ? html_escape($results['average']) : '--'?></strong></p><p>Highest: <strong><?=($results['highest'] !== null) ? html_escape($results['highest']) : '--'?></strong></p><p>Lowest: <strong><?=($results['lowest'] !== null) ? html_escape($results['lowest']) : '--'?></strong></p></div></div>
-        <div class="gb-card"><div class="gb-card-h"><h4>At-Risk Students</h4></div><div class="gb-card-b"><?php if (empty($results['at_risk'])): ?><p style="color:#64748b">No at-risk students identified.</p><?php else: ?><?php foreach ($results['at_risk'] as $row): ?><p><?=html_escape($row['student']['full_name'])?>: <strong><?=html_escape($row['final_grade'])?></strong></p><?php endforeach; ?><?php endif; ?></div></div>
-        <div class="gb-card"><div class="gb-card-h"><h4>Top Performers</h4></div><div class="gb-card-b"><?php if (empty($results['top_performers'])): ?><p style="color:#64748b">No computed grades yet.</p><?php else: ?><?php foreach ($results['top_performers'] as $row): ?><p><?=html_escape($row['student']['full_name'])?>: <strong><?=html_escape($row['final_grade'])?></strong></p><?php endforeach; ?><?php endif; ?></div></div>
+        <div class="gb-card"><div class="gb-card-h"><h4>At-Risk Students</h4></div><div class="gb-card-b"><?php if (empty($results['at_risk'])): ?><p class="gb-muted">No at-risk students identified.</p><?php else: ?><?php foreach ($results['at_risk'] as $row): ?><p><?=html_escape($row['student']['full_name'])?>: <strong><?=html_escape($row['final_grade'])?></strong></p><?php endforeach; ?><?php endif; ?></div></div>
+        <div class="gb-card"><div class="gb-card-h"><h4>Top Performers</h4></div><div class="gb-card-b"><?php if (empty($results['top_performers'])): ?><p class="gb-muted">No computed grades yet.</p><?php else: ?><?php foreach ($results['top_performers'] as $row): ?><p><?=html_escape($row['student']['full_name'])?>: <strong><?=html_escape($row['final_grade'])?></strong></p><?php endforeach; ?><?php endif; ?></div></div>
       </div>
     <?php else: ?><div class="gb-empty">Create a gradebook configuration first before reviewing analytics.</div><?php endif; ?>
   </div>
@@ -203,7 +228,7 @@ $selected_activity_id = !empty($selected_activity['id']) ? (int) $selected_activ
             <div class="gb-group"><label>Feedback Type</label><select name="feedback_type" class="gb-input"><option value="general">General Comment</option><option value="activity">Per Activity</option><option value="quarterly">Quarterly Feedback</option></select></div>
             <div class="gb-group"><label>Related Activity</label><select name="activity_id" class="gb-input"><option value="">Optional</option><?php foreach ($activities as $activity): ?><option value="<?=$activity['id']?>"><?=html_escape($activity['title'])?></option><?php endforeach; ?></select></div>
           </div>
-          <div class="gb-group"><label>Comment</label><textarea name="comment" class="gb-input" style="min-height:110px" placeholder="Enter teacher feedback here..."></textarea></div>
+          <div class="gb-group"><label>Comment</label><textarea name="comment" class="gb-input gb-textarea" placeholder="Enter teacher feedback here..."></textarea></div>
           <button type="submit" class="gb-btn"><i class="fas fa-save"></i> Save Feedback</button>
         </form>
       </div></div>
@@ -222,8 +247,8 @@ $selected_activity_id = !empty($selected_activity['id']) ? (int) $selected_activ
   <div class="gb-panel <?=$active_tab === 'reports' ? 'active' : ''?>">
     <?php if (!empty($gradebook)): ?>
       <div class="gb-grid">
-        <div class="gb-card"><div class="gb-card-h"><h4>Class Record CSV</h4></div><div class="gb-card-b"><p style="color:#64748b">Exports percentages, initial grades, and final grades.</p><a class="gb-btn" href="<?=site_url('gradebook/report/' . $current_gradebook_id . '/class_record')?>">Download Class Record</a></div></div>
-        <div class="gb-card"><div class="gb-card-h"><h4>Report Card CSV</h4></div><div class="gb-card-b"><p style="color:#64748b">Exports final grades with latest teacher feedback.</p><a class="gb-btn" href="<?=site_url('gradebook/report/' . $current_gradebook_id . '/report_card')?>">Download Report Card</a></div></div>
+        <div class="gb-card"><div class="gb-card-h"><h4>Class Record CSV</h4></div><div class="gb-card-b"><p class="gb-muted">Exports percentages, initial grades, and final grades.</p><a class="gb-btn" href="<?=site_url('gradebook/report/' . $current_gradebook_id . '/class_record')?>">Download Class Record</a></div></div>
+        <div class="gb-card"><div class="gb-card-h"><h4>Report Card CSV</h4></div><div class="gb-card-b"><p class="gb-muted">Exports final grades with latest teacher feedback.</p><a class="gb-btn" href="<?=site_url('gradebook/report/' . $current_gradebook_id . '/report_card')?>">Download Report Card</a></div></div>
       </div>
     <?php else: ?><div class="gb-empty">Create a gradebook configuration first before generating reports.</div><?php endif; ?>
   </div>
