@@ -124,7 +124,7 @@
     
         <!-- Classroom Section -->
         <div class="col-md-12 grid-margin stretch-card">
-            <div class="card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <div class="card" style="background: #0d6efd;">
                 <div class="card-body">
                     <h4 class="card-title text-white"><i class="fas fa-chalkboard"></i> Classroom</h4>
                     <p class="text-white mb-3">Manage your online classes</p>

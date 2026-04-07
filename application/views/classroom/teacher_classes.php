@@ -2,12 +2,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <div class="teacher-classes-container">
-    <div class="page-header">
-        <h2><i class="fas fa-chalkboard"></i> My Classes</h2>
-        <a href="<?=site_url('classroom/create_class')?>" class="btn-create">
-            <i class="fas fa-plus"></i> Create Class
-        </a>
-    </div>
     
     <?php if($this->session->flashdata('success')): ?>
         <div class="alert alert-success">
@@ -23,7 +17,7 @@
     
     <?php if($classes->num_rows() > 0): ?>
         <div class="classes-header">
-            <h3>My Classes (<?=$classes->num_rows()?>)</h3>
+            <h3 style="color: #0d6efd;">My Classes (<?=$classes->num_rows()?>)</h3>
             <a href="<?=site_url('classroom/create_class')?>" class="btn-create">
                 <i class="fas fa-plus"></i> Create New Class
             </a>
