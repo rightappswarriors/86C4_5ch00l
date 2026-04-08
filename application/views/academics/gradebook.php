@@ -13,10 +13,6 @@ $selected_activity_id = !empty($selected_activity['id']) ? (int) $selected_activ
         <p>Set up your class record, manage learners, encode scores, monitor competencies, and export reports from one clean workspace.</p>
       </div>
       <div class="gb-head-side">
-        <div class="gb-head-note">
-          <strong>9-step flow</strong><br>
-          Move from setup to reports without leaving the page.
-        </div>
         <?php if (!empty($gradebooks)): ?>
           <form method="get" action="<?=site_url('academics/gradebook')?>" class="gb-select-form">
             <input type="hidden" name="tab" value="<?=$active_tab?>">
@@ -60,8 +56,8 @@ $selected_activity_id = !empty($selected_activity['id']) ? (int) $selected_activ
   </div>
 
   <div class="gb-panel <?=$active_tab === 'setup' ? 'active' : ''?>">
-    <div class="gb-card"><div class="gb-card-h"><h4>Set Up Gradebook</h4></div><div class="gb-card-b">
-      <form method="post" action="<?=site_url('gradebook/save_gradebook')?>">
+    <div class="gb-card gb-setup-card"><div class="gb-card-h"><h4>Set Up Gradebook</h4></div><div class="gb-card-b">
+      <form method="post" action="<?=site_url('gradebook/save_gradebook')?>" class="gb-setup-form">
         <input type="hidden" name="gradebook_id" value="<?=$current_gradebook_id?>">
         <div class="gb-form-grid">
           <div class="gb-group"><label>Class Name</label><input type="text" name="class_name" class="gb-input" value="<?=!empty($gradebook['class_name']) ? html_escape($gradebook['class_name']) : ''?>" placeholder="e.g., Grade 7 - Science"></div>
@@ -70,9 +66,9 @@ $selected_activity_id = !empty($selected_activity['id']) ? (int) $selected_activ
           <div class="gb-group"><label>Term System</label><select name="term_system" class="gb-input"><option value="quarterly" <?=(!empty($gradebook['term_system']) && $gradebook['term_system'] === 'quarterly') ? 'selected' : ''?>>Quarterly</option><option value="semester" <?=(!empty($gradebook['term_system']) && $gradebook['term_system'] === 'semester') ? 'selected' : ''?>>Semester</option></select></div>
           <div class="gb-group"><label>Written Work (WW) %</label><input type="number" step="0.01" name="ww_weight" class="gb-input" value="<?=!empty($gradebook['ww_weight']) ? $gradebook['ww_weight'] : '20'?>"></div>
           <div class="gb-group"><label>Performance Tasks (PT) %</label><input type="number" step="0.01" name="pt_weight" class="gb-input" value="<?=!empty($gradebook['pt_weight']) ? $gradebook['pt_weight'] : '40'?>"></div>
-          <div class="gb-group"><label>Quarterly Assessment (QA) %</label><input type="number" step="0.01" name="qa_weight" class="gb-input" value="<?=!empty($gradebook['qa_weight']) ? $gradebook['qa_weight'] : '40'?>"></div>
+          <div class="gb-group gb-setup-qa"><label>Quarterly Assessment (QA) %</label><input type="number" step="0.01" name="qa_weight" class="gb-input" value="<?=!empty($gradebook['qa_weight']) ? $gradebook['qa_weight'] : '40'?>"></div>
         </div>
-        <button type="submit" class="gb-btn"><i class="fas fa-save"></i> Save Configuration</button>
+        <button type="submit" class="gb-btn gb-setup-btn"><i class="fas fa-save"></i> Save Configuration</button>
       </form>
     </div></div>
   </div>

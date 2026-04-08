@@ -2,6 +2,7 @@
 $settings = isset($settings) && is_array($settings) ? $settings : array();
 $schoolyear_options = isset($schoolyear_options) && is_array($schoolyear_options) ? $schoolyear_options : array();
 $landing_page_options = isset($landing_page_options) && is_array($landing_page_options) ? $landing_page_options : array();
+$flash_message = $this->session->flashdata('message');
 ?>
 
 <link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/student_settings.css">
@@ -10,18 +11,18 @@ $landing_page_options = isset($landing_page_options) && is_array($landing_page_o
 	<div class="student-settings-shell">
 		<div class="student-settings-hero">
 			<div>
-				<h2><i class="mdi mdi-cog-outline"></i> Student Settings</h2>
+				<h2>Student Settings</h2>
 				<p>Manage how your portal looks, behaves, and protects your privacy.</p>
 			</div>
 			<a href="<?=site_url('dashboard')?>" class="student-settings-back">
-				<i class="mdi mdi-arrow-left"></i> Back to Dashboard
+				Back to Dashboard
 			</a>
 		</div>
 
-		<?php if ($this->session->flashdata('message')): ?>
+		<?php if ($flash_message): ?>
 		<div class="student-settings-alert">
 			<i class="mdi mdi-check-circle-outline"></i>
-			<span><?=htmlspecialchars($this->session->flashdata('message'), ENT_QUOTES, 'UTF-8')?></span>
+			<span><?=htmlspecialchars($flash_message, ENT_QUOTES, 'UTF-8')?></span>
 		</div>
 		<?php endif; ?>
 
@@ -29,7 +30,7 @@ $landing_page_options = isset($landing_page_options) && is_array($landing_page_o
 			<div class="student-settings-grid">
 				<section class="student-settings-card">
 					<div class="student-settings-card-head">
-						<h3><i class="mdi mdi-theme-light-dark"></i> Appearance</h3>
+						<h3>Appearance</h3>
 						<p>Adjust the visual style of the student portal.</p>
 					</div>
 					<div class="student-setting-row student-setting-row-toggle">
@@ -64,7 +65,7 @@ $landing_page_options = isset($landing_page_options) && is_array($landing_page_o
 
 				<section class="student-settings-card">
 					<div class="student-settings-card-head">
-						<h3><i class="mdi mdi-tune-vertical"></i> Portal Preferences</h3>
+						<h3>Portal Preferences</h3>
 						<p>Choose how the portal opens and remembers your workspace.</p>
 					</div>
 					<div class="student-setting-row">
@@ -98,7 +99,7 @@ $landing_page_options = isset($landing_page_options) && is_array($landing_page_o
 
 				<section class="student-settings-card">
 					<div class="student-settings-card-head">
-						<h3><i class="mdi mdi-human-handsup"></i> Accessibility</h3>
+						<h3>Accessibility</h3>
 						<p>Make the portal easier to read and navigate.</p>
 					</div>
 					<div class="student-setting-row student-setting-row-toggle">
@@ -135,7 +136,7 @@ $landing_page_options = isset($landing_page_options) && is_array($landing_page_o
 
 				<section class="student-settings-card">
 					<div class="student-settings-card-head">
-						<h3><i class="mdi mdi-shield-account-outline"></i> Privacy</h3>
+						<h3>Privacy</h3>
 						<p>Control how much of your personal information is shown in the portal.</p>
 					</div>
 					<div class="student-setting-row student-setting-row-toggle">
@@ -172,7 +173,7 @@ $landing_page_options = isset($landing_page_options) && is_array($landing_page_o
 
 				<section class="student-settings-card">
 					<div class="student-settings-card-head">
-						<h3><i class="mdi mdi-monitor-dashboard"></i> Display Behavior</h3>
+						<h3>Display Behavior</h3>
 						<p>Customize what stands out on your dashboard and quick actions.</p>
 					</div>
 					<div class="student-setting-row student-setting-row-toggle">
