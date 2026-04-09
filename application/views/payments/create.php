@@ -41,15 +41,58 @@ endif;
 
 			<?php if ($has_assessment): ?>
 			<form action="<?=site_url("payments/create_submit/" . $row->id)?>" method="post" class="payment-create-form">
-				<div class="row payment-create-top">
-					<div class="col-md-4 payment-create-actions">
-						<a href="#" data-toggle="modal" data-target="#modalAddItem" class="btn btn-secondary payment-add-item-btn">
-							<i class="mdi mdi-plus-circle"></i>
-							<span>Add Item</span>
-						</a>
+				<div class="payment-create-top-label">
+					<div class="payment-add-item-heading">
+						<h4 class="payment-inline-title">Add payment</h4>
+						<p class="payment-inline-subtitle">Select a charge below and it will appear in the payment items table.</p>
+					</div>
+				</div>
+
+				<div class="payment-charge-panel">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="payment-modal-section payment-inline-section">
+								<p class="payment-modal-section-title">Incidentals</p>
+								<div class="payment-item-button-list">
+									<?php foreach ($incidental_labels as $index => $label): ?>
+										<?php if ((float) $incidentals[$index] > 0): ?>
+											<button type="button" id="indntals_<?=$index?>" class="btnadditem btn btn-secondary payment-item-button">
+												<?=$label?> (<?=number_format($incidentals[$index], 2)?>)
+											</button>
+										<?php endif; ?>
+									<?php endforeach; ?>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<div class="payment-modal-section payment-inline-section">
+								<p class="payment-modal-section-title">Miscellaneous</p>
+								<div class="payment-item-button-list">
+									<?php foreach ($miscellaneous_labels as $index => $label): ?>
+										<?php if ((float) $miscellaneous[$index] > 0): ?>
+											<button type="button" id="msclns_<?=$index?>" class="btnadditem btn btn-secondary payment-item-button">
+												<?=$label?> (<?=number_format($miscellaneous[$index], 2)?>)
+											</button>
+										<?php endif; ?>
+									<?php endforeach; ?>
+								</div>
+							</div>
+						</div>
 					</div>
 
-					<div class="col-md-4">
+					<div class="payment-modal-section payment-inline-section payment-core-section">
+						<p class="payment-modal-section-title">Core Charges</p>
+						<div class="payment-item-button-list">
+							<button type="button" ref="tui_" class="btnadditem_ btn btn-secondary payment-item-button">Tuition (<?=number_format($tuition / 10, 2)?>)</button>
+							<button type="button" ref="reg_" class="btnadditem_ btn btn-secondary payment-item-button">Registration (<?=number_format($registration, 2)?>)</button>
+							<button type="button" ref="pay_" class="btnadditem_ btn btn-secondary payment-item-button">Enrollment (<?=number_format($payment_enroll, 2)?>)</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="row payment-create-top">
+					<div class="col-md-6">
 						<div class="form-group row payment-form-row">
 							<label class="col-sm-3 col-form-label">Pay #</label>
 							<div class="col-sm-9">
@@ -65,7 +108,7 @@ endif;
 						</div>
 					</div>
 
-					<div class="col-md-4">
+					<div class="col-md-6">
 						<div class="form-group row payment-form-row">
 							<label class="col-sm-3 col-form-label">Date</label>
 							<div class="col-sm-9">
@@ -151,64 +194,6 @@ endif;
 </div>
 
 <?php if ($has_assessment): ?>
-<div class="modal fade" id="modalAddItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="true">
-	<div class="modal-dialog modal-lg payment-modal-dialog" role="document">
-		<div class="modal-content payment-modal-content">
-			<div class="modal-body payment-modal-body">
-				<div class="payment-modal-header">
-					<h4 class="payment-modal-title">Add Payment Item</h4>
-					<p class="payment-modal-subtitle">Choose from the available assessment charges below.</p>
-				</div>
-
-				<div class="row">
-					<div class="col-md-6">
-						<div class="payment-modal-section">
-							<p class="payment-modal-section-title">Incidentals</p>
-							<div class="payment-item-button-list">
-								<?php foreach ($incidental_labels as $index => $label): ?>
-									<?php if ((float) $incidentals[$index] > 0): ?>
-										<button type="button" id="indntals_<?=$index?>" class="btnadditem btn btn-secondary payment-item-button">
-											<?=$label?> (<?=number_format($incidentals[$index], 2)?>)
-										</button>
-									<?php endif; ?>
-								<?php endforeach; ?>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-md-6">
-						<div class="payment-modal-section">
-							<p class="payment-modal-section-title">Miscellaneous</p>
-							<div class="payment-item-button-list">
-								<?php foreach ($miscellaneous_labels as $index => $label): ?>
-									<?php if ((float) $miscellaneous[$index] > 0): ?>
-										<button type="button" id="msclns_<?=$index?>" class="btnadditem btn btn-secondary payment-item-button">
-											<?=$label?> (<?=number_format($miscellaneous[$index], 2)?>)
-										</button>
-									<?php endif; ?>
-								<?php endforeach; ?>
-							</div>
-						</div>
-
-						<div class="payment-modal-section">
-							<p class="payment-modal-section-title">Core Charges</p>
-							<div class="payment-item-button-list">
-								<button type="button" ref="tui_" class="btnadditem_ btn btn-secondary payment-item-button">Tuition (<?=number_format($tuition / 10, 2)?>)</button>
-								<button type="button" ref="reg_" class="btnadditem_ btn btn-secondary payment-item-button">Registration (<?=number_format($registration, 2)?>)</button>
-								<button type="button" ref="pay_" class="btnadditem_ btn btn-secondary payment-item-button">Enrollment (<?=number_format($payment_enroll, 2)?>)</button>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="payment-modal-footer">
-					<a href="#" class="btn btn-lg btn-secondary" data-dismiss="modal">Close Add Item</a>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
 <script>
 $(document).ready(function() {
 	var itemCount = 1;
@@ -226,6 +211,7 @@ $(document).ready(function() {
 
 	$(".btnadditem").click(function() {
 		$(".odd").remove();
+		$(this).addClass("payment-item-button-selected");
 
 		var itemId = $(this).attr("id");
 		var itemParts = itemId.split("_");
@@ -257,6 +243,7 @@ $(document).ready(function() {
 
 	$(".btnadditem_").click(function() {
 		$(".odd").remove();
+		$(this).addClass("payment-item-button-selected");
 
 		var selectedReference = $(this).attr("ref");
 		var selectedItem;
@@ -303,7 +290,12 @@ $(document).ready(function() {
 	});
 
 	$(".payment-table").on("click", ".btndelrow", function() {
-		$(this).closest("tr").remove();
+		var row = $(this).closest("tr");
+		var itemIndex = row.find("input[name='id_item[]']").val();
+		var itemType = row.find("input[name='type_item[]']").val();
+
+		row.remove();
+		syncSelectedButton(itemType, itemIndex);
 		computeTotal();
 		return false;
 	});
@@ -333,6 +325,31 @@ $(document).ready(function() {
 		$("#summary_total").html("Php " + formattedTotal);
 		$("#payment_total").val(sum);
 		$("#vatamount").html(formattedVat);
+	}
+
+	function syncSelectedButton(itemType, itemIndex) {
+		var hasRemainingRow = false;
+
+		$(".payment-table tbody tr").each(function() {
+			var rowItemIndex = $(this).find("input[name='id_item[]']").val();
+			var rowItemType = $(this).find("input[name='type_item[]']").val();
+
+			if (rowItemIndex === itemIndex && rowItemType === itemType) {
+				hasRemainingRow = true;
+				return false;
+			}
+		});
+
+		if (hasRemainingRow) {
+			return;
+		}
+
+		if (itemType === "indntals" || itemType === "msclns") {
+			$("#" + itemType + "_" + itemIndex).removeClass("payment-item-button-selected");
+			return;
+		}
+
+		$(".btnadditem_[ref='" + itemType + "']").removeClass("payment-item-button-selected");
 	}
 });
 
