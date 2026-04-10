@@ -63,6 +63,12 @@
     $hide_mobile_number = false;
     $limit_personal_details = false;
     $remember_sidebar_state = true;
+    $account_name = (string) $CI->session->userdata('current_firstname');
+    $account_type = (string) ($CI->session->userdata('current_usertype_display') ?: $CI->session->userdata('current_usertype'));
+    $account_title = stripos($account_type, 'account') === false ? trim($account_type . ' Account') : $account_type;
+    if (strtolower((string) $CI->session->userdata('current_usertype')) === 'accounting') {
+      $account_title = 'Accounting Account';
+    }
 
     if ($current_usertype === 'student') {
       $CI->load->model('student_settings_model');
@@ -177,60 +183,6 @@
           
 		  
 		  
-          <ul class="navbar-nav ml-auto">
-			
-             <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
-               <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                 <?php if ($hide_profile_photo): ?>
-                 <span class="profile-avatar-placeholder profile-avatar-placeholder-nav"><i class="mdi mdi-account-circle"></i></span>
-                 <?php else: ?>
-                 <img class="img-xs rounded-circle" src="<?=base_url()?>assets/images/faces/face8.png" alt="Profile image">
-                 <?php endif; ?>
-               </a>
-               <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
-                 <div class="dropdown-header text-center">
-                   <?php if ($hide_profile_photo): ?>
-                   <span class="profile-avatar-placeholder profile-avatar-placeholder-menu"><i class="mdi mdi-account-circle"></i></span>
-                   <?php else: ?>
-                   <img class="img-md rounded-circle" src="<?=base_url()?>assets/images/faces/face8.png" alt="Profile image">
-                   <?php endif; ?>
-                   <p class="mb-1 mt-3 font-weight-bold text-dark profile-name"><?=$this->session->userdata('current_firstname')?></p>
-				  <p class="font-weight-bold text-dark mb-0 profile-detail"><?=$this->session->userdata('current_usertype_display') ?: $this->session->userdata('current_usertype')?></p>
-				  <?php if (!$limit_personal_details && !$hide_mobile_number): ?>
-				  <p class="font-weight-bold text-dark mb-0 profile-detail"><?=$this->session->userdata('current_mobileno')?></p>
-				  <?php elseif ($limit_personal_details): ?>
-				  <p class="font-weight-bold text-dark mb-0 profile-detail">Private student profile</p>
-				  <?php endif; ?>
-                     
-                 </div>
-                 <?php if ($current_usertype === 'student'): ?>
-                 <a class="dropdown-item d-flex justify-content-between align-items-center" href="<?=site_url('classroom/student_notifications')?>">
-                   <span><i class="mdi mdi-bell-outline mr-2"></i>Notifications</span>
-                   <?php if ($student_notification_count > 0): ?>
-                   <span class="badge badge-pill badge-danger"><?=$student_notification_count?></span>
-                   <?php endif; ?>
-                 </a>
-                 <?php if (!empty($student_notification_preview)): ?>
-                 <div class="notification-preview-list">
-                   <?php foreach ($student_notification_preview as $preview_item): ?>
-                   <a href="<?=site_url('classroom/student_class/' . $preview_item->class_id)?>" class="notification-preview-item">
-                     <div class="notification-preview-title"><?=htmlspecialchars($preview_item->title, ENT_QUOTES, 'UTF-8')?></div>
-                     <div class="notification-preview-meta"><?=$preview_item->class_name?><?php if (!empty($preview_item->created_at)): ?> | <?=date('M d', strtotime($preview_item->created_at))?><?php endif; ?></div>
-                   </a>
-                   <?php endforeach; ?>
-                 </div>
-                 <?php endif; ?>
-                 <?php endif; ?>
-                 <a class="dropdown-item" href="<?=site_url("myprofile")?>">My Account</a>
-                 <?php if ($current_usertype === 'student'): ?>
-                 <a class="dropdown-item d-flex justify-content-between align-items-center" href="<?=site_url("myprofile/settings")?>">
-                   <span><i class="mdi mdi-cog-outline mr-2"></i>Settings</span>
-                   <i class="mdi mdi-chevron-right"></i>
-                 </a>
-                 <?php endif; ?>
-               </div>
-             </li>
-          </ul>
           <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
             <span class="mdi mdi-menu"></span>
           </button>
@@ -244,6 +196,30 @@
             <button class="sidebar-text-toggle sidebar-text-toggle-top" type="button" aria-label="Toggle sidebar text">
               <span class="mdi mdi-menu"></span>
             </button>
+            <div class="sidebar-account-panel">
+              <div class="sidebar-account-summary">
+                <div class="dropdown sidebar-profile-dropdown">
+                  <button class="sidebar-profile-button" id="SidebarUserDropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Open account menu">
+                    <?php if ($hide_profile_photo): ?>
+                    <span class="profile-avatar-placeholder sidebar-account-avatar"><i class="mdi mdi-account-circle"></i></span>
+                    <?php else: ?>
+                    <img class="sidebar-account-avatar" src="<?=base_url()?>assets/images/faces/face8.png" alt="Profile image">
+                    <?php endif; ?>
+                    <span class="sidebar-profile-caret mdi mdi-chevron-down"></span>
+                  </button>
+                  <div class="dropdown-menu sidebar-profile-menu" aria-labelledby="SidebarUserDropdown">
+                    <a class="dropdown-item" href="<?=site_url("myprofile")?>"><i class="mdi mdi-account-outline mr-2"></i>My Account</a>
+                    <?php if ($current_usertype === 'student'): ?>
+                    <a class="dropdown-item" href="<?=site_url("myprofile/settings")?>"><i class="mdi mdi-cog-outline mr-2"></i>Settings</a>
+                    <?php endif; ?>
+                  </div>
+                </div>
+                <span class="sidebar-account-copy">
+                  <span class="sidebar-account-role"><?=htmlspecialchars($account_title, ENT_QUOTES, 'UTF-8')?></span>
+                  <span class="sidebar-account-name"><?=htmlspecialchars($account_name, ENT_QUOTES, 'UTF-8')?></span>
+                </span>
+              </div>
+            </div>
           </div>
           <ul class="nav">
 			

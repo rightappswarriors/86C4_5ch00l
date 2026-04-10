@@ -7,7 +7,11 @@
 	$indntals_list = explode(",",$def_assessment->incidentals);
 	$msclns_list = explode(",",$def_assessment->miscellaneous);
 	$can_view_detailed_soa = !empty($can_view_detailed_soa);
+	$can_view_soa_amounts = !empty($can_view_soa_amounts);
 	$can_print_soa = !empty($can_print_soa);
+	$format_soa_amount = function ($amount, $decimals = 2) use ($can_view_soa_amounts) {
+		return $can_view_soa_amounts ? number_format((float) $amount, $decimals) : '';
+	};
 	
 	// ASSESSMENT
 	if($query_ass->num_rows()>0){
@@ -112,16 +116,16 @@
 		<?php
 		if($this->session->flashdata('message'))
 		{
-			echo '<div class="text-primary" style="margin-bottom:10px;">
+			echo '<div class="text-primary flash-message-spaced">
 				'.$this->session->flashdata("message").'
 			</div>';
 		}
 		?>	
 		
-		<h3 class="heading" style="text-align:center;">Statement of Account</h3>
+		<h3 class="heading soa-heading">Statement of Account</h3>
 		
 		<div class="row">
-			<div class="col-md-12" style="text-align:right;">
+			<div class="col-md-12 soa-action-bar">
 				<a href="<?=site_url("payments/statement/".$row->id)?>" title="Refresh" class="btn btn-icons btn-secondary btn-rounded"><i class='mdi mdi-refresh'></i></a><?php if ($can_print_soa): ?>&nbsp;<a href="<?=site_url("payments/statement_print/".$row->id)?>" title="Print" class="btn btn-icons btn-secondary btn-rounded"><i class='mdi mdi-printer'></i></a><?php endif; ?>
 			</div>
 		</div><br>
@@ -141,7 +145,7 @@
 				?>
 				<div class="row">
 					<label class="col-sm-6 col-form-label"><code class="text-info"><?=$indntals_val?></code></label>
-					<div class="col-sm-6 text-right"><code class="text-info"><?=number_format($indntals[$ind])?></code></div>
+					<div class="col-sm-6 text-right"><code class="text-info"><?=$format_soa_amount($indntals[$ind], 0)?></code></div>
 				</div>
 				<?php
 					}
@@ -166,7 +170,7 @@
 				?>
 				<div class="row">
 					<label class="col-sm-6 col-form-label"><code class="text-info"><?=$msclns_val?></code></label>
-					<div class="col-sm-6 text-right"><code class="text-info"><?=number_format($misc_value,2)?></code></div>
+					<div class="col-sm-6 text-right"><code class="text-info"><?=$format_soa_amount($misc_value)?></code></div>
 				</div>
 				<?php
 					endif;
@@ -176,33 +180,33 @@
 				?>
 				<div class="row">
 					<label class="col-sm-6 col-form-label"><code class="text-info">Miscellaneous Total</code></label>
-					<div class="col-sm-6 text-right"><code class="text-info"><?=number_format($tmsclns,2)?></code></div>
+					<div class="col-sm-6 text-right"><code class="text-info"><?=$format_soa_amount($tmsclns)?></code></div>
 				</div>
 				<?php endif; ?>
 					<hr>
 					<table width="100%">
 						<tr>
 							<td width="50%">TUITION</td>
-							<td width="50%" class="text-right"><?=number_format($tuition,2)?></td>
+							<td width="50%" class="text-right"><?=$format_soa_amount($tuition)?></td>
 						</tr><tr>
 							<td>REGISTRATION</td>
-							<td class="text-right"><?=number_format($registration,2)?></td>
+							<td class="text-right"><?=$format_soa_amount($registration)?></td>
 						</tr><tr>
 							<td>TOTAL MISC</td>
-							<td class="text-right"><?=number_format($tmsclns,2)?></td>
+							<td class="text-right"><?=$format_soa_amount($tmsclns)?></td>
 						</tr><tr>
 							<td>TOTAL INCIDENTALS</td>
-							<td class="text-right"><?=number_format($tindntals,2)?></td>
+							<td class="text-right"><?=$format_soa_amount($tindntals)?></td>
 						</tr>
 						<tr><td colspan="2"><hr><td></td></tr>
 						<tr>
 							<td><b>TOTAL ASSESSMENT</b></td>
-							<td class="text-right"><b><?=number_format($total_ass,2)?></b></td>
+							<td class="text-right"><b><?=$format_soa_amount($total_ass)?></b></td>
 						</tr>
 						<tr><td colspan="2"><hr><td></td></tr>
 						<tr>
 							<td>MONTHLY OBLIGATION</td>
-							<td class="text-right"><?=number_format($monthly,2)?></td>
+							<td class="text-right"><?=$format_soa_amount($monthly)?></td>
 						</tr>
 					</table>
 					

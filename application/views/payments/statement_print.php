@@ -122,214 +122,6 @@
 	}
 ?>
 
-<style>
-/* Statement of Account Print Styles */
-.print-content {
-	padding: 20px;
-	max-width: 1200px;
-	margin: 0 auto;
-}
-
-.school-header {
-	background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
-	color: white;
-	padding: 20px;
-	border-radius: 10px;
-	margin-bottom: 20px;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-}
-
-.school-header .school-logo img {
-	width: 80px;
-	height: auto;
-}
-
-.school-header .school-details h2 {
-	margin: 0;
-	font-size: 24px;
-	font-weight: 700;
-}
-
-.school-header .school-details p {
-	margin: 5px 0 0;
-	opacity: 0.9;
-	font-size: 14px;
-}
-
-.student-info-box {
-	background: #f8f9fa;
-	border: 2px solid #2196f3;
-	border-radius: 10px;
-	padding: 15px 20px;
-	margin-bottom: 20px;
-}
-
-.student-info-box h4 {
-	margin: 0 0 10px;
-	color: #2196f3;
-}
-
-.card {
-	border: 1px solid #e0e0e0;
-	border-radius: 10px;
-	margin-bottom: 20px;
-}
-
-.card-header {
-	background: #333;
-	color: white;
-	padding: 12px 20px;
-	border-radius: 10px 10px 0 0;
-	font-weight: bold;
-}
-
-.card-body {
-	padding: 20px;
-}
-
-.section-title {
-	background: #2196f3;
-	color: white;
-	text-align: center;
-	font-weight: bold;
-	padding: 8px 0;
-	font-size: 14px;
-	margin: 20px 0 15px;
-	border-radius: 5px;
-}
-
-.info-row {
-	display: flex;
-	padding: 8px 0;
-	border-bottom: 1px solid #f0f0f0;
-}
-
-.info-row:last-child {
-	border-bottom: none;
-}
-
-.info-label {
-	font-weight: 600;
-	color: #555;
-	min-width: 200px;
-	flex: 0 0 200px;
-}
-
-.info-value {
-	color: #333;
-	flex: 1;
-	font-weight: 500;
-}
-
-.info-value.highlight {
-	color: #2196f3;
-	font-weight: 700;
-}
-
-.info-value.total {
-	color: #28a745;
-	font-weight: 700;
-	font-size: 18px;
-}
-
-/* Grid for two columns */
-.info-grid {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 15px;
-}
-
-/* Table styles */
-.print-table {
-	width: 100%;
-	border-collapse: collapse;
-	margin-top: 10px;
-}
-
-.print-table th,
-.print-table td {
-	border: 1px solid #ddd;
-	padding: 10px;
-	text-align: left;
-}
-
-.print-table th {
-	background: #f8f9fa;
-	font-weight: 600;
-}
-
-.print-table .text-right {
-	text-align: right;
-}
-
-.print-table .text-center {
-	text-align: center;
-}
-
-@media (max-width: 768px) {
-	.info-grid {
-		grid-template-columns: 1fr;
-	}
-	
-	.school-header {
-		flex-direction: column;
-		text-align: center;
-		gap: 15px;
-	}
-	
-	.info-row {
-		flex-direction: column;
-	}
-	
-	.info-label {
-		margin-bottom: 3px;
-	}
-}
-
-@media print {
-	.school-header {
-		background: none !important;
-		color: #333 !important;
-		border: 2px solid #333;
-		-webkit-print-color-adjust: exact;
-		print-color-adjust: exact;
-	}
-	
-	.school-header .school-details h2 {
-		color: #333 !important;
-	}
-	
-	.card-header {
-		background: #eee !important;
-		color: #333 !important;
-		-webkit-print-color-adjust: exact;
-		print-color-adjust: exact;
-	}
-	
-	.section-title {
-		background: #eee !important;
-		color: #333 !important;
-		-webkit-print-color-adjust: exact;
-		print-color-adjust: exact;
-	}
-	
-	.card {
-		box-shadow: none;
-		border: 1px solid #ccc;
-	}
-	
-	.info-row {
-		border-bottom: 1px solid #ddd;
-	}
-	
-	.print-content {
-		padding: 0;
-	}
-}
-</style>
-
 <div class="print-content">
 	<!-- School Header -->
 	<div class="school-header">
@@ -347,29 +139,21 @@
 	<!-- Student Info Box -->
 	<div class="student-info-box">
 		<h4>STATEMENT OF ACCOUNT</h4>
-		<div class="info-grid">
-			<div class="info-row">
-				<div class="info-label">Student Name:</div>
-				<div class="info-value"><?= $row->lastname . ", " . $row->firstname ?></div>
-			</div>
-			<div class="info-row">
-				<div class="info-label">Grade Level:</div>
-				<div class="info-value"><?=$row->gradelevel?></div>
-			</div>
-			<div class="info-row">
-				<div class="info-label">ID Number:</div>
-				<div class="info-value"><?=$row->studentno ?: 'N/A'?></div>
-			</div>
-			<div class="info-row">
-				<div class="info-label">School Year:</div>
-				<div class="info-value"><?=date('Y')?></div>
-			</div>
-		</div>
+		<table class="student-info-table">
+			<tr>
+				<td><span class="info-label">Student Name:</span> <span class="info-value"><?= $row->lastname . ", " . $row->firstname ?></span></td>
+				<td><span class="info-label">Grade Level:</span> <span class="info-value"><?=$row->gradelevel?></span></td>
+			</tr>
+			<tr>
+				<td><span class="info-label">ID Number:</span> <span class="info-value"><?=$row->studentno ?: 'N/A'?></span></td>
+				<td><span class="info-label">School Year:</span> <span class="info-value"><?=date('Y')?></span></td>
+			</tr>
+		</table>
 	</div>
 
-	<div class="row">
+	<div class="soa-print-grid">
 	
-		<div class="col-md-4">
+		<div class="soa-print-col-left">
 			<div class="card">
 				<div class="card-header">
 					INCIDENTALS
@@ -393,7 +177,7 @@
 			</div>
 		</div>
 
-		<div class="col-md-8">
+		<div class="soa-print-col-right">
 			<div class="card">
 				<div class="card-header">
 					MISCELLANEOUS
@@ -522,7 +306,7 @@
 	<?php endif; ?>
 	
 	<!-- Footer -->
-	<div style="margin-top: 30px; text-align: center; color: #666; font-size: 12px;">
+	<div class="print-footer">
 		<p>Generated on: <?=date('F d, Y h:i A')?></p>
 	</div>
 	

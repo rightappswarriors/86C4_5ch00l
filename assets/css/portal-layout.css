@@ -88,6 +88,121 @@
   font-size: 54px;
 }
 
+.sidebar-toggle-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px 12px 24px;
+}
+
+.sidebar-account-panel {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: #fff;
+}
+
+.sidebar-account-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  color: #fff;
+}
+
+.sidebar-profile-dropdown {
+  flex: 0 0 auto;
+}
+
+.sidebar-profile-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.sidebar-profile-button:focus {
+  outline: none;
+}
+
+.sidebar-profile-button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.sidebar-account-avatar {
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.18);
+  font-size: 34px;
+}
+
+.sidebar-profile-caret {
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #1c45ef;
+  border-radius: 50%;
+  background: #2f3a4a;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.sidebar-profile-menu {
+  min-width: 150px;
+  margin-top: 8px;
+  border-radius: 6px;
+}
+
+.sidebar-account-copy {
+  display: block;
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.sidebar-account-name,
+.sidebar-account-role {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sidebar-account-name {
+  display: block;
+  margin-top: 2px;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.95;
+}
+
+.sidebar-account-role {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+@media (min-width: 992px) {
+  body.sidebar-text-hidden .sidebar-account-panel {
+    display: none;
+  }
+}
+
 .enrollment-modal-content {
   border-radius: 15px;
   overflow: hidden;
@@ -161,6 +276,28 @@
   margin-bottom: 10px;
   color: #dc2626;
   font-weight: 600;
+}
+
+.flash-message-spaced {
+  margin-bottom: 10px;
+}
+
+.soa-heading {
+  text-align: center;
+}
+
+.soa-action-bar {
+  text-align: right;
+}
+
+.enrollment-procedures-nav {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 8px;
+  margin: 5px 10px;
+}
+
+.nav-item-hidden {
+  display: none;
 }
 
 .student-theme-dark {

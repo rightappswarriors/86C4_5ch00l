@@ -309,12 +309,20 @@ class Payments extends CI_Controller {
 
 	private function can_view_detailed_soa()
 	{
-		return $this->current_user_type() === self::USER_TYPE_ADMIN;
+		return in_array($this->current_user_type(), array(
+			self::USER_TYPE_ADMIN,
+			self::USER_TYPE_ACCOUNTING
+		), true);
 	}
 
 	private function can_print_soa()
 	{
 		return in_array($this->current_user_type(), $this->printable_user_types(), true);
+	}
+
+	private function can_view_soa_amounts()
+	{
+		return $this->current_user_type() !== self::USER_TYPE_PARENT;
 	}
 
 	private function current_user_type()
@@ -335,6 +343,7 @@ class Payments extends CI_Controller {
 			'query_payments' => $this->payments_model->getStudentPaymentsPaid($studentid, $enroll_id),
 			'paid_enroll' => $this->payments_model->getStudentPaymentsPaidEnroll($studentid, $enroll_id),
 			'can_view_detailed_soa' => $this->can_view_detailed_soa(),
+			'can_view_soa_amounts' => $this->can_view_soa_amounts(),
 			'can_print_soa' => $this->can_print_soa()
 		);
 	}

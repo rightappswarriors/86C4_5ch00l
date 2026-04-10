@@ -1,0 +1,348 @@
+/* Statement of Account Print Styles */
+.print-content {
+	padding: 20px;
+	max-width: 1200px;
+	margin: 0 auto;
+}
+
+.school-header {
+	background: #fff;
+	color: #111;
+	padding: 16px 20px;
+	border: 2px solid #333;
+	border-radius: 6px;
+	margin-bottom: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	text-align: center;
+}
+
+.school-header .school-logo {
+	position: absolute;
+	left: 20px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.school-header .school-logo img {
+	width: 70px;
+	height: auto;
+}
+
+.school-header .school-details h2 {
+	margin: 0;
+	font-size: 22px;
+	font-weight: 700;
+	line-height: 1.1;
+	color: #111;
+}
+
+.school-header .school-details p {
+	margin: 1px 0 0;
+	font-size: 13px;
+	line-height: 1.15;
+	color: #333;
+}
+
+.student-info-box {
+	background: #f8f9fa;
+	border: 2px solid #2196f3;
+	border-radius: 10px;
+	padding: 15px 20px;
+	margin-bottom: 20px;
+	break-inside: avoid;
+	page-break-inside: avoid;
+}
+
+.student-info-box h4 {
+	margin: 0 0 10px;
+	color: #2196f3;
+}
+
+.card {
+	border: 1px solid #e0e0e0;
+	border-radius: 10px;
+	margin-bottom: 20px;
+}
+
+.card-header {
+	background: #333;
+	color: #fff;
+	padding: 12px 20px;
+	border-radius: 10px 10px 0 0;
+	font-weight: 700;
+}
+
+.card-body {
+	padding: 20px;
+}
+
+.section-title {
+	background: #2196f3;
+	color: #fff;
+	text-align: center;
+	font-weight: 700;
+	padding: 8px 0;
+	font-size: 14px;
+	margin: 20px 0 15px;
+	border-radius: 5px;
+}
+
+.info-row {
+	display: flex;
+	padding: 8px 0;
+	border-bottom: 1px solid #f0f0f0;
+}
+
+.info-row:last-child {
+	border-bottom: none;
+}
+
+.info-label {
+	font-weight: 600;
+	color: #555;
+	min-width: 200px;
+	flex: 0 0 200px;
+}
+
+.info-value {
+	color: #333;
+	flex: 1;
+	font-weight: 500;
+}
+
+.info-value.highlight {
+	color: #2196f3;
+	font-weight: 700;
+}
+
+.info-value.total {
+	color: #28a745;
+	font-weight: 700;
+	font-size: 18px;
+}
+
+.info-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 15px;
+}
+
+.soa-print-grid {
+	display: flex;
+	gap: 15px;
+	align-items: flex-start;
+}
+
+.soa-print-col-left {
+	width: 34%;
+}
+
+.soa-print-col-right {
+	width: 66%;
+}
+
+.student-info-table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.student-info-table td {
+	border-bottom: 1px solid #f0f0f0;
+	padding: 8px 0;
+	vertical-align: top;
+}
+
+.student-info-table tr:last-child td {
+	border-bottom: 0;
+}
+
+.student-info-table .info-label {
+	display: inline-block;
+	min-width: 120px;
+}
+
+.print-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 10px;
+}
+
+.print-table th,
+.print-table td {
+	border: 1px solid #ddd;
+	padding: 10px;
+	text-align: left;
+}
+
+.print-table th {
+	background: #f8f9fa;
+	font-weight: 600;
+}
+
+.print-table .text-right {
+	text-align: right;
+}
+
+.print-table .text-center {
+	text-align: center;
+}
+
+.print-footer {
+	margin-top: 30px;
+	text-align: center;
+	color: #666;
+	font-size: 12px;
+}
+
+@media (max-width: 768px) {
+	.info-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.school-header {
+		flex-direction: column;
+		text-align: center;
+		gap: 15px;
+	}
+
+	.info-row {
+		flex-direction: column;
+	}
+
+	.info-label {
+		margin-bottom: 3px;
+	}
+}
+
+@media print {
+	@page {
+		size: auto;
+		margin: 10mm;
+	}
+
+	body {
+		font-size: 10pt;
+	}
+
+	.school-header {
+		background: none !important;
+		color: #333 !important;
+		border: 2px solid #333;
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+		padding: 8px 12px;
+		margin-bottom: 10px;
+	}
+
+	.school-header .school-logo {
+		left: 12px;
+	}
+
+	.school-header .school-logo img {
+		width: 50px;
+	}
+
+	.school-header .school-details h2 {
+		color: #333 !important;
+		font-size: 14pt;
+		line-height: 1.05;
+	}
+
+	.school-header .school-details p {
+		font-size: 8pt;
+		line-height: 1.05;
+		margin: 0;
+	}
+
+	.card {
+		box-shadow: none;
+		border: 1px solid #ccc;
+		margin-bottom: 10px;
+	}
+
+	.card-header,
+	.section-title {
+		background: #eee !important;
+		color: #333 !important;
+		-webkit-print-color-adjust: exact;
+		print-color-adjust: exact;
+	}
+
+	.card-header {
+		padding: 6px 10px;
+	}
+
+	.card-body {
+		padding: 8px 10px;
+	}
+
+	.soa-print-grid {
+		display: flex;
+		gap: 8px;
+		align-items: flex-start;
+		break-before: page;
+		page-break-before: always;
+		break-inside: auto !important;
+		page-break-inside: auto !important;
+	}
+
+	.soa-print-grid .card {
+		break-inside: auto !important;
+		page-break-inside: auto !important;
+	}
+
+	.soa-print-grid .card-body {
+		padding: 4px 6px;
+	}
+
+	.soa-print-grid .info-label {
+		min-width: 120px;
+		flex: 0 0 120px;
+	}
+
+	.soa-print-col-left {
+		width: 34%;
+	}
+
+	.soa-print-col-right {
+		width: 66%;
+	}
+
+	.info-row {
+		border-bottom: 1px solid #ddd;
+		padding: 4px 0;
+		break-inside: avoid;
+		page-break-inside: avoid;
+	}
+
+	.print-content {
+		padding: 0;
+		max-width: none;
+	}
+
+	.student-info-box {
+		padding: 8px 12px;
+		margin-bottom: 10px;
+	}
+
+	.student-info-box h4 {
+		font-size: 11pt;
+		margin-bottom: 6px;
+	}
+
+	.student-info-table td {
+		padding: 4px 0;
+	}
+
+	.print-table th,
+	.print-table td {
+		padding: 4px 6px;
+	}
+
+	.print-footer {
+		margin-top: 10px;
+	}
+}

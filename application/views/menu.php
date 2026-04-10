@@ -1,7 +1,7 @@
 <li class="nav-item nav-category">Main Menu</li>
 
 <!-- New Student/Transferee Enrollment Procedures - Shown at Top -->
-<li class="nav-item" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 8px; margin: 5px 10px;">
+<li class="nav-item enrollment-procedures-nav">
   <a class="nav-link" href="#" data-toggle="modal" data-target="#enrollmentStepsModal">
 	<i class="menu-icon typcn typcn-th-list text-white"></i>
 	<span class="menu-title text-white font-weight-bold">Enrollment Procedures</span>
@@ -131,7 +131,7 @@
   </a>
 </li>
 
-<li class="nav-item" style="display:none;">
+<li class="nav-item nav-item-hidden">
   <a class="nav-link" href="<?=site_url("academics")?>">
 	<i class="menu-icon typcn typcn-shopping-bag"></i>
 	<span class="menu-title">Academics</span>
@@ -191,15 +191,4 @@
 	<i class="menu-icon typcn typcn-coffee"></i>
 	<span class="menu-title">Log Out</span>
   </a>
-  <div class="collapse" id="ui-user">
-	<ul class="nav flex-column sub-menu">
-	  <li class="nav-item">
-		<a class="nav-link" href="<?=site_url("myprofile")?>">Update Profile</a>
-	  </li>
-	  <li class="nav-item">
-		<a class="nav-link" href="<?=site_url("logout")?>">Logout</a>
-	  </li>
-	  
-	</ul>
-  </div>
 </li>
