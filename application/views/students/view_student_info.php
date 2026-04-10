@@ -218,9 +218,7 @@ $enroll_date = $enroll ? date('F j, Y', strtotime($enroll->addeddate)) : date('F
 			<div class="student-no">Student ID: <?= str_pad($row->id, 6, '0', STR_PAD_LEFT) ?></div>
 		</div>
 		
-		<div style="text-align: center; margin-bottom: 15px;">
-			<span class="status-badge <?= strtolower($enroll->status ?? 'pending') ?>"><?= strtoupper($enroll->status ?? 'PENDING') ?></span>
-		</div>
+		
 		
 		<div class="main-content">
 			<div class="left-side">
@@ -292,11 +290,7 @@ $enroll_date = $enroll ? date('F j, Y', strtotime($enroll->addeddate)) : date('F
 			</div>
 		</div>
 		
-		<div class="verification-section">
-			<div class="title">ENROLLMENT VERIFICATION</div>
-			<div class="verified">✓ ENROLLMENT VERIFIED</div>
-			<div style="font-size: 10pt; margin-top: 5px;">This student is officially enrolled for School Year <?= $current_schoolyear ?></div>
-		</div>
+		
 		
 		<div class="footer">
 			<div class="sig-block">
@@ -320,9 +314,7 @@ $enroll_date = $enroll ? date('F j, Y', strtotime($enroll->addeddate)) : date('F
 			<div class="receipt-no">Receipt No.: ENR-<?= str_pad($row->id, 6, '0', STR_PAD_LEFT) ?></div>
 		</div>
 		
-		<div class="receipt-status-box">
-			<div class="status <?= strtolower($enroll->status ?? 'pending') ?>"><?= strtoupper($enroll->status ?? 'PENDING') ?></div>
-		</div>
+		
 		
 		<div class="receipt-qr-section">
 			<div class="qr-box">

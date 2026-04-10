@@ -1,51 +1,63 @@
 <style>
-  .breadcrumb {
+  .enrollment-breadcrumb {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
-    background: #ffffff;
-    padding: 12px 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 15px 20px;
     font-family: Arial, sans-serif;
     flex-wrap: wrap;
+    margin-bottom: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
   }
 
-  .breadcrumb li {
+  .enrollment-breadcrumb li {
     list-style: none;
     display: flex;
     align-items: center;
   }
 
-  .breadcrumb .step {
-    background: #1976d2;
-    color: #ffffff;
+  .enrollment-breadcrumb .step {
     padding: 8px 14px;
     border-radius: 20px;
     font-size: 14px;
     font-weight: 500;
     transition: 0.3s;
+    text-decoration: none;
+    display: inline-block;
   }
 
-  .breadcrumb .arrow {
-    color: #1976d2;
-    font-size: 16px;
-    font-weight: bold;
+  .enrollment-breadcrumb .step.current {
+    background: #1976d2;
+    color: #ffffff;
   }
 
-  .breadcrumb .step:hover {
-    background: #1565c0;
+  .enrollment-breadcrumb .step.passed {
+    background: #28a745;
+    color: #ffffff;
+  }
+
+  .enrollment-breadcrumb .step.pending {
+    background: #e9ecef;
+    color: #6c757d;
+  }
+
+  .enrollment-breadcrumb .arrow {
+    color: #adb5bd;
+    font-size: 14px;
+    margin: 0 2px;
   }
 </style>
 
-<ol class="breadcrumb">
-  <li><span class="step">Register with Handbook</span></li>
-  <li class="arrow">→</li>
-  <li><span class="step">Fill Up Enrollment Form</span></li>
-  <li class="arrow">→</li>
-  <li><span class="step">Print Form / Save QR Code</span></li>
-  <li class="arrow">→</li>
-  <li><span class="step">Visit School for Assessment</span></li>
+<div class="content-wrapper">
+
+<ol class="enrollment-breadcrumb">
+  <li><span class="step current">1. Register with Handbook</span></li>
+  <li><span class="arrow">›</span></li>
+  <li><a href="<?=site_url('students/enrollnew_form')?>" class="step pending">2. Fill Up Enrollment Form</a></li>
+  <li><span class="arrow">›</span></li>
+  <li><span class="step pending">3. Print Form / Save QR Code</span></li>
 </ol>
 
 <script>

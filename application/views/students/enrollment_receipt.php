@@ -117,13 +117,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <div class="page">
 	<div class="header">
-		<h1>ENROLLMENT RECEIPT</h1>
+		<h1>ENROLLMENT FORM</h1>
 		<h2>BHCA Christian School</h2>
 		<div class="receipt-no">Receipt No.: ENR-<?= str_pad($row->id, 6, '0', STR_PAD_LEFT) ?></div>
 	</div>
 	
 	<div class="status-box">
-		<div class="status <?= strtolower($enroll->status ?? 'pending') ?>"><?= strtoupper($enroll->status ?? 'PENDING') ?></div>
+		<div class="status enrolled">ENROLLMENT RECEIVED</div>
 	</div>
 	
 	<div class="qr-section">

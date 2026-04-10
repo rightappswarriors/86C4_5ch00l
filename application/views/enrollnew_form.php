@@ -1,6 +1,75 @@
 
 <link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/enrollment.css">
 
+<style>
+  .enrollment-breadcrumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 20px;
+    font-family: Arial, sans-serif;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+  }
+
+  .enrollment-breadcrumb li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+  }
+
+  .enrollment-breadcrumb .step {
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.3s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .enrollment-breadcrumb .step.current {
+    background: #1976d2;
+    color: #ffffff;
+  }
+
+  .enrollment-breadcrumb .step.passed {
+    background: #28a745;
+    color: #ffffff;
+  }
+
+  .enrollment-breadcrumb .step.pending {
+    background: #e9ecef;
+    color: #6c757d;
+  }
+
+  .enrollment-breadcrumb .arrow {
+    color: #adb5bd;
+    font-size: 14px;
+    margin: 0 2px;
+  }
+
+  .enrollment-breadcrumb .step:hover {
+    opacity: 0.9;
+  }
+
+  .content-wrapper {
+    margin-top: 0;
+  }
+</style>
+
+<div class="content-wrapper">
+
+<ol class="enrollment-breadcrumb">
+  <li><a href="<?=site_url('students/enroll_readhandbook')?>" class="step passed">1. Register with Handbook</a></li>
+  <li><span class="arrow">›</span></li>
+  <li><span class="step current">2. Fill Up Enrollment Form</span></li>
+  <li><span class="arrow">›</span></li>
+  <li><span class="step pending">3. Print Form / Save QR Code</span></li>
+</ol>
 
 <script>
 $(function(){
@@ -14,9 +83,18 @@ $(function(){
 		return true;
 	});
 	
-	// Always show transferee section (unhidden)
-	$("#transferee_section").show();
-	$("#transferee_fields").show();
+	$("#transferee_section").hide();
+	$("#transferee_fields").hide();
+	
+	$("input[name='newold']").change(function() {
+		if($(this).val() === "new") {
+			$("#transferee_section").show();
+			$("#transferee_fields").show();
+		} else {
+			$("#transferee_section").hide();
+			$("#transferee_fields").hide();
+		}
+	});
 	
 });
 </script>

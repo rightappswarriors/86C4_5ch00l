@@ -1,6 +1,7 @@
 <?php 
 	
 	$row = $query->row(); 
+	$studentid = $row->id;
 	$data = array( 'row'  => $row );
 	
 	$def_assessment = $default_ass->row();
@@ -255,6 +256,78 @@ function humanizeNumber(n) {
 
 <?php $this->load->view("students/menu",$data) ?>
 
+<style>
+  .enrollment-breadcrumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 15px 20px;
+    font-family: Arial, sans-serif;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+  }
+
+  .enrollment-breadcrumb li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+  }
+
+  .enrollment-breadcrumb .step {
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.3s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .enrollment-breadcrumb .step.current {
+    background: #1976d2;
+    color: #ffffff;
+  }
+
+  .enrollment-breadcrumb .step.passed {
+    background: #28a745;
+    color: #ffffff;
+  }
+
+  .enrollment-breadcrumb .step.pending {
+    background: #e9ecef;
+    color: #6c757d;
+  }
+
+  .enrollment-breadcrumb .arrow {
+    color: #adb5bd;
+    font-size: 14px;
+    margin: 0 2px;
+  }
+
+  .enrollment-breadcrumb .step:hover {
+    opacity: 0.9;
+  }
+
+  .content-wrapper {
+    margin-top: 0;
+  }
+</style>
+
+<ol class="enrollment-breadcrumb">
+  <li><a href="<?=site_url('students/enroll_readhandbook')?>" class="step passed">1. Register with Handbook</a></li>
+  <li><span class="arrow">›</span></li>
+  <li><a href="<?=site_url('students/enrollnew_form')?>" class="step passed">2. Fill Up Enrollment Form</a></li>
+  <li><span class="arrow">›</span></li>
+  <li><a href="<?=site_url('students/enrollment_receipt/'.$studentid)?>" class="step passed">3. Print Form / Save QR Code</a></li>
+  <li><span class="arrow">›</span></li>
+  <li><span class="step current">4. Visit School for Assessment</span></li>
+</ol>
+
+<div class="content-wrapper">
+
 <div class="col-lg-12 grid-margin stretch-card">
 
 	<div class="card">
@@ -465,4 +538,5 @@ function humanizeNumber(n) {
 	  </div>
 	</div> 
 	
+</div>
 </div>
