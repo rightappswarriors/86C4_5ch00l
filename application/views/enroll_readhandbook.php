@@ -1,3 +1,53 @@
+<style>
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #ffffff;
+    padding: 12px 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    font-family: Arial, sans-serif;
+    flex-wrap: wrap;
+  }
+
+  .breadcrumb li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+  }
+
+  .breadcrumb .step {
+    background: #1976d2;
+    color: #ffffff;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.3s;
+  }
+
+  .breadcrumb .arrow {
+    color: #1976d2;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .breadcrumb .step:hover {
+    background: #1565c0;
+  }
+</style>
+
+<ol class="breadcrumb">
+  <li><span class="step">Register with Handbook</span></li>
+  <li class="arrow">→</li>
+  <li><span class="step">Fill Up Enrollment Form</span></li>
+  <li class="arrow">→</li>
+  <li><span class="step">Print Form / Save QR Code</span></li>
+  <li class="arrow">→</li>
+  <li><span class="step">Visit School for Assessment</span></li>
+</ol>
+
 <script>
 $(function(){
 	// Show modal on page load

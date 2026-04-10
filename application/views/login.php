@@ -19,9 +19,106 @@
     <link rel="stylesheet" href="<?=base_url()?>assets/css/shared/style.css">
     <link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/auth.css">
     <link rel="stylesheet" href="<?=base_url()?>assets/css/login.css">
+    <link rel="stylesheet" href="<?=base_url()?>assets/css/portal-layout.css">
 	<link rel="shortcut icon" href="<?=base_url()?>assets/images/favicon.png" />
   </head>
   <body>
+
+<!-- Enrollment Procedures Modal -->
+<div class="modal fade" id="enrollmentStepsModal" tabindex="-1" role="dialog" aria-labelledby="enrollmentStepsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content enrollment-modal-content">
+      <div class="modal-header bg-gradient-primary text-white enrollment-modal-header">
+        <div>
+          <h4 class="modal-title font-weight-bold" id="enrollmentStepsModalLabel">
+            <i class="mdi mdi-school"></i> Enrollment Procedures
+          </h4>
+          <p class="mb-0 small">7-Step Guide for New Students &amp; Transferees</p>
+        </div>
+        <button type="button" class="close text-white enrollment-modal-close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true" class="enrollment-modal-close-icon">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body enrollment-modal-body">
+        <div class="enrollment-timeline">
+          <div class="timeline-section mb-4">
+            <div class="d-flex align-items-center mb-3">
+              <span class="badge badge-primary badge-pill p-2 mr-2 enrollment-section-badge">
+                <i class="mdi mdi-laptop"></i> ONLINE
+              </span>
+            </div>
+            <div class="step-box">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h6 class="font-weight-bold mb-1">Online Registration &amp; Fetcher's ID</h6>
+                <p class="mb-0 text-muted">Register at: <a href="https://portal.bobhughes.edu.ph/" target="_blank" class="text-primary font-weight-bold">portal.bobhughes.edu.ph</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="timeline-section">
+            <div class="d-flex align-items-center mb-3">
+              <span class="badge badge-success badge-pill p-2 mr-2 enrollment-section-badge">
+                <i class="mdi mdi-account-location"></i> IN PERSON
+              </span>
+            </div>
+            <div class="step-box">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h6 class="font-weight-bold mb-1">Diagnostic Test / Academic Assessment</h6>
+                <p class="mb-0 text-muted">Student undergoes assessment for grade placement</p>
+              </div>
+            </div>
+            <div class="step-box">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h6 class="font-weight-bold mb-1">Financial Assessment</h6>
+                <p class="mb-0 text-muted">Meet with accounting office for tuition &amp; payment plans</p>
+              </div>
+            </div>
+            <div class="step-box">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <h6 class="font-weight-bold mb-1">Interview with Principal</h6>
+                <p class="mb-0 text-muted">
+                  <span class="badge badge-warning text-dark">RR - Grade 3</span> Parents Only
+                  <span class="mx-1">|</span>
+                  <span class="badge badge-info">Grades 4-12</span> Parents + Students
+                </p>
+              </div>
+            </div>
+            <div class="step-box">
+              <div class="step-number">5</div>
+              <div class="step-content">
+                <h6 class="font-weight-bold mb-1">Down Payment</h6>
+                <p class="mb-0 text-muted">Pay <span class="text-success font-weight-bold">PHP 15,000</span> to Accounting Office</p>
+              </div>
+            </div>
+            <div class="step-box">
+              <div class="step-number">6</div>
+              <div class="step-content">
+                <h6 class="font-weight-bold mb-1">Submit Documents</h6>
+                <p class="mb-0 text-muted">Submit signed documents &amp; sign for Fetcher's ID</p>
+              </div>
+            </div>
+            <div class="step-box">
+              <div class="step-number">7</div>
+              <div class="step-content">
+                <h6 class="font-weight-bold mb-1">PACeS Issuance</h6>
+                <p class="mb-0 text-muted">Submit enrollment proof to L.C. Supervisor</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer enrollment-modal-footer">
+        <button type="button" class="btn btn-primary btn-lg btn-block" data-dismiss="modal">
+          <i class="mdi mdi-check-circle"></i> Got It!
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
   <div class="auth-page-logo">
 		<a href="<?=site_url()?>">
 			<img src="<?=base_url()?>assets/images/logo_portal.png" alt="BHCA Logo">
@@ -128,6 +225,11 @@
     <!-- plugins:js -->
     <script src="<?=base_url()?>assets/vendors/js/vendor.bundle.base.js"></script>
     <script src="<?=base_url()?>assets/vendors/js/vendor.bundle.addons.js"></script>
+    <script>
+    $(document).ready(function() {
+      $('#enrollmentStepsModal').modal('show');
+    });
+    </script>
     <!-- inject:js -->
     <script src="<?=base_url()?>assets/js/shared/off-canvas.js"></script>
     <script src="<?=base_url()?>assets/js/shared/misc.js"></script>

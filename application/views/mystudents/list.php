@@ -15,15 +15,19 @@
 	
 	
 	
-	<table class="table">
+	<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
+		<div id="DataTables_Table_0_filter" class="dataTables_filter">
+			<label>Search:<input type="search" class="" placeholder="" aria-controls="DataTables_Table_0"></label>
+		</div>
+		<table class="table dataTable no-footer" id="DataTables_Table_0" role="grid">
 	  <thead>
-		<tr>
-		  <th width="5%">#</th>	
-		  <th width="45%">Name</th>
-		  <th width="10%">Able for PT?</th>
-		  <th width="20%">Level</th>
-		  <th width="15%">Status</th>
-		  <th width="5%">Action</th>
+		<tr role="row">
+		  <th width="5%" class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending" style="width: 20.125px;">#</th>	
+		  <th width="45%" class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending" style="width: 461.7px;">Name</th>
+		  <th width="10%" class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Able for PT?: activate to sort column ascending" style="width: 78.2125px;">Able for PT?</th>
+		  <th width="20%" class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Level: activate to sort column ascending" style="width: 184.3px;">Level</th>
+		  <th width="15%" class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 131.137px;">Status</th>
+		  <th width="5%" class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Action: activate to sort column ascending" style="width: 40.925px;">Action</th>
 		</tr>
 	  </thead>
 	  <tbody>
@@ -37,8 +41,9 @@
 				
 				$newold = $row->newold=="old"?"":"&nbsp;<code>".$row->newold."</code>";
 				$ableforpt = $row->ableforpt=="Yes"?"Yes":"<code class='text-danger'>No</code>";
-				echo "<tr>";
-				echo "<td>$ctr</td>";
+				$row_class = ($ctr % 2 == 0) ? "even" : "odd";
+				echo "<tr role='row' class='$row_class'>";
+				echo "<td class='sorting_1'>$ctr</td>";
 				echo "<td><a href='".site_url("students/details/".$row->id)."'>".$row->lastname.", ".$row->firstname."</a>".$newold."</td>";
 				echo "<td class='text-center'>".$ableforpt."</td>";
 				echo "<td>".$row->gradelevel."</td>";
@@ -58,6 +63,14 @@
 		
 	  </tbody>
 	</table>
+	<div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+		<a class="paginate_button previous disabled btn btn-sm" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="-1" id="DataTables_Table_0_previous">Previous</a>
+		<span>
+			<a class="paginate_button current btn btn-sm" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0">1</a>
+		</span>
+		<a class="paginate_button next btn btn-sm" aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0" id="DataTables_Table_0_next">Next</a>
+	</div>
+	</div>
   </div>
 </div>
 </div>
