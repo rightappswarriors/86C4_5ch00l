@@ -53,20 +53,71 @@
     opacity: 0.9;
   }
 
-  .content-wrapper {
+.content-wrapper {
     margin-top: 0;
+  }
+</style>
+<style>
+  .enrollment-breadcrumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 20px;
+    font-family: Arial, sans-serif;
+    flex-wrap: wrap;
+    margin: 0 auto 20px auto;
+    background: #f8f9fa;
+    border-radius: 8px;
+    max-width: 800px;
+  }
+
+  .enrollment-breadcrumb li {
+    list-style: none;
+    display: flex;
+    align-items: center;
+  }
+
+  .enrollment-breadcrumb .step {
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.3s;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .enrollment-breadcrumb .step.current {
+    background: #1976d2;
+    color: #ffffff;
+  }
+
+  .enrollment-breadcrumb .step.passed {
+    background: #28a745;
+    color: #ffffff;
+  }
+
+  .enrollment-breadcrumb .step.pending {
+    background: #e9ecef;
+    color: #6c757d;
+  }
+
+  .enrollment-breadcrumb .arrow {
+    color: #adb5bd;
+    font-size: 14px;
+    margin: 0 2px;
   }
 </style>
 
 <ol class="enrollment-breadcrumb">
-  <li><a href="<?=site_url('students/enroll_readhandbook')?>" class="step passed">1. Register with Handbook</a></li>
+  <li><span class="step passed">1. Register with Handbook</span></li>
   <li><span class="arrow">›</span></li>
-  <li><a href="<?=site_url('students/enrollnew_form')?>" class="step passed">2. Fill Up Enrollment Form</a></li>
+  <li><span class="step passed">2. Fill Up Enrollment Form</span></li>
   <li><span class="arrow">›</span></li>
   <li><span class="step current">3. Print Form / Save QR Code</span></li>
-  <li><span class="arrow">›</span></li>
-  <li><span class="step pending">4. Visit School for Assessment</span></li>
 </ol>
+
 
 <div class="content-wrapper">
 
@@ -83,8 +134,8 @@
 		<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
 			<div class="col-md-12">
 				<div class="card" style="background: #f8f9fa; padding: 20px;">
-					<h4 class="text-info">Print Enrollment Form</h4>
-					<p>Scan the QR code below or click the button to print your enrollment form.</p>
+					<h4 class="text-info">Enrollment Confirmation</h4>
+					<p>Scan the QR code below to verify enrollment.</p>
 					
 					<div style="margin: 20px auto; display: inline-block;">
 						<canvas id="qr-success-canvas" style="border: 2px solid #ddd; padding: 10px; border-radius: 8px;"></canvas>
@@ -92,8 +143,11 @@
 					
 					<div class="row" style="margin-top: 15px;">
 						<div class="col-md-12">
+							<?php if($current_usertype != 'Parent'): ?>
 							<a href="<?=isset($print_url) ? $print_url : site_url('students/enrollment_receipt/' . $student_id)?>" target="_blank" type="button" class="btn btn-lg btn-info btn-fw"><i class="mdi mdi-printer"></i> Print Enrollment Form</a>
+							<?php endif; ?>
 							<a href="<?=site_url('enroll/view_student_info/' . $student_id)?>" target="_blank" type="button" class="btn btn-lg btn-warning btn-fw"><i class="mdi mdi-eye"></i> View Student Info</a>
+							<a href="<?=site_url('enroll/assessment/' . $student_id)?>" type="button" class="btn btn-lg btn-success btn-fw"><i class="mdi mdi-school"></i> Go to Assessment</a>
 						</div>
 					</div>
 				</div>

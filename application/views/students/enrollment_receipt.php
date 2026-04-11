@@ -85,45 +85,96 @@ $enroll_date = $enroll ? date('F j, Y', strtotime($enroll->addeddate)) : date('F
 		}
 		
 		@media screen {
-			body { background: #666; padding: 15px; }
-			.page { background: #fff; box-shadow: 0 0 8px rgba(0,0,0,0.3); margin-bottom: 15px; }
-			.toolbar { text-align: center; padding: 12px; background: #222; color: #fff; position: sticky; top: 0; z-index: 100; }
-			.toolbar button { padding: 8px 16px; font-size: 13px; cursor: pointer; background: #2196F3; color: white; border: none; border-radius: 3px; margin: 0 4px; }
-			.toolbar button:hover { background: #1976D2; }
-			.toolbar a { padding: 8px 16px; font-size: 13px; background: #4CAF50; color: white; text-decoration: none; border-radius: 3px; margin: 0 4px; display: inline-block; }
-			.toolbar a:hover { background: #45a049; }
+			body { 
+				background: #f5f5f5;
+				padding: 20px; 
+				min-height: 100vh;
+			}
+			.container {
+				max-width: 8.5in;
+				margin: 0 auto;
+			}
+			.page { 
+				background: #fff; 
+				box-shadow: 0 0 15px rgba(0,0,0,0.1); 
+				margin: 0 auto 20px auto; 
+				max-width: 8.5in;
+				width: 100%;
+				border-radius: 10px;
+			}
+			.toolbar { 
+				text-align: center; 
+				padding: 20px 30px; 
+				background: #fff; 
+				color: #333; 
+				position: sticky; 
+				top: 0; 
+				z-index: 100; 
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				gap: 15px;
+				box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+				border-radius: 10px 10px 0 0;
+				border-bottom: 1px solid #eee;
+			}
+			.toolbar button { 
+				padding: 10px 24px; 
+				font-size: 14px; 
+				font-weight: 600;
+				cursor: pointer; 
+				background: #fff; 
+				color: #333; 
+				border: 2px solid #ddd; 
+				border-radius: 30px; 
+				margin: 0 6px; 
+				transition: all 0.3s ease;
+				box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+			}
+			.toolbar button:hover { 
+				background: #f8f8f8; 
+				border-color: #ccc;
+				transform: translateY(-2px);
+				box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+			}
+			.toolbar button.print-btn { 
+				background: #2196F3; 
+				color: white;
+				border-color: #2196F3;
+			}
+			.toolbar button.print-btn:hover { 
+				background: #1976D2;
+				border-color: #1976D2;
+			}
+			.toolbar button.close-btn { 
+				background: #757575; 
+				color: white;
+				border-color: #757575;
+			}
+			.toolbar button.close-btn:hover { 
+				background: #616161;
+				border-color: #616161;
+			}
 		}
 	</style>
 </head>
 <body>
 
+<div class="container">
 <div class="toolbar">
-	<button onclick="window.print()">PRINT / SAVE PDF</button>
-	<button onclick="window.close()">CLOSE</button>
+	<button onclick="window.print()" class="print-btn">&#128424; PRINT / SAVE PDF</button>
+	<button onclick="window.close()" class="close-btn">&#10006; CLOSE</button>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-	// QR code now contains a URL for verification
-	var qrReceiptData = "<?= site_url('enroll/view_student_info/' . $row->id) ?>";
-	var qrReceiptCanvas = document.getElementById('qr-receipt-canvas');
-	if(qrReceiptCanvas) {
-		QRCode.toCanvas(qrReceiptCanvas, qrReceiptData, { width: 150 }, function(error) {
-			if (error) console.error(error);
-		});
-	}
-});
-</script>
 
 <div class="page">
 	<div class="header">
-		<h1>ENROLLMENT FORM</h1>
+		<h1>E-REGISTRATION ACKNOWLEDGEMENT</h1>
 		<h2>BHCA Christian School</h2>
 		<div class="receipt-no">Receipt No.: ENR-<?= str_pad($row->id, 6, '0', STR_PAD_LEFT) ?></div>
 	</div>
 	
 	<div class="status-box">
-		<div class="status enrolled">ENROLLMENT RECEIVED</div>
+		<div class="status enrolled">ENROLLMENT</div>
 	</div>
 	
 	<div class="qr-section">
@@ -187,6 +238,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	</div>
 	
 	<div class="date-printed">Date Printed: <?= date('F j, Y g:i A') ?></div>
+</div>
 </div>
 
 </body>

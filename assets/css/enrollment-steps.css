@@ -1,0 +1,47 @@
+.step-breadcrumb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 15px 20px;
+  font-family: Arial, sans-serif;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.step-breadcrumb .step {
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.3s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.step-breadcrumb .step.active {
+  background: #1976d2;
+  color: #ffffff;
+}
+
+.step-breadcrumb .step.completed {
+  background: #28a745;
+  color: #ffffff;
+}
+
+.step-breadcrumb .step.pending {
+  background: #e9ecef;
+  color: #6c757d;
+}
+
+.step-breadcrumb .arrow {
+  color: #adb5bd;
+  font-size: 14px;
+  margin: 0 2px;
+}
+
+.step-breadcrumb .step:hover {
+  opacity: 0.9;
+}

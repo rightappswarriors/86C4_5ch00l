@@ -318,7 +318,8 @@ class Students extends CI_Controller {
 		'template'   =>   'parent/enrollnew_success',
 		'student_id'   =>   $id,
 		'qr_code_url' => $qr_code_url,
-		'print_url' => $print_url
+		'print_url' => $print_url,
+		'current_usertype' => $this->session->userdata('current_usertype')
 		);
 		$this->load->view('template', $data);	
 	}
@@ -418,7 +419,7 @@ class Students extends CI_Controller {
 				'enroll_id' => $enroll_id
 			);
 			
-			$this->load->view('students/enrollment_receipt', $data);
+			$this->load->view('template', $data);
 		} else {
 			redirect('students');
 		}
@@ -438,7 +439,8 @@ class Students extends CI_Controller {
 				'template'   =>   'students/view_student_info',
 				'query' => $query,
 				'enroll_id' => $enroll_id,
-				'profile_pic' => $this->students_model->profile_pic($studentid)
+				'profile_pic' => $this->students_model->profile_pic($studentid),
+				'current_usertype' => $this->session->userdata('current_usertype')
 			);
 			
 			$this->load->view('template', $data);

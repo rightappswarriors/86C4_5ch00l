@@ -125,6 +125,8 @@
 
 							if ($this->session->userdata('current_usertype') == 'Registrar'):
 								echo "<a href='" . site_url("students/updateinfo/" . $row->id) . "' class='btn btn-icons btn-secondary btn-rounded'><i class='mdi mdi-pencil'></i></a>&nbsp;<button type='button' class='btn btn-icons btn-secondary btn-rounded' data-toggle='modal' data-target='#modalDelete" . $row->id . "'><i class='mdi mdi-delete'></i></button>";
+							elseif ($this->session->userdata('current_usertype') == 'Accounting'):
+								echo "<a href='" . site_url("students/details/" . $row->id) . "' class='btn btn-icons btn-secondary btn-rounded' title='View Details'><i class='mdi mdi-account'></i></a>&nbsp;<a href='" . site_url("enroll/view_student_info/" . $row->id) . "' target='_blank' class='btn btn-icons btn-warning btn-rounded' title='View Student Info'><i class='mdi mdi-eye'></i></a>&nbsp;<a href='" . site_url("students/enrollment_receipt/" . $row->id) . "' target='_blank' class='btn btn-icons btn-info btn-rounded' title='Print Student Info'><i class='mdi mdi-printer'></i></a>";
 							else:
 								echo "<a href='" . site_url("students/details/" . $row->id) . "' class='btn btn-icons btn-secondary btn-rounded'><i class='mdi mdi-account'></i></a>";
 							endif;

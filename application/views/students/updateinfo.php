@@ -18,7 +18,9 @@
 		
 		<div class="row">
 			<div class="col-md-12 update-info-toolbar">
+		<?php if($this->session->userdata('current_usertype') == 'Accounting'): ?>
 		<a href="<?=site_url("students/print_info/".$row->id)?>" class="btn btn-icons btn-secondary btn-rounded"><i class='mdi mdi-printer'></i></a>
+		<?php endif; ?>
 		</div>
 		</div>
 		

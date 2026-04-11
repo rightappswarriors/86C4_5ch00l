@@ -25,7 +25,9 @@
 		<?=validation_errors()?>
 		<div class="row student-details-toolbar">
 		<div class="col-md-12 text-right pb-2">
+		<?php if($this->session->userdata('current_usertype') == 'Accounting'): ?>
 		<a href="<?=site_url("students/details_print/".$this->uri->segment(3))?>" title="Print" class="btn btn-icons btn-secondary btn-rounded"><i class='mdi mdi-printer'></i></a>
+		<?php endif; ?>
 		</div>
 		</div>
 		<div class="row student-details-actions">

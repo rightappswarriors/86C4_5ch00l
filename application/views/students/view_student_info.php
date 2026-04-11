@@ -41,6 +41,7 @@ $enroll_date = $enroll ? date('F j, Y', strtotime($enroll->addeddate)) : date('F
 	<meta charset="utf-8">
 	<title>View Student Info - Review - <?= $row->firstname . " " . $row->lastname ?></title>
 	<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+	<link rel="stylesheet" href="<?=base_url()?>assets/css/student-view.css">
 	<style>
 		* { margin: 0; padding: 0; box-sizing: border-box; }
 		body { font-family: Arial, sans-serif; font-size: 11pt; line-height: 1.2; color: #000; background: #fff; }
@@ -137,40 +138,42 @@ $enroll_date = $enroll ? date('F j, Y', strtotime($enroll->addeddate)) : date('F
 		.tab-content { display: none; }
 		.tab-content.active { display: block; }
 		
-		@media print {
-			body { margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-			.page { width: 100%; min-height: auto; margin: 0; padding: 0.2in; }
-			.toolbar { display: none !important; }
-			.tab-buttons { display: none !important; }
-			@page { size: letter portrait; margin: 0; }
-		}
-		
-		@media screen {
-			body { background: #666; padding: 15px; }
-			.page { background: #fff; box-shadow: 0 0 8px rgba(0,0,0,0.3); margin-bottom: 15px; }
-			.toolbar { text-align: center; padding: 12px; background: #222; color: #fff; position: sticky; top: 0; z-index: 100; }
-			.toolbar button { padding: 8px 16px; font-size: 13px; cursor: pointer; background: #2196F3; color: white; border: none; border-radius: 3px; margin: 0 4px; }
-			.toolbar button:hover { background: #1976D2; }
-			.toolbar a { padding: 8px 16px; font-size: 13px; background: #4CAF50; color: white; text-decoration: none; border-radius: 3px; margin: 0 4px; display: inline-block; }
-			.toolbar a:hover { background: #45a049; }
-		}
 	</style>
 </head>
 <body>
 
+<?php 
+$is_accounting = ($current_usertype == 'Accounting' || $this->session->userdata('current_usertype') == 'Accounting');
+?>
+
+<div class="container">
 <div class="toolbar">
-	<button onclick="window.print()">PRINT / SAVE PDF</button>
-	<button onclick="window.close()">CLOSE</button>
+	<?php if($is_accounting): ?>
+	<button onclick="printStudentInfo()" class="print-btn"> PRINT APPLICATION FORM</button>
+	<button onclick="window.print()" class="print-btn">PRINT ACKNOWLEDGEMENT</button>
+	<?php endif; ?>
+	<button onclick="window.close()" class="close-btn">&#10006; CLOSE</button>
+	<?php if($is_accounting): ?>
+	<span class="access-info"><i class="mdi mdi-account-check"></i> Accounting Access - Can Print</span>
+	<?php endif; ?>
 </div>
 
 <div class="page">
 	<!-- Tab Navigation -->
+	<?php if($is_accounting): ?>
 	<div class="tab-container">
 		<div class="tab-buttons">
 			<button class="active" onclick="showTab('student-info')">Student Information</button>
 			<button onclick="showTab('enrollment-receipt')">Enrollment Receipt</button>
 		</div>
 	</div>
+	<?php else: ?>
+	<div class="tab-container">
+		<div class="tab-buttons">
+			<button class="active">Student Information</button>
+		</div>
+	</div>
+	<?php endif; ?>
 	
 	<script>
 	function showTab(tabName) {
@@ -208,12 +211,40 @@ $enroll_date = $enroll ? date('F j, Y', strtotime($enroll->addeddate)) : date('F
 			});
 		}
 	});
+	
+	function printStudentInfo() {
+		// Hide toolbar and tabs before printing
+		var toolbar = document.querySelector('.toolbar');
+		var tabs = document.querySelector('.tab-container');
+		var originalToolbarDisplay = toolbar.style.display;
+		var originalTabsDisplay = tabs.style.display;
+		
+		toolbar.style.display = 'none';
+		tabs.style.display = 'none';
+		
+		// Print only the student-info tab
+		var studentInfo = document.getElementById('student-info');
+		var originalDisplay = studentInfo.style.display;
+		studentInfo.style.display = 'block';
+		
+		// Hide enrollment-receipt tab
+		var receiptTab = document.getElementById('enrollment-receipt');
+		if(receiptTab) receiptTab.style.display = 'none';
+		
+		window.print();
+		
+		// Restore after printing
+		studentInfo.style.display = originalDisplay;
+		if(receiptTab) receiptTab.style.display = '';
+		toolbar.style.display = originalToolbarDisplay;
+		tabs.style.display = originalTabsDisplay;
+	}
 	</script>
 	
 	<!-- Student Information Tab -->
 	<div id="student-info" class="tab-content active">
 		<div class="header">
-			<h1>STUDENT INFORMATION</h1>
+			<h1>ENROLLMENT APPLICATION FORM</h1>
 			<h2>BHCA Christian School</h2>
 			<div class="student-no">Student ID: <?= str_pad($row->id, 6, '0', STR_PAD_LEFT) ?></div>
 		</div>
@@ -309,7 +340,7 @@ $enroll_date = $enroll ? date('F j, Y', strtotime($enroll->addeddate)) : date('F
 	<!-- Enrollment Receipt Tab -->
 	<div id="enrollment-receipt" class="tab-content">
 		<div class="receipt-header">
-			<h1>ENROLLMENT RECEIPT</h1>
+			<h1>E-REGISTRATION ACKNOWLEDGEMENT</h1>
 			<h2>BHCA Christian School</h2>
 			<div class="receipt-no">Receipt No.: ENR-<?= str_pad($row->id, 6, '0', STR_PAD_LEFT) ?></div>
 		</div>
