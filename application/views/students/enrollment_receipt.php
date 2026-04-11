@@ -29,6 +29,7 @@ $enroll_date = $enroll ? date('F j, Y', strtotime($enroll->addeddate)) : date('F
 	<meta charset="utf-8">
 	<title>Enrollment Receipt - <?= $row->firstname . " " . $row->lastname ?></title>
 	<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+	<link rel="stylesheet" href="<?=base_url()?>assets/css/student-view.css">
 	<style>
 		* { margin: 0; padding: 0; box-sizing: border-box; }
 		body { font-family: Arial, sans-serif; font-size: 11pt; line-height: 1.2; color: #000; background: #fff; }
@@ -77,85 +78,6 @@ $enroll_date = $enroll ? date('F j, Y', strtotime($enroll->addeddate)) : date('F
 		
 		.date-printed { text-align: center; font-size: 9pt; color: #666; margin-top: 15px; }
 		
-		@media print {
-			body { margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-			.page { width: 100%; min-height: auto; margin: 0; padding: 0.2in; }
-			.toolbar { display: none !important; }
-			@page { size: letter portrait; margin: 0; }
-		}
-		
-		@media screen {
-			body { 
-				background: #f5f5f5;
-				padding: 20px; 
-				min-height: 100vh;
-			}
-			.container {
-				max-width: 8.5in;
-				margin: 0 auto;
-			}
-			.page { 
-				background: #fff; 
-				box-shadow: 0 0 15px rgba(0,0,0,0.1); 
-				margin: 0 auto 20px auto; 
-				max-width: 8.5in;
-				width: 100%;
-				border-radius: 10px;
-			}
-			.toolbar { 
-				text-align: center; 
-				padding: 20px 30px; 
-				background: #fff; 
-				color: #333; 
-				position: sticky; 
-				top: 0; 
-				z-index: 100; 
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				gap: 15px;
-				box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-				border-radius: 10px 10px 0 0;
-				border-bottom: 1px solid #eee;
-			}
-			.toolbar button { 
-				padding: 10px 24px; 
-				font-size: 14px; 
-				font-weight: 600;
-				cursor: pointer; 
-				background: #fff; 
-				color: #333; 
-				border: 2px solid #ddd; 
-				border-radius: 30px; 
-				margin: 0 6px; 
-				transition: all 0.3s ease;
-				box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-			}
-			.toolbar button:hover { 
-				background: #f8f8f8; 
-				border-color: #ccc;
-				transform: translateY(-2px);
-				box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-			}
-			.toolbar button.print-btn { 
-				background: #2196F3; 
-				color: white;
-				border-color: #2196F3;
-			}
-			.toolbar button.print-btn:hover { 
-				background: #1976D2;
-				border-color: #1976D2;
-			}
-			.toolbar button.close-btn { 
-				background: #757575; 
-				color: white;
-				border-color: #757575;
-			}
-			.toolbar button.close-btn:hover { 
-				background: #616161;
-				border-color: #616161;
-			}
-		}
 	</style>
 </head>
 <body>
