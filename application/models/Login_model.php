@@ -24,6 +24,29 @@ class Login_model extends CI_Model
 		return $user->id;
 	}
 
+	function can_login_google($email)
+	{
+		$email = trim((string)$email);
+		if ($email === '') {
+			return 0;
+		}
+
+		$this->db->where('emailadd', $email);
+		$this->db->where('status', 1);
+		$this->db->limit(1);
+		$query = $this->db->get('register');
+		if ($query->num_rows() === 0) {
+			return 0;
+		}
+
+		$user = $query->row();
+		$this->set_user_session($user);
+		$this->set_schoolyear_session();
+		$this->update_last_login($user->id);
+
+		return $user->id;
+	}
+
 	private function find_user_for_login($login_type, $login_identifier, $userpass)
 	{
 		$this->db->where('userpass', md5($userpass));
