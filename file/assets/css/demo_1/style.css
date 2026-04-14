@@ -677,6 +677,11 @@
   -webkit-box-flex: 1;
   -ms-flex-positive: 1;
   flex-grow: 1; }
+  @media (max-width: 576px) {
+  .content-wrapper {
+    padding: 0.5rem 0.5rem;
+  }
+}
 
 .container-scroller {
   overflow: hidden; }
@@ -698,7 +703,7 @@
   margin-bottom: 2px; }
   @media (max-width: 992px) {
     .page-title {
-      margin-botttom: 15px; } }
+      margin-bottom: 15px; } }
 
 .quick-links {
   list-style: none;

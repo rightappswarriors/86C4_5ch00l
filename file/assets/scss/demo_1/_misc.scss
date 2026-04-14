@@ -31,6 +31,12 @@
     flex-grow: 1;
 }
 
+@media (max-width: 991px) {
+  .content-wrapper {
+    padding: 0.5rem 0.5rem;
+  }
+}
+
 .container-scroller {
     overflow: hidden;
 }
