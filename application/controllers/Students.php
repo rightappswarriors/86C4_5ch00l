@@ -19,6 +19,37 @@ class Students extends CI_Controller {
 		//$this->profile_pic = 'default-profile.jpg';
 
 	}
+
+	private function get_student_row($studentid)
+	{
+		$studentid = (int) $studentid;
+		if ($studentid <= 0) {
+			return null;
+		}
+
+		$query = $this->students_model->search_student_info($studentid);
+		if (!$query || $query->num_rows() === 0) {
+			return null;
+		}
+
+		return $query->row();
+	}
+
+	private function ensure_student_edit_access($studentid)
+	{
+		$student = $this->get_student_row($studentid);
+		if (!$student) {
+			show_404();
+		}
+
+		if ($this->session->userdata('current_usertype') === 'Parent'
+			&& (int) $student->user_id !== (int) $this->session->userdata('current_userid')) {
+			$this->session->set_flashdata('message', 'You are not allowed to edit this enrollment form.');
+			redirect('students');
+		}
+
+		return $student;
+	}
 	
 	public function index()
 	{
@@ -336,6 +367,7 @@ class Students extends CI_Controller {
 	
 	public function updateinfo(){
 		$studentid = $this->uri->segment(3);
+		$this->ensure_student_edit_access($studentid);
 		$data = array(
 			'title'     =>   'STUDENTS // Update Student Information',
 			'template'   =>   'students/updateinfo',
@@ -686,6 +718,9 @@ class Students extends CI_Controller {
 	
 	public function updateinfo_submit()
 	{
+		$studentid = $this->uri->segment(3);
+		$existing_student = $this->ensure_student_edit_access($studentid);
+
 		$this->form_validation->set_rules('firstname', 'First Name', 'required|trim');
 		$this->form_validation->set_rules('lastname', 'Last Name', 'required|trim');
 		$this->form_validation->set_rules('middlename', 'Middle Name', 'required|trim');
@@ -698,10 +733,11 @@ class Students extends CI_Controller {
 		
 		if($this->form_validation->run())
 		{
+			$is_parent = $this->session->userdata('current_usertype') === 'Parent';
 			
 			$data = array(
-				'studentno'  => $this->input->post('studentno'),
-				'lrn'  => $this->input->post('lrn'),
+				'studentno'  => $is_parent ? $existing_student->studentno : $this->input->post('studentno'),
+				'lrn'  => $is_parent ? $existing_student->lrn : $this->input->post('lrn'),
 				'lastname'  => $this->input->post('lastname'),
 				'firstname'  => $this->input->post('firstname'),
 				'middlename'  => $this->input->post('middlename'),
@@ -758,7 +794,7 @@ class Students extends CI_Controller {
 			{
 				//message successful	
 				$this->session->set_flashdata('message', "Successfully updated student information!");
-				redirect("students");
+				redirect("enroll/view_student_info/" . $studentid);
 			}
 		}
 		else

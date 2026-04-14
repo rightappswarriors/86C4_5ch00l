@@ -13,6 +13,11 @@
 	  <div class="card-body">
 	 
 		<h3 class="heading update-info-title">Update Student Information</h3>
+		<div style="margin-bottom: 15px;">
+			<a href="<?=site_url('students/details/' . $row->id)?>" class="btn btn-secondary">
+				<i class="mdi mdi-arrow-left"></i> Back
+			</a>
+		</div>
 		
 		<?=validation_errors()?>
 		
@@ -51,7 +56,7 @@
 			  <div class="form-group row">
 				<label class="col-sm-3 col-form-label">ID Number</label>
 				<div class="col-sm-9">
-				  <input type="text" name="studentno" value="<?=set_value('studentno',$row->studentno)?>" class="form-control" />
+				  <input type="text" name="studentno" value="<?=set_value('studentno',$row->studentno)?>" class="form-control" <?= $this->session->userdata('current_usertype') == 'Parent' ? 'readonly' : '' ?> />
 				</div>
 			  </div>
 			</div>
@@ -59,7 +64,7 @@
 			  <div class="form-group row">
 				<label class="col-sm-3 col-form-label">LRN</label>
 				<div class="col-sm-9">
-				  <input type="text" name="lrn" value="<?=set_value('lrn',$row->lrn)?>" class="form-control" />
+				  <input type="text" name="lrn" value="<?=set_value('lrn',$row->lrn)?>" class="form-control" <?= $this->session->userdata('current_usertype') == 'Parent' ? 'readonly' : '' ?> />
 				</div>
 			  </div>
 			</div>
