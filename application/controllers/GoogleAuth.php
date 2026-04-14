@@ -55,9 +55,6 @@ class GoogleAuth extends CI_Controller {
 
             $email = isset($data->email) ? trim($data->email) : '';
 
-            var_dump($data);
-            return;
-
             if ($email === '') {
                 $this->session->set_flashdata('message', 'Google account has no email address.');
                 redirect('login');
