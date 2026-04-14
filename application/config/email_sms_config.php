@@ -1,15 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/**
- * Email and SMS Configuration for Password Reset
- */
+/** Email and SMS Configuration for Password Reset */
 
 $config['email']['protocol'] = 'smtp';
-$config['email']['smtp_host'] = 'ssl://smtp.gmail.com';
-$config['email']['smtp_port'] = 465;
-$config['email']['smtp_user'] = 'velezvincent72@gmail.com';
-$config['email']['smtp_pass'] = 'YOUR-16-CHAR-APP-PASSWORD';
+$config['email']['smtp_host'] = 'smtp-relay.brevo.com';
+$config['email']['smtp_port'] = 587;
+$config['email']['smtp_user'] = 'a4d55d001@smtp-brevo.com';
+$config['email']['smtp_pass'] = 'xsmtpsib-5d71eb5874d05b53fc19126d0ad0fe150147683095c88fa103e3734d087d9307-vuCpCh7ZAbpNg6LL';
 $config['email']['mailtype'] = 'html';
 $config['email']['charset'] = 'utf-8';
 $config['email']['newline'] = "\r\n";
