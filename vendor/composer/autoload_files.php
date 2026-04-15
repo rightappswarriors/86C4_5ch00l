@@ -6,5 +6,6 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'c65d09b6820da036953a371c8c73a9b1' => $vendorDir . '/facebook/graph-sdk/src/Facebook/polyfills.php',
     'cf150f72bd303a2ff07711c9a70f2d53' => $vendorDir . '/google/apiclient/src/Google/autoload.php',
 );

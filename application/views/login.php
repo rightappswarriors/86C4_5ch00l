@@ -215,7 +215,7 @@
                       </svg>
                       <span>Login with Google<span>
                     </a>
-                    <a href="<?= base_url('index.php/#') ?>">
+                    <a href="<?= site_url('facebookauth/login') ?>">
                       <i class="fa-brands fa-facebook"></i><span>Login with Facebook<span>
                     </a>
                   </div>
