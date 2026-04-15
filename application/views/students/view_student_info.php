@@ -152,7 +152,7 @@ $is_accounting = ($current_usertype == 'Accounting' || $this->session->userdata(
 	<button onclick="printStudentInfo()" class="print-btn"> PRINT APPLICATION FORM</button>
 	<button onclick="window.print()" class="print-btn">PRINT ACKNOWLEDGEMENT</button>
 	<?php endif; ?>
-	<button onclick="window.close()" class="close-btn">&#10006; CLOSE</button>
+	<button onclick="closeReviewPage()" class="close-btn">&#10006; CLOSE</button>
 	<?php if($is_accounting): ?>
 	<span class="access-info"><i class="mdi mdi-account-check"></i> Accounting Access - Can Print</span>
 	<?php endif; ?>
@@ -238,6 +238,20 @@ $is_accounting = ($current_usertype == 'Accounting' || $this->session->userdata(
 		if(receiptTab) receiptTab.style.display = '';
 		toolbar.style.display = originalToolbarDisplay;
 		tabs.style.display = originalTabsDisplay;
+	}
+
+	function closeReviewPage() {
+		if (window.opener) {
+			window.close();
+			return;
+		}
+
+		if (window.history.length > 1) {
+			window.history.back();
+			return;
+		}
+
+		window.location.href = "<?= site_url('students') ?>";
 	}
 	</script>
 	

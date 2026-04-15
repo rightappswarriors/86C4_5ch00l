@@ -146,6 +146,7 @@
 							<?php if($current_usertype != 'Parent'): ?>
 							<a href="<?=isset($print_url) ? $print_url : site_url('students/enrollment_receipt/' . $student_id)?>" target="_blank" type="button" class="btn btn-lg btn-info btn-fw"><i class="mdi mdi-printer"></i> Print Enrollment Form</a>
 							<?php endif; ?>
+							<a href="<?=site_url('students/updateinfo/' . $student_id)?>" type="button" class="btn btn-lg btn-primary btn-fw"><i class="mdi mdi-pencil"></i> Edit Enrollment Form</a>
 							<a href="<?=site_url('enroll/view_student_info/' . $student_id)?>" target="_blank" type="button" class="btn btn-lg btn-warning btn-fw"><i class="mdi mdi-eye"></i> View Student Info</a>
 							<a href="<?=site_url('enroll/assessment/' . $student_id)?>" type="button" class="btn btn-lg btn-success btn-fw"><i class="mdi mdi-school"></i> Go to Assessment</a>
 						</div>
