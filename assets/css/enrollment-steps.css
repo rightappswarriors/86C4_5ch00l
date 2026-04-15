@@ -1,47 +1,84 @@
-.step-breadcrumb {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  padding: 15px 20px;
-  font-family: Arial, sans-serif;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-  background: #f8f9fa;
-  border-radius: 8px;
+/* =====================
+   Enrollment Breadcrumb Steps
+   ===================== */
+.enrollment-breadcrumb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 20px;
+    font-family: Arial, sans-serif;
+    flex-wrap: wrap;
+    margin: 0 auto 20px auto;
+    background: #f8f9fa;
+    border-radius: 8px;
+    max-width: 800px;
+    list-style: none;
 }
 
-.step-breadcrumb .step {
-  padding: 8px 14px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 500;
-  transition: 0.3s;
-  text-decoration: none;
-  display: inline-block;
+.enrollment-breadcrumb li {
+    list-style: none;
+    display: flex;
+    align-items: center;
 }
 
-.step-breadcrumb .step.active {
-  background: #1976d2;
-  color: #ffffff;
+.enrollment-breadcrumb .step {
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: opacity 0.3s;
+    text-decoration: none;
+    display: inline-block;
 }
 
-.step-breadcrumb .step.completed {
-  background: #28a745;
-  color: #ffffff;
+.enrollment-breadcrumb .step.current {
+    background: #1976d2;
+    color: #ffffff;
 }
 
-.step-breadcrumb .step.pending {
-  background: #e9ecef;
-  color: #6c757d;
+.enrollment-breadcrumb .step.passed {
+    background: #28a745;
+    color: #ffffff;
 }
 
-.step-breadcrumb .arrow {
-  color: #adb5bd;
-  font-size: 14px;
-  margin: 0 2px;
+.enrollment-breadcrumb .step.pending {
+    background: #e9ecef;
+    color: #6c757d;
 }
 
-.step-breadcrumb .step:hover {
-  opacity: 0.9;
+.enrollment-breadcrumb .arrow {
+    color: #adb5bd;
+    font-size: 14px;
+    margin: 0 2px;
+}
+
+.enrollment-breadcrumb .step:hover {
+    opacity: 0.9;
+}
+
+/* =====================
+   Enrollment Success Page
+   ===================== */
+.content-wrapper {
+    margin-top: 0;
+}
+
+/* QR canvas styling */
+.qr-canvas-wrapper {
+    margin: 20px auto;
+    display: inline-block;
+}
+
+#qr-success-canvas {
+    border: 2px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* Proof modal list */
+.proof-list {
+    margin: 0;
+    padding-left: 20px;
+    color: #666;
 }

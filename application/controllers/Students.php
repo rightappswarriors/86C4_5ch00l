@@ -1209,5 +1209,5 @@ class Students extends CI_Controller {
 		redirect("students/interview/".$this->uri->segment(3));
 		
 	}
-	
-}
+
+	}

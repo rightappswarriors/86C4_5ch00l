@@ -21,6 +21,7 @@ class Students_model extends CI_Model
 			'status' => 'Pending',
 			'deleted' => 'no',
 			'newold' => $this->input->post('newold'),
+			'strand' => $this->input->post('strand'),
 			'addeddate' => date("Y-m-d H:i:s")
 		);
 		$this->db->insert('enrolled', $data_enroll);
