@@ -111,11 +111,11 @@
 </style>
 
 <ol class="enrollment-breadcrumb">
-  <li><span class="step passed">1. Register with Handbook</span></li>
+  <li><span class="step passed">Read the Student Handbook</span></li>
   <li><span class="arrow">›</span></li>
-  <li><span class="step passed">2. Fill Up Enrollment Form</span></li>
+  <li><span class="step passed">Fill up Enrollment Application Form</span></li>
   <li><span class="arrow">›</span></li>
-  <li><span class="step current">3. Print Form / Save QR Code</span></li>
+  <li><span class="step current">Print/Save Enrollment Application Form / Save QR Code</span></li>
 </ol>
 
 
@@ -127,14 +127,14 @@
 	  <div class="card-body" style="text-align:center;">
 		
 		<h3 class="heading text-success" style="text-align:center;">Successfully submitted!</h3>
-		<p>The registar will review all the information submitted.  Expect a call for confirmation and for the next step procedures.</p>
+		<p>Please show this to the Registrar/Principal and proceed to step 2: In-person for Diagnostic Test / Academic Assessment.</p>
 		<p><mark><code>Please prepare the necessary requirements below.</code></mark></p>
 		
 		<!-- QR Code and Print Section -->
 		<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
 			<div class="col-md-12">
 				<div class="card" style="background: #f8f9fa; padding: 20px;">
-					<h4 class="text-info">Enrollment Confirmation</h4>
+					<h4 class="text-info">E-Registration Acknowledgement Slip</h4>
 					<p>Scan the QR code below to verify enrollment.</p>
 					
 					<div style="margin: 20px auto; display: inline-block;">

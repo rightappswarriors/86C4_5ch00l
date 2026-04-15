@@ -64,11 +64,11 @@
 <div class="content-wrapper">
 
 <ol class="enrollment-breadcrumb">
-  <li><a href="<?=site_url('students/enroll_readhandbook')?>" class="step passed">1. Register with Handbook</a></li>
+  <li><a href="<?=site_url('students/enroll_readhandbook')?>" class="step passed">Read the Student Handbook</a></li>
   <li><span class="arrow">›</span></li>
-  <li><span class="step current">2. Fill Up Enrollment Form</span></li>
+  <li><span class="step current">Fill up Enrollment Application Form</span></li>
   <li><span class="arrow">›</span></li>
-  <li><span class="step pending">3. Print Form / Save QR Code</span></li>
+  <li><span class="step pending">Print/Save Enrollment Application Form / Save QR Code</span></li>
 </ol>
 
 <script>
@@ -83,8 +83,9 @@ $(function(){
 		return true;
 	});
 	
-	$("#transferee_section").hide();
-	$("#transferee_fields").hide();
+	// Show transferee fields by default since "New Student" is pre-selected
+	$("#transferee_section").show();
+	$("#transferee_fields").show();
 	
 	$("input[name='newold']").change(function() {
 		if($(this).val() === "new") {
@@ -243,19 +244,19 @@ $(function(){
 		  <div class="row" id="transferee_fields">
 			<div class="col-md-6">
 				<div class="form-group">
-					<label class="form-label">School Name</label>
-					<input type="text" name="lastschool" value="<?=set_value('lastschool')?>" class="form-control" placeholder="Enter School Name" />
+					<label class="form-label">Previous School Name</label>
+					<input type="text" name="lastschool" value="<?=set_value('lastschool')?>" class="form-control" placeholder="Enter Previous School Name" />
 				</div>
 			</div>
 			<div class="col-md-3">
 				<div class="form-group">
-					<label class="form-label">School Year</label>
+					<label class="form-label">Last School Year Attended</label>
 					<input type="text" name="lastschoolyear" value="<?=set_value('lastschoolyear')?>" class="form-control" placeholder="Enter Year" />
 				</div>
 			</div>
 			<div class="col-md-3">
 				<div class="form-group">
-					<label class="form-label">Grade Level</label>
+					<label class="form-label">Previous Grade Level</label>
 					<input type="text" name="lastschoolgrade" value="<?=set_value('lastschoolgrade')?>" class="form-control" placeholder="Enter Grade" />
 				</div>
 			</div>

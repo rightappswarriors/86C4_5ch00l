@@ -53,11 +53,11 @@
 <div class="content-wrapper">
 
 <ol class="enrollment-breadcrumb">
-  <li><span class="step current">1. Register with Handbook</span></li>
+  <li><span class="step current">Read the Student Handbook</span></li>
   <li><span class="arrow">›</span></li>
-  <li><a href="<?=site_url('students/enrollnew_form')?>" class="step pending">2. Fill Up Enrollment Form</a></li>
+  <li><a href="<?=site_url('students/enrollnew_form')?>" class="step pending">Fill up Enrollment Application Form</a></li>
   <li><span class="arrow">›</span></li>
-  <li><span class="step pending">3. Print Form / Save QR Code</span></li>
+  <li><span class="step pending">Print/Save Enrollment Application Form / Save QR Code</span></li>
 </ol>
 
 <script>
@@ -136,6 +136,9 @@ $(function(){
 <div class="col-lg-12 grid-margin stretch-card">
 <div class="card">
   <div class="card-body">
+	<div class="alert alert-danger text-center mb-3">
+		<h5 class="alert-heading"><i class="mdi mdi-information"></i> READ THE STUDENT HANDBOOK AND ACKNOWLEDGE AT THE END</h5>
+	</div>
 	<h3 class="heading" style="text-align:center;">Student Handbook</h3>
 	<p>Please read our Updated Student Handbook before continuing to the Enrollment Process.</p>
 	<p>There are some latest updates made by our Academy Administration and Faculties especially under policies. </p>
