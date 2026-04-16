@@ -164,6 +164,7 @@
 					foreach($indntals_list as $ind=>$indntals_val):
 						if(isset($indntals[$ind]) && $indntals[$ind]>0):
 						$tindntals += $indntals[$ind];
+						if($can_view_detailed_soa):
 					?>
 					<div class="info-row">
 						<div class="info-label"><?=$indntals_val?></div>
@@ -171,8 +172,15 @@
 					</div>
 					<?php
 						endif;
+						endif;
 					endforeach;
+					if(!$can_view_detailed_soa):
 					?>
+					<div class="info-row">
+						<div class="info-label">Incidentals Total</div>
+						<div class="info-value text-right"><?=number_format($tindntals,2)?></div>
+					</div>
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>

@@ -1,10 +1,12 @@
-/* Financial Assessment Print */
-* { box-sizing: border-box; }
+/* Financial Assessment Print – single page, 3-copy layout */
+* { box-sizing: border-box; margin: 0; padding: 0; }
 body {
     margin: 0;
     background: #4f5559;
     font-family: Arial, Helvetica, sans-serif;
     color: #000;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
 }
 
 .toolbar {
@@ -15,7 +17,6 @@ body {
     padding: 10px;
     background: #23282d;
 }
-
 .toolbar button {
     border: 0;
     background: #1692ff;
@@ -27,252 +28,242 @@ body {
     cursor: pointer;
 }
 
+/* ====== Page Container ====== */
 .page {
     width: 8.5in;
-    min-height: 11in;
+    height: 11in;
     margin: 4px auto;
     background: #fff;
-    padding: 12px 16px;
     box-shadow: 0 0 0 1px #a7a7a7;
-    break-after: page;
-    page-break-after: always;
-}
-
-.page:last-of-type {
-    break-after: auto;
-    page-break-after: auto;
-}
-
-.single-copy {
-    width: 100%;
-    height: 100%;
+    overflow: hidden;
 }
 
 .grid {
-    display: grid;
-    grid-template-columns: 51% 49%;
-    gap: 10px;
+    display: flex;
     height: 100%;
 }
 
+/* ====== Left Column (Parent Copy) ====== */
 .left-copy {
-    padding: 6px 10px 0 6px;
+    width: 50%;
+    padding: 10px 6px 6px 14px;
+    border-right: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
 }
 
+/* ====== Right Column ====== */
 .right-copy {
-    padding-left: 10px;
-    display: grid;
-    grid-template-rows: 55% 45%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
 }
-
 .right-top {
-    border-bottom: 2px solid #000;
-    padding: 0 2px 6px 0;
+    flex: 1;
+    padding: 4px 8px 4px 8px;
+    border-bottom: 1px solid #ccc;
+    overflow: hidden;
 }
-
 .right-bottom {
-    padding: 4px 2px 0 0;
+    flex: 1;
+    padding: 4px 8px 4px 8px;
+    overflow: hidden;
 }
 
+/* ====== School Header ====== */
 .school-header {
     display: flex;
     align-items: flex-start;
-    gap: 8px;
+    gap: 6px;
+    margin-bottom: 4px;
 }
-
 .school-header img {
-    width: 68px;
-    height: 68px;
+    width: 54px;
+    height: 54px;
     object-fit: contain;
 }
-
 .school-lines {
+    font-size: 7.5px;
+    line-height: 1.15;
+    font-weight: 700;
+}
+.school-lines .school-name {
     font-size: 9px;
-    line-height: 1.08;
-    font-weight: 700;
-    margin-top: 3px;
+    font-weight: 900;
 }
-
 .school-lines .small {
-    font-size: 8px;
-    font-weight: 700;
+    font-size: 7px;
+    font-weight: 600;
 }
 
-.copy-caption {
+/* ====== Titles ====== */
+.form-title {
     text-align: center;
-    font-size: 16px;
+    font-size: 11px;
     font-weight: 900;
-    letter-spacing: 0.1px;
-    margin: 8px 0 10px;
+    margin: 6px 0 5px;
 }
-
-.copy-title {
+.mini-title {
+    font-size: 9px;
+    margin: 3px 0 3px;
+}
+.copy-label {
     text-align: center;
-    font-size: 16px;
+    font-size: 11px;
     font-weight: 900;
-    letter-spacing: 0.1px;
-    margin: 8px 0 10px;
+    margin: 0 0 2px;
 }
 
+/* ====== Meta Rows (Name/Date/Grade/SY) ====== */
 .meta-row {
-    font-size: 10px;
+    font-size: 7.5px;
     font-weight: 700;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 3px;
+    align-items: baseline;
+    margin-bottom: 1px;
+}
+.meta-ul {
+    text-decoration: underline;
+    padding: 0 2px;
 }
 
-.fill {
-    display: inline-block;
-    border-bottom: 1px solid #000;
-    height: 9px;
-    vertical-align: middle;
-}
-
+/* ====== Section Grid (Incidentals + Computation) ====== */
 .section-grid {
-    margin-top: 5px;
-    display: grid;
-    grid-template-columns: 52% 48%;
-    gap: 14px;
+    display: flex;
+    gap: 6px;
+    margin-top: 3px;
+}
+.col-left {
+    width: 52%;
+    flex-shrink: 0;
+}
+.col-right {
+    width: 48%;
+    flex-shrink: 0;
+}
+.mini-grid {
+    gap: 4px;
 }
 
+/* ====== Section Headings ====== */
 .section-head {
-    font-size: 10px;
+    font-size: 7.5px;
     font-weight: 900;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
 }
 
+/* ====== Incidental Rows (label + value) ====== */
 .row-line {
     display: flex;
     align-items: baseline;
-    justify-content: space-between;
-    gap: 6px;
-    margin-bottom: 1px;
-    font-size: 8px;
-    font-weight: 700;
+    gap: 2px;
+    font-size: 6.5px;
+    font-weight: 600;
+    line-height: 1.45;
 }
-
 .left-label {
     white-space: nowrap;
-    line-height: 1.15;
 }
-
 .right-fill {
     flex: 1;
-    border-bottom: 1px solid #7b7b7b;
-    min-width: 22px;
-    height: 8px;
+    border-bottom: 1px solid #000;
+    min-width: 8px;
+    height: 7px;
 }
-
-.money {
-    width: 104px;
-    text-align: right;
-    border-bottom: 1px solid #7b7b7b;
-    height: 8px;
-    line-height: 1;
+.val {
+    white-space: nowrap;
     font-weight: 700;
+    min-width: 40px;
+    text-align: right;
 }
 
+/* ====== Computation Lines ====== */
+.comp-line {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    font-size: 6.5px;
+    font-weight: 700;
+    line-height: 1.45;
+}
+.comp-fill {
+    flex: 1;
+    border-bottom: 1px solid #000;
+    min-width: 6px;
+    height: 7px;
+}
+.comp-val {
+    white-space: nowrap;
+    text-align: right;
+    min-width: 42px;
+}
+
+/* ====== Summary / Total Assessment Box ====== */
 .summary-box {
-    margin-top: 6px;
-    border: 2px solid #60b6ff;
-    padding: 6px 8px;
+    margin-top: 4px;
+    border: 1.5px solid #48b8ff;
+    padding: 3px 5px;
 }
-
 .s-row {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    gap: 6px;
-    font-size: 8px;
+    gap: 3px;
+    font-size: 6.5px;
     font-weight: 700;
-    margin-bottom: 2px;
+    margin-bottom: 1px;
+    line-height: 1.4;
 }
-
+.s-label {
+    white-space: nowrap;
+}
 .s-fill {
-    width: 76px;
+    width: 50px;
     border-bottom: 1px solid #000;
-    height: 8px;
+    height: 6px;
+    flex-shrink: 0;
+}
+.s-due {
+    color: #0088e0;
 }
 
-.s-row.due { color: #00a8ff; }
-
+/* ====== Pledge ====== */
 .pledge {
-    margin-top: 16px;
+    margin-top: 10px;
     text-align: center;
-    font-size: 8px;
-    line-height: 1.45;
+    font-size: 7px;
+    line-height: 1.4;
     font-weight: 700;
 }
 
+/* ====== Signatures ====== */
 .signature {
-    margin-top: 24px;
+    margin-top: 18px;
     text-align: center;
-    font-size: 11px;
-    font-weight: 700;
-    line-height: 1;
 }
-
-.signature.signature-mother {
-    margin-top: 14px;
+.sig-mother {
+    margin-top: 12px;
 }
-
-.signature .line {
-    margin: 0 auto 4px;
-    width: 220px;
-    border-bottom: 2px solid #000;
-    height: 8px;
-}
-
-.mini-topline {
-    text-align: center;
-    margin: 0 0 6px;
-}
-
-.mini-topline .sig-line {
-    display: block;
-    width: 240px;
-    border-bottom: 2px solid #000;
+.sig-line-block {
+    margin: 0 auto;
+    width: 200px;
+    border-bottom: 1.5px solid #000;
     height: 10px;
-    margin: 0 auto 2px;
 }
-
-.mini-topline .sig-text {
-    display: block;
-    font-size: 11px;
+.sig-caption {
+    font-size: 8px;
     font-weight: 700;
-    line-height: 1;
+    margin-top: 2px;
 }
 
-.mini-copy-label {
-    text-align: center;
-    font-size: 16px;
-    font-weight: 900;
-    margin: 0 0 4px;
-}
-
-.office-label {
-    text-align: center;
-    font-size: 16px;
-    font-weight: 900;
-    margin: 0 0 4px;
-}
-
-.mini .copy-title { font-size: 16px; margin: 8px 0 10px; }
-
+/* ====== Print ====== */
 @media print {
     body { background: #fff; }
     .toolbar { display: none; }
     .page {
         margin: 0;
         box-shadow: none;
-        break-after: page;
-        page-break-after: always;
-    }
-    .page:last-of-type {
-        break-after: auto;
-        page-break-after: auto;
     }
     @page { size: letter portrait; margin: 0; }
 }

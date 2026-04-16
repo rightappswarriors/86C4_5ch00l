@@ -142,15 +142,23 @@
 				foreach($indntals_list as $ind=>$indntals_val):
 					if($indntals[$ind]>0){
 					$tindntals += $indntals[$ind];
+					if ($can_view_soa_amounts):
 				?>
 				<div class="row">
 					<label class="col-sm-6 col-form-label"><code class="text-info"><?=$indntals_val?></code></label>
 					<div class="col-sm-6 text-right"><code class="text-info"><?=$format_soa_amount($indntals[$ind], 0)?></code></div>
 				</div>
 				<?php
+					endif;
 					}
 				endforeach;
+				if (!$can_view_soa_amounts):
 				?>
+				<div class="row">
+					<label class="col-sm-6 col-form-label"><code class="text-info">Incidentals Total</code></label>
+					<div class="col-sm-6 text-right"><code class="text-info"><?=number_format($tindntals,2)?></code></div>
+				</div>
+				<?php endif; ?>
 					
 				  </div>
 				</div>
@@ -159,9 +167,7 @@
 			<div class="col-md-8 grid-margin stretch-card">
 				<div class="card">
 				  <div class="card-body<?= !$can_view_soa_amounts ? ' soa-misc-card' : '' ?>">
-					<?php if ($can_view_soa_amounts): ?>
 					<h4 class="card-title">MISCELLANEOUS</h4>
-					<?php endif; ?>
 					<?php
 				$tmsclns = 0;
 				foreach($msclns_list as $ind=>$msclns_val):
@@ -178,33 +184,39 @@
 					endif;
 					}
 				endforeach;
+				if (!$can_view_soa_amounts):
 				?>
+				<div class="row">
+					<label class="col-sm-6 col-form-label"><code class="text-info">Miscellaneous Total</code></label>
+					<div class="col-sm-6 text-right"><code class="text-info"><?=number_format($tmsclns,2)?></code></div>
+				</div>
+				<?php endif; ?>
 					<?php if ($can_view_soa_amounts): ?>
 					<hr>
 					<?php endif; ?>
 					<table width="100%">
 						<tr>
 							<td width="50%">TUITION</td>
-							<td width="50%" class="text-right"><?=$format_soa_amount($tuition)?></td>
+							<td width="50%" class="text-right"><?=number_format($tuition,2)?></td>
 						</tr><tr>
 							<td>REGISTRATION</td>
-							<td class="text-right"><?=$format_soa_amount($registration)?></td>
+							<td class="text-right"><?=number_format($registration,2)?></td>
 						</tr><tr>
 							<td>TOTAL MISC</td>
-							<td class="text-right"><?=$format_soa_amount($tmsclns)?></td>
+							<td class="text-right"><?=number_format($tmsclns,2)?></td>
 						</tr><tr>
 							<td>TOTAL INCIDENTALS</td>
-							<td class="text-right"><?=$format_soa_amount($tindntals)?></td>
+							<td class="text-right"><?=number_format($tindntals,2)?></td>
 						</tr>
 						<tr><td colspan="2"><hr><td></td></tr>
 						<tr>
 							<td><b>TOTAL ASSESSMENT</b></td>
-							<td class="text-right"><b><?=$format_soa_amount($total_ass)?></b></td>
+							<td class="text-right"><b><?=number_format($total_ass,2)?></b></td>
 						</tr>
 						<tr><td colspan="2"><hr><td></td></tr>
 						<tr>
 							<td>MONTHLY OBLIGATION</td>
-							<td class="text-right"><?=$format_soa_amount($monthly)?></td>
+							<td class="text-right"><?=number_format($monthly,2)?></td>
 						</tr>
 					</table>
 					
