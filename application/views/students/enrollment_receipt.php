@@ -91,7 +91,7 @@ $enroll_date = $enroll ? date('F j, Y', strtotime($enroll->addeddate)) : date('F
 <div class="page">
 	<div class="header">
 		<h1>E-REGISTRATION ACKNOWLEDGEMENT</h1>
-		<h2>BHCA Christian School</h2>
+		<h2>BOB HUGHES CHRISTIAN ACADEMY</h2>
 		<div class="receipt-no">Receipt No.: ENR-<?= str_pad($row->id, 6, '0', STR_PAD_LEFT) ?></div>
 	</div>
 	
@@ -116,11 +116,11 @@ $enroll_date = $enroll ? date('F j, Y', strtotime($enroll->addeddate)) : date('F
 	<div class="student-info">
 		<div class="info-box">
 			<div class="title">STUDENT INFORMATION</div>
-			<div class="row"><span class="label">Student ID:</span><span class="value"><?= $row->id ?></span></div>
 			<div class="row"><span class="label">Name:</span><span class="value"><?= strtoupper($row->firstname . " " . $row->lastname) ?></span></div>
 			<div class="row"><span class="label">Middle Name:</span><span class="value"><?= strtoupper($row->middlename ?? '') ?></span></div>
 			<div class="row"><span class="label">Birthdate:</span><span class="value"><?= $row->birthdate ? date('F j, Y', strtotime($row->birthdate)) : '' ?></span></div>
 			<div class="row"><span class="label">Gender:</span><span class="value"><?= strtoupper($row->gender ?? '') ?></span></div>
+			<div class="row"><span class="label">Refered by:</span><span class="value"><?= strtoupper($row->referred_by ?? '') ?></span></div>
 		</div>
 		<div class="info-box">
 			<div class="title">PARENT/GUARDIAN INFORMATION</div>

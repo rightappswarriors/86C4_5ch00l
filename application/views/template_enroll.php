@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><?= $title ?? 'BHCA Christian School' ?></title>
+    <title><?= $title ?? 'BOB HUGHES CHRISTIAN ACADEMY' ?></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdi/font@6.5.95/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="<?=base_url()?>assets/css/Dashboard/enrollment.css">
@@ -57,7 +57,7 @@
     <div class="enroll-container">
       <div class="card">
         <div class="card-header p-3 text-center">
-          <h4 class="mb-0"><i class="mdi mdi-school"></i> BHCA Christian School - Enrollment</h4>
+          <h4 class="mb-0"><i class="mdi mdi-school"></i> BOB HUGHES CHRISTIAN ACADEMY - Enrollment</h4>
         </div>
         <div class="card-body">
           <?php if($this->session->flashdata('message')): ?>

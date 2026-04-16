@@ -173,7 +173,7 @@ $(function(){
 			</div>
 		  </div>
 		  
-		  <div class="row">
+<div class="row">
 			<div class="col-md-4">
 				<div class="form-group">
 					<label class="form-label">Date of Birth</label>
@@ -232,6 +232,12 @@ $(function(){
 						$batch = set_value('strand','N/A');
 						echo form_dropdown('strand', $options, $batch,' class="form-control"');
 					?>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label class="form-label">Refered by</label>
+					<input type="text" name="referred_by" value="<?=set_value('referred_by')?>" class="form-control" placeholder="Enter referrer name or N/A" />
 				</div>
 			</div>
 		  </div>

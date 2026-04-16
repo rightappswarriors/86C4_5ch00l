@@ -118,8 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <div class="page">
 	<div class="header">
 		<h1>STUDENT INFORMATION</h1>
-		<h2>BHCA Christian School</h2>
-		<div class="student-no">Student ID: <?= str_pad($row->id, 6, '0', STR_PAD_LEFT) ?></div>
+		<h2>BOB HUGHES CHRISTIAN ACADEMY</h2>
 	</div>
 	
 	<div style="text-align: center; margin-bottom: 15px;">
@@ -137,6 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				<div class="row"><span class="label">Date of Birth:</span><span class="value"><?= $row->birthdate ? date('F j, Y', strtotime($row->birthdate)) : '' ?></span></div>
 				<div class="row"><span class="label">Place of Birth:</span><span class="value"><?= strtoupper($row->placeofbirth ?? '') ?></span></div>
 				<div class="row"><span class="label">Gender:</span><span class="value"><?= strtoupper($row->gender ?? '') ?></span></div>
+				<div class="row"><span class="label">Refered by:</span><span class="value"><?= strtoupper($row->referred_by ?? '') ?></span></div>
 			</div>
 			
 			<div class="info-section">
@@ -176,6 +176,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				<div class="row"><span class="label">Relationship:</span><span class="value"><?= strtoupper($row->relationship ?? '') ?></span></div>
 				<div class="row"><span class="label">Cellphone No.:</span><span class="value"><?= $row->personal_cell ?? '' ?></span></div>
 				<div class="row"><span class="label">Home Phone:</span><span class="value"><?= $row->homelandline ?? '' ?></span></div>
+				<div class="row"><span class="label">Refered by:</span><span class="value"><?= strtoupper($row->referred_by ?? '') ?></span></div>
 			</div>
 		</div>
 		

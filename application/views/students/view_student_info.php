@@ -155,8 +155,7 @@ $is_accounting = ($current_usertype == 'Accounting' || $this->session->userdata(
 	<div id="student-info" class="stu-tab-content active">
 		<div class="header">
 			<h1>ENROLLMENT APPLICATION FORM</h1>
-			<h2>BHCA Christian School</h2>
-			<div class="student-no">Student ID: <?= str_pad($row->id, 6, '0', STR_PAD_LEFT) ?></div>
+			<h2>BOB HUGHES CHRISTIAN ACADEMY</h2>
 		</div>
 		
 		
@@ -172,6 +171,7 @@ $is_accounting = ($current_usertype == 'Accounting' || $this->session->userdata(
 					<div class="row"><span class="label">Date of Birth:</span><span class="value"><?= $row->birthdate ? date('F j, Y', strtotime($row->birthdate)) : '' ?></span></div>
 					<div class="row"><span class="label">Place of Birth:</span><span class="value"><?= strtoupper($row->placeofbirth ?? '') ?></span></div>
 					<div class="row"><span class="label">Gender:</span><span class="value"><?= strtoupper($row->gender ?? '') ?></span></div>
+					<div class="row"><span class="label">Refered by:</span><span class="value"><?= strtoupper($row->referred_by ?? '') ?></span></div>
 				</div>
 				
 				<div class="info-section">
@@ -214,6 +214,7 @@ $is_accounting = ($current_usertype == 'Accounting' || $this->session->userdata(
 					<div class="row"><span class="label">Relationship:</span><span class="value"><?= strtoupper($row->relationship ?? '') ?></span></div>
 					<div class="row"><span class="label">Cellphone No.:</span><span class="value"><?= $row->personal_cell ?? '' ?></span></div>
 					<div class="row"><span class="label">Home Phone:</span><span class="value"><?= $row->homelandline ?? '' ?></span></div>
+					<div class="row"><span class="label">Refered by:</span><span class="value"><?= strtoupper($row->referred_by ?? '') ?></span></div>
 				</div>
 			</div>
 			
@@ -245,7 +246,7 @@ $is_accounting = ($current_usertype == 'Accounting' || $this->session->userdata(
 	<div id="enrollment-receipt" class="stu-tab-content">
 		<div class="receipt-header">
 			<h1>E-REGISTRATION ACKNOWLEDGEMENT</h1>
-			<h2>BHCA Christian School</h2>
+			<h2>BOB HUGHES CHRISTIAN ACADEMY</h2>
 			<div class="receipt-no">Receipt No.: ENR-<?= str_pad($row->id, 6, '0', STR_PAD_LEFT) ?></div>
 		</div>
 		
@@ -268,7 +269,6 @@ $is_accounting = ($current_usertype == 'Accounting' || $this->session->userdata(
 		<div class="receipt-student-info">
 			<div class="info-box">
 				<div class="title">STUDENT INFORMATION</div>
-				<div class="row"><span class="label">Student ID:</span><span class="value"><?= $row->id ?></span></div>
 				<div class="row"><span class="label">Name:</span><span class="value"><?= strtoupper($row->firstname . " " . $row->lastname) ?></span></div>
 				<div class="row"><span class="label">Middle Name:</span><span class="value"><?= strtoupper($row->middlename ?? '') ?></span></div>
 				<div class="row"><span class="label">Birthdate:</span><span class="value"><?= $row->birthdate ? date('F j, Y', strtotime($row->birthdate)) : '' ?></span></div>
@@ -281,9 +281,6 @@ $is_accounting = ($current_usertype == 'Accounting' || $this->session->userdata(
 				<div class="row"><span class="label">Maiden:</span><span class="value"><?= strtoupper($row->maidenname) ?></span></div>
 				<?php endif; ?>
 				<div class="row"><span class="label">Mother:</span><span class="value"><?= strtoupper(($row->mother_firstname ?? '') . " " . ($row->mother_lastname ?? '')) ?></span></div>
-				<?php if(!empty($row->maidenname)): ?>
-				<div class="row"><span class="label">Maiden:</span><span class="value"><?= strtoupper($row->maidenname) ?></span></div>
-				<?php endif; ?>
 				<div class="row"><span class="label">Emergency:</span><span class="value"><?= strtoupper($row->incaseemergency ?? '') ?></span></div>
 				<div class="row"><span class="label">Contact:</span><span class="value"><?= $row->personal_cell ?? '' ?></span></div>
 			</div>

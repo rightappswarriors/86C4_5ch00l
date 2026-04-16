@@ -137,6 +137,7 @@ class Students extends CI_Controller {
 		$this->form_validation->set_rules('lastname', 'Last Name', 'required|trim');
 		$this->form_validation->set_rules('middlename', 'Middle Name', 'required|trim');
 		$this->form_validation->set_rules('birthdate', 'Date of Birth', 'required|trim');
+		$this->form_validation->set_rules('referred_by', 'Refered by', 'required|trim');
 		$this->form_validation->set_rules('street', 'Street', 'required|trim');
 		$this->form_validation->set_rules('barangay', 'Barangay', 'required|trim');
 		$this->form_validation->set_rules('incaseemergency', 'Emergency Contact', 'required|trim');
@@ -177,6 +178,7 @@ class Students extends CI_Controller {
 				'birthdate'  => $this->input->post('birthdate') ?: '',
 				'placeofbirth'  => $this->input->post('placeofbirth') ?: '',
 				'gender'  => $this->input->post('gender') ?: '',
+				'referred_by'  => $this->input->post('referred_by') ?: '',
 				'street'  => $this->input->post('street') ?: '',
 				'barangay'  => $this->input->post('barangay') ?: '',
 				'houseno'  => $this->input->post('houseno') ?: '',

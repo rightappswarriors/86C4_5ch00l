@@ -152,6 +152,14 @@
 				</div>
 			  </div>
 			</div>
+			<div class="col-md-6">
+			  <div class="form-group row">
+				<label class="col-sm-4 col-form-label">Refered by</label>
+				<div class="col-sm-8">
+				  <?=$row->referred_by?>
+				</div>
+			  </div>
+			</div>
 			
 		  </div>
 		  

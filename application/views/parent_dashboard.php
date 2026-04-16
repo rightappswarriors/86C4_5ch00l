@@ -90,8 +90,8 @@
 		<hr>
 		<h1 class="" style="font-size:18px;font-weight:bold;">You may deposit your payments to the following bank account:</h1>
 		
-		<code><p class="mb-0">Pay to: <b class="text-primary" style="font-size:25px;">CEBU BOB HUGHES CHRISTIAN ACADEMY, INC.</b></p>
-		<p>Bank: <b class="text-primary" style="font-size:25px;">CHINA BANK</b><br>Account #: <b class="text-primary" style="font-size:25px;">1071-00001119</b></p></code>
+		<code><p class="mb-0">Bank: <b class="text-primary" style="font-size:20px;">CHINA BANK</b></p>
+		<p>Pay to: <b class="text-primary" style="font-size:20px;">CEBU BOB HUGHES CHRISTIAN ACADEMY, INC.</b><br>Account #: <b class="text-primary" style="font-size:20px;">1071-00001119</b></p></code>
 		<hr>
 		<p>Please upload a copy or a picture of your proof of payment under <code class="text-primary"><< Payment >></code> Tab of student page details.</p>
 		<p>For more than one student with single receipt of transaction, please upload the same copy per student.</p>

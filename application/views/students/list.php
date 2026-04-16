@@ -58,13 +58,14 @@
 				<thead>
 					<tr>
 						<!--<th width="5%">#</th>-->
-						<th width="20%">Name</th>
-						<th width="10%">Issue PACE?</th>
-						<th width="15%">Level</th>
+						<th width="18%">Name</th>
+						<th width="8%">Issue PACE?</th>
+						<th width="10%">Level</th>
 						<th width="10%">Enroll</th>
-						<th width="20%">Contact</th>
-						<th width="10%">Status</th>
-						<th width="5%">Action</th>
+						<th width="18%">Contact</th>
+						<th width="15%">Refered by</th>
+						<th width="11%">Status</th>
+						<th width="10%">Action</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -113,13 +114,14 @@
 							echo "<tr>";
 							//echo "<td>$ctr</td>";
 							//echo "<td><a href='#' data-toggle='modal' data-target='#modalstudent".$row->id."'>".$row->firstname." ".$row->lastname."</a>".$newold."</td>";
-							echo "<td><a href='" . site_url("students/details/" . $row->id) . "'>" . $row->lastname . ", " . $row->firstname . "</a>" . $newold . "</td>";
-							echo "<td class='text-center'>" . $ableforpt . "</td>";
+							echo "<td class='text-left'><a href='" . site_url("students/details/" . $row->id) . "'>" . $row->lastname . ", " . $row->firstname . "</a>" . $newold . "</td>";
+							echo "<td style='text-align:center'>" . $ableforpt . "</td>";
 							//echo "<td>".$row->studentno."</td>";
-							echo "<td>" . $row->gradelevel . "</td>";
-							echo "<td>" . date("m/d/Y", strtotime($row->dateadded)) . "</td>";
+							echo "<td style='text-align:center'>" . $row->gradelevel . "</td>";
+							echo "<td style='text-align:center'>" . date("m/d/Y", strtotime($row->dateadded)) . "</td>";
 							echo "<td>" . $row->mother_firstname . " " . $row->mother_lastname . "<br>" . $row->mother_contact1 . " " . $row->mother_contact2 . "" . "</td>";
-							echo "<td class='text-danger'><mark><code>" . $row->enrollstatus . "</code></mark></td>";
+							echo "<td style='text-align:center'>" . ($row->referred_by ? $row->referred_by : 'N/A') . "</td>";
+							echo "<td style='text-align:center' class='text-danger'><mark><code>" . $row->enrollstatus . "</code></mark></td>";
 							//echo "<td>" . number_format($CMB, 2) . "</td>";
 							echo "<td style='text-align:center'>";
 
