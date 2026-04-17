@@ -21,6 +21,14 @@ class Payments extends CI_Controller {
 		$this->load->model('students_model');
 		$this->load->model('payments_model');
 		//$this->profile_pic = 'default-profile.jpg';
+
+		$method = $this->router->fetch_method();
+		$mutative_methods = array('create', 'create_submit', 'update_payment', 'update_submit', 'remove_payment', 'remove_payments', 'deposit_file', 'ableforpt', 'scholar');
+		if (in_array($method, $mutative_methods) && $this->session->userdata('current_usertype_display') === 'Admin') {
+			$this->session->set_flashdata('message', "Spectator Admins are not allowed to apply changes.");
+			redirect("payments");
+			exit;
+		}
 	}
 	
 	public function index()

@@ -156,7 +156,7 @@
 
 <?php endif; ?>
 
-<?php if($this->session->userdata('current_usertype') == 'Admin' || $this->session->userdata('current_usertype_display') == 'Super Admin'):?>
+<?php if($this->session->userdata('current_usertype_display') == 'Super Admin'):?>
 <?php //if($this->session->userdata('current_userid') == 25):?>
 
 <li class="nav-item">

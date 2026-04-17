@@ -363,15 +363,6 @@ class Myprofile extends CI_Controller {
 			return true;
 		}
 
-		$current_usertype = (string) $this->session->userdata('current_usertype');
-		if ($current_usertype === 'Admin') {
-			return true;
-		}
-
-		if ($row && trim((string) $row->usertype) === 'Admin') {
-			return true;
-		}
-
 		return false;
 	}
 

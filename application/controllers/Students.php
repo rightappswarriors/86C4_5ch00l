@@ -17,7 +17,14 @@ class Students extends CI_Controller {
 		$this->load->model('files_model');
 		
 		//$this->profile_pic = 'default-profile.jpg';
-
+		
+		$method = $this->router->fetch_method();
+		$mutative_methods = array('enrollnew_submit', 'preenrollnew_submit', 'enrollnew_success', 'preenroll_success', 'updateinfo_submit', 'assessment_submit', 'academics_submit', 'remove_enroll', 'docs_submit', 'changelevel');
+		if (in_array($method, $mutative_methods) && $this->session->userdata('current_usertype_display') === 'Admin') {
+			$this->session->set_flashdata('message', "Spectator Admins are not allowed to apply changes.");
+			redirect("students");
+			exit;
+		}
 	}
 
 	private function get_student_row($studentid)
