@@ -71,6 +71,16 @@ class Students extends CI_Controller {
 		
 	}
 	
+	public function fetcher_register()
+	{
+		$data = array(
+			'title'     =>   "Fetcher's ID Application",
+			'template'   =>   'students/fetch_registration'
+		);
+		
+		$this->load->view('template', $data);
+	}
+	
 	public function newold()
 	{
 		$data = array(

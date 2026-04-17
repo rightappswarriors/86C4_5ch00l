@@ -87,6 +87,9 @@
 					<a class="nav-link" href="#">Enroll a Student</a>
 				  </li>
 				  <?php endif; ?>
+<li class="nav-item">
+				  <a class="nav-link" href="<?=site_url("students/fetcher_register")?>">Fetch ID</a>
+				  </li>
 				</ul>
 			  </div>
 			</li>
@@ -104,6 +107,12 @@
 		  <a class="nav-link" href="<?=site_url("students/enroll_readhandbook")?>">
 			<i class="menu-icon typcn typcn-shopping-bag"></i>
 			<span class="menu-title">Enroll Student</span>
+		  </a>
+		</li>
+		<li class="nav-item">
+		  <a class="nav-link" href="<?=site_url("students/fetcher_register")?>">
+			<i class="menu-icon typcn typcn-credit-card"></i>
+			<span class="menu-title">Fetcher's ID Application</span>
 		  </a>
 		</li>
 		
