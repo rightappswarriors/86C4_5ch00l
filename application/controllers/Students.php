@@ -81,6 +81,57 @@ class Students extends CI_Controller {
 		$this->load->view('template', $data);
 	}
 	
+	public function fetcher_id_submit()
+	{
+		$fetcher = $this->input->post('fetcher');
+		$student = $this->input->post('student');
+		$notes = $this->input->post('notes');
+		
+		$fetcher_json = json_encode($fetcher);
+		$student_json = json_encode($student);
+		
+		$data = array(
+			'fetcher_data' => $fetcher_json,
+			'student_data' => $student_json,
+			'notes' => $notes,
+			'registered_date' => date("Y-m-d H:i:s")
+		);
+		
+		$insert_id = $this->students_model->fetcher_register($data);
+		
+		$this->session->set_flashdata('message', "Fetcher's ID Application submitted successfully!");
+		redirect("students/fetcher_print/" . $insert_id);
+	}
+	
+	public function fetcher_list()
+	{
+		$data = array(
+			'title'     =>   "Fetcher's ID Applications",
+			'template'   =>   'students/fetcher_list',
+			'query' => $this->students_model->fetcher_registration_list()
+		);
+		
+		$this->load->view('template', $data);
+	}
+	
+	public function fetcher_print()
+	{
+		$id = $this->uri->segment(3);
+		$record = $this->students_model->get_fetcher_registration($id);
+		
+		if (!$record) {
+			show_404();
+		}
+		
+		$data = array(
+			'title'     =>   "Fetcher's ID Application",
+			'template'   =>   'students/fetch_registration_print',
+			'record' => $record
+		);
+		
+		$this->load->view('template', $data);
+	}
+	
 	public function newold()
 	{
 		$data = array(

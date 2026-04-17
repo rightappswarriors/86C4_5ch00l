@@ -446,6 +446,26 @@ class Students_model extends CI_Model
 		return $this->db->update('enrolled', $data);
 	}
 
+	function fetcher_register($data)
+	{
+		$this->db->insert('fetcher_registration', $data);
+		return $this->db->insert_id();
+	}
+
+	function get_fetcher_registration($id)
+	{
+		$this->db->where('id', $id);
+		$query = $this->db->get('fetcher_registration');
+		return $query->row();
+	}
+
+	function fetcher_registration_list()
+	{
+		$this->db->order_by('registered_date', 'DESC');
+		$query = $this->db->get('fetcher_registration');
+		return $query->result();
+	}
+
 }
 
 ?>
