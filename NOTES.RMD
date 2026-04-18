@@ -457,3 +457,9 @@ CREATE TABLE IF NOT EXISTS `gradebook_feedback` (
   KEY `idx_gradebook_feedback_student` (`gradebook_student_id`),
   KEY `idx_gradebook_feedback_activity` (`activity_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+NEW ADDDED COLUMN
+ALTER TABLE `interviewsched`
+ADD COLUMN `slot_duration` INT(11) NOT NULL DEFAULT 30 COMMENT 
+
+ALTER TABLE students ADD COLUMN referred_by VARCHAR(100) NOT NULL DEFAULT '';

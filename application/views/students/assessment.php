@@ -296,6 +296,12 @@ function humanizeNumber(n) {
 		?>
 		<a href="<?=site_url("students/assessment_print/".$row->id)?>" title="Print" class="btn btn-icons btn-secondary btn-rounded" target="_blank"><i class='mdi mdi-printer'></i></a>
 		<?php endif; ?>
+		<?php 
+		$allowed_pace_roles = array('Accounting', 'Super Admin', 'Admin', 'Registrar');
+		if(in_array($this->session->userdata('current_usertype'), $allowed_pace_roles)): 
+		?>
+		<a href="<?=site_url("students/assessment_paces/".$row->id)?>" title="Assessment PACEs" class="btn btn-icons btn-secondary btn-rounded"><i class='mdi mdi-book-open-page-variant'></i></a>
+		<?php endif; ?>
 		</div>
 		</div>
 		
@@ -364,6 +370,17 @@ function humanizeNumber(n) {
 					<label>Due every 5<sup>th</sup> of the month:</label>
 					<input type="text" id="monthdue" name="monthdue" value="<?=set_value('monthdue',number_format($monthly,2))?>" class="assessment-total-input" disabled/>
 				</div>
+
+				<div class="assessment-total-row">
+					<label>Monthly Promissory Note Payment:</label>
+					<input type="text" id="promissory_payment" name="promissory_payment" value="" class="assessment-total-input" />
+				</div>
+
+				<div class="assessment-total-row">
+					<label>Total Amount (day/week/month):</label>
+					<input type="text" id="total_amount_period" name="total_amount_period" value="" class="assessment-total-input" />
+				</div>
+
 				<div class="assessment-total-row">
 					<label>Payment received by:</label>
 					<input type="text" value="" class="assessment-total-input" disabled />
@@ -374,80 +391,6 @@ function humanizeNumber(n) {
 			
 		</div>
 		
-		<div class="row">
-		
-			<div class="col-md-12">
-			<p class="card-description text-info">TO BEGIN PACE WORK: /Ordered PACEs</p>	
-			  <div class="form-group row">
-				<label class="col-sm-3 col-form-label">Math #</label>
-				<div class="col-sm-3">
-				  <input type="text" id="math_begin" name="math_begin" value="<?=set_value('math_begin',$math[0])?>" placeholder="Begin" class="form-control" />
-				</div><div class="col-sm-3">
-				  <input type="text" id="math_end" name="math_end" value="<?=set_value('math_end',$math[1])?>" placeholder="End" class="form-control" />
-				</div><div class="col-sm-3">
-				  <input type="text" id="math_gaps" name="math_gaps" value="<?=set_value('math_gaps',$math[2])?>" placeholder="Gaps" class="form-control" />
-				</div>
-			  </div><div class="form-group row">
-				<label class="col-sm-3 col-form-label">English #</label>
-				<div class="col-sm-3">
-				  <input type="text" id="eng_begin" name="eng_begin" value="<?=set_value('eng_begin',$eng[0])?>" placeholder="Begin" class="form-control" />
-				</div><div class="col-sm-3">
-				  <input type="text" id="eng_end" name="eng_end" value="<?=set_value('eng_end',$eng[1])?>" placeholder="End" class="form-control" />
-				</div><div class="col-sm-3">
-				  <input type="text" id="eng_gaps" name="eng_gaps" value="<?=set_value('eng_gaps',$eng[2])?>" placeholder="Gaps" class="form-control" />
-				</div>
-			  </div><div class="form-group row">
-				<label class="col-sm-3 col-form-label">Science #</label>
-				<div class="col-sm-3">
-				  <input type="text" id="science_begin" name="science_begin" value="<?=set_value('science_begin',$science[0])?>" placeholder="Begin" class="form-control" />
-				</div><div class="col-sm-3">
-				  <input type="text" id="science_end" name="science_end" value="<?=set_value('science_end',$science[1])?>" placeholder="End" class="form-control" />
-				</div><div class="col-sm-3">
-				  <input type="text" id="science_gaps" name="science_gaps" value="<?=set_value('science_gaps',$science[2])?>" placeholder="Gaps" class="form-control" />
-				</div>
-			  </div><div class="form-group row">
-				<label class="col-sm-3 col-form-label">Soc. Studies #</label>
-				<div class="col-sm-3">
-				  <input type="text" id="sstudies_begin" name="sstudies_begin" value="<?=set_value('sstudies_begin',$sstudies[0])?>" placeholder="Begin" class="form-control" />
-				</div><div class="col-sm-3">
-				  <input type="text" id="sstudies_end" name="sstudies_end" value="<?=set_value('sstudies_end',$sstudies[1])?>" placeholder="End" class="form-control" />
-				</div><div class="col-sm-3">
-				  <input type="text" id="sstudies_gaps" name="sstudies_gaps" value="<?=set_value('sstudies_gaps',$sstudies[2])?>" placeholder="Gaps" class="form-control" />
-				</div>
-			  </div><div class="form-group row">
-				<label class="col-sm-3 col-form-label">Word Building #</label>
-				<div class="col-sm-3">
-				  <input type="text" id="wbuilding_begin" name="wbuilding_begin" value="<?=set_value('wbuilding_begin',$wbuilding[0])?>" placeholder="Begin" class="form-control" />
-				</div><div class="col-sm-3">
-				  <input type="text" id="wbuilding_end" name="wbuilding_end" value="<?=set_value('wbuilding_end',$wbuilding[1])?>" placeholder="End" class="form-control" />
-				</div><div class="col-sm-3">
-				  <input type="text" id="wbuilding_gaps" name="wbuilding_gaps" value="<?=set_value('wbuilding_gaps',$wbuilding[2])?>" placeholder="Gaps" class="form-control" />
-				</div>
-			  </div><div class="form-group row">
-				<label class="col-sm-3 col-form-label">Literature #</label>
-				<div class="col-sm-3">
-				  <input type="text" id="literature_begin" name="literature_begin" value="<?=set_value('literature_begin',$literature[0])?>" placeholder="Begin" class="form-control" />
-				</div><div class="col-sm-3">
-				  <input type="text" id="literature_end" name="literature_end" value="<?=set_value('literature_end',$literature[1])?>" placeholder="End" class="form-control" />
-				</div>
-			  </div><div class="form-group row">
-				<label class="col-sm-3 col-form-label">Filipino #</label>
-				<div class="col-sm-3">
-				  <input type="text" id="filipino_begin" name="filipino_begin" value="<?=set_value('filipino_begin',$filipino[0])?>" placeholder="Begin" class="form-control" />
-				</div><div class="col-sm-3">
-				  <input type="text" id="filipino_end" name="filipino_end" value="<?=set_value('filipino_end',$filipino[1])?>" placeholder="End" class="form-control" />
-				</div>
-			  </div><div class="form-group row">
-				<label class="col-sm-3 col-form-label">A.P. #</label>
-				<div class="col-sm-3">
-				  <input type="text" id="ap_begin" name="ap_begin" value="<?=set_value('ap_begin',$ap[0])?>" placeholder="Begin" class="form-control" />
-				</div><div class="col-sm-3">
-				  <input type="text" id="ap_end" name="ap_end" value="<?=set_value('ap_end',$ap[1])?>" placeholder="End" class="form-control" />
-				</div>
-			  </div>
-			</div>
-		</div>
-
 		<br>
 		<div class="row">
 		
@@ -468,7 +411,7 @@ function humanizeNumber(n) {
 		if($this->session->userdata('current_usertype') == 'Registrar'):
 		?>
 		<div class="col-md-6" style="text-align:left;">
-		<input type="submit" class="btn btn-lg btn-primary" value="UPDATE Assessment & PACEs">
+		<input type="submit" class="btn btn-lg btn-primary" value="UPDATE Assessment">
 		</div>
 		<?php endif; ?>
 		

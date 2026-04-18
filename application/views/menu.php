@@ -166,6 +166,15 @@
 </li>
 <?php endif; ?>
 
+<?php if(in_array($this->session->userdata('current_usertype'), array('Admin','Accounting','Registrar','Principal'))): ?>
+<li class="nav-item">
+  <a class="nav-link" href="<?=site_url("students/fetcher_info")?>">
+	<i class="menu-icon typcn typcn-credit-card"></i>
+	<span class="menu-title">Fetcher Information</span>
+  </a>
+</li>
+<?php endif; ?>
+
 <?php endif; ?>
 
 <?php if($this->session->userdata('current_usertype_display') == 'Super Admin'):?>

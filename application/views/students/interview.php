@@ -1,16 +1,159 @@
-<?php 
-	$row = $query->row(); 
+<?php
+	$row = $query->row();
 	$data = array( 'row'  => $row );
 	$interviews = explode(",",$row->admininterview);
+
+	// Get current interview schedule if exists
+	$current_schedule = null;
+	$schoolyear = $this->session->userdata('current_schoolyearid');
+	$this->load->model('register_model');
+	$schedule_info = $this->register_model->get_interview_schedule($row->id, $schoolyear);
+	if($schedule_info) {
+		// Get the actual schedule record to access capacity if needed
+		$sch_qry = $this->db->query("SELECT * FROM interviewsched WHERE studentid = ? AND schoolyear = ? AND status = 1 LIMIT 1", array($row->id, $schoolyear));
+		if($sch_qry->num_rows() > 0) {
+			$current_schedule = $sch_qry->row();
+		}
+	}
+
+	// Get all available time slots for the current selected date
+	$selected_date = isset($current_schedule) ? date('Y-m-d', strtotime($current_schedule->interviewdate)) : '';
 ?>
 
 <script>
 $(function(){
-	
+
 	$("#chkconfirmed").click(function() {
 		$("#btnstatus").attr("disabled", !this.checked);
-	});	
-	
+	});
+
+	// Interview scheduling
+	var currentStudentId = <?= $row->id ?>;
+	var currentSchedule = <?= isset($current_schedule) ? 'true' : 'false' ?>;
+	var schoolyear = <?= $schoolyear ? $schoolyear : 'null' ?>;
+
+	// Date change handler
+	$("#interview_date").change(function() {
+		var selectedDate = $(this).val();
+		if(selectedDate) {
+			// Enable time input
+			$("#interview_time").prop('disabled', false);
+			// Clear previous status
+			$("#slot_status").html('');
+			$("#slot_capacity_info").text('');
+		}
+	});
+
+	// Time change handler
+	$("#interview_time").change(function() {
+		var selectedTime = $(this).val(); // format: "HH:MM"
+		var selectedDate = $("#interview_date").val();
+		if(selectedDate && selectedTime) {
+			checkSlotAvailability(selectedDate, selectedTime);
+		}
+	});
+
+	// Schedule button click
+	$("#btn_schedule").click(function() {
+		saveInterviewSchedule();
+	});
+
+	function checkSlotAvailability(date, time) {
+		var duration = $("#slot_duration").val() || 30;
+		// time is in "HH:MM" format from input[type=time], convert to "HH:MM:SS" for server
+		var timeWithSeconds = time + ':00';
+
+		$.ajax({
+			url: "<?=site_url('students/ajax_check_slot')?>",
+			type: "POST",
+			data: {
+				date: date,
+				time: timeWithSeconds,
+				slot_duration: duration,
+				studentid: currentStudentId
+			},
+			dataType: "json",
+			success: function(response) {
+				if(response.success) {
+					var infoText = 'Duration: ' + duration + ' minutes';
+					$("#slot_capacity_info").text(infoText);
+
+					if(response.available) {
+						$("#slot_status").html('<span class="text-success">This time slot is free</span>');
+						$("#btn_schedule").prop('disabled', false);
+					} else {
+						$("#slot_status").html('<span class="text-danger">Time conflict: another interview overlaps with this slot</span>');
+						$("#btn_schedule").prop('disabled', true);
+					}
+				}
+			},
+			error: function() {
+				console.error("Error checking slot");
+			}
+		});
+	}
+
+	function saveInterviewSchedule() {
+		var date = $("#interview_date").val();
+		var time = $("#interview_time").val(); // "HH:MM"
+		var duration = $("#slot_duration").val();
+
+		if(!date || !time) {
+			alert("Please select both date and time");
+			return false;
+		}
+
+		// Convert "HH:MM" to "HH:MM:SS" for server
+		var timeWithSeconds = time + ':00';
+
+		var url = "<?=site_url('students/interview_schedule')?>";
+
+		var postData = {
+			studentid: currentStudentId,
+			ddate: date,
+			ttime: timeWithSeconds,
+			slot_duration: duration
+		};
+
+		$.ajax({
+			url: url,
+			type: "POST",
+			data: postData,
+			dataType: "json",
+			success: function(response) {
+				console.log('Response:', response);
+				console.log('Response type:', typeof response);
+				var success = (response == 1 || (typeof response === 'object' && response.success));
+				if(success) {
+					alert("Schedule saved successfully!\nRedirecting...");
+					setTimeout(function(){
+						window.location.href = "<?= site_url('students/interview') ?>/" + currentStudentId;
+					}, 500);
+				} else {
+					alert("Time conflict: The selected slot overlaps with an existing interview. Please choose another time.");
+					checkSlotAvailability(date, time);
+				}
+			},
+			error: function(xhr, status, error) {
+				alert("Error saving schedule: " + error + "\nPlease check console for details.");
+				console.error('AJAX Error:', status, error);
+				console.log('Response Text:', xhr.responseText);
+			}
+		});
+	}
+
+	// Initialize on load if we have a schedule
+	$(document).ready(function() {
+		<?php if(isset($current_schedule)): ?>
+			$("#interview_date").val("<?= date('Y-m-d', strtotime($current_schedule->interviewdate)) ?>");
+			// Enable time input since we have a schedule
+			$("#interview_time").prop('disabled', false);
+			var currentTime = "<?= date('H:i', strtotime($current_schedule->interviewtime)) ?>";
+			$("#interview_time").val(currentTime);
+			checkSlotAvailability("<?= $current_schedule->interviewdate ?>", currentTime);
+		<?php endif; ?>
+	});
+
 });
 </script>
 
@@ -33,19 +176,186 @@ $(function(){
 		<h3 class="heading" style="text-align:center;">Admin Interview</h3>
 		<hr>
 		
-		<?php 
+		<?php
 		if($this->session->userdata('current_usertype') == 'Admin'):
 		?>
 		<div class="row">
 			<div class="col-md-12" style="text-align:right;">
-		<a href="<?=site_url("students/interview/".$row->id)?>" class="btn btn-icons btn-secondary btn-rounded"><i class='mdi mdi-refresh'></i></a>	
+		<a href="<?=site_url("students/interview/".$row->id)?>" class="btn btn-icons btn-secondary btn-rounded"><i class='mdi mdi-refresh'></i></a>
 		</div>
 		</div>
 		<?php endif; ?>
-		
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card" style="background-color: #f8f9fa; border-left: 4px solid #257e4a; margin-bottom: 20px;">
+					<div class="card-body">
+						<h4 style="color: #257e4a; margin-top: 0;">Interview Schedule</h4>
+
+		<?php if(isset($current_schedule)):
+			// Get slot duration
+			$slot_duration = $this->register_model->get_slot_duration($row->id, $schoolyear);
+		?>
+		<div class="alert alert-info" style="padding: 10px; margin-bottom: 15px;">
+			Current Schedule: <strong><?= date('F d, Y', strtotime($current_schedule->interviewdate)) ?></strong>
+			at <strong><?= date('h:i A', strtotime($current_schedule->interviewtime)) ?></strong>
+			<span style="margin-left: 10px; font-size: 0.9em;">
+				(<?= $slot_duration ?> min<?= $slot_duration != 1 ? 's' : '' ?>)
+			</span>
+		</div>
+		<?php endif; ?>
+
+						<?php if($this->session->userdata('current_usertype') == 'Admin' || $this->session->userdata('current_usertype') == 'Registrar'): ?>
+						<form id="schedule_form" onsubmit="return false;">
+							<div class="row">
+								<div class="col-md-3">
+									<div class="form-group">
+										<label>Date</label>
+										<input type="date" name="interview_date" id="interview_date"
+										       class="form-control"
+										       min="<?= date('Y-m-d') ?>"
+										       value="<?= isset($current_schedule) ? date('Y-m-d', strtotime($current_schedule->interviewdate)) : '' ?>"
+										       required>
+									</div>
+								</div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label>Time</label>
+									<input type="time" name="interview_time" id="interview_time"
+									       class="form-control"
+									       step="60"
+									       value="<?= isset($current_schedule) ? date('H:i', strtotime($current_schedule->interviewtime)) : '' ?>"
+									       <?= isset($current_schedule) ? '' : 'disabled' ?>
+									       required>
+									<small class="text-muted"></small>
+								</div>
+							</div>
+								<?php if($this->session->userdata('current_usertype') == 'Admin'): ?>
+								<div class="col-md-2">
+									<div class="form-group">
+										<label>Duration</label>
+										<input type="number" name="slot_duration" id="slot_duration"
+										       class="form-control"
+										       min="15" max="120" step="15"
+										       value="<?= isset($current_schedule) ? $this->register_model->get_slot_duration($row->id, $schoolyear) : 30 ?>">
+										<small class="text-muted"></small>
+									</div>
+								</div>
+								<?php endif; ?>
+								<div class="col-md-<?= $this->session->userdata('current_usertype') == 'Admin' ? '4' : '6' ?>">
+									<div class="form-group">
+										<label>&nbsp;</label>
+										<div style="padding-top: 8px;">
+											<button type="button" id="btn_schedule"
+											        class="btn btn-primary">
+												Add New Schedule
+											</button>
+											<?php if(isset($current_schedule)): ?>
+											<a href="<?=site_url("students/remove_interview_schedule/".$row->id)?>"
+											   class="btn btn-danger"
+											   onclick="return confirm('Remove this interview schedule?')">
+												Remove
+											</a>
+											<?php endif; ?>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div id="slot_status" style="margin-top: 10px; font-weight: bold;"></div>
+									<div id="slot_capacity_info" style="margin-top: 5px; color: #666;"></div>
+								</div>
+							</div>
+							<input type="hidden" name="studentid" value="<?= $row->id ?>">
+						</form>
+						<?php endif; ?>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card" style="background-color: #f8f9fa; border-left: 4px solid #257e4a; margin-bottom: 20px;">
+					<div class="card-body">
+						<p class="card-description text-info">TO BEGIN PACE WORK: /Ordered PACEs</p>
+						<div class="form-group row">
+							<label class="col-sm-3 col-form-label">Math #</label>
+							<div class="col-sm-3">
+								<input type="text" id="math_begin" name="math_begin" value="" placeholder="Begin" class="form-control">
+							</div><div class="col-sm-3">
+								<input type="text" id="math_end" name="math_end" value="" placeholder="End" class="form-control">
+							</div><div class="col-sm-3">
+								<input type="text" id="math_gaps" name="math_gaps" value="" placeholder="Gaps" class="form-control">
+							</div>
+						</div><div class="form-group row">
+							<label class="col-sm-3 col-form-label">English #</label>
+							<div class="col-sm-3">
+								<input type="text" id="eng_begin" name="eng_begin" value="" placeholder="Begin" class="form-control">
+							</div><div class="col-sm-3">
+								<input type="text" id="eng_end" name="eng_end" value="" placeholder="End" class="form-control">
+							</div><div class="col-sm-3">
+								<input type="text" id="eng_gaps" name="eng_gaps" value="" placeholder="Gaps" class="form-control">
+							</div>
+						</div><div class="form-group row">
+							<label class="col-sm-3 col-form-label">Science #</label>
+							<div class="col-sm-3">
+								<input type="text" id="science_begin" name="science_begin" value="" placeholder="Begin" class="form-control">
+							</div><div class="col-sm-3">
+								<input type="text" id="science_end" name="science_end" value="" placeholder="End" class="form-control">
+							</div><div class="col-sm-3">
+								<input type="text" id="science_gaps" name="science_gaps" value="" placeholder="Gaps" class="form-control">
+							</div>
+						</div><div class="form-group row">
+							<label class="col-sm-3 col-form-label">Soc. Studies #</label>
+							<div class="col-sm-3">
+								<input type="text" id="sstudies_begin" name="sstudies_begin" value="" placeholder="Begin" class="form-control">
+							</div><div class="col-sm-3">
+								<input type="text" id="sstudies_end" name="sstudies_end" value="" placeholder="End" class="form-control">
+							</div><div class="col-sm-3">
+								<input type="text" id="sstudies_gaps" name="sstudies_gaps" value="" placeholder="Gaps" class="form-control">
+							</div>
+						</div><div class="form-group row">
+							<label class="col-sm-3 col-form-label">Word Building #</label>
+							<div class="col-sm-3">
+								<input type="text" id="wbuilding_begin" name="wbuilding_begin" value="" placeholder="Begin" class="form-control">
+							</div><div class="col-sm-3">
+								<input type="text" id="wbuilding_end" name="wbuilding_end" value="" placeholder="End" class="form-control">
+							</div><div class="col-sm-3">
+								<input type="text" id="wbuilding_gaps" name="wbuilding_gaps" value="" placeholder="Gaps" class="form-control">
+							</div>
+						</div><div class="form-group row">
+							<label class="col-sm-3 col-form-label">Literature #</label>
+							<div class="col-sm-3">
+								<input type="text" id="literature_begin" name="literature_begin" value="" placeholder="Begin" class="form-control">
+							</div><div class="col-sm-3">
+								<input type="text" id="literature_end" name="literature_end" value="" placeholder="End" class="form-control">
+							</div>
+						</div><div class="form-group row">
+							<label class="col-sm-3 col-form-label">Filipino #</label>
+							<div class="col-sm-3">
+								<input type="text" id="filipino_begin" name="filipino_begin" value="" placeholder="Begin" class="form-control">
+							</div><div class="col-sm-3">
+								<input type="text" id="filipino_end" name="filipino_end" value="" placeholder="End" class="form-control">
+							</div>
+						</div><div class="form-group row">
+							<label class="col-sm-3 col-form-label">A.P. #</label>
+							<div class="col-sm-3">
+								<input type="text" id="ap_begin" name="ap_begin" value="" placeholder="Begin" class="form-control">
+							</div><div class="col-sm-3">
+								<input type="text" id="ap_end" name="ap_end" value="" placeholder="End" class="form-control">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<p class="card-description text-info"> Check all that apply! </p>
 		
-		<form action="<?=site_url("students/interview_submit/".$row->id)?>" method="post">
+		<form id="admin_interview_form" action="<?=site_url("students/interview_submit/".$row->id)?>" method="post">
 		
 		<div class="row">
 			<div class="col-md-12">

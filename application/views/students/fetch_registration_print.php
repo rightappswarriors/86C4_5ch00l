@@ -55,18 +55,20 @@ if (is_array($student_data)) {
         body{font-family:Arial,sans-serif;background:#fff;padding:20px}
         .sheet{width:8.5in;min-height:11in;background:#fff;margin:0 auto;padding:0.5in}
         
-        /* School Header */
-        .school-header{display:flex;align-items:center;margin-bottom:20px;border-bottom:2px solid #1e40af;padding-bottom:10px}
-        .school-logo{width:55px;height:55px;margin-right:12px;background:#1e40af;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px}
-        .school-info h1{font-size:13px;font-weight:700;color:#1e40af;margin-bottom:2px}
-        .school-info p{font-size:8px;color:#555;line-height:1.3}
+         /* School Header */
+         .school-header{display:flex;align-items:center;margin-bottom:20px;border-bottom:2px solid #1e40af;padding-bottom:10px}
+         .school-logo{width:55px;height:55px;margin-right:12px}
+         .school-logo img{width:100%;height:auto;border-radius:50%}
+         .school-info h1{font-size:13px;font-weight:700;color:#1e40af;margin-bottom:2px}
+         .school-info p{font-size:8px;color:#555;line-height:1.3}
         
-        /* Main ID Card */
-        .id-card{border:3px solid #1e40af;padding:15px;margin-bottom:25px;page-break-inside:avoid}
-        .card-header{display:flex;align-items:center;border-bottom:2px solid #1e40af;padding-bottom:8px;margin-bottom:12px}
-        .card-logo{width:40px;height:40px;margin-right:10px;background:#1e40af;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700}
-        .card-school h2{font-size:11px;font-weight:700;color:#1e40af;margin-bottom:1px}
-        .card-school p{font-size:7px;color:#666}
+         /* Main ID Card */
+         .id-card{border:3px solid #1e40af;padding:15px;margin-bottom:25px;page-break-inside:avoid}
+         .card-header{display:flex;align-items:center;border-bottom:2px solid #1e40af;padding-bottom:8px;margin-bottom:12px}
+         .card-logo{width:40px;height:40px;margin-right:10px}
+         .card-logo img{width:100%;height:auto;border-radius:50%}
+         .card-school h2{font-size:11px;font-weight:700;color:#1e40af;margin-bottom:1px}
+         .card-school p{font-size:7px;color:#666}
         .card-title{text-align:center;font-size:18px;font-weight:700;color:#1e40af;margin:8px 0 12px;text-decoration:underline;text-transform:uppercase}
         
         .photo-boxes{display:flex;justify-content:space-around;margin-bottom:12px}
@@ -109,7 +111,9 @@ if (is_array($student_data)) {
         
         <!-- School Header -->
         <div class="school-header">
-            <div class="school-logo">BHC</div>
+            <div class="school-logo">
+                <img src="<?=base_url()?>assets/images/logo_portal.png" alt="School Logo">
+            </div>
             <div class="school-info">
                 <h1>CEBU BOB HUGHES CHRISTIAN ACADEMY, INC.</h1>
                 <p>a Ministry of Cebu Bible Baptist Church, Inc.<br>
@@ -121,7 +125,9 @@ if (is_array($student_data)) {
         <!-- ========== MAIN ID CARD ========== -->
         <div class="id-card">
             <div class="card-header">
-                <div class="card-logo">BHC</div>
+                <div class="card-logo">
+                    <img src="<?=base_url()?>assets/images/logo_portal.png" alt="School Logo">
+                </div>
                 <div class="card-school">
                     <h2>CEBU BOB HUGHES CHRISTIAN ACADEMY INC.</h2>
                     <p>55 Katipunan St. Brgy. Calamba Cebu City, 6000 Philippines</p>

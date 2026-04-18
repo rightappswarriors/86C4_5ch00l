@@ -50,6 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 $route['default_controller'] = 'login';
+$route['interviews/ajax_get_by_date'] = 'Interviews/ajax_get_by_date';
 $route['academics'] = 'academics/index';
 $route['academics/gradebook'] = 'gradebook/index';
 $route['classroom'] = 'classroom/teacher_index';

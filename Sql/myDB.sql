@@ -2534,6 +2534,7 @@ CREATE TABLE `interviewsched` (
   `schoolyear` int(11) NOT NULL,
   `interviewdate` date NOT NULL,
   `interviewtime` time NOT NULL,
+  `slot_duration` int(11) NOT NULL DEFAULT 30 COMMENT 'Interview slot duration in minutes',
   `submitted` datetime NOT NULL,
   `status` smallint(6) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

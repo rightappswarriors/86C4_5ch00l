@@ -74,53 +74,86 @@ class Register_model extends CI_Model
 	}
 	
 	function interview_schedule($data){
-		
-		//check if already taken
+
 		$itime = $data['interviewtime'];
 		$idate = $data['interviewdate'];
 		$sy = $data['schoolyear'];
-		$qry = "select * from interviewsched where schoolyear = '$sy' 
-		and interviewtime = '$itime' and interviewdate = '$idate' and status = 1";
-		$query = $this->db->query( $qry );
-		
-		if( $query->num_rows()>1 ){
-			
-			return 0;
-			
-		}else{
-			
+		$slot_duration = isset($data['slot_duration']) ? (int)$data['slot_duration'] : 30; // default 30 minutes
+
+		// New booking window
+		$new_start = $idate . ' ' . $itime;
+		$new_end_ts = strtotime($new_start) + ($slot_duration * 60);
+		$new_end = date('Y-m-d H:i:s', $new_end_ts);
+
+		// Check for conflicts: existing_start < new_end AND existing_end > new_start
+		$sql = "SELECT COUNT(*) as count FROM interviewsched
+				WHERE schoolyear = ?
+				AND interviewdate = ?
+				AND status = 1
+				AND (
+					STR_TO_DATE(CONCAT(interviewdate,' ',interviewtime), '%Y-%m-%d %H:%i:%s') < ?
+					AND DATE_ADD(STR_TO_DATE(CONCAT(interviewdate,' ',interviewtime), '%Y-%m-%d %H:%i:%s'), INTERVAL slot_duration MINUTE) > ?
+				)";
+
+		$count_qry = $this->db->query($sql, array($sy, $idate, $new_end, $new_start));
+		$conflicts = $count_qry->num_rows() > 0 ? (int)$count_qry->row()->count : 0;
+
+		if($conflicts > 0) {
+			return 0; // Time conflict detected
+		} else {
+			$data['slot_duration'] = $slot_duration;
 			$this->db->insert('interviewsched', $data);
 			return 1;
-			
-		}
-		
 	}
+
+
+	}
+
     
-    function interview_schedule_update($data,$studentid,$schoolyear){
-		
-		//check if already taken
+    function interview_schedule_update($data, $studentid, $schoolyear) {
+
 		$itime = $data['interviewtime'];
 		$idate = $data['interviewdate'];
-		$qry = "select * from interviewsched where schoolyear = '$schoolyear' 
-		and interviewtime = '$itime' and interviewdate = '$idate' and status = 1";
-		$query = $this->db->query( $qry );
-		
-		if( $query->num_rows()>1 ){
-			
-			return 0;
-			
-		}else{
-			
-            $this->db->where("studentid",$studentid);
-            $this->db->where("schoolyear",$schoolyear);
-            $this->db->limit(1);
-			$this->db->update('interviewsched', $data);
-			return 1;
-			
+		$slot_duration = isset($data['slot_duration']) ? (int)$data['slot_duration'] : 30;
+
+		// Check time conflicts (excluding this student's existing booking)
+		$start = $idate . ' ' . $itime;
+		$end_ts = strtotime($start) + ($slot_duration * 60);
+		$end = date('Y-m-d H:i:s', $end_ts);
+
+		$sql = "SELECT COUNT(*) as count FROM interviewsched
+				WHERE schoolyear = ?
+				AND interviewdate = ?
+				AND status = 1
+				AND studentid != ?
+				AND (
+					STR_TO_DATE(CONCAT(interviewdate,' ',interviewtime), '%Y-%m-%d %H:%i:%s') < ?
+					AND DATE_ADD(STR_TO_DATE(CONCAT(interviewdate,' ',interviewtime), '%Y-%m-%d %H:%i:%s'), INTERVAL slot_duration MINUTE) > ?
+				)";
+
+		$count_qry = $this->db->query($sql, array($schoolyear, $idate, $studentid, $end, $start));
+		$conflicts = $count_qry->num_rows() > 0 ? (int)$count_qry->row()->count : 0;
+
+		if($conflicts > 0) {
+			return 0; // Time conflict detected
 		}
-		
+
+		// Update
+		$update_data = array(
+			'interviewdate' => $idate,
+			'interviewtime' => $itime,
+			'slot_duration' => $slot_duration
+		);
+
+		$this->db->where('studentid', $studentid);
+		$this->db->where('schoolyear', $schoolyear);
+		$this->db->limit(1);
+		$this->db->update('interviewsched', $update_data);
+
+		return 1;
+
 	}
-	
+
 	function get_interview_schedule($studentid,$schoolyear){
 		
 		$qry = "select * from interviewsched where schoolyear = '$schoolyear' 
@@ -149,13 +182,141 @@ class Register_model extends CI_Model
 	}
 	
 	function get_schedulesfor_interview(){
-		
-		$query = "select a.*,b.* from students a 
-		join interviewsched b on b.studentid = a.id 
-		left join register c on c.id = a.user_id 
+
+		$query = "select a.*,b.* from students a
+		join interviewsched b on b.studentid = a.id
+		left join register c on c.id = a.user_id
 		where b.status = 1 and b.schoolyear = " . $this->session->userdata('current_schoolyearid') . " order by b.id asc ";
 		return $this->db->query($query);
-		
+
+	}
+
+	/**
+	 * Check if a specific time slot is available (no conflicts)
+	 * @param string $date - Y-m-d
+	 * @param string $time - H:i:s
+	 * @param int $duration - duration in minutes
+	 * @param int $exclude_studentid - optional student to exclude from check (for updates)
+	 * @param int $schoolyear
+	 * @return bool - true if available
+	 */
+	function is_slot_available($date, $time, $duration, $exclude_studentid = null, $schoolyear = null) {
+		if($schoolyear === null) {
+			$schoolyear = $this->session->userdata('current_schoolyearid');
+		}
+
+		$start = $date . ' ' . $time;
+		$end_ts = strtotime($start) + ($duration * 60);
+		$end = date('Y-m-d H:i:s', $end_ts);
+
+		$sql = "SELECT COUNT(*) as count FROM interviewsched
+				WHERE schoolyear = ?
+				AND interviewdate = ?
+				AND status = 1
+				AND (
+					STR_TO_DATE(CONCAT(interviewdate,' ',interviewtime), '%Y-%m-%d %H:%i:%s') < ?
+					AND DATE_ADD(STR_TO_DATE(CONCAT(interviewdate,' ',interviewtime), '%Y-%m-%d %H:%i:%s'), INTERVAL slot_duration MINUTE) > ?
+				)";
+
+		$params = array($schoolyear, $date, $end, $start);
+		if($exclude_studentid) {
+			$sql .= " AND studentid != ?";
+			$params[] = $exclude_studentid;
+		}
+
+		$qry = $this->db->query($sql, $params);
+		$count = $qry->num_rows() > 0 ? (int)$qry->row()->count : 0;
+		return ($count == 0);
+	}
+
+	/**
+	 * Get slot duration for a student's existing booking
+	 * @param int $studentid
+	 * @param int $schoolyear
+	 * @return int duration in minutes
+	 */
+	function get_slot_duration($studentid, $schoolyear) {
+		$qry = $this->db->query("SELECT slot_duration FROM interviewsched WHERE studentid = ? AND schoolyear = ? AND status = 1 LIMIT 1", array($studentid, $schoolyear));
+		if($qry->num_rows() > 0) {
+			return (int)$qry->row()->slot_duration;
+		}
+		return 30; // default
+	}
+
+	/**
+	 * Get all booked time ranges for a date (to display occupied blocks)
+	 * @param string $date
+	 * @param int $schoolyear
+	 * @return array of objects with start_dt, end_dt, student name
+	 */
+	function get_booked_slots($date, $schoolyear = null) {
+		if($schoolyear === null) {
+			$schoolyear = $this->session->userdata('current_schoolyearid');
+		}
+
+		$query = $this->db->query("
+			SELECT i.*, s.firstname, s.lastname,
+			       STR_TO_DATE(CONCAT(i.interviewdate,' ',i.interviewtime), '%Y-%m-%d %H:%i:%s') as start_dt,
+			       DATE_ADD(STR_TO_DATE(CONCAT(i.interviewdate,' ',i.interviewtime), '%Y-%m-%d %H:%i:%s'), INTERVAL i.slot_duration MINUTE) as end_dt
+			FROM interviewsched i
+			JOIN students s ON s.id = i.studentid
+			WHERE i.schoolyear = ? AND i.interviewdate = ? AND i.status = 1
+			ORDER BY i.interviewtime ASC
+		", array($schoolyear, $date));
+
+		return $query->result();
+	}
+
+	/**
+	 * Get status of all standard time slots for a date
+	 * @param string $date
+	 * @param int $schoolyear
+	 * @return array of slots with 'time', 'label', 'available' => bool
+	 */
+	function get_time_slots_status($date, $schoolyear = null) {
+		if($schoolyear === null) {
+			$schoolyear = $this->session->userdata('current_schoolyearid');
+		}
+
+		$standard_slots = array(
+			'08:00:00' => '8:00 AM',
+			'09:00:00' => '9:00 AM',
+			'10:00:00' => '10:00 AM',
+			'11:00:00' => '11:00 AM',
+			'13:00:00' => '1:00 PM',
+			'14:00:00' => '2:00 PM',
+			'15:00:00' => '3:00 PM',
+			'16:00:00' => '4:00 PM'
+		);
+
+		$booked = $this->get_booked_slots($date, $schoolyear);
+
+		$result = array();
+		foreach($standard_slots as $time_val => $label) {
+			$slot_start = strtotime($date . ' ' . $time_val);
+			$slot_end = $slot_start + (30 * 60); // assume 30 min default for check, but actual bookings have varying durations
+
+			// For each slot, check if any booked interval overlaps.
+			// We need to consider each booking's actual duration.
+			$is_available = true;
+			foreach($booked as $booking) {
+				$book_start = strtotime($booking->start_dt);
+				$book_end = strtotime($booking->end_dt);
+				// Overlap if slot_start < book_end AND slot_end > book_start
+				if(($slot_start < $book_end) && ($slot_end > $book_start)) {
+					$is_available = false;
+					break;
+				}
+			}
+
+			$result[] = array(
+				'time' => $time_val,
+				'label' => $label,
+				'available' => $is_available
+			);
+		}
+
+		return $result;
 	}
 
 }

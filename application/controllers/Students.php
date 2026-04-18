@@ -118,20 +118,39 @@ class Students extends CI_Controller {
 	{
 		$id = $this->uri->segment(3);
 		$record = $this->students_model->get_fetcher_registration($id);
-		
+
 		if (!$record) {
 			show_404();
 		}
-		
+
 		$data = array(
 			'title'     =>   "Fetcher's ID Application",
-			'template'   =>   'students/fetch_registration_print',
 			'record' => $record
 		);
-		
+
+		$this->load->view('students/fetch_registration_print', $data);
+	}
+
+	public function fetcher_info()
+	{
+		// Restrict access to specific roles only
+		$allowed_roles = ['Admin', 'Accounting', 'Registrar', 'Principal'];
+		$user_role = $this->session->userdata('current_usertype');
+
+		if (!in_array($user_role, $allowed_roles)) {
+			show_error('Unauthorized Access', 403);
+			return;
+		}
+
+		$data = array(
+			'title'     => "Fetcher Information",
+			'template'  => 'students/fetcher_info',
+			'query' => $this->students_model->fetcher_registration_list()
+		);
+
 		$this->load->view('template', $data);
 	}
-	
+
 	public function newold()
 	{
 		$data = array(
@@ -487,8 +506,8 @@ class Students extends CI_Controller {
 			'profile_pic' => $this->students_model->profile_pic( $studentid )
 		);
 		$this->load->view('template_print', $data);		
-	}
-
+}
+	
 	public function assessment_print(){
 		
 		$studentid = $this->uri->segment(3);
@@ -502,11 +521,64 @@ class Students extends CI_Controller {
 			'default_ass' => $this->payments_model->default_assessment()
 		);
 		
-		$this->load->view('students/assessment_print', $data);
+$this->load->view('students/assessment_print', $data);
+	}
+	
+	public function assessment_paces(){
+		
+		$studentid = $this->uri->segment(3);
+		$enroll_id = $this->students_model->enroll_info($studentid);
+		
+		$data = array(
+			'title'     =>   'STUDENTS // Assessment PACEs',
+			'template'   =>   'students/assessment_paces',
+			'profile_pic' => $this->students_model->profile_pic( $studentid ),
+			'query' => $this->students_model->search_student_info( $studentid ),
+			'query_ass' => $this->students_model->assessment_check( $enroll_id )
+		);
+		
+		$this->load->view('template', $data);	
+	}
+	
+	public function assessment_paces_submit(){
+		
+		$studentid = $this->uri->segment(3);
+		$as_id = $this->input->post('as_id');
+		
+		$math = $this->input->post('math_begin').','.$this->input->post('math_end').','.$this->input->post('math_gaps');
+		$english = $this->input->post('eng_begin').','.$this->input->post('eng_end').','.$this->input->post('eng_gaps');
+		$science = $this->input->post('science_begin').','.$this->input->post('science_end').','.$this->input->post('science_gaps');
+		$socstudies = $this->input->post('sstudies_begin').','.$this->input->post('sstudies_end').','.$this->input->post('sstudies_gaps');
+		$wordbuilding = $this->input->post('wbuilding_begin').','.$this->input->post('wbuilding_end').','.$this->input->post('wbuilding_gaps');
+		$literature = $this->input->post('literature_begin').','.$this->input->post('literature_end');
+		$filipino = $this->input->post('filipino_begin').','.$this->input->post('filipino_end');
+		$ap = $this->input->post('ap_begin').','.$this->input->post('ap_end');
+		
+		$pace_data = array(
+			'math' => $math,
+			'english' => $english,
+			'science' => $science,
+			'socstudies' => $socstudies,
+			'wordbuilding' => $wordbuilding,
+			'literature' => $literature,
+			'filipino' => $filipino,
+			'ap' => $ap,
+			'lastupdate' => date("Y-m-d H:i:s")
+		);
+		
+		if($as_id > 0){
+			$this->db->where('id', $as_id);
+			$this->db->update('assessment', $pace_data);
+		}
+		
+		$this->session->set_flashdata('message', 'PACEs Updated Successfully!');
+		redirect('students/assessment_paces/'.$studentid);
 	}
 	
 	public function enrollment_receipt()
 	{
+		$studentid = $this->uri->segment(3);
+		$query = $this->students_model->search_student_info($studentid);
 		$studentid = $this->uri->segment(3);
 		$query = $this->students_model->search_student_info($studentid);
 		
@@ -576,39 +648,15 @@ class Students extends CI_Controller {
 		foreach($this->input->post('msclns') as $msclns){
 			$msclns_val .= $msclns . ",";
 		}
-		$math = $this->input->post("math_begin").",".$this->input->post("math_end").",".$this->input->post("math_gaps");
-		$english = $this->input->post("eng_begin").",".$this->input->post("eng_end").",".$this->input->post("eng_gaps");
-		$science = $this->input->post("science_begin").",".$this->input->post("science_end").",".$this->input->post("science_gaps");
-		$socstudies = $this->input->post("sstudies_begin").",".$this->input->post("sstudies_end").",".$this->input->post("sstudies_gaps");
-		$wordbuilding = $this->input->post("wbuilding_begin").",".$this->input->post("wbuilding_end").",".$this->input->post("wbuilding_gaps");
-		
-		$literature = $this->input->post("literature_begin").",".$this->input->post("literature_end").",".$this->input->post("literature_gaps");
-		$filipino = $this->input->post("filipino_begin").",".$this->input->post("filipino_end").",".$this->input->post("filipino_gaps");
-		$afilipino = $this->input->post("afilipino_begin").",".$this->input->post("afilipino_end").",".$this->input->post("afilipino_gaps");
-		$ap = $this->input->post("ap_begin").",".$this->input->post("ap_end").",".$this->input->post("ap_gaps");
 		
 		$data = array(
 			'incidentals' => $indntals_val,
 			'miscellaneous' => $msclns_val,
-			//'prepaidpaces' => $this->input->post('prepaidpaces'),
-			//'balancepaces' => $this->input->post('balancepaces'),
 			'oldaccount' => $this->input->post('oldaccount'),
 			'tuition' => $this->input->post('tuition'),
-			//'scholarship' => $this->input->post('scholarship'),
-			//'preenrollment' => $this->input->post('preenrollment'),
-			//'fullpayment' => $this->input->post('fullpayment'),
 			'registration' => $this->input->post('registration'),
 			'payment' => $this->input->post('paymentenroll'),
 			'asstotal' => $this->input->post('asstotal_hidden'),
-			'math' => $math,
-			'english' => $english,
-			'science' => $science,
-			'socstudies' => $socstudies,
-			'wordbuilding' => $wordbuilding,
-			'literature' => $literature,
-			'filipino' => $filipino,
-			'afilipino' => $afilipino,
-			'ap' => $ap,
 			'lastupdate'  => date("Y-m-d H:i:s")
 		);
 		
@@ -1203,81 +1251,176 @@ class Students extends CI_Controller {
 	}
 	
 	public function interview_schedule(){
-		
+
 		$studentid = $this->input->post("studentid");
 		$sdate = $this->input->post("ddate");
 		$stime = $this->input->post("ttime");
+		$slot_duration = $this->input->post("slot_duration");
 		$schoolyear = $this->session->userdata('current_schoolyearid');
-		
+
+		// Deactivate any existing active schedule for this student (preserve history)
+		$this->db->where('studentid', $studentid);
+		$this->db->where('schoolyear', $schoolyear);
+		$this->db->where('status', 1);
+		$this->db->update('interviewsched', array('status' => 0));
+
 		$data = array(
 			'studentid'		=> $studentid,
 			'schoolyear'	=> $schoolyear,
 			'interviewdate'	=> $sdate,
 			'interviewtime' => $stime,
+			'slot_duration'	=> $slot_duration ? (int)$slot_duration : 30,
 			'submitted' 	=> date("Y-m-d h:i:s")
 		);
-		
-		echo $this->register_model->interview_schedule($data);
-		
+
+		$result = $this->register_model->interview_schedule($data);
+		echo json_encode(array('success' => $result == 1));
+
 	}
     
     public function interview_schedule_update(){
-		
+
 		$studentid = $this->input->post("studentid");
 		$sdate = $this->input->post("ddate");
 		$stime = $this->input->post("ttime");
+		$slot_duration = $this->input->post("slot_duration");
 		$schoolyear = $this->session->userdata('current_schoolyearid');
-		
+
 		$data = array(
-			//'studentid'		=> $studentid,
-			//'schoolyear'	=> $schoolyear,
 			'interviewdate'	=> $sdate,
-			'interviewtime' => $stime,
-			//'submitted' 	=> date("Y-m-d h:i:s")
+			'interviewtime' => $stime
 		);
-		
-		echo $this->register_model->interview_schedule_update($data,$studentid,$schoolyear);
-		
+		// Only update duration if explicitly provided
+		if (!empty($slot_duration)) {
+			$data['slot_duration'] = (int)$slot_duration;
+		}
+
+		$result = $this->register_model->interview_schedule_update($data,$studentid,$schoolyear);
+		echo json_encode(array('success' => $result == 1));
+
 	}
 	
 	public function get_interview_schedule(){
-		
+
 		$studentid = $this->input->post("studentid");
 		$schoolyear = $this->session->userdata('current_schoolyearid');
-		
+
 		echo $this->register_model->get_interview_schedule($studentid,$schoolyear);
-		
+
 	}
+
+	/**
+	 * AJAX endpoint to get available slots for a date
+	 * Returns JSON: {success: true, slots: [{time, label, available, capacity, booked, is_full}]}
+	 */
+	public function ajax_get_available_slots() {
+		$date = $this->input->post('date');
+		$schoolyear = $this->session->userdata('current_schoolyearid');
+
+		if(empty($date)) {
+			echo json_encode(array('success' => false, 'message' => 'Date is required'));
+			return;
+		}
+
+		$slots = $this->register_model->get_available_timeslots($date, $schoolyear);
+		echo json_encode(array('success' => true, 'slots' => $slots));
+	}
+
+	/**
+	 * AJAX endpoint to check if a specific time slot is available
+	 * Considers interview duration for overlap detection
+	 */
+	public function ajax_check_slot() {
+		$date = $this->input->post('date');
+		$time = $this->input->post('time');
+		$slot_duration = $this->input->post('slot_duration') ? (int)$this->input->post('slot_duration') : 30;
+		$studentid = $this->input->post('studentid'); // exclude self when updating
+		$schoolyear = $this->session->userdata('current_schoolyearid');
+
+		if(empty($date) || empty($time)) {
+			echo json_encode(array('success' => false, 'message' => 'Date and time required'));
+			return;
+		}
+
+		// Compute requested time window
+		$start = $date . ' ' . $time;
+		$end_ts = strtotime($start) + ($slot_duration * 60);
+		$end = date('Y-m-d H:i:s', $end_ts);
+
+		// Check for any overlapping bookings
+		$sql = "SELECT COUNT(*) as count FROM interviewsched
+				WHERE schoolyear = ?
+				AND interviewdate = ?
+				AND status = 1
+				AND (
+					STR_TO_DATE(CONCAT(interviewdate,' ',interviewtime), '%Y-%m-%d %H:%i:%s') < ?
+					AND DATE_ADD(STR_TO_DATE(CONCAT(interviewdate,' ',interviewtime), '%Y-%m-%d %H:%i:%s'), INTERVAL slot_duration MINUTE) > ?
+				)";
+
+		$params = array($schoolyear, $date, $end, $start);
+		if(!empty($studentid)) {
+			$sql .= " AND studentid != ?";
+			$params[] = $studentid;
+		}
+
+		$qry = $this->db->query($sql, $params);
+		$conflicts = $qry->num_rows() > 0 ? (int)$qry->row()->count : 0;
+
+		$available = ($conflicts == 0);
+
+		echo json_encode(array(
+			'success' => true,
+			'available' => $available,
+			'conflicts' => $conflicts,
+			'duration' => $slot_duration
+		));
+	}
+
 	
 	function interview_submit()
 	{
-		
+
 		$this->form_validation->set_rules('interview[]', 'Options', 'required');
 		$this->form_validation->set_error_delimiters('<div class="text-danger" style="margin-bottom:10px;">', '</div>');
-		
+
 		$interviews = array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-		
+
 		if($this->form_validation->run())
 		{
-			
+
 			foreach($this->input->post('interview') as $interview){
 				$interviews[$interview-1] = 1;
 			}
-			
+
 			$intval = "";
 			foreach($interviews as $key => $int){
 				$intval .= $key<19?$int.",":$int;
 			}
 			$id = $this->uri->segment(3);
 			$this->students_model->update_interview($intval,$id);
-			
+
 		}else{
-			
-		}	
-		
+
+		}
+
 		$this->session->set_flashdata('message', "Successfully updated!");
 		redirect("students/interview/".$this->uri->segment(3));
-		
-	}
 
 	}
+
+	/**
+	 * Remove interview schedule for a student
+	 */
+	public function remove_interview_schedule($studentid) {
+		$schoolyear = $this->session->userdata('current_schoolyearid');
+		// Soft delete: set status = 0 instead of hard delete
+		$this->db->where('studentid', $studentid);
+		$this->db->where('schoolyear', $schoolyear);
+		$this->db->where('status', 1);
+		$this->db->update('interviewsched', array('status' => 0));
+
+		$this->session->set_flashdata('message', "Interview schedule removed!");
+		redirect("students/interview/".$studentid);
+	}
+
+}
