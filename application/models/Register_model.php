@@ -1,6 +1,91 @@
 <?php
 class Register_model extends CI_Model
 {
+	/**
+	 * [Team Note - 2026-04-20]
+	 * Get pre-enrollment applicants for interview scheduling
+	 * @param int $schoolyear - School year
+	 * @return array - List of pre-enrollment applicants
+	 */
+	function get_preenroll_applicants($schoolyear = null)
+	{
+		if ($schoolyear === null) {
+			$schoolyear = $this->session->userdata('current_schoolyearid');
+			if (!$schoolyear) {
+				$schoolyear = date('Y');
+			}
+		}
+		
+		$query = $this->db->query("
+			SELECT DISTINCT 
+				s.id as studentid,
+				s.firstname,
+				s.middlename,
+				s.lastname,
+				p.gradelevel as grade,
+				p.dateadded,
+				p.status as pre_status
+			FROM preenrollstudents p
+			JOIN students s ON s.id = p.studentid
+			WHERE p.schoolyear = ? AND p.status = 1
+			ORDER BY p.dateadded DESC
+		", array($schoolyear));
+		
+		return $query->result();
+	}
+	
+	/**
+	 * [Team Note - 2026-04-20]
+	 * Schedule interview for pre-enrollment applicant
+	 * @param int $studentid - Student ID
+	 * @param string $date - Interview date
+	 * @param string $time - Interview time
+	 * @param int $duration - Slot duration in minutes
+	 * @param int $schoolyear - School year
+	 * @return bool - Success or failure
+	 */
+	function schedule_preenroll_interview($studentid, $date, $time, $duration = 30, $schoolyear = null)
+	{
+		if ($schoolyear === null) {
+			$schoolyear = $this->session->userdata('current_schoolyearid');
+			if (!$schoolyear) {
+				$schoolyear = date('Y');
+			}
+		}
+		
+		// Check if student already has scheduled interview
+		$this->db->where('studentid', $studentid);
+		$this->db->where('schoolyear', $schoolyear);
+		$this->db->where('status', 1);
+		$existing = $this->db->get('interviewsched');
+		
+		if ($existing->num_rows() > 0) {
+			// Update existing schedule
+			$this->db->where('studentid', $studentid);
+			$this->db->where('schoolyear', $schoolyear);
+			$this->db->where('status', 1);
+			$data = array(
+				'interviewdate' => $date,
+				'interviewtime' => $time,
+				'slot_duration' => $duration,
+				'submitted' => date('Y-m-d H:i:s')
+			);
+			return $this->db->update('interviewsched', $data);
+		} else {
+			// Insert new schedule
+			$data = array(
+				'studentid' => $studentid,
+				'schoolyear' => $schoolyear,
+				'interviewdate' => $date,
+				'interviewtime' => $time,
+				'slot_duration' => $duration,
+				'status' => 1,
+				'submitted' => date('Y-m-d H:i:s')
+			);
+			return $this->db->insert('interviewsched', $data);
+		}
+	}
+	
 	function insert($data)
 	{
 		$this->db->insert('register', $data);
@@ -104,11 +189,11 @@ class Register_model extends CI_Model
 			$data['slot_duration'] = $slot_duration;
 			$this->db->insert('interviewsched', $data);
 			return 1;
-	}
+		}
 
 
 	}
-
+	
     
     function interview_schedule_update($data, $studentid, $schoolyear) {
 
@@ -168,7 +253,7 @@ class Register_model extends CI_Model
             return date("Y-m-d@H:00:00",strtotime($row->interviewdate." ".$row->interviewtime));
             
             else:
-            
+			
 			return date("F d,Y l @h:i A",strtotime($row->interviewdate." ".$row->interviewtime));
 			
             endif;
@@ -319,6 +404,51 @@ class Register_model extends CI_Model
 		return $result;
 	}
 
-}
+	function get_available_timeslots($date, $schoolyear = null) {
+		if($schoolyear === null) {
+			$schoolyear = $this->session->userdata('current_schoolyearid');
+		}
+		
+		$standard_slots = array(
+			'08:00:00' => '8:00 AM',
+			'09:00:00' => '9:00 AM',
+			'10:00:00' => '10:00 AM',
+			'11:00:00' => '11:00 AM',
+			'13:00:00' => '1:00 PM',
+			'14:00:00' => '2:00 PM',
+			'15:00:00' => '3:00 PM',
+			'16:00:00' => '4:00 PM'
+		);
+		
+		$booked = $this->get_booked_slots($date, $schoolyear);
+		
+		$result = array();
+		foreach($standard_slots as $time_val => $label) {
+			$slot_start = strtotime($date . ' ' . $time_val);
+			$slot_end = $slot_start + (30 * 60);
+			
+			$is_booked = false;
+			foreach($booked as $booking) {
+				$book_start = strtotime($booking->start_dt);
+				$book_end = strtotime($booking->end_dt);
+				if(($slot_start < $book_end) && ($slot_end > $book_start)) {
+					$is_booked = true;
+					break;
+				}
+			}
+			
+			$result[] = array(
+				'time' => $time_val,
+				'label' => $label,
+				'available' => !$is_booked,
+				'capacity' => 1,
+				'booked' => $is_booked ? 1 : 0,
+				'is_full' => $is_booked
+			);
+		}
+		
+		return $result;
+	}
 
+}
 ?>

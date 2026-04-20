@@ -112,4 +112,67 @@ class Interviews extends CI_Controller {
 		exit;
 	}
 	
+	/**
+	 * [Team Note - 2026-04-20]
+	 * Show pre-enrollment applicants for interview scheduling
+	 */
+	public function applicants()
+	{
+		if (!$this->session->userdata('logged_in')) {
+			$this->session->set_flashdata('message', "You need to be logged in to access the page.");
+			redirect("login");
+		}
+		
+		$schoolyear = $this->session->userdata('current_schoolyearid');
+		if (!$schoolyear) {
+			$schoolyear = date('Y');
+		}
+		
+		$applicants = $this->register_model->get_preenroll_applicants($schoolyear);
+		
+		$data = array(
+			'title' => 'Interview Applicants',
+			'template' => 'interview_applicants',
+			'applicants' => $applicants,
+			'schoolyear' => $schoolyear
+		);
+		
+		$this->load->view('template', $data);
+	}
+	
+	/**
+	 * [Team Note - 2026-04-20]
+	 * AJAX: Schedule interview for pre-enrollment applicant
+	 */
+	public function schedule_applicant()
+	{
+		if (!$this->session->userdata('logged_in')) {
+			echo json_encode(['success' => false, 'message' => 'Unauthorized']);
+			return;
+		}
+		
+		$studentid = $this->input->post('studentid');
+		$date = $this->input->post('date');
+		$time = $this->input->post('time');
+		$duration = $this->input->post('duration') ?: 30;
+		
+		if (empty($studentid) || empty($date) || empty($time)) {
+			echo json_encode(['success' => false, 'message' => 'Missing required fields']);
+			return;
+		}
+		
+		$schoolyear = $this->session->userdata('current_schoolyearid');
+		if (!$schoolyear) {
+			$schoolyear = date('Y');
+		}
+		
+		$result = $this->register_model->schedule_preenroll_interview($studentid, $date, $time, $duration, $schoolyear);
+		
+		if ($result) {
+			echo json_encode(['success' => true, 'message' => 'Interview scheduled successfully']);
+		} else {
+			echo json_encode(['success' => false, 'message' => 'Failed to schedule interview']);
+		}
+	}
+	
 }

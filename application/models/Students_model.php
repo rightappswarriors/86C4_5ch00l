@@ -344,8 +344,15 @@ class Students_model extends CI_Model
 
 	function enroll_info($id)
 	{
-		$query = $this->db->query("select id from enrolled where deleted = 'no' and studentid = " . $id . " and schoolyear = " . $this->session->userdata('current_schoolyearid'));
-		return $query->row()->id;
+		$schoolyearid = $this->session->userdata('current_schoolyearid');
+		if(empty($schoolyearid)){
+			return 0;
+		}
+		$query = $this->db->query("select id from enrolled where deleted = 'no' and studentid = " . $id . " and schoolyear = " . $schoolyearid);
+		if($query->num_rows() > 0){
+			return $query->row()->id;
+		}
+		return 0;
 	}
 
 	function assessment_check($enroll_id)

@@ -30,15 +30,15 @@
 		$row_as = $query_ass->row(); 
 		$as_id = $row_as->id;
 	
-		$math = explode(",",$row_as->math);
-		$eng = explode(",",$row_as->english);
-		$science = explode(",",$row_as->science);
-		$sstudies = explode(",",$row_as->socstudies);
-		$wbuilding = explode(",",$row_as->wordbuilding);
-		$literature = explode(",",$row_as->literature);
-		$filipino = explode(",",$row_as->filipino);
-		$afilipino = explode(",",$row_as->afilipino);
-		$ap = explode(",",$row_as->ap);
+		$math = array_pad(explode(",",$row_as->math), 3, "");
+		$eng = array_pad(explode(",",$row_as->english), 3, "");
+		$science = array_pad(explode(",",$row_as->science), 3, "");
+		$sstudies = array_pad(explode(",",$row_as->socstudies), 3, "");
+		$wbuilding = array_pad(explode(",",$row_as->wordbuilding), 3, "");
+		$literature = array_pad(explode(",",$row_as->literature), 3, "");
+		$filipino = array_pad(explode(",",$row_as->filipino), 3, "");
+		$afilipino = array_pad(explode(",",$row_as->afilipino), 3, "");
+		$ap = array_pad(explode(",",$row_as->ap), 3, "");
 		
 		// CHECK Academics
 		if($query_academics->num_rows()>0){

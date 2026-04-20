@@ -1252,11 +1252,14 @@ $this->load->view('students/assessment_print', $data);
 	
 	public function interview_schedule(){
 
-		$studentid = $this->input->post("studentid");
+	$studentid = $this->input->post("studentid");
 		$sdate = $this->input->post("ddate");
 		$stime = $this->input->post("ttime");
 		$slot_duration = $this->input->post("slot_duration");
 		$schoolyear = $this->session->userdata('current_schoolyearid');
+		if (!$schoolyear) {
+			$schoolyear = date('Y');
+		}
 
 		// Deactivate any existing active schedule for this student (preserve history)
 		$this->db->where('studentid', $studentid);
@@ -1285,6 +1288,9 @@ $this->load->view('students/assessment_print', $data);
 		$stime = $this->input->post("ttime");
 		$slot_duration = $this->input->post("slot_duration");
 		$schoolyear = $this->session->userdata('current_schoolyearid');
+		if (!$schoolyear) {
+			$schoolyear = date('Y');
+		}
 
 		$data = array(
 			'interviewdate'	=> $sdate,

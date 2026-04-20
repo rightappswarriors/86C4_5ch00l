@@ -18,6 +18,15 @@
 		$ap = explode(",",$row_as->ap);
 		$as_id = $row_as->id;
 		
+		$math = array_pad($math, 3, "");
+		$eng = array_pad($eng, 3, "");
+		$science = array_pad($science, 3, "");
+		$sstudies = array_pad($sstudies, 3, "");
+		$wbuilding = array_pad($wbuilding, 3, "");
+		$literature = array_pad($literature, 2, "");
+		$filipino = array_pad($filipino, 2, "");
+		$ap = array_pad($ap, 2, "");
+		
 	}else{
 		
 		$math = array("","","");
@@ -40,15 +49,40 @@ $(function(){
        if(event.which != 8 && isNaN(String.fromCharCode(event.which))){
            event.preventDefault();
        }
-   });
-   
-   <?php 
+    });
+    
+    <?php 
 	if($this->session->userdata('current_usertype') == 'Parent'):
 	?>
 	$("input[type='text']").attr("disabled",true);
 	<?php
 	endif;
    ?>
+   
+   var autoSaveTimeout;
+   $('#paces-save-indicator').hide();
+   
+   $('input[name^="math_"], input[name^="eng_"], input[name^="science_"], input[name^="sstudies_"], input[name^="wbuilding_"], input[name^="literature_"], input[name^="filipino_"], input[name^="ap_"]').on('input', function() {
+       clearTimeout(autoSaveTimeout);
+       autoSaveTimeout = setTimeout(autoSavePaces, 1000);
+   });
+   
+   function autoSavePaces() {
+       var form = $('form');
+       $('#paces-save-indicator').html('<i class="mdi mdi-loading mdi-spin"></i> Saving...').show();
+       
+       $.ajax({
+           url: '<?=site_url("students/assessment_paces_submit/".$row->id)?>',
+           type: 'POST',
+           data: form.serialize(),
+           success: function() {
+               $('#paces-save-indicator').html('<i class="mdi mdi-check"></i> Saved').fadeOut();
+           },
+           error: function() {
+               $('#paces-save-indicator').html('<i class="mdi mdi-alert"></i> Save failed').fadeOut();
+           }
+       });
+   }
 });
 </script>
 
@@ -79,7 +113,7 @@ $(function(){
 		<form action="<?=site_url("students/assessment_paces_submit/".$row->id)?>" method="post">
 		<input type="hidden" name="as_id" value="<?=$as_id?>">
 		
-		<h3 class="heading" style="text-align:center;">Assessment PACEs</h3>
+		<h3 class="heading" style="text-align:center;">Assessment PACEs <span id="paces-save-indicator" style="font-size: 12px; color: green; margin-left: 10px;"></span></h3>
 		
 		<div class="row">
 			<div class="col-md-12" style="text-align:right;">

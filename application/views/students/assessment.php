@@ -209,6 +209,23 @@ $(function(){
 	
 });
 
+function saveAndGoToPaces() {
+    var form = $('form');
+    var originalAction = form.attr('action');
+    form.attr('action', '<?=site_url("students/assessment_submit/".$row->id)?>');
+    $.ajax({
+        url: form.attr('action'),
+        type: 'POST',
+        data: form.serialize(),
+        success: function() {
+            window.location.href = '<?=site_url("students/assessment_paces/".$row->id)?>';
+        },
+        error: function() {
+            window.location.href = '<?=site_url("students/assessment_paces/".$row->id)?>';
+        }
+    });
+}
+
 function compute_total(){
 	
 	var asstotal = 0;
@@ -300,7 +317,8 @@ function humanizeNumber(n) {
 		$allowed_pace_roles = array('Accounting', 'Super Admin', 'Admin', 'Registrar');
 		if(in_array($this->session->userdata('current_usertype'), $allowed_pace_roles)): 
 		?>
-		<a href="<?=site_url("students/assessment_paces/".$row->id)?>" title="Assessment PACEs" class="btn btn-icons btn-secondary btn-rounded"><i class='mdi mdi-book-open-page-variant'></i></a>
+		<button type="button" onclick="saveAndGoToPaces()" class="btn btn-icons btn-info btn-rounded" title="Save Assessment & Go to PACEs"><i class='mdi mdi-book-open-page-variant'></i></button>
+		<a href="<?=site_url("students/assessment_paces/".$row->id)?>" title="Assessment PACEs" class="btn btn-icons btn-secondary btn-rounded" style="display:none;"><i class='mdi mdi-book-open-page-variant'></i></a>
 		<?php endif; ?>
 		</div>
 		</div>

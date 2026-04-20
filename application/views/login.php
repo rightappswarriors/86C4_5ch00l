@@ -145,11 +145,12 @@
                 
                 <form method="POST" action="<?=site_url("login/validation")?>" class="auth-form">
                   <!-- Hidden input to store the selected login method -->
+                  <!-- Hidden input to store the selected login method (auto-detected) -->
                   <input type="hidden" name="login_type" id="login_type" value="email">
                   <div class="form-group mb-3">
                     <label class="form-label font-weight-bold text-dark small" id="login_identifier_label">Email Address</label>
                     <div class="input-group">
-                      <input type="text" name="login_identifier" id="login_identifier" value="<?=set_value('login_identifier')?>" class="form-control bg-light" placeholder="Enter your Email Address" style="border: 1px solid #ebedf2; border-radius: 8px 0 0 8px; height: 46px;">
+                      <input type="text" name="login_identifier" id="login_identifier" value="<?=set_value('login_identifier')?>" class="form-control" placeholder="Enter your Email Address">
                       <div class="input-group-append">
                         <span class="input-group-text bg-primary text-white" style="border: none; border-radius: 0 8px 8px 0; width: 46px; justify-content: center;">
                           <i class="mdi mdi-account"></i>
@@ -177,17 +178,9 @@
                     <a href="<?=site_url("login/forgotpass_gate")?>" class="forgot-password text-primary font-weight-bold small">Forgot Password?</a>
                   </div>
 
-                  <!-- Login Method Icon Selector -->
-                  <div class="form-group login-method-selector-bottom mb-4">
-                    <label class="form-label font-weight-bold text-dark small">Select Login Method</label>
-                    <div class="login-method-icons">
-                      <button type="button" class="login-method-btn active" data-method="email" title="Login with Email">
-                         <span>Email</span>
-                      </button>
-                      <button type="button" class="login-method-btn" data-method="mobile" title="Login with Phone Number">
-                        <span>Phone</span>
-                      </button>
-                    </div>
+                  <!-- Auto-detection hint: shows detected type -->
+                  <div class="form-group" id="auto_detect_hint" style="display: none;">
+                    <small class="text-success"><i class="mdi mdi-check-circle"></i> <span id="detected_type_text"></span></small>
                   </div>
 
                   <div class="form-group login-btn-wrapper mt-2 mb-4">
@@ -246,39 +239,62 @@
         var identifierLabel = document.getElementById('login_identifier_label');
         var identifierInput = document.getElementById('login_identifier');
         var loginTypeInput = document.getElementById('login_type');
+        var autoDetectHint = document.getElementById('auto_detect_hint');
+        var detectedTypeText = document.getElementById('detected_type_text');
         
-        if (!loginMethodBtns.length || !identifierLabel || !identifierInput) {
+        if (!identifierLabel || !identifierInput) {
           return;
         }
 
         var loginConfig = {
           email: {
             label: 'Email Address',
-            placeholder: 'Enter your Email Address'
+            placeholder: 'Enter your Email Address',
+            hint: 'Logging in with Email'
           },
           mobile: {
             label: 'Phone Number',
-            placeholder: 'Enter your Phone Number'
+            placeholder: 'Enter your Phone Number',
+            hint: 'Logging in with Phone Number'
           },
-          facebook: {
-            label: 'Facebook Username',
-            placeholder: 'Enter your Facebook Username'
+          lrn: {
+            label: 'LRN',
+            placeholder: 'Enter your 12-digit LRN',
+            hint: 'Logging in with LRN'
+          },
+          school_id: {
+            label: 'School ID',
+            placeholder: 'Enter your School ID',
+            hint: 'Logging in with School ID'
+          },
+          username: {
+            label: 'Username',
+            placeholder: 'Enter your Username',
+            hint: 'Logging in with Username'
           }
         };
 
         function applyLoginMethod(method) {
-          // Update active button
-          loginMethodBtns.forEach(function(btn) {
-            btn.classList.remove('active');
-            if (btn.dataset.method === method) {
-              btn.classList.add('active');
-            }
-          });
+          // Update active button if buttons exist
+          if (loginMethodBtns.length) {
+            loginMethodBtns.forEach(function(btn) {
+              btn.classList.remove('active');
+              if (btn.dataset.method === method) {
+                btn.classList.add('active');
+              }
+            });
+          }
           
           // Update label and placeholder
           var config = loginConfig[method] || loginConfig.email;
           identifierLabel.textContent = config.label;
           identifierInput.placeholder = config.placeholder;
+          
+          // Show auto-detected hint
+          if (autoDetectHint && detectedTypeText && config.hint) {
+            detectedTypeText.textContent = config.hint;
+            autoDetectHint.style.display = 'block';
+          }
           
           // Update hidden login_type input for form submission
           if (loginTypeInput) {
@@ -286,12 +302,30 @@
           }
         }
 
-        // Add click event to buttons
-        loginMethodBtns.forEach(function(btn) {
-          btn.addEventListener('click', function() {
-            applyLoginMethod(this.dataset.method);
-          });
+        // Auto-detect login type based on input
+        identifierInput.addEventListener('input', function() {
+          var value = this.value.trim();
+          var detectedType = null;
+          
+          if (value.indexOf('@') !== -1 && value.indexOf('.') !== -1) {
+            detectedType = 'email';
+          } else if (/^\d[\d\s\-\+\(\)]*$/.test(value) && value.replace(/\D/g, '').length >= 7) {
+            detectedType = 'mobile';
+          }
+          
+          if (detectedType) {
+            applyLoginMethod(detectedType);
+          }
         });
+        
+        // Add click event to buttons (manual override)
+        if (loginMethodBtns.length) {
+          loginMethodBtns.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+              applyLoginMethod(this.dataset.method);
+            });
+          });
+        }
       })();
     </script>
     <!-- endinject -->

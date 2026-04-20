@@ -62,6 +62,8 @@ class Login_model extends CI_Model
 			$this->db->where('id', $user_id);
 		} elseif ($login_type === 'mobile') {
 			$this->db->where('mobileno', $login_identifier);
+		} elseif ($login_type === 'username') {
+			$this->db->where('mobileno', $login_identifier);
 		} else {
 			$this->db->where('mobileno', $login_identifier);
 		}

@@ -429,16 +429,27 @@ class Login extends CI_Controller {
     
     function validation()
     {
-        // [Team Note - 2026-03-09]
-        // Login now supports multiple identifiers: LRN, School ID, Email Address, or Phone Number.
-        $this->form_validation->set_rules('login_type', 'Login Type', 'required|in_list[lrn,school_id,email,mobile]');
+        // [Team Note - 2026-04-20]
+        // Login now auto-detects identifier type: Email, Mobile, LRN, or School ID
         $this->form_validation->set_rules('login_identifier', 'Login Identifier', 'required|trim');
         $this->form_validation->set_rules('userpass', 'Password', 'required');
+        
         if($this->form_validation->run())
         {
-            $login_type = $this->input->post('login_type', TRUE);
             $login_identifier = trim($this->input->post('login_identifier', TRUE));
-            $result = $this->login_model->can_login($login_type, $login_identifier, $this->input->post('userpass'));
+            $userpass = $this->input->post('userpass');
+            
+            // Auto-detect login type based on input format
+            $login_type = $this->auto_detect_login_type($login_identifier);
+            
+            if (!$login_type) {
+                $message = "Invalid identifier. Please enter a valid Email, Phone Number, LRN, or School ID.";
+                $this->session->set_flashdata('message', $message);
+                $this->index();
+                return;
+            }
+            
+            $result = $this->login_model->can_login($login_type, $login_identifier, $userpass);
             if($result)
             {
                 redirect("dashboard");
@@ -456,5 +467,51 @@ class Login extends CI_Controller {
             $this->session->set_flashdata('message',$message);    
             $this->index();
         }
+    }
+    
+    /**
+     * Auto-detect login type based on input format
+     * @param string $identifier The login identifier input
+     * @return string|null The detected login type or null if invalid
+     */
+    private function auto_detect_login_type($identifier)
+    {
+        if (empty($identifier)) {
+            return null;
+        }
+        
+        $identifier = trim($identifier);
+        
+        // Check for email format (contains @)
+        if (filter_var($identifier, FILTER_VALIDATE_EMAIL)) {
+            return 'email';
+        }
+        
+        // Check for numeric patterns
+        if (preg_match('/^[0-9]+$/', $identifier)) {
+            $len = strlen($identifier);
+            
+            // LRN is exactly 12 digits
+            if ($len === 12) {
+                return 'lrn';
+            }
+            
+            // Phone number: 10-15 digits (with or without leading 0)
+            if ($len >= 10 && $len <= 15) {
+                return 'mobile';
+            }
+            
+            // School ID: fallback for other numeric IDs
+            return 'school_id';
+        }
+        
+        // [Team Note - 2026-04-20]
+        // Alphanumeric identifier: treat as Username for staff/admin login
+        // If it contains letters (not purely numeric), treat as username
+        if (preg_match('/[a-zA-Z]/', $identifier)) {
+            return 'username';
+        }
+        
+        return 'school_id';
     }
 }

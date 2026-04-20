@@ -157,6 +157,13 @@
   </a>
 </li>
 
+<!-- <li class="nav-item">
+  <a class="nav-link" href="<?=site_url("interviews/applicants")?>">
+	<i class="menu-icon typcn typcn-users"></i>
+	<span class="menu-title">Interview Applicants</span>
+  </a>
+</li> -->
+
 <?php if($this->session->userdata('current_usertype') == 'Accounting'):?>
 <li class="nav-item">
   <a class="nav-link" href="<?=site_url("payments")?>">
