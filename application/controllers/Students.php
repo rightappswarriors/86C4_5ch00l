@@ -657,6 +657,7 @@ $this->load->view('students/assessment_print', $data);
 			'registration' => $this->input->post('registration'),
 			'payment' => $this->input->post('paymentenroll'),
 			'asstotal' => $this->input->post('asstotal_hidden'),
+			'promissory_payment' => $this->input->post('promissory_payment'),
 			'lastupdate'  => date("Y-m-d H:i:s")
 		);
 		

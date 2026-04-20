@@ -85,6 +85,9 @@
 		$literature = explode(",",$row_as->literature);
 		$filipino = explode(",",$row_as->filipino);
 		$ap = explode(",",$row_as->ap);
+		$as_id = $row_as->id;
+		$promissory_payment = isset($row_as->promissory_payment) && is_numeric($row_as->promissory_payment) ? $row_as->promissory_payment : 0;
+		$promissory_monthly = $promissory_payment / 9;
 		
 	}else{
 		
@@ -111,6 +114,8 @@
 		$filipino = array("","");
 		$ap = array("","");
 		$as_id = 0;
+		$promissory_payment = 0;
+		$promissory_monthly = 0;
 		
 	}
 
@@ -249,13 +254,18 @@ function compute_total(){
 	$("#asstotal").val( humanizeNumber( asstotal.toFixed(2) ) );
 	$("#asstotal_hidden").val( asstotal.toFixed(2) );
 	
-	// BALANCE
+	// BALANCE: Total Assessment minus Payment upon Enrollment
 	var balance = Number( asstotal ) - Number( $("#paymentenroll").val() );
 	$("#balance").val( humanizeNumber( balance.toFixed(2) ) );
 	
-	// MONTHLY Due
+	// MONTHLY Due (Balance ÷ 9)
 	var monthdue = Number( balance ) / 9;
 	$("#monthdue").val( humanizeNumber( monthdue.toFixed(2) ) ); 
+	
+	// PROMISSORY NOTE: Previous balance divided by 9 months
+	var promissoryBalance = Number( $("#promissory_payment").val() ) || 0;
+	var promissoryMonthly = promissoryBalance / 9;
+	$("#promissory_monthly").val( humanizeNumber( promissoryMonthly.toFixed(2) ) ); 
 	
 }
 
@@ -389,14 +399,14 @@ function humanizeNumber(n) {
 					<input type="text" id="monthdue" name="monthdue" value="<?=set_value('monthdue',number_format($monthly,2))?>" class="assessment-total-input" disabled/>
 				</div>
 
-				<div class="assessment-total-row">
+				<div class="assessment-total-row assessment-due-row">
 					<label>Monthly Promissory Note Payment:</label>
-					<input type="text" id="promissory_payment" name="promissory_payment" value="" class="assessment-total-input" />
+					<input type="text" id="promissory_payment" name="promissory_payment" value="<?=set_value('promissory_payment',$promissory_payment)?>" class="assessment-total-input" />
 				</div>
 
-				<div class="assessment-total-row">
-					<label>Total Amount (day/week/month):</label>
-					<input type="text" id="total_amount_period" name="total_amount_period" value="" class="assessment-total-input" />
+				<div class="assessment-total-row assessment-due-row">
+					<label>Due every 5<sup>th</sup> of the month:</label>
+					<input type="text" id="promissory_monthly" name="promissory_monthly" value="<?=set_value('promissory_monthly', number_format($promissory_monthly, 2))?>" class="assessment-total-input" disabled/>
 				</div>
 
 				<div class="assessment-total-row">

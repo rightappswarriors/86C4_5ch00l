@@ -78,34 +78,35 @@ INSERT INTO `academics` (`id`, `student_id`, `enroll_id`, `math`, `eng`, `scienc
 -- Table structure for table `assessment`
 --
 
-CREATE TABLE `assessment` (
-  `id` bigint(20) NOT NULL,
-  `enroll_id` int(11) NOT NULL,
-  `incidentals` varchar(250) NOT NULL,
-  `miscellaneous` varchar(150) NOT NULL,
-  `tuition` float NOT NULL,
-  `scholarship` float NOT NULL DEFAULT 0,
-  `preenrollment` float NOT NULL DEFAULT 0,
-  `fullpayment` float NOT NULL DEFAULT 0,
-  `registration` float NOT NULL,
-  `payment` float NOT NULL,
-  `prepaidpaces` float NOT NULL DEFAULT 0,
-  `balancepaces` decimal(10,0) NOT NULL DEFAULT 0,
-  `asstotal` float NOT NULL,
-  `monthlydue` float NOT NULL,
-  `math` varchar(50) NOT NULL,
-  `english` varchar(50) NOT NULL,
-  `science` varchar(50) NOT NULL,
-  `socstudies` varchar(50) NOT NULL,
-  `wordbuilding` varchar(50) NOT NULL,
-  `literature` varchar(50) NOT NULL,
-  `filipino` varchar(50) NOT NULL,
-  `afilipino` varchar(50) NOT NULL DEFAULT ',,,',
-  `ap` varchar(50) NOT NULL,
-  `oldaccount` varchar(250) NOT NULL,
-  `dateadded` datetime NOT NULL,
-  `lastupdate` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+ CREATE TABLE `assessment` (
+   `id` bigint(20) NOT NULL,
+   `enroll_id` int(11) NOT NULL,
+   `incidentals` varchar(250) NOT NULL,
+   `miscellaneous` varchar(150) NOT NULL,
+   `tuition` float NOT NULL,
+   `scholarship` float NOT NULL DEFAULT 0,
+   `preenrollment` float NOT NULL DEFAULT 0,
+   `fullpayment` float NOT NULL DEFAULT 0,
+   `registration` float NOT NULL,
+   `payment` float NOT NULL,
+   `prepaidpaces` float NOT NULL DEFAULT 0,
+   `balancepaces` decimal(10,0) NOT NULL DEFAULT 0,
+   `asstotal` float NOT NULL,
+   `monthlydue` float NOT NULL,
+   `promissory_payment` float NOT NULL DEFAULT 0,
+   `math` varchar(50) NOT NULL,
+   `english` varchar(50) NOT NULL,
+   `science` varchar(50) NOT NULL,
+   `socstudies` varchar(50) NOT NULL,
+   `wordbuilding` varchar(50) NOT NULL,
+   `literature` varchar(50) NOT NULL,
+   `filipino` varchar(50) NOT NULL,
+   `afilipino` varchar(50) NOT NULL DEFAULT ',,,',
+   `ap` varchar(50) NOT NULL,
+   `oldaccount` varchar(250) NOT NULL,
+   `dateadded` datetime NOT NULL,
+   `lastupdate` datetime NOT NULL
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `assessment`
