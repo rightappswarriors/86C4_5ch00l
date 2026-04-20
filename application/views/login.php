@@ -412,6 +412,9 @@
             detectedType = 'email';
           } else if (/^\d[\d\s\-\+\(\)]*$/.test(value) && value.replace(/\D/g, '').length >= 7) {
             detectedType = 'mobile';
+          } else if (/^[a-zA-Z]/.test(value)) {
+            // Starts with letter - treat as username
+            detectedType = 'username';
           }
           
           if (detectedType) {

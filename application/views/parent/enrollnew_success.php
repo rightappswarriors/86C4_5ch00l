@@ -10,11 +10,11 @@
 
 <!-- Enrollment Step Breadcrumb -->
 <ol class="enrollment-breadcrumb">
-  <li><span class="step passed">Read the Student Handbook</span></li>
+  <li><span class="step passed"><span class="step-number"><i class="mdi mdi-check"></i></span>Read the Student Handbook</span></li>
   <li><span class="arrow">›</span></li>
-  <li><span class="step passed">Fill up Enrollment Application Form</span></li>
+  <li><span class="step passed"><span class="step-number"><i class="mdi mdi-check"></i></span>Fill up Enrollment Application Form</span></li>
   <li><span class="arrow">›</span></li>
-  <li><span class="step current">Print/Save Enrollment Application Form / Save QR Code</span></li>
+  <li><span class="step current"><span class="step-number">3</span>Print/Save Enrollment Application Form / Save QR Code</span></li>
 </ol>
 
 <div class="content-wrapper">

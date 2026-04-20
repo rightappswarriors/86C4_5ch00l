@@ -46,6 +46,22 @@
     color: #6c757d;
   }
 
+  .enrollment-breadcrumb .step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    font-size: 12px;
+    margin-right: 6px;
+  }
+
+  .enrollment-breadcrumb .step.passed .step-number {
+    background: rgba(255,255,255,0.5);
+  }
+
   .enrollment-breadcrumb .arrow {
     color: #adb5bd;
     font-size: 14px;
@@ -64,11 +80,11 @@
 <div class="content-wrapper">
 
 <ol class="enrollment-breadcrumb">
-  <li><a href="<?=site_url('students/enroll_readhandbook')?>" class="step passed">Read the Student Handbook</a></li>
+  <li><a href="<?=site_url('students/enroll_readhandbook')?>" class="step passed"><span class="step-number"><i class="mdi mdi-check"></i></span>Read the Student Handbook</a></li>
   <li><span class="arrow">›</span></li>
-  <li><span class="step current">Fill up Enrollment Application Form</span></li>
+  <li><span class="step current"><span class="step-number">2</span>Fill up Enrollment Application Form</span></li>
   <li><span class="arrow">›</span></li>
-  <li><span class="step pending">Print/Save Enrollment Application Form / Save QR Code</span></li>
+  <li><span class="step pending"><span class="step-number">3</span>Print/Save Enrollment Application Form / Save QR Code</span></li>
 </ol>
 
 <script>

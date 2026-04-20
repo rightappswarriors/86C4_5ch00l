@@ -47,6 +47,22 @@
     color: #6c757d;
 }
 
+.enrollment-breadcrumb .step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    font-size: 12px;
+    margin-right: 6px;
+}
+
+.enrollment-breadcrumb .step.passed .step-number {
+    background: rgba(255,255,255,0.5);
+}
+
 .enrollment-breadcrumb .arrow {
     color: #adb5bd;
     font-size: 14px;

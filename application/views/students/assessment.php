@@ -310,6 +310,14 @@ function humanizeNumber(n) {
 		
 		<h3 class="heading" style="text-align:center;">Assessment</h3>
 		
+		<br>
+		<div class="row">
+			<div class="col-md-12" style="text-align:center; margin-bottom: 15px;">
+				<a href="<?=site_url("students/assessment_financial/".$row->id)?>" class="btn btn-lg btn-primary">Financial Assessment</a>
+				<a href="<?=site_url("students/assessment_paces/".$row->id)?>" class="btn btn-lg btn-info">Pace's Assessment</a>
+			</div>
+		</div>
+		
 		<div class="row">
 			<div class="col-md-12" style="text-align:right;">
 		<?php 
@@ -332,7 +340,7 @@ function humanizeNumber(n) {
 		<?php endif; ?>
 		</div>
 		</div>
-		
+
 		<div class="row">
 		
 			<div class="col-md-6">

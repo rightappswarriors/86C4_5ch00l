@@ -301,8 +301,8 @@
 	<h4 style="text-align:center;">Enrollment Status Description</h4>
 	<p><mark><code>Pending</code></mark>  Registrar department will review the information. Expect a call from the Registrar's office for assessment.</p>
 	<!--<p><mark><code class="text-info">Confirmed</code></mark>  That means the Registrar already viewed and confirmed the information. </p>-->
-	<p><mark><code>Payment</code></mark>  Billing or Accounting office for payment transaction. </p>
 	<p><mark><code>Interview</code></mark>  School Admin appearance both student and parent interview. </p>
+	<p><mark><code>Payment</code></mark>  Billing or Accounting office for payment transaction. </p>
 	<p><mark><code>Active</code></mark>  Everything submitted and ready for school. </p>
   </div>
 </div>
