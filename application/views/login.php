@@ -22,6 +22,107 @@
     <link rel="stylesheet" href="<?=base_url()?>assets/css/login.css">
     <link rel="stylesheet" href="<?=base_url()?>assets/css/portal-layout.css">
 	<link rel="shortcut icon" href="<?=base_url()?>assets/images/favicon.png" />
+    <style>
+    /* === MOBILE: Both panels side-by-side at all times === */
+    @media (max-width: 767px) {
+      .login-two-col-row {
+        flex-wrap: nowrap !important;
+        padding: 0.5rem 2% !important;
+      }
+      .enrollment-col {
+        padding-right: 6px !important;
+      }
+      .enrollment-panel {
+        margin-top: 10px !important;
+      }
+      .enrollment-panel .mb-4 h2 {
+        font-size: 0.85rem !important;
+      }
+      .enrollment-panel .mb-4 p {
+        font-size: 0.7rem !important;
+        display: none; /* hide subtitle on tiny screens */
+      }
+      .step-box {
+        padding: 6px 8px !important;
+        margin-bottom: 6px !important;
+      }
+      .step-number {
+        width: 20px !important;
+        height: 20px !important;
+        line-height: 20px !important;
+        font-size: 10px !important;
+        flex-shrink: 0;
+      }
+      .step-content h6 {
+        font-size: 10px !important;
+        margin-bottom: 0 !important;
+      }
+      .step-content p {
+        font-size: 9px !important;
+        display: none; /* hide sub-description on tiny screens to save space */
+      }
+      .enrollment-section-badge {
+        font-size: 9px !important;
+        padding: 3px 5px !important;
+      }
+      .auth-card {
+        padding: 12px 10px !important;
+        border-radius: 10px !important;
+      }
+      .auth-card .school-logo {
+        width: 36px !important;
+        height: 36px !important;
+      }
+      .auth-card .school-logo i {
+        font-size: 18px !important;
+      }
+      .auth-card h2 {
+        font-size: 13px !important;
+      }
+      .auth-card p {
+        font-size: 10px !important;
+      }
+      .auth-card .form-label {
+        font-size: 10px !important;
+        margin-bottom: 2px !important;
+      }
+      .auth-card .form-control {
+        height: 32px !important;
+        font-size: 10px !important;
+        padding: 4px 6px !important;
+      }
+      .auth-card .input-group-text {
+        width: 32px !important;
+        height: 32px !important;
+        padding: 0 !important;
+        font-size: 11px !important;
+      }
+      .auth-card .form-check-label,
+      .auth-card .forgot-password {
+        font-size: 9px !important;
+      }
+      .auth-card .login-method-selector-bottom .form-label { display: none; }
+      .auth-card .login-method-btn {
+        padding: 4px 6px !important;
+        font-size: 9px !important;
+      }
+      .auth-card .auth-submit-btn {
+        height: 32px !important;
+        font-size: 11px !important;
+        padding: 4px 8px !important;
+      }
+      .auth-card .api-auths a {
+        height: 30px !important;
+        font-size: 9px !important;
+        padding: 4px 6px !important;
+      }
+      .auth-card .google-icon { height: 1em !important; width: 1em !important; }
+      .auth-card .auth-footer-text p { font-size: 9px !important; }
+      .auth-card .auth-divider { margin: 6px 0 !important; }
+      .auth-copyright { font-size: 8px !important; margin-top: 4px !important; }
+      .login-col { padding-left: 6px !important; }
+    }
+    </style>
   </head>
   <body>
 
@@ -37,10 +138,10 @@
       <div class="container-fluid page-body-wrapper full-page-wrapper">
         <div class="content-wrapper d-flex align-items-center auth auth-bg-1 theme-one">
           <!-- The row serves as the relative container for full width -->
-          <div class="row w-100 mx-auto align-items-center justify-content-between" style="max-width: 1400px; padding: 2rem 5%;">
+          <div class="row w-100 mx-auto align-items-center justify-content-between login-two-col-row" style="max-width: 1400px; padding: 2rem 5%; flex-wrap: nowrap;">
             
-            <!-- Left Side Panel (Enrollment Procedures Floating Structure) -->
-            <div class="col-lg-6 col-md-6 d-none d-md-flex flex-column justify-content-center pr-lg-5 mb-4 mb-md-0">
+            <!-- Left Side Panel (Enrollment Procedures) -->
+            <div class="col-6 d-flex flex-column justify-content-center enrollment-col pr-lg-5 mb-md-0">
               <div class="enrollment-panel w-100 d-flex flex-column" style="background: transparent; margin-top: 100px;">
 
                 <div class="p-0" style="flex-grow: 1;">
@@ -124,7 +225,7 @@
             </div>
 
             <!-- Right Side Panel (Login Form) -->
-            <div class="col-lg-5 col-md-6 d-flex flex-column justify-content-center align-items-lg-end pl-lg-0">
+            <div class="col-6 d-flex flex-column justify-content-center login-col align-items-lg-end pl-lg-0 mb-md-0">
               <div class="auth-card" style="width: 100%; max-width: 420px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); border-radius: 20px; margin: 0; background: #fff; padding: 50px 40px;">
                 <div class="auth-header mb-4 text-center">
                   <div class="school-logo mb-3 mx-auto" style="width: 65px; height: 65px; background: #1976D2; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
