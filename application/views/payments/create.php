@@ -134,11 +134,7 @@ endif;
 						<div>
 							<h4 class="payment-section-title">Payment Items</h4>
 							<p class="payment-section-subtitle">Add assessment charges, then adjust quantity or price if needed.</p>
-						</div>
-						<div class="payment-summary-chip">
-							<span>Total</span>
-							<strong id="summary_total">Php 0.00</strong>
-						</div>
+						</div>	
 					</div>
 
 					<div class="table-responsive payment-table-wrap">
