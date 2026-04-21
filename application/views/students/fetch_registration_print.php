@@ -98,14 +98,19 @@ if (is_array($student_data)) {
         .print-btn{position:fixed;top:15px;right:15px;padding:10px 20px;background:#1e40af;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:13px;font-weight:600;z-index:999}
         .print-btn:hover{background:#1d4ed8}
         
+        /* Back Button */
+        .back-btn{position:fixed;top:15px;right:155px;padding:10px 20px;background:#6b7280;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:13px;font-weight:600;z-index:999;text-decoration:none}
+        .back-btn:hover{background:#4b5563}
+        
         @media print{
             body{background:#fff;padding:0}
             .sheet{box-shadow:none;margin:0;padding:0.5in}
-            .print-btn{display:none}
+            .print-btn,.back-btn{display:none}
         }
     </style>
 </head>
 <body>
+    <a href="<?= site_url('students/fetcher_list') ?>" class="back-btn">← Back</a>
     <button class="print-btn" onclick="window.print()">🖨️ Print</button>
     <div class="sheet">
         

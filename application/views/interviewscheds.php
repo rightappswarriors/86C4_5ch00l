@@ -1,7 +1,7 @@
 <script>
 var selectedDate = null;
 var calendar = null;
-var ajaxUrl = '<?=base_url()?>get_interviews.php';
+	var ajaxUrl = '<?=site_url('interviews/ajax_get_by_date')?>';
 
 function loadDateInterviews(dateStr) {
 	var panel = document.getElementById('datePanel');

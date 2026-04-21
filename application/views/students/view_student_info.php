@@ -48,6 +48,7 @@ $is_accounting = ($current_usertype == 'Accounting' || $this->session->userdata(
 	<button onclick="printStudentInfo()" class="print-btn"> PRINT APPLICATION FORM</button>
 	<button onclick="window.print()" class="print-btn">PRINT ACKNOWLEDGEMENT</button>
 	<?php endif; ?>
+	<a href="<?=site_url('interviews')?>" class="print-btn">INTERVIEW SCHEDULE</a>
 	<button onclick="closeReviewPage()" class="close-btn">&#10006; CLOSE</button>
 	<?php if($is_accounting): ?>
 	<span class="access-info"><i class="mdi mdi-account-check"></i> Accounting Access - Can Print</span>
@@ -94,6 +95,15 @@ $is_accounting = ($current_usertype == 'Accounting' || $this->session->userdata(
 		var qrVerifyCanvas = document.getElementById('qr-verify-canvas');
 		if(qrVerifyCanvas) {
 			QRCode.toCanvas(qrVerifyCanvas, qrVerifyData, { width: 150 }, function(error) {
+				if (error) console.error(error);
+			});
+		}
+		
+		// Enrollment Applicant QR - URL to this page for application
+		var qrApplicantData = "<?= site_url('students/details/' . $row->id) ?>";
+		var qrApplicantCanvas = document.getElementById('qr-applicant-canvas');
+		if(qrApplicantCanvas) {
+			QRCode.toCanvas(qrApplicantCanvas, qrApplicantData, { width: 150 }, function(error) {
 				if (error) console.error(error);
 			});
 		}
@@ -229,8 +239,14 @@ $is_accounting = ($current_usertype == 'Accounting' || $this->session->userdata(
 				
 				<div class="qr-box">
 					<canvas id="qr-verify-canvas"></canvas>
-					<div class="qr-label">STUDENT QR</div>
+					<div class="qr-label">E-REGISTRATION QR</div>
 					<div class="scan-instruction">Scan to verify enrollment</div>
+				</div>
+				
+				<div class="qr-box">
+					<canvas id="qr-applicant-canvas"></canvas>
+					<div class="qr-label">Enrollment Applicant QR</div>
+					<div class="scan-instruction">Scan to view application</div>
 				</div>
 			</div>
 		</div>
@@ -255,7 +271,7 @@ $is_accounting = ($current_usertype == 'Accounting' || $this->session->userdata(
 		<div class="receipt-qr-section">
 			<div class="qr-box">
 				<canvas id="qr-receipt-canvas"></canvas>
-				<div class="qr-label">Scan to Verify</div>
+				<div class="qr-label">ENROLLMENT APPLICATION FORM</div>
 			</div>
 			<div class="receipt-details">
 				<div class="row"><span class="label">Date:</span><span class="value"><?= date('F j, Y') ?></span></div>

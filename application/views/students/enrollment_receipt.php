@@ -34,6 +34,13 @@ $enroll_date = $enroll ? date('F j, Y', strtotime($enroll->addeddate)) : date('F
 		* { margin: 0; padding: 0; box-sizing: border-box; }
 		body { font-family: Arial, sans-serif; font-size: 11pt; line-height: 1.2; color: #000; background: #fff; }
 		
+		.toolbar { position: fixed; top: 15px; right: 15px; display: flex; gap: 10px; z-index: 999; }
+		.toolbar button { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 13px; font-weight: 600; }
+		.toolbar .print-btn { background: #1e40af; color: #fff; }
+		.toolbar .print-btn:hover { background: #1d4ed8; }
+		.toolbar .back-btn { background: #6b7280; color: #fff; }
+		.toolbar .back-btn:hover { background: #4b5563; }
+		
 		.page { width: 8.5in; min-height: 11in; margin: 0 auto; padding: 0.3in; }
 		
 		.header { text-align: center; margin-bottom: 15px; }
@@ -78,14 +85,24 @@ $enroll_date = $enroll ? date('F j, Y', strtotime($enroll->addeddate)) : date('F
 		
 		.date-printed { text-align: center; font-size: 9pt; color: #666; margin-top: 15px; }
 		
+		.toolbar { display: flex; }
+		.no-print { display: none; }
+		
+		@media print {
+			@page { size: letter; margin: 0.3in; }
+			body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+			.toolbar { display: none !important; }
+			.page { width: 100% !important; margin: 0 !important; padding: 0.3in !important; }
+		}
+		
 	</style>
 </head>
 <body>
 
 <div class="container">
 <div class="toolbar">
-	<button onclick="window.print()" class="print-btn">&#128424; PRINT / SAVE PDF</button>
-	<button onclick="window.close()" class="close-btn">&#10006; CLOSE</button>
+	<button onclick="window.print()" class="print-btn">&#128424; PRINT</button>
+	<button onclick="window.history.back()" class="back-btn">&#8592; BACK</button>
 </div>
 
 <div class="page">
@@ -163,5 +180,17 @@ $enroll_date = $enroll ? date('F j, Y', strtotime($enroll->addeddate)) : date('F
 </div>
 </div>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var qrData    = <?= $qr_data_receipt ?>;
+    var canvas    = document.getElementById('qr-receipt-canvas');
+
+    if (canvas) {
+        QRCode.toCanvas(canvas, JSON.stringify(qrData), { width: 150 }, function (error) {
+            if (error) console.error(error);
+        });
+    }
+});
+</script>
 </body>
 </html>

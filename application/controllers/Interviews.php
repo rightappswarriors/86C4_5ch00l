@@ -6,7 +6,9 @@ class Interviews extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		if(!$this->session->userdata('logged_in')){
+		// Allow AJAX requests to pass without login (handled in methods)
+		$is_ajax = $this->input->is_ajax_request();
+		if(!$this->session->userdata('logged_in') && !$is_ajax){
 			$this->session->set_flashdata('message', "You need to be logged in to access the page.");
 			redirect("login");
 		}
@@ -60,49 +62,86 @@ class Interviews extends CI_Controller {
 	
 	public function ajax_get_by_date()
 	{
+		header('Content-Type: application/json');
+		header('Cache-Control: no-cache, must-revalidate');
+		header('Pragma: no-cache');
+
+		// Check if user is logged in - return JSON instead of redirect
+		if(!$this->session->userdata('logged_in')){
+			echo json_encode(['success' => false, 'message' => 'Session expired', 'code' => 'SESSION_EXPIRED']);
+			exit;
+		}
+
 		$date = $this->input->post('date');
-		
+
 		if(!$date) {
 			echo json_encode(['success' => false, 'message' => 'Date required']);
 			exit;
 		}
-		
+
+		// Disable DB debug to prevent HTML error output
+		$this->db->db_debug = FALSE;
+
 		$schoolyear = $this->session->userdata('current_schoolyearid');
-		
-		// Check all interviews in DB for this date regardless of schoolyear
-		$debug_query = $this->db->query("
-			select a.id as studentid, a.firstname, a.middlename, a.lastname, a.grade, a.section,
-			       b.interviewdate, b.interviewtime, b.slot_duration, b.schoolyear,
-			       c.firstname as parentfname, c.lastname as parentlname, c.mobileno
-			from students a
-			join interviewsched b on b.studentid = a.id
-			left join register c on c.id = a.user_id
-			where b.status = 1 
-			and b.interviewdate = ?
-			order by b.interviewtime asc
-		", array($date));
-		
-		$interviews = [];
-		if($debug_query->num_rows() > 0) {
-			foreach($debug_query->result() as $row) {
-				$fullname = trim($row->firstname . ' ' . ($row->middlename ? $row->middlename . ' ' : '') . $row->lastname);
-				$parent_contact = $row->mobileno ? $row->mobileno : '';
-				
-				$interviews[] = [
-					'studentid' => $row->studentid,
-					'student_name' => $fullname,
-					'grade' => $row->grade,
-					'section' => $row->section,
-					'interviewtime' => date('h:i A', strtotime($row->interviewtime)),
-					'interviewdate' => $row->interviewdate,
-					'schoolyear' => $row->schoolyear,
-					'duration' => $row->slot_duration,
-					'parent_name' => ($row->parentfname || $row->parentlname) ? trim($row->parentfname . ' ' . $row->parentlname) : '',
-					'parent_contact' => $parent_contact
-				];
+
+		try {
+			$debug_query = $this->db->query("
+				select 
+					a.id as studentid, 
+					a.firstname, 
+					a.middlename, 
+					a.lastname,
+					COALESCE(e.gradelevel, p.gradelevel, '') as grade,
+					'' as section,
+					b.interviewdate, 
+					b.interviewtime, 
+					b.slot_duration, 
+					b.schoolyear,
+					c.firstname as parentfname, 
+					c.lastname as parentlname, 
+					c.mobileno
+				from students a
+				join interviewsched b on b.studentid = a.id
+				left join register c on c.id = a.user_id
+				left join enrolled e on e.studentid = a.id and e.schoolyear = b.schoolyear and e.deleted = 'no' and e.status = 'Active'
+				left join preenrollstudents p on p.studentid = a.id and p.schoolyear = b.schoolyear and p.status = 1
+				where b.status = 1 
+				and b.interviewdate = ?
+				order by b.interviewtime asc
+			", array($date));
+
+			// Check for database errors
+			if($debug_query === FALSE) {
+				$db_error = $this->db->error();
+				echo json_encode(['success' => false, 'message' => 'Database error: ' . ($db_error['message'] ?? 'Unknown error')]);
+				exit;
 			}
+
+			$interviews = [];
+			if($debug_query->num_rows() > 0) {
+				foreach($debug_query->result() as $row) {
+					$fullname = trim($row->firstname . ' ' . ($row->middlename ? $row->middlename . ' ' : '') . $row->lastname);
+					$parent_contact = $row->mobileno ? $row->mobileno : '';
+
+					$interviews[] = [
+						'studentid' => $row->studentid,
+						'student_name' => $fullname,
+						'grade' => $row->grade,
+						'section' => $row->section,
+						'interviewtime' => date('h:i A', strtotime($row->interviewtime)),
+						'interviewdate' => $row->interviewdate,
+						'schoolyear' => $row->schoolyear,
+						'duration' => $row->slot_duration,
+						'parent_name' => ($row->parentfname || $row->parentlname) ? trim($row->parentfname . ' ' . $row->parentlname) : '',
+						'parent_contact' => $parent_contact
+					];
+				}
+			}
+		} catch(Exception $e) {
+			echo json_encode(['success' => false, 'message' => 'Query error: ' . $e->getMessage()]);
+			exit;
 		}
-		
+
 		echo json_encode([
 			'success' => true,
 			'date' => $date,
