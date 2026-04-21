@@ -68,6 +68,13 @@ $totalMiscellaneous = array_sum($miscellaneousValues);
 $totalIncidentals = array_sum($incidentalValues);
 $totalAssessment = $tuition + $registration + $totalMiscellaneous + $totalIncidentals;
 
+$paymentEnroll = (float) ($assessmentSource ? $assessmentSource->payment : $defaultAssessment->payment_enroll);
+$balance = $totalAssessment - $paymentEnroll;
+$monthlyDue = $balance / 9;
+
+$promissoryPayment = (float) ($assessmentSource ? ($assessmentSource->promissory_payment ?? 0) : 0);
+$promissoryMonthly = $promissoryPayment / 9;
+
 /* ---------- reusable render helpers ---------- */
 
 $renderIncidentalsWithValues = static function () use ($incidentalsLabels, $incidentalValues, $formatMoney) {
@@ -96,13 +103,16 @@ $renderComputation = static function () use ($formatMoney, $tuition, $registrati
     <?php
 };
 
-$renderSummary = static function () use ($formatMoney, $totalAssessment) {
+$renderSummary = static function () use ($formatMoney, $totalAssessment, $paymentEnroll, $balance, $monthlyDue, $promissoryPayment, $promissoryMonthly) {
     ?>
     <div class="summary-box">
-        <div class="s-row"><span class="s-label">TOTAL ASSESSMENT:</span><span class="s-fill"></span></div>
-        <div class="s-row"><span class="s-label">Paid upon enrolment:</span><span class="s-fill"></span></div>
-        <div class="s-row"><span class="s-label">Balance:</span><span class="s-fill"></span></div>
-        <div class="s-row s-due"><span class="s-label">Due every 5<sup>th</sup> of the month:</span><span class="s-fill"></span></div>
+        <div class="s-row"><span class="s-label">TOTAL ASSESSMENT:</span><span class="s-fill"><?= $formatMoney($totalAssessment); ?></span></div>
+        <div class="s-row"><span class="s-label">Paid upon enrolment:</span><span class="s-fill"><?= $formatMoney($paymentEnroll); ?></span></div>
+        <div class="s-row"><span class="s-label">Balance:</span><span class="s-fill"><?= $formatMoney($balance); ?></span></div>
+        <div class="s-row s-due"><span class="s-label">Due every 5<sup>th</sup> of the month:</span><span class="s-fill"><?= $formatMoney($monthlyDue); ?></span></div>
+        <?php if ($promissoryPayment > 0): ?>
+        <div class="s-row s-due"><span class="s-label">Monthly Promissory Note:</span><span class="s-fill"><?= $formatMoney($promissoryMonthly); ?></span></div>
+        <?php endif; ?>
         <div class="s-row"><span class="s-label">Payment received by:</span><span class="s-fill"></span></div>
     </div>
     <?php

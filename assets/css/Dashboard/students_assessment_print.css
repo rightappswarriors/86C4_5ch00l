@@ -207,7 +207,7 @@ body {
 }
 .s-row {
     display: flex;
-    align-items: baseline;
+    align-items: flex-end;
     justify-content: space-between;
     gap: 3px;
     font-size: 6.5px;
@@ -219,10 +219,11 @@ body {
     white-space: nowrap;
 }
 .s-fill {
-    width: 50px;
+    flex: 1;
     border-bottom: 1px solid #000;
-    height: 6px;
-    flex-shrink: 0;
+    text-align: right;
+    padding-bottom: 0.5px;
+    min-width: 50px;
 }
 .s-due {
     color: #0088e0;
