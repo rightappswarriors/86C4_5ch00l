@@ -153,6 +153,9 @@ class Payments extends CI_Controller {
 				
 			}
 			
+			// Deduct newly created payment details from the assessment balances
+			$this->payments_model->update_assessment_balance($payment_id, 'subtract');
+			
 			$this->session->set_flashdata('message', "Successfully added new payment!");
 			redirect("payments/update_payment/".$payment_id);
 			
@@ -202,6 +205,9 @@ class Payments extends CI_Controller {
 			// update PAYMENT Master
 			$this->payments_model->update_master($payment_id,$payments_data);
 			
+			// RESTORE previous PAYMENT details into assessment before replacing
+			$this->payments_model->update_assessment_balance($payment_id, 'add');
+			
 			// delete PAYMENT Details
 			$this->payments_model->remove_payment_details($payment_id);
 			
@@ -222,6 +228,9 @@ class Payments extends CI_Controller {
 				
 			}
 			
+			// DEDUCT newly populated details from the assessment balances
+			$this->payments_model->update_assessment_balance($payment_id, 'subtract');
+			
 			$this->session->set_flashdata('message', "Successfully updated payment!");
 			redirect("payments/update_payment/".$payment_id);
 			
@@ -235,6 +244,8 @@ class Payments extends CI_Controller {
 	
 	public function remove_payment( $id )
 	{
+		// RESTORE deleted PAYMENT details into assessment
+		$this->payments_model->update_assessment_balance($id, 'add');
 		if($this->payments_model->removePayment( $id )){
 			$this->session->set_flashdata('message', "Successfully removed payment!");
 			redirect("payments/showlist/".$this->uri->segment(4));
@@ -250,6 +261,8 @@ class Payments extends CI_Controller {
 	
 	public function remove_payments( $id )
 	{
+		// RESTORE deleted PAYMENT details into assessment
+		$this->payments_model->update_assessment_balance($id, 'add');
 		if($this->payments_model->removePayment( $id )){
 			$this->session->set_flashdata('message', "Successfully removed payment!");
 			redirect("payments");
@@ -350,10 +363,19 @@ class Payments extends CI_Controller {
 			'default_ass' => $this->payments_model->default_assessment(),
 			'query_payments' => $this->payments_model->getStudentPaymentsPaid($studentid, $enroll_id),
 			'paid_enroll' => $this->payments_model->getStudentPaymentsPaidEnroll($studentid, $enroll_id),
+			'paid_items_map' => $this->build_paid_items_map($this->payments_model->getPaidItems($enroll_id)),
 			'can_view_detailed_soa' => $this->can_view_detailed_soa(),
 			'can_view_soa_amounts' => $this->can_view_soa_amounts(),
 			'can_print_soa' => $this->can_print_soa()
 		);
+	}
+
+	private function build_paid_items_map($query) {
+		$map = array();
+		foreach ($query->result() as $pd) {
+			$map[$pd->type_item . '_' . $pd->id_item] = (float) $pd->total_paid;
+		}
+		return $map;
 	}
 
 	private function printable_user_types()

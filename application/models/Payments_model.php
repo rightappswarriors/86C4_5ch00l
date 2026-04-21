@@ -153,6 +153,65 @@ class Payments_model extends CI_Model
 		return $this->db->update('enrolled',$data_);
 	}
 
+	function update_assessment_balance($payment_id, $action = 'subtract', $enroll_id = null) {
+		$payment_details = $this->db->query("SELECT * FROM payment_details WHERE payment_id = ?", array($payment_id));
+		
+		if (!$enroll_id) {
+			$payment = $this->db->query("SELECT * FROM payments WHERE id = ?", array($payment_id))->row();
+			if (!$payment) return;
+			$enroll_id = $payment->enroll_id;
+		}
+
+		$assessment = $this->db->query("SELECT * FROM assessment WHERE enroll_id = ?", array($enroll_id))->row();
+		if (!$assessment) return;
+
+		$incidentals = explode(",", $assessment->incidentals);
+		$miscellaneous = explode(",", $assessment->miscellaneous);
+		$tuition = $assessment->tuition;
+		$registration = $assessment->registration;
+		$payment_enroll = $assessment->payment;
+
+		foreach($payment_details->result() as $pd) {
+			$amount = $pd->price_item * $pd->qty_item;
+			if ($action == 'add') {
+				$amount = $amount;
+			} else {
+				$amount = -$amount;
+			}
+
+			if ($pd->type_item == 'indntals') {
+				if (isset($incidentals[$pd->id_item])) $incidentals[$pd->id_item] += $amount;
+			} else if ($pd->type_item == 'msclns') {
+				if (isset($miscellaneous[$pd->id_item])) $miscellaneous[$pd->id_item] += $amount;
+			} else if ($pd->type_item == 'tui_') {
+				$tuition += $amount;
+			} else if ($pd->type_item == 'reg_') {
+				$registration += $amount;
+			} else if ($pd->type_item == 'pay_') {
+				$payment_enroll += $amount;
+			}
+		}
+
+		$data = array(
+			'incidentals' => implode(",", $incidentals),
+			'miscellaneous' => implode(",", $miscellaneous),
+			'tuition' => $tuition,
+			'registration' => $registration,
+			'payment' => $payment_enroll
+		);
+
+		$this->db->where('id', $assessment->id);
+		$this->db->update('assessment', $data);
+	}
+	
+	function getPaidItems($enroll_id){
+		return $this->db->query("SELECT pd.type_item, pd.id_item, SUM(pd.price_item * pd.qty_item) as total_paid
+			FROM payment_details pd
+			JOIN payments p ON p.id = pd.payment_id
+			WHERE p.enroll_id = ? AND p.deleted = 'no'
+			GROUP BY pd.type_item, pd.id_item", array($enroll_id));
+	}
+
 }
 
 ?>
