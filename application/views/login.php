@@ -28,13 +28,14 @@
       .login-two-col-row {
         display: flex;
         flex-direction: column !important;
-        padding: 0.5rem 2% !important;
+        padding: 0.5rem 1% !important;
+        max-width: 100% !important;
       }
       .enrollment-col {
-        padding-right: 6px !important;
+        padding-right: 4px !important;
       }
       .enrollment-panel {
-        margin-top: 10px !important;
+        margin-top: 8px !important;
       }
       .enrollment-panel .mb-4 h2 {
         font-size: 0.85rem !important;
@@ -44,8 +45,8 @@
         display: none; /* hide subtitle on tiny screens */
       }
       .step-box {
-        padding: 6px 8px !important;
-        margin-bottom: 6px !important;
+        padding: 5px 8px !important;
+        margin-bottom: 5px !important;
       }
       .step-number {
         width: 20px !important;
@@ -67,61 +68,60 @@
         padding: 3px 5px !important;
       }
       .auth-card {
-        padding: 12px 10px !important;
+        padding: 10px 8px !important;
         border-radius: 10px !important;
       }
       .auth-card .school-logo {
-        width: 36px !important;
-        height: 36px !important;
+        width: 32px !important;
+        height: 32px !important;
       }
       .auth-card .school-logo i {
-        font-size: 18px !important;
+        font-size: 16px !important;
       }
       .auth-card h2 {
-        font-size: 13px !important;
+        font-size: 12px !important;
       }
       .auth-card p {
-        font-size: 10px !important;
+        font-size: 9px !important;
       }
       .auth-card .form-label {
-        font-size: 10px !important;
+        font-size: 9px !important;
         margin-bottom: 2px !important;
       }
       .auth-card .form-control {
-        height: 32px !important;
-        font-size: 10px !important;
+        height: 30px !important;
+        font-size: 9px !important;
         padding: 4px 6px !important;
       }
       .auth-card .input-group-text {
-        width: 32px !important;
-        height: 32px !important;
+        width: 30px !important;
+        height: 30px !important;
         padding: 0 !important;
-        font-size: 11px !important;
+        font-size: 10px !important;
       }
       .auth-card .form-check-label,
       .auth-card .forgot-password {
-        font-size: 9px !important;
+        font-size: 8px !important;
       }
-      .auth-card .login-method-selector-bottom .form-label { display: none; }
       .auth-card .login-method-btn {
         padding: 4px 6px !important;
-        font-size: 9px !important;
+        font-size: 8px !important;
       }
       .auth-card .auth-submit-btn {
-        height: 32px !important;
-        font-size: 11px !important;
+        height: 30px !important;
+        font-size: 10px !important;
         padding: 4px 8px !important;
       }
       .auth-card .api-auths a {
-        height: 30px !important;
-        font-size: 9px !important;
+        height: 28px !important;
+        font-size: 8px !important;
         padding: 4px 6px !important;
       }
       .auth-card .google-icon { height: 1em !important; width: 1em !important; }
       .auth-card .auth-footer-text p { font-size: 9px !important; }
       .auth-card .auth-divider { margin: 6px 0 !important; }
       .auth-copyright { font-size: 8px !important; margin-top: 4px !important; }
-      .login-col { padding-left: 6px !important; }
+      .login-col { padding-left: 4px !important; }
     }
     </style>
   </head>
@@ -139,11 +139,11 @@
       <div class="container-fluid page-body-wrapper full-page-wrapper">
         <div class="content-wrapper d-flex align-items-center auth auth-bg-1 theme-one">
           <!-- The row serves as the relative container for full width -->
-          <div class="row w-100 mx-auto align-items-center justify-content-between login-two-col-row" style="max-width: 1400px; padding: 2rem 5%; flex-wrap: nowrap;">
+          <div class="row w-100 mx-auto align-items-center justify-content-between login-two-col-row" style="max-width: 100%; padding: 1rem 1%; flex-wrap: nowrap;">
             
             <!-- Left Side Panel (Enrollment Procedures) -->
             <div class="col-6 d-flex flex-column justify-content-center enrollment-col pr-lg-5 mb-md-0">
-              <div class="enrollment-panel w-100 d-flex flex-column" style="background: transparent; margin-top: 100px;">
+              <div class="enrollment-panel w-100 d-flex flex-column" style="background: transparent; margin-top: 0;">
 
                 <div class="p-0" style="flex-grow: 1;">
                   <div class="mb-4">
@@ -159,7 +159,7 @@
                           <i class="mdi mdi-laptop"></i> ONLINE
                         </span>
                       </div>
-                      <div class="step-box" style="padding: 15px 20px; margin-bottom: 12px;">
+                      <div class="step-box" style="padding: 5px 8px; margin-bottom: 5px;">
                         <div class="step-number" style="width: 28px; height: 28px; line-height: 28px; font-size: 14px;">1</div>
                         <div class="step-content">
                           <h6 class="font-weight-bold mb-1" style="font-size: 14px;">Online Registration &amp; Fetcher's ID</h6>
@@ -173,21 +173,21 @@
                           <i class="mdi mdi-account-location"></i> IN PERSON
                         </span>
                       </div>
-                      <div class="step-box" style="padding: 15px 20px; margin-bottom: 12px;">
+                      <div class="step-box" style="padding: 5px 8px; margin-bottom: 5px;">
                         <div class="step-number" style="width: 28px; height: 28px; line-height: 28px; font-size: 14px;">2</div>
                         <div class="step-content">
                           <h6 class="font-weight-bold mb-1" style="font-size: 14px;">Diagnostic Test / Academic Assessment</h6>
                           <p class="mb-0 text-muted" style="font-size: 13px;">Student undergoes assessment for grade placement</p>
                         </div>
                       </div>
-                      <div class="step-box" style="padding: 15px 20px; margin-bottom: 12px;">
+                      <div class="step-box" style="padding: 5px 8px; margin-bottom: 5px;">
                         <div class="step-number" style="width: 28px; height: 28px; line-height: 28px; font-size: 14px;">3</div>
                         <div class="step-content">
                           <h6 class="font-weight-bold mb-1" style="font-size: 14px;">Financial Assessment</h6>
                           <p class="mb-0 text-muted" style="font-size: 13px;">Meet with accounting office for tuition &amp; payment plans</p>
                         </div>
                       </div>
-                      <div class="step-box" style="padding: 15px 20px; margin-bottom: 12px;">
+                      <div class="step-box" style="padding: 5px 8px; margin-bottom: 5px;">
                         <div class="step-number" style="width: 28px; height: 28px; line-height: 28px; font-size: 14px;">4</div>
                         <div class="step-content">
                           <h6 class="font-weight-bold mb-1" style="font-size: 14px;">Interview with Principal</h6>
@@ -198,14 +198,14 @@
                           </p>
                         </div>
                       </div>
-                      <div class="step-box" style="padding: 15px 20px; margin-bottom: 12px;">
+                      <div class="step-box" style="padding: 5px 8px; margin-bottom: 5px;">
                         <div class="step-number" style="width: 28px; height: 28px; line-height: 28px; font-size: 14px;">5</div>
                         <div class="step-content">
                           <h6 class="font-weight-bold mb-1" style="font-size: 14px;">Down Payment</h6>
                           <p class="mb-0 text-muted" style="font-size: 13px;">Pay <span class="text-success font-weight-bold">PHP 15,000</span> to Accounting Office</p>
                         </div>
                       </div>
-                      <div class="step-box" style="padding: 15px 20px; margin-bottom: 12px;">
+                      <div class="step-box" style="padding: 5px 8px; margin-bottom: 5px;">
                         <div class="step-number" style="width: 28px; height: 28px; line-height: 28px; font-size: 14px;">6</div>
                         <div class="step-content">
                           <h6 class="font-weight-bold mb-1" style="font-size: 14px;">Submit Documents</h6>
@@ -227,7 +227,7 @@
 
             <!-- Right Side Panel (Login Form) -->
             <div class="col-6 d-flex flex-column justify-content-center login-col align-items-lg-end pl-lg-0 mb-md-0">
-              <div class="auth-card" style="width: 100%; max-width: 420px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); border-radius: 20px; margin: 0; background: #fff; padding: 50px 40px;">
+              <div class="auth-card" style="width: 100%; max-width: 420px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); border-radius: 20px; margin: 0; background: #fff; padding: 10px 8px;">
                 <div class="auth-header mb-4 text-center">
                   <div class="school-logo mb-3 mx-auto" style="width: 65px; height: 65px; background: #1976D2; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
                     <i class="mdi mdi-school" style="font-size: 30px;"></i>
