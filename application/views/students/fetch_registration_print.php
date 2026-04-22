@@ -29,6 +29,11 @@ if (is_array($fetcher_data)) {
     }
 }
 
+$fetcher1_photo = $record->fetcher_1_photo ?? '';
+$fetcher2_photo = $record->fetcher_2_photo ?? '';
+$fetcher1_photo_url = $fetcher1_photo ? base_url() . 'assets/images/fetcher_photos/' . $fetcher1_photo : '';
+$fetcher2_photo_url = $fetcher2_photo ? base_url() . 'assets/images/fetcher_photos/' . $fetcher2_photo : '';
+
 // ===== STUDENTS (ALL - BOTTOM) =====
 $students = [];
 if (is_array($student_data)) {
@@ -142,8 +147,16 @@ if (is_array($student_data)) {
             <div class="card-title">FETCHER</div>
             
             <div class="photo-boxes">
+                <?php if ($fetcher1_photo): ?>
+                <div class="photo-box"><img src="<?= $fetcher1_photo_url ?>" alt="Fetcher 1 Photo" style="width:100%;height:100%;object-fit:cover;"></div>
+                <?php else: ?>
                 <div class="photo-box">PHOTO</div>
+                <?php endif; ?>
+                <?php if ($fetcher2_photo): ?>
+                <div class="photo-box"><img src="<?= $fetcher2_photo_url ?>" alt="Fetcher 2 Photo" style="width:100%;height:100%;object-fit:cover;"></div>
+                <?php else: ?>
                 <div class="photo-box">PHOTO</div>
+                <?php endif; ?>
             </div>
             
             <div class="name-boxes">

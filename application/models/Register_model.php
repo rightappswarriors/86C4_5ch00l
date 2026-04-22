@@ -268,10 +268,11 @@ class Register_model extends CI_Model
 	
 	function get_schedulesfor_interview(){
 
+		$schoolyearid = $this->session->userdata('current_schoolyearid');
 		$query = "select a.*,b.* from students a
 		join interviewsched b on b.studentid = a.id
 		left join register c on c.id = a.user_id
-		where b.status = 1 and b.schoolyear = " . $this->session->userdata('current_schoolyearid') . " order by b.id asc ";
+		where b.status = 1 and b.schoolyear = " . $this->db->escape($schoolyearid) . " order by b.id asc ";
 		return $this->db->query($query);
 
 	}

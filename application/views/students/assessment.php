@@ -325,9 +325,9 @@ function humanizeNumber(n) {
 		
 		<div class="row">
 			<div class="col-md-12" style="text-align:right;">
-		<?php 
+<?php
 		if($this->session->userdata('current_usertype') == 'Parent'):
-		?>
+		?>	
 		<a href="<?=site_url("students/assessment/".$row->id)?>" class="btn btn-icons btn-secondary btn-rounded"><i class='mdi mdi-refresh'></i></a>	
 		<?php endif; ?>
 		<?php 
@@ -362,6 +362,15 @@ function humanizeNumber(n) {
 				<?php
 				endforeach;
 				?>
+				
+				<?php
+				$allowed_update_roles = array('Accounting', 'Super Admin', 'Admin', 'Registrar');
+				if(in_array($this->session->userdata('current_usertype'), $allowed_update_roles)):
+				?>	
+				<div style="margin-top: 15px;">
+					<input type="submit" class="btn btn-lg btn-primary" value="UPDATE Assessment">
+				</div>
+				<?php endif; ?>
 			</div>
 			
 			<div class="col-md-6">
@@ -400,7 +409,7 @@ function humanizeNumber(n) {
 					<input type="hidden" id="asstotal_hidden" name="asstotal_hidden" value="<?=$total_ass?>">
 				</div>
 				<div class="assessment-total-row">
-					<label>Paid upon enrolments:</label>
+					<label>Paid upon enrollment:</label>
 					<input type="text" id="paymentenroll" name="paymentenroll" value="<?=set_value('paymentenroll',$paymentenroll)?>" class="assessment-total-input" />
 				</div>
 				<div class="assessment-total-row">
@@ -455,7 +464,7 @@ function humanizeNumber(n) {
 		<input type="submit" class="btn btn-lg btn-primary" value="UPDATE Assessment">
 		</div>
 		<?php endif; ?>
-		
+				
 		</div>
 		
 		</form>

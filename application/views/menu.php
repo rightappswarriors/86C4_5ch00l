@@ -184,7 +184,7 @@
 
 <?php endif; ?>
 
-<?php if($this->session->userdata('current_usertype_display') == 'Super Admin'):?>
+<?php if(in_array($this->session->userdata('current_usertype_display'), array('Super Admin', 'Admin'))):?>
 <?php //if($this->session->userdata('current_userid') == 25):?>
 
 <li class="nav-item">

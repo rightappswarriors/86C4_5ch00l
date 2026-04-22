@@ -165,7 +165,7 @@ $is_accounting = ($current_usertype == 'Accounting' || $this->session->userdata(
 	<div id="student-info" class="stu-tab-content active">
 		<div class="header">
 			<h1>ENROLLMENT APPLICATION FORM</h1>
-			<h2>BOB HUGHES CHRISTIAN ACADEMY</h2>
+			<h2>CEBU BOB HUGHES CHRISTIAN ACADEMY, INC.</h2>
 		</div>
 		
 		

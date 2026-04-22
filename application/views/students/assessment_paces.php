@@ -200,10 +200,11 @@ $(function(){
 		<div class="row">
 		
 		<?php
-		if($this->session->userdata('current_usertype') == 'Registrar'):
+		$allowed_update_roles = array('Accounting', 'Super Admin', 'Admin', 'Registrar');
+		if(in_array($this->session->userdata('current_usertype'), $allowed_update_roles)):
 		?>	
 		<div class="col-md-12" style="text-align:left;">
-		<input type="submit" class="btn btn-lg btn-primary" value="UPDATE PACEs">
+			<input type="submit" class="btn btn-lg btn-primary" value="UPDATE PACEs">
 		</div>
 		<?php endif; ?>
 		

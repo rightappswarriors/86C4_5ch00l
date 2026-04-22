@@ -21,7 +21,8 @@ class Users extends CI_Controller {
 
 	private function can_manage_users()
 	{
-		return $this->session->userdata('current_usertype_display') == 'Super Admin';
+		$current_type = $this->session->userdata('current_usertype_display');
+		return in_array($current_type, array('Super Admin', 'Admin'));
 	}
 	
 	public function index()

@@ -11,7 +11,7 @@
 		
 		<div style="padding: 1.5rem 2rem;">
 		
-		<form class="enroll-form" id="frmfetcher" action="<?=site_url("students/fetcher_id_submit")?>" method="POST">
+		<form class="enroll-form" id="frmfetcher" action="<?=site_url("students/fetcher_id_submit")?>" method="POST" enctype="multipart/form-data">
 		  
 		  <div class="enroll-instruction">
 			<i class="mdi mdi-information-outline"></i> Please fill out all fields. If not applicable, enter <strong>N/A</strong>.
@@ -78,6 +78,13 @@
 							<input type="text" name="fetcher[0][contact_number]" class="form-control" placeholder="09xxxxxxxxx" required>
 						</div>
 					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="form-label">Photo</label>
+							<input type="file" name="fetcher_1_photo" class="form-control" accept="image/*">
+							<small class="text-muted">Upload a clear photo (JPG, PNG)</small>
+						</div>
+					</div>
 				</div>
 			</div>
 			
@@ -131,6 +138,13 @@
 						<div class="form-group">
 							<label class="form-label">Contact Number</label>
 							<input type="text" name="fetcher[1][contact_number]" class="form-control" placeholder="09xxxxxxxxx">
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label class="form-label">Photo</label>
+							<input type="file" name="fetcher_2_photo" class="form-control" accept="image/*">
+							<small class="text-muted">Upload a clear photo (JPG, PNG)</small>
 						</div>
 					</div>
 				</div>

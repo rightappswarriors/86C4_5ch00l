@@ -323,7 +323,7 @@ class Students_model extends CI_Model
 
 	function count_reenrollments()
 	{
-		return $this->db->query("select count(*) as num_reenrolls from preenrollstudents where status = '1' and schoolyear = " . $this->session->userdata('current_schoolyearid') . " group by schoolyear");
+	return $this->db->query("select count(*) as num_reenrolls from preenrollstudents where status = '1' and schoolyear = " . $this->session->userdata('current_schoolyearid') . " group by schoolyear");
 	}
 
 	function students_count_status()

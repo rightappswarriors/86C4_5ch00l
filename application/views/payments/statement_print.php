@@ -7,6 +7,7 @@
 	$indntals_list = explode(",",$def_assessment->incidentals);
 	$msclns_list = explode(",",$def_assessment->miscellaneous);
 	$can_view_detailed_soa = !empty($can_view_detailed_soa);
+	$show_items_without_amounts = !empty($show_items_without_amounts);
 	$assetBaseUrl = rtrim(dirname(site_url()), '/\\');
 	$logoDataUri = '';
 	$logoCandidates = array(
@@ -171,10 +172,17 @@
 						<div class="info-value text-right"><?=number_format($indntals[$ind])?></div>
 					</div>
 					<?php
+						elseif($show_items_without_amounts):
+					?>
+					<div class="info-row">
+						<div class="info-label"><?=$indntals_val?></div>
+						<div class="info-value text-right"></div>
+					</div>
+					<?php
 						endif;
 						endif;
 					endforeach;
-					if(!$can_view_detailed_soa):
+					if(!$can_view_detailed_soa && !$show_items_without_amounts):
 					?>
 					<div class="info-row">
 						<div class="info-label">Incidentals Total</div>
@@ -204,10 +212,17 @@
 						<div class="info-value text-right"><?=number_format($misc_value,2)?></div>
 					</div>
 					<?php
+						elseif($show_items_without_amounts):
+					?>
+					<div class="info-row">
+						<div class="info-label"><?=$msclns_val?></div>
+						<div class="info-value text-right"></div>
+					</div>
+					<?php
 						endif;
 						endif;
 					endforeach;
-					if(!$can_view_detailed_soa):
+					if(!$can_view_detailed_soa && !$show_items_without_amounts):
 					?>
 					<div class="info-row">
 						<div class="info-label">Miscellaneous Total</div>

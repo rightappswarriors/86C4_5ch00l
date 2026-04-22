@@ -90,10 +90,38 @@ class Students extends CI_Controller {
 		$fetcher_json = json_encode($fetcher);
 		$student_json = json_encode($student);
 		
+		$upload_path = FCPATH . 'assets/images/fetcher_photos/';
+		$upload_path2 = FCPATH . 'file/assets/images/fetcher_photos/';
+		if (!is_dir($upload_path)) {
+			mkdir($upload_path, 0777, true);
+		}
+		if (!is_dir($upload_path2)) {
+			mkdir($upload_path2, 0777, true);
+		}
+		
+		$fetcher_1_photo = '';
+		$fetcher_2_photo = '';
+		
+		if (!empty($_FILES['fetcher_1_photo']['name'])) {
+			$ext = pathinfo($_FILES['fetcher_1_photo']['name'], PATHINFO_EXTENSION);
+			$fetcher_1_photo = 'fetcher1_' . time() . '.' . $ext;
+			move_uploaded_file($_FILES['fetcher_1_photo']['tmp_name'], $upload_path . $fetcher_1_photo);
+			copy($upload_path . $fetcher_1_photo, $upload_path2 . $fetcher_1_photo);
+		}
+		
+		if (!empty($_FILES['fetcher_2_photo']['name'])) {
+			$ext = pathinfo($_FILES['fetcher_2_photo']['name'], PATHINFO_EXTENSION);
+			$fetcher_2_photo = 'fetcher2_' . time() . '.' . $ext;
+			move_uploaded_file($_FILES['fetcher_2_photo']['tmp_name'], $upload_path . $fetcher_2_photo);
+			copy($upload_path . $fetcher_2_photo, $upload_path2 . $fetcher_2_photo);
+		}
+		
 		$data = array(
 			'fetcher_data' => $fetcher_json,
 			'student_data' => $student_json,
 			'notes' => $notes,
+			'fetcher_1_photo' => $fetcher_1_photo,
+			'fetcher_2_photo' => $fetcher_2_photo,
 			'registered_date' => date("Y-m-d H:i:s")
 		);
 		

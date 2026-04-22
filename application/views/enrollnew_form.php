@@ -252,7 +252,7 @@ $(function(){
 			</div>
 			<div class="col-md-4">
 				<div class="form-group">
-					<label class="form-label">Refered by</label>
+					<label class="form-label">Referred by</label>
 					<input type="text" name="referred_by" value="<?=set_value('referred_by')?>" class="form-control" placeholder="Enter referrer name or N/A" />
 				</div>
 			</div>

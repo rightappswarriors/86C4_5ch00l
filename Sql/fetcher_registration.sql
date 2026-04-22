@@ -6,6 +6,8 @@ CREATE TABLE IF NOT EXISTS `fetcher_registration` (
   `fetcher_data` text NOT NULL,
   `student_data` text NOT NULL,
   `notes` text,
+  `fetcher_1_photo` varchar(255) DEFAULT NULL,
+  `fetcher_2_photo` varchar(255) DEFAULT NULL,
   `registered_date` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
