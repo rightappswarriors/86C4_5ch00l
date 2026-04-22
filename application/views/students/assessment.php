@@ -87,7 +87,7 @@
 		$ap = explode(",",$row_as->ap);
 		$as_id = $row_as->id;
 		$promissory_payment = isset($row_as->promissory_payment) && is_numeric($row_as->promissory_payment) ? $row_as->promissory_payment : 0;
-		$promissory_monthly = $promissory_payment / 9;
+		$promissory_monthly = $promissory_payment; // Treated as monthly value directly
 		
 	}else{
 		
@@ -155,25 +155,23 @@
 	color: #1298f6;
 }
 
-.assessment-total-input {
-	width: 120px;
-	margin-left: auto;
-	border: 0;
-	border-bottom: 1px solid #000;
-	border-radius: 0;
-	background: transparent;
-	height: 20px;
-	padding: 0;
+.assessment-total-input, 
+.form-control {
+	border: none !important;
+	border-bottom: 1px solid #000 !important;
+	border-radius: 0 !important;
+	background: transparent !important;
 	text-align: right;
-	font-size: 12px;
 	font-weight: 700;
 	box-shadow: none !important;
+	height: 25px !important;
+	padding: 2px 0 !important;
 }
 
-.assessment-total-input[disabled] {
-	background: transparent;
-	opacity: 1;
-	color: #000;
+.form-control:focus {
+	outline: none !important;
+	border-bottom: 2px solid #1298f6 !important;
+	box-shadow: none !important;
 }
 </style>
 
@@ -181,10 +179,13 @@
 $(function(){	
 	
 	$('input[type=text]').on('keyup',function(e){
-		if($(this).val().length == 0) {	
+		compute_total();
+	});
+
+	$('input[type=text]').on('blur', function() {
+		if($(this).val().length == 0) {
 			$(this).val("0");
 		}
-		compute_total();
 	});
 	
 	$('input[type=text]').keypress(function(event){
@@ -262,10 +263,14 @@ function compute_total(){
 	var monthdue = Number( balance ) / 9;
 	$("#monthdue").val( humanizeNumber( monthdue.toFixed(2) ) ); 
 	
-	// PROMISSORY NOTE: Previous balance divided by 9 months
-	var promissoryBalance = Number( $("#promissory_payment").val() ) || 0;
-	var promissoryMonthly = promissoryBalance / 9;
-	$("#promissory_monthly").val( humanizeNumber( promissoryMonthly.toFixed(2) ) ); 
+	// TOTAL AMOUNT: Monthly Due + Monthly Promissory Note Payment
+	// We treat the input value as a direct monthly addition.
+	var promissoryRaw = $("#promissory_payment").val() || "0";
+	var promissoryMonthly = parseFloat(promissoryRaw.replace(/,/g, '')) || 0;
+	var totalAmount = monthdue + promissoryMonthly;
+	
+	$("#monthdue").val( humanizeNumber( totalAmount.toFixed(2) ) ); 
+	$("#promissory_monthly").val( humanizeNumber( totalAmount.toFixed(2) ) ); 
 	
 }
 
@@ -402,9 +407,9 @@ function humanizeNumber(n) {
 					<label>Balance:</label>
 					<input type="text" id="balance" name="balance" value="<?=set_value('balance',number_format($balance,2))?>" class="assessment-total-input" disabled/>
 				</div>
-				<div class="assessment-total-row assessment-due-row">
-					<label>Due every 5<sup>th</sup> of the month:</label>
-					<input type="text" id="monthdue" name="monthdue" value="<?=set_value('monthdue',number_format($monthly,2))?>" class="assessment-total-input" disabled/>
+				<div class="assessment-total-row">
+					<label>Due every month:</label>
+					<input type="text" id="monthdue" name="monthdue" value="<?=set_value('monthdue',number_format($monthly + $promissory_monthly, 2))?>" class="assessment-total-input" disabled/>
 				</div>
 
 				<div class="assessment-total-row assessment-due-row">
@@ -413,8 +418,8 @@ function humanizeNumber(n) {
 				</div>
 
 				<div class="assessment-total-row assessment-due-row">
-					<label>Due every 5<sup>th</sup> of the month:</label>
-					<input type="text" id="promissory_monthly" name="promissory_monthly" value="<?=set_value('promissory_monthly', number_format($promissory_monthly, 2))?>" class="assessment-total-input" disabled/>
+					<label>Total Amount:</label>
+					<input type="text" id="promissory_monthly" name="promissory_monthly" value="<?=set_value('promissory_monthly', number_format($monthly + $promissory_monthly, 2))?>" class="assessment-total-input" disabled/>
 				</div>
 
 				<div class="assessment-total-row">

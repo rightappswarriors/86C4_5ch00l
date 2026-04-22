@@ -18,12 +18,15 @@ if ($has_assessment):
 
 	$incidental_labels = explode(",", $def_assessment->incidentals);
 	$miscellaneous_labels = explode(",", $def_assessment->miscellaneous);
-	$incidentals = explode(",", $row_as->incidentals);
-	$miscellaneous = explode(",", $row_as->miscellaneous);
-
 	$tuition = $def_assessment->tuition;
 	$registration = $def_assessment->registration;
 	$payment_enroll = $def_assessment->payment_enroll;
+	$incidentals = explode(",", $row_as->incidentals);
+	$miscellaneous = explode(",", $row_as->miscellaneous);
+
+	$total_incidentals = array_sum($incidentals);
+	$total_miscellaneous = array_sum($miscellaneous);
+	$school_fee = $total_incidentals + $total_miscellaneous;
 endif;
 ?>
 
@@ -49,35 +52,16 @@ endif;
 				</div>
 
 				<div class="payment-charge-panel">
-					<div class="row">
-						<div class="col-md-6">
-							<div class="payment-modal-section payment-inline-section">
-								<p class="payment-modal-section-title">Incidentals</p>
-								<div class="payment-item-button-list">
-									<?php foreach ($incidental_labels as $index => $label): ?>
-										<?php if ((float) $incidentals[$index] > 0): ?>
-											<button type="button" id="indntals_<?=$index?>" class="btnadditem btn btn-secondary payment-item-button">
-												<?=$label?> (<?=number_format($incidentals[$index], 2)?>)
-											</button>
-										<?php endif; ?>
-									<?php endforeach; ?>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-md-6">
-							<div class="payment-modal-section payment-inline-section">
-								<p class="payment-modal-section-title">Miscellaneous</p>
-								<div class="payment-item-button-list">
-									<?php foreach ($miscellaneous_labels as $index => $label): ?>
-										<?php if ((float) $miscellaneous[$index] > 0): ?>
-											<button type="button" id="msclns_<?=$index?>" class="btnadditem btn btn-secondary payment-item-button">
-												<?=$label?> (<?=number_format($miscellaneous[$index], 2)?>)
-											</button>
-										<?php endif; ?>
-									<?php endforeach; ?>
-								</div>
-							</div>
+					<div class="payment-modal-section payment-inline-section" style="background: #fff3e0; border-color: #ffe0b2;">
+						<p class="payment-modal-section-title" style="color: #e65100;">School Fee</p>
+						<div class="payment-item-button-list">
+							<?php if ($school_fee > 0): ?>
+								<button type="button" ref="sf_" class="btnadditem_ btn btn-secondary payment-item-button">
+									School Fee (<?=number_format($school_fee, 2)?>)
+								</button>
+							<?php else: ?>
+								<p class="text-muted" style="font-size: 12px; margin-left: 10px;">No outstanding school fees.</p>
+							<?php endif; ?>
 						</div>
 					</div>
 
@@ -249,6 +233,7 @@ $(document).ready(function() {
 		<?='var registrationValue = ' . $registration . ';';?>
 		<?='var tuitionValue = ' . ($tuition / 10) . ';';?>
 		<?='var paymentEnrollValue = ' . $payment_enroll . ';';?>
+		<?='var schoolFeeValue = ' . $school_fee . ';';?>
 
 		if (selectedReference == "reg_") {
 			selectedItem = "Registration";
@@ -258,6 +243,10 @@ $(document).ready(function() {
 			selectedItem = "Tuition";
 			itemIndex = "9991";
 			selectedPrice = tuitionValue;
+		} else if (selectedReference == "sf_") {
+			selectedItem = "School Fee (total of the incidentals and the miscellaneous)";
+			itemIndex = "9993";
+			selectedPrice = schoolFeeValue;
 		} else {
 			selectedItem = "Enrollment";
 			itemIndex = "9992";

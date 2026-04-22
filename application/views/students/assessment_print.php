@@ -2,6 +2,9 @@
 $row = $query->row();
 $defaultAssessment = $default_ass->row();
 
+$usertype = $this->session->userdata('current_usertype');
+$isLandscape = in_array($usertype, ['Accounting', 'Registrar', 'Admin', 'Super Admin']);
+
 $gradeBand = static function ($gradeLevel) {
     $value = strtoupper(trim((string) $gradeLevel));
     if ($value === '') return 'G4-10';
@@ -73,7 +76,7 @@ $balance = $totalAssessment - $paymentEnroll;
 $monthlyDue = $balance / 9;
 
 $promissoryPayment = (float) ($assessmentSource ? ($assessmentSource->promissory_payment ?? 0) : 0);
-$promissoryMonthly = $promissoryPayment / 9;
+$promissoryMonthly = $promissoryPayment; // Treated as monthly value directly
 
 /* ---------- reusable render helpers ---------- */
 
@@ -83,12 +86,7 @@ $renderIncidentalsWithValues = static function () use ($incidentalsLabels, $inci
         ?>
         <div class="row-line">
             <span class="left-label"><?= htmlspecialchars($label, ENT_QUOTES, 'UTF-8'); ?></span>
-            <?php if ($val > 0): ?>
-                <span class="right-fill"></span>
-                <span class="val"><?= $formatMoney($val); ?></span>
-            <?php else: ?>
-                <span class="right-fill"></span>
-            <?php endif; ?>
+            <span class="right-fill"><?= $val > 0 ? $formatMoney($val) : ''; ?></span>
         </div>
         <?php
     }
@@ -96,10 +94,10 @@ $renderIncidentalsWithValues = static function () use ($incidentalsLabels, $inci
 
 $renderComputation = static function () use ($formatMoney, $tuition, $registration, $totalMiscellaneous, $totalIncidentals) {
     ?>
-    <div class="comp-line"><span>TUITION</span><span class="comp-fill"></span><span class="comp-val"><?= $formatMoney($tuition); ?></span></div>
-    <div class="comp-line"><span>REGISTRATION</span><span class="comp-fill"></span><span class="comp-val"><?= $formatMoney($registration); ?></span></div>
-    <div class="comp-line"><span>TOTAL MISCELLANEOUS</span><span class="comp-fill"></span><span class="comp-val"><?= $formatMoney($totalMiscellaneous); ?></span></div>
-    <div class="comp-line"><span>TOTAL INCIDENTALS</span><span class="comp-fill"></span><span class="comp-val"><?= $formatMoney($totalIncidentals); ?></span></div>
+    <div class="comp-line"><span>TUITION</span><span class="comp-fill"><?= $formatMoney($tuition); ?></span></div>
+    <div class="comp-line"><span>REGISTRATION</span><span class="comp-fill"><?= $formatMoney($registration); ?></span></div>
+    <div class="comp-line"><span>TOTAL MISCELLANEOUS</span><span class="comp-fill"><?= $formatMoney($totalMiscellaneous); ?></span></div>
+    <div class="comp-line"><span>TOTAL INCIDENTALS</span><span class="comp-fill"><?= $formatMoney($totalIncidentals); ?></span></div>
     <?php
 };
 
@@ -109,10 +107,9 @@ $renderSummary = static function () use ($formatMoney, $totalAssessment, $paymen
         <div class="s-row"><span class="s-label">TOTAL ASSESSMENT:</span><span class="s-fill"><?= $formatMoney($totalAssessment); ?></span></div>
         <div class="s-row"><span class="s-label">Paid upon enrolment:</span><span class="s-fill"><?= $formatMoney($paymentEnroll); ?></span></div>
         <div class="s-row"><span class="s-label">Balance:</span><span class="s-fill"><?= $formatMoney($balance); ?></span></div>
-        <div class="s-row s-due"><span class="s-label">Due every 5<sup>th</sup> of the month:</span><span class="s-fill"><?= $formatMoney($monthlyDue); ?></span></div>
-        <?php if ($promissoryPayment > 0): ?>
-        <div class="s-row s-due"><span class="s-label">Monthly Promissory Note:</span><span class="s-fill"><?= $formatMoney($promissoryMonthly); ?></span></div>
-        <?php endif; ?>
+        <div class="s-row"><span class="s-label">Due every month:</span><span class="s-fill"><?= $formatMoney($monthlyDue + $promissoryMonthly); ?></span></div>
+        <div class="s-row s-due"><span class="s-label">Monthly Promissory Note Payment:</span><span class="s-fill"><?= $formatMoney($promissoryMonthly); ?></span></div>
+        <div class="s-row s-due"><span class="s-label">Total Amount:</span><span class="s-fill"><?= $formatMoney($monthlyDue + $promissoryMonthly); ?></span></div>
         <div class="s-row"><span class="s-label">Payment received by:</span><span class="s-fill"></span></div>
     </div>
     <?php
@@ -137,8 +134,21 @@ $renderMeta = static function ($nameWidth, $dateWidth, $gradeWidth, $syWidth) us
     <meta charset="utf-8">
     <title>Financial Assessment Print</title>
     <link rel="stylesheet" href="<?= base_url(); ?>assets/css/Dashboard/students_assessment_print.css">
+    <?php if ($isLandscape): ?>
+    <style>
+        @media print {
+            @page { size: letter landscape; margin: 0; }
+        }
+    </style>
+    <?php else: ?>
+    <style>
+        @media print {
+            @page { size: letter portrait; margin: 0; }
+        }
+    </style>
+    <?php endif; ?>
 </head>
-<body>
+<body class="<?= $isLandscape ? 'landscape-mode' : '' ?>">
 <div class="toolbar">
     <button onclick="window.print()">PRINT / SAVE PDF</button>
     <button onclick="window.close()">CLOSE</button>
@@ -146,7 +156,6 @@ $renderMeta = static function ($nameWidth, $dateWidth, $gradeWidth, $syWidth) us
 
 <div class="page">
     <div class="grid">
-
         <!-- ========== LEFT COLUMN: Parent / Main Copy ========== -->
         <div class="left-copy">
             <div class="school-header">
