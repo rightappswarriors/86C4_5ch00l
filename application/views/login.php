@@ -26,7 +26,8 @@
     /* === MOBILE: Both panels side-by-side at all times === */
     @media (max-width: 767px) {
       .login-two-col-row {
-        flex-wrap: nowrap !important;
+        display: flex;
+        flex-direction: column !important;
         padding: 0.5rem 2% !important;
       }
       .enrollment-col {
