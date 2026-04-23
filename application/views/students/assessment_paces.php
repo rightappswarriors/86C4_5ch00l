@@ -114,6 +114,12 @@ $(function(){
 		<input type="hidden" name="as_id" value="<?=$as_id?>">
 		
 		<h3 class="heading" style="text-align:center;">Assessment PACEs <span id="paces-save-indicator" style="font-size: 12px; color: green; margin-left: 10px;"></span></h3>
+				<div class="row">
+			<div class="col-md-12" style="text-align:center; margin-bottom: 15px;">
+				<a href="<?=site_url("students/assessment/".$row->id)?>" class="btn btn-lg btn-primary">Financial Assessment</a>
+				<a href="<?=site_url("students/assessment_paces/".$row->id)?>" class="btn btn-lg btn-info">Pace's Assessment</a>
+			</div>
+		</div>
 		
 		<div class="row">
 			<div class="col-md-12" style="text-align:right;">

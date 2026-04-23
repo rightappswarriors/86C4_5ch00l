@@ -313,7 +313,7 @@ function humanizeNumber(n) {
 		<form action="<?=site_url("students/assessment_submit/".$row->id)?>" method="post">
 		<input type="hidden" name="as_id" value="<?=$as_id?>">
 		
-		<h3 class="heading" style="text-align:center;">Assessment</h3>
+		<h3 class="heading" style="text-align:center;"> Financial Assessment</h3>
 		
 		<br>
 		<div class="row">

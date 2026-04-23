@@ -95,11 +95,85 @@
 }
 
 @media print {
-    body { margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .page { width: 100%; min-height: auto; margin: 0; padding: 0.2in; }
-    .toolbar { display: none !important; }
-    .tab-buttons { display: none !important; }
-    @page { size: letter portrait; margin: 0; }
+    /* Hide UI elements: toolbar, tabs, sidebar, navbar, footer */
+    .toolbar,
+    .stu-tab-container,
+    .navbar,
+    #sidebar,
+    .sidebar,
+    .footer {
+        display: none !important;
+    }
+
+    /* Reset body and main layout */
+    body,
+    html {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+    }
+
+    /* Expand main panel to full width (sidebar is hidden) */
+    .main-panel {
+        width: 100% !important;
+    }
+
+    /* Remove content wrapper padding/background */
+    .content-wrapper {
+        padding: 0 !important;
+        background: #fff !important;
+    }
+
+    /* Reset the wrapper row that contains the student view */
+    .content-wrapper > .row {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* Student view container: centered letter size */
+    .student-view-container {
+        width: 100% !important;
+        max-width: 8.5in !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        background: #fff !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        overflow: visible !important;
+    }
+
+    /* Page: actual content area */
+    .page {
+        width: 100% !important;
+        min-height: auto !important;
+        margin: 0 !important;
+        padding: 0.3in !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        background: #fff !important;
+    }
+
+    /* Ensure info section titles print clearly */
+    .info-section .title {
+        background: none !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    /* Avoid page breaks inside important sections */
+    .info-section,
+    .receipt-qr-section,
+    .receipt-student-info,
+    .receipt-enrollment-details,
+    .receipt-notes,
+    .receipt-footer {
+        page-break-inside: avoid;
+    }
+
+    @page {
+        size: letter portrait;
+        margin: 0;
+    }
 }
 
 /* =====================

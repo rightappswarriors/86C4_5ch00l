@@ -172,7 +172,7 @@ $is_accounting = ($current_usertype == 'Accounting' || $this->session->userdata(
 		
 		<div class="main-content">
 			<div class="left-side">
-				<div class="info-section">
+					<div class="info-section">
 					<div class="title">BASIC INFORMATION</div>
 					<div class="row"><span class="label">Full Name:</span><span class="value"><?= strtoupper($row->firstname . " " . $row->lastname) ?></span></div>
 					<div class="row"><span class="label">First Name:</span><span class="value"><?= strtoupper($row->firstname ?? '') ?></span></div>
@@ -181,7 +181,7 @@ $is_accounting = ($current_usertype == 'Accounting' || $this->session->userdata(
 					<div class="row"><span class="label">Date of Birth:</span><span class="value"><?= $row->birthdate ? date('F j, Y', strtotime($row->birthdate)) : '' ?></span></div>
 					<div class="row"><span class="label">Place of Birth:</span><span class="value"><?= strtoupper($row->placeofbirth ?? '') ?></span></div>
 					<div class="row"><span class="label">Gender:</span><span class="value"><?= strtoupper($row->gender ?? '') ?></span></div>
-					<div class="row"><span class="label">Refered by:</span><span class="value"><?= strtoupper($row->referred_by ?? '') ?></span></div>
+					<div class="row"><span class="label">Referred by:</span><span class="value"><?= strtoupper($row->referred_by ?? '') ?></span></div>
 				</div>
 				
 				<div class="info-section">
@@ -218,13 +218,13 @@ $is_accounting = ($current_usertype == 'Accounting' || $this->session->userdata(
 					<div class="row"><span class="label">Mother's Contact:</span><span class="value"><?= $row->mother_contact2 ?? '' ?></span></div>
 				</div>
 				
-				<div class="info-section">
+					<div class="info-section">
 					<div class="title">EMERGENCY CONTACT</div>
 					<div class="row"><span class="label">Contact Person:</span><span class="value"><?= strtoupper($row->incaseemergency ?? '') ?></span></div>
 					<div class="row"><span class="label">Relationship:</span><span class="value"><?= strtoupper($row->relationship ?? '') ?></span></div>
 					<div class="row"><span class="label">Cellphone No.:</span><span class="value"><?= $row->personal_cell ?? '' ?></span></div>
 					<div class="row"><span class="label">Home Phone:</span><span class="value"><?= $row->homelandline ?? '' ?></span></div>
-					<div class="row"><span class="label">Refered by:</span><span class="value"><?= strtoupper($row->referred_by ?? '') ?></span></div>
+					<div class="row"><span class="label">Referred by:</span><span class="value"><?= strtoupper($row->referred_by ?? '') ?></span></div>
 				</div>
 			</div>
 			
