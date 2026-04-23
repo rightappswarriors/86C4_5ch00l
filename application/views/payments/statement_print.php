@@ -156,7 +156,7 @@
 	
 		<div class="soa-print-col-left">
 			<div class="card">
-				<div class="card-header">
+				<div class="card-header" style="text-align: center; color: black !important; font-weight: 900; border: none !important; border-bottom: 1px solid #ddd !important; background: transparent !important; font-size: 14px; padding: 10px 0;">
 					INCIDENTALS
 				</div>
 				<div class="card-body">
@@ -165,21 +165,12 @@
 					foreach($indntals_list as $ind=>$indntals_val):
 						if(isset($indntals[$ind]) && $indntals[$ind]>0):
 						$tindntals += $indntals[$ind];
-						if($can_view_detailed_soa):
-					?>
-					<div class="info-row">
-						<div class="info-label"><?=$indntals_val?></div>
-						<div class="info-value text-right"><?=number_format($indntals[$ind])?></div>
-					</div>
-					<?php
-						elseif($show_items_without_amounts):
 					?>
 					<div class="info-row">
 						<div class="info-label"><?=$indntals_val?></div>
 						<div class="info-value text-right"></div>
 					</div>
 					<?php
-						endif;
 						endif;
 					endforeach;
 					if(!$can_view_detailed_soa && !$show_items_without_amounts):
@@ -195,7 +186,7 @@
 
 		<div class="soa-print-col-right">
 			<div class="card">
-				<div class="card-header">
+				<div class="card-header" style="text-align: center; color: black !important; font-weight: 900; border: none !important; border-bottom: 1px solid #ddd !important; background: transparent !important; font-size: 14px; padding: 10px 0;">
 					MISCELLANEOUS
 				</div>
 				<div class="card-body">
@@ -205,21 +196,12 @@
 						$misc_value = isset($msclns[$ind]) ? (float) $msclns[$ind] : 0;
 						if($misc_value > 0):
 						$tmsclns += $misc_value;
-						if($can_view_detailed_soa):
-					?>
-					<div class="info-row">
-						<div class="info-label"><?=$msclns_val?></div>
-						<div class="info-value text-right"><?=number_format($misc_value,2)?></div>
-					</div>
-					<?php
-						elseif($show_items_without_amounts):
 					?>
 					<div class="info-row">
 						<div class="info-label"><?=$msclns_val?></div>
 						<div class="info-value text-right"></div>
 					</div>
 					<?php
-						endif;
 						endif;
 					endforeach;
 					if(!$can_view_detailed_soa && !$show_items_without_amounts):

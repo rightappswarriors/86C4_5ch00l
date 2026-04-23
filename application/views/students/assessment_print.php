@@ -33,6 +33,8 @@ $incidentalsLabels = array(
     "Fetcher's ID", "Founder's Day", 'Graduation Fee', 'Congress Fee', 'Late Fee', 'CEM'
 );
 
+$miscellaneousLabels = array_map('trim', explode(',', $defaultAssessment->miscellaneous));
+
 $gradeLabel = $gradeBand($row->gradelevel);
 $studentName = htmlspecialchars(strtoupper($row->lastname . ', ' . $row->firstname), ENT_QUOTES, 'UTF-8');
 $currentDate = date('n/d/Y');
@@ -83,10 +85,24 @@ $promissoryMonthly = $promissoryPayment; // Treated as monthly value directly
 $renderIncidentalsWithValues = static function () use ($incidentalsLabels, $incidentalValues, $formatMoney) {
     foreach ($incidentalsLabels as $i => $label) {
         $val = isset($incidentalValues[$i]) ? (float) $incidentalValues[$i] : 0;
+        if ($val <= 0) continue;
         ?>
         <div class="row-line">
             <span class="left-label"><?= htmlspecialchars($label, ENT_QUOTES, 'UTF-8'); ?></span>
-            <span class="right-fill"><?= $val > 0 ? $formatMoney($val) : ''; ?></span>
+            <span class="right-fill"></span>
+        </div>
+        <?php
+    }
+};
+
+$renderMiscellaneousWithValues = static function () use ($miscellaneousLabels, $miscellaneousValues, $formatMoney) {
+    foreach ($miscellaneousLabels as $i => $label) {
+        $val = isset($miscellaneousValues[$i]) ? (float) $miscellaneousValues[$i] : 0;
+        if ($val <= 0) continue;
+        ?>
+        <div class="row-line">
+            <span class="left-label"><?= htmlspecialchars($label, ENT_QUOTES, 'UTF-8'); ?></span>
+            <span class="right-fill"></span>
         </div>
         <?php
     }
@@ -108,7 +124,7 @@ $renderSummary = static function () use ($formatMoney, $totalAssessment, $paymen
         <div class="s-row"><span class="s-label">Paid upon enrolment:</span><span class="s-fill"><?= $formatMoney($paymentEnroll); ?></span></div>
         <div class="s-row"><span class="s-label">Balance:</span><span class="s-fill"><?= $formatMoney($balance); ?></span></div>
         <div class="s-row"><span class="s-label">Due every month:</span><span class="s-fill"><?= $formatMoney($monthlyDue + $promissoryMonthly); ?></span></div>
-        <div class="s-row s-due"><span class="s-label">Monthly Promissory Note Payment:</span><span class="s-fill"><?= $formatMoney($promissoryMonthly); ?></span></div>
+        <div class="s-row"><span class="s-label" style="color: #000 !important;">Monthly Promissory Note Payment:</span><span class="s-fill"><?= $formatMoney($promissoryMonthly); ?></span></div>
         <div class="s-row s-due"><span class="s-label">Total Amount:</span><span class="s-fill"><?= $formatMoney($monthlyDue + $promissoryMonthly); ?></span></div>
         <div class="s-row"><span class="s-label">Payment received by:</span><span class="s-fill"></span></div>
     </div>
@@ -174,8 +190,9 @@ $renderMeta = static function ($nameWidth, $dateWidth, $gradeWidth, $syWidth) us
 
             <div class="section-grid">
                 <div class="col-left">
-                    <div class="section-head">INCIDENTALS</div>
+                    <div class="section-head">INCIDENTALS & MISCELLANEOUS</div>
                     <?php $renderIncidentalsWithValues(); ?>
+                    <?php $renderMiscellaneousWithValues(); ?>
                 </div>
                 <div class="col-right">
                     <div class="section-head">TOTAL COMPUTATION</div>
@@ -213,8 +230,9 @@ $renderMeta = static function ($nameWidth, $dateWidth, $gradeWidth, $syWidth) us
 
                 <div class="section-grid mini-grid">
                     <div class="col-left">
-                        <div class="section-head">INCIDENTALS</div>
+                        <div class="section-head">INCIDENTALS & MISC</div>
                         <?php $renderIncidentalsWithValues(); ?>
+                        <?php $renderMiscellaneousWithValues(); ?>
                     </div>
                     <div class="col-right">
                         <div class="section-head">TOTAL COMPUTATION</div>
@@ -234,8 +252,9 @@ $renderMeta = static function ($nameWidth, $dateWidth, $gradeWidth, $syWidth) us
 
                 <div class="section-grid mini-grid">
                     <div class="col-left">
-                        <div class="section-head">INCIDENTALS</div>
+                        <div class="section-head">INCIDENTALS & MISC</div>
                         <?php $renderIncidentalsWithValues(); ?>
+                        <?php $renderMiscellaneousWithValues(); ?>
                     </div>
                     <div class="col-right">
                         <div class="section-head">TOTAL COMPUTATION</div>

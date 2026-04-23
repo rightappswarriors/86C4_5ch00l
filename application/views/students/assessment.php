@@ -318,7 +318,7 @@ function humanizeNumber(n) {
 		<br>
 		<div class="row">
 			<div class="col-md-12" style="text-align:center; margin-bottom: 15px;">
-				<a href="<?=site_url("students/assessment_financial/".$row->id)?>" class="btn btn-lg btn-primary">Financial Assessment</a>
+				<a href="<?=site_url("students/assessment/".$row->id)?>" class="btn btn-lg btn-primary">Financial Assessment</a>
 				<a href="<?=site_url("students/assessment_paces/".$row->id)?>" class="btn btn-lg btn-info">Pace's Assessment</a>
 			</div>
 		</div>
@@ -421,8 +421,8 @@ function humanizeNumber(n) {
 					<input type="text" id="monthdue" name="monthdue" value="<?=set_value('monthdue',number_format($monthly + $promissory_monthly, 2))?>" class="assessment-total-input" disabled/>
 				</div>
 
-				<div class="assessment-total-row assessment-due-row">
-					<label>Monthly Promissory Note Payment:</label>
+				<div class="assessment-total-row">
+					<label style="color: #000 !important;">Monthly Promissory Note Payment:</label>
 					<input type="text" id="promissory_payment" name="promissory_payment" value="<?=set_value('promissory_payment',$promissory_payment)?>" class="assessment-total-input" />
 				</div>
 

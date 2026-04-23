@@ -68,36 +68,36 @@ if (is_array($student_data)) {
          .school-info p{font-size:8px;color:#555;line-height:1.3}
         
          /* Main ID Card */
-         .id-card{border:3px solid #1e40af;padding:15px;margin-bottom:25px;page-break-inside:avoid}
+         .id-card{width:4.75in;height:5.5in;border:3px solid #1e40af;padding:15px;margin:0 auto 25px;page-break-inside:avoid;background:#fff;display:flex;flex-direction:column}
          .card-header{display:flex;align-items:center;border-bottom:2px solid #1e40af;padding-bottom:8px;margin-bottom:12px}
-         .card-logo{width:40px;height:40px;margin-right:10px}
+         .card-logo{width:50px;height:50px;margin-right:10px}
          .card-logo img{width:100%;height:auto;border-radius:50%}
-         .card-school h2{font-size:11px;font-weight:700;color:#1e40af;margin-bottom:1px}
-         .card-school p{font-size:7px;color:#666}
-        .card-title{text-align:center;font-size:18px;font-weight:700;color:#1e40af;margin:8px 0 12px;text-decoration:underline;text-transform:uppercase}
+         .card-school h2{font-size:12px;font-weight:700;color:#1e40af;margin-bottom:1px}
+         .card-school p{font-size:8px;color:#666}
+        .card-title{text-align:center;font-size:22px;font-weight:700;color:#1e40af;margin:5px 0 10px;text-decoration:underline;text-transform:uppercase}
         
-        .photo-boxes{display:flex;justify-content:space-around;margin-bottom:12px}
-        .photo-box{width:1.5in;height:1.7in;border:2px solid #333;background:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;color:#999;font-weight:600}
+        .photo-boxes{display:flex;justify-content:space-around;margin-bottom:10px}
+        .photo-box{width:2in;height:2in;border:2px solid #333;background:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;color:#999;font-weight:600}
         
-        .name-boxes{display:flex;justify-content:space-around;margin-bottom:10px}
-        .name-box{width:1.5in;text-align:center;font-size:10px;font-weight:700;color:#222;padding:5px;border-bottom:1px solid #333;min-height:30px;display:flex;align-items:center;justify-content:center;text-transform:uppercase}
+        .name-boxes{display:flex;justify-content:space-around;margin-bottom:8px}
+        .name-box{width:2in;text-align:center;font-size:11px;font-weight:900;color:#000;padding:5px;border-bottom:1px solid #333;min-height:30px;display:flex;align-items:center;justify-content:center;text-transform:uppercase}
         
-        .address-box{border:1px solid #333;padding:8px;text-align:center;font-size:8px;margin-bottom:20px;background:#f9fafb}
+        .address-box{border:1px solid #333;padding:6px;text-align:center;font-size:9px;margin-bottom:15px;background:#f9fafb}
         
-        .sig-boxes{display:flex;justify-content:space-around;margin-bottom:15px}
-        .sig-box{width:1.5in;text-align:center;font-size:7px;font-weight:600;color:#333;border-top:1px solid #333;padding-top:3px;text-transform:uppercase}
+        .sig-boxes{display:flex;justify-content:space-around;margin-top:auto;margin-bottom:10px}
+        .sig-box{width:1.8in;text-align:center;font-size:8px;font-weight:700;color:#333;border-top:1.5px solid #333;padding-top:3px;text-transform:uppercase}
         
-        .card-footer{display:flex;justify-content:space-between;font-size:7px;font-weight:700;color:#333;border-top:2px solid #1e40af;padding-top:6px}
+        .card-footer{display:flex;justify-content:space-between;font-size:8px;font-weight:700;color:#333;border-top:2px solid #1e40af;padding-top:6px}
         
-        /* Bottom Grid Section */
-        .grid-section{border:3px solid #1e40af;padding:20px}
-        .grid-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:25px;max-width:4.5in;margin:0 auto}
-        .grid-item{text-align:center;padding:8px}
-        .grid-photo{width:1.3in;height:1.5in;border:2px solid #333;background:#fff;margin:0 auto 6px;display:flex;align-items:center;justify-content:center}
-        .silhouette{width:60%;height:70%;background:#333}
-        .silhouette.m{clip-path:polygon(50% 0,100% 25%,90% 100%,10% 100%,0 25%)}
-        .silhouette.f{clip-path:polygon(50% 0,100% 30%,100% 70%,85% 100%,15% 100%,0 70%,0 30%)}
-        .grid-name{font-size:8px;font-weight:700;color:#222;text-transform:uppercase;letter-spacing:0.3px}
+        /* Bottom Grid Section (BACK) */
+        .grid-section{width:4.75in;height:5.5in;border:3px solid #1e40af;padding:20px;margin:0 auto;background:#fff}
+        .grid-wrapper{display:grid;grid-template-columns:1fr 1fr;gap:15px 25px;justify-items:center;align-content:start}
+        .grid-item{text-align:center;padding:5px}
+        .grid-photo{width:1in;height:1in;border:1.5px solid #333;background:#fff;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+        .silhouette{width:100%;height:100%;position:relative}
+        .silhouette:before{content:'';position:absolute;top:15%;left:50%;transform:translateX(-50%);width:35%;height:35%;background:#333;border-radius:50%}
+        .silhouette:after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:80%;height:45%;background:#333;border-radius:50% 50% 0 0}
+        .grid-name{font-size:9px;font-weight:700;color:#000;text-transform:uppercase;line-height:1.2}
         
         /* Print Button */
         .print-btn{position:fixed;top:15px;right:15px;padding:10px 20px;background:#1e40af;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:13px;font-weight:600;z-index:999}
@@ -187,7 +187,7 @@ if (is_array($student_data)) {
                 <?php foreach ($students as $s): ?>
                 <div class="grid-item">
                     <div class="grid-photo">
-                        <div class="silhouette m"></div>
+                        <div class="silhouette"></div>
                     </div>
                     <div class="grid-name"><?= htmlspecialchars(strtoupper($s['name'])) ?></div>
                 </div>

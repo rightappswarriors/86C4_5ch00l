@@ -414,8 +414,12 @@ $(function(){
 		  
 		  <div class="row">
 			<div class="col-md-12">
-				<div class="form-group">
-					<label class="form-label">Mother Information</label>
+				<div class="form-group d-flex align-items-center">
+					<label class="form-label mb-0">Mother Information</label>
+					<div class="d-flex align-items-center ml-5" style="width: 50%; max-width: 350px;">
+						<label class="mb-0 mr-2" style="font-weight: 700; font-size: 0.85rem; color: #374151; white-space: nowrap;">Maiden Name:</label>
+						<input type="text" name="maidenname" value="<?=set_value('maidenname')?>" class="form-control form-control-sm" placeholder="Enter Maiden Name" style="background: #fff; min-height: 38px;" />
+					</div>
 				</div>
 			</div>
 		  </div>
@@ -440,28 +444,20 @@ $(function(){
 				</div>
 			</div>
 		  </div>
-		  
 		  <div class="row">
-			<div class="col-md-4">
-				<div class="form-group">
-					<label class="form-label">Maiden Name</label>
-					<input type="text" name="maidenname" value="<?=set_value('maidenname')?>" class="form-control" placeholder="Enter Maiden Name" />
-				</div>
-			</div>
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<div class="form-group">
 					<label class="form-label">Occupation</label>
 					<input type="text" name="mother_work" value="<?=set_value('mother_work')?>" class="form-control" placeholder="Enter Occupation" />
 				</div>
 			</div>
-			<div class="col-md-4">
+			<div class="col-md-6">
 				<div class="form-group">
 					<label class="form-label">Contact Number</label>
 					<input type="text" name="mother_contact2" value="<?=set_value('mother_contact2')?>" class="form-control" placeholder="Enter Contact Number" />
 				</div>
 			</div>
 		  </div>
-		  
 		  <div class="row">
 			<div class="col-md-4">
 				<div class="form-group">

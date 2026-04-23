@@ -354,7 +354,14 @@
 		  </div>
 		  
 		  
-		  <p class="card-description text-info"> Mother's Information </p>
+		  <p class="card-description text-info d-flex align-items-center"> 
+			<span>Mother's Information</span>
+			<span class="d-flex align-items-center ml-5" style="width: 50%; max-width: 350px; font-weight: normal;">
+				<label class="mb-0 mr-2 text-dark" style="font-weight: 700; font-size: 0.9rem; white-space: nowrap;">Maiden Name:</label>
+				<input type="text" name="maidenname" value="<?=set_value('maidenname',$row->maidenname)?>" class="form-control form-control-sm" placeholder="Enter Maiden Name" style="min-height: 38px; background: #fff;" />
+			</span>
+		  </p>
+
 		  <div class="row">
 			<div class="col-md-6">
 			  <div class="form-group row">
@@ -394,9 +401,9 @@
 		  <div class="row">
 			<div class="col-md-6">
 			  <div class="form-group row">
-				<label class="col-sm-3 col-form-label">Maiden Name</label>
+				
 				<div class="col-sm-9">
-				  <input type="text" name="maidenname" value="<?=set_value('maidenname',$row->maidenname)?>" class="form-control" />
+				  
 				</div>
 			  </div>
 			</div>
