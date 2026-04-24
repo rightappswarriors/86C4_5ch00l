@@ -243,8 +243,12 @@
 						if($row->scholar=="Yes"){
 						?>
 						<tr>
+							<td><code>MONTHLY OBLIGATION (Sponsor)</code></td>
+							<td class="text-right"><code><?=number_format($tuition / 9, 2)?></code></td>
+						</tr>
+						<tr>
 							<td><code>MONTHLY OBLIGATION (Parents)</code></td>
-							<td class="text-right"><code><?=number_format($monthly_scholar,2)?></code></td>
+							<td class="text-right"><code><?=number_format(($registration + $tmsclns + $tindntals) / 9, 2)?></code></td>
 						</tr>
 						<?php
 						}
