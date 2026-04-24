@@ -8,82 +8,93 @@
         max-width: 8.5in;
         margin: 0 auto;
     }
+
     .page {
-        background: #fff; 
-        box-shadow: 0 0 15px rgba(0,0,0,0.1); 
-        margin: 0 auto 20px auto; 
+        background: #fff;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        margin: 0 auto 20px auto;
         max-width: 8.5in;
         width: 100%;
         border-radius: 10px;
     }
-    .toolbar { 
-        text-align: center; 
-        padding: 20px 30px; 
-        background: #fff; 
-        color: #333; 
-        position: sticky; 
-        top: 0; 
-        z-index: 100; 
+
+    .toolbar {
+        text-align: center;
+        padding: 20px 30px;
+        background: #fff;
+        color: #333;
+        position: sticky;
+        top: 0;
+        z-index: 100;
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 15px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         border-radius: 10px 10px 0 0;
         border-bottom: 1px solid #eee;
     }
-    .toolbar button { 
-        padding: 10px 24px; 
-        font-size: 14px; 
+
+    .toolbar button {
+        padding: 10px 24px;
+        font-size: 14px;
         font-weight: 600;
-        cursor: pointer; 
-        background: #fff; 
-        color: #333; 
-        border: 2px solid #ddd; 
-        border-radius: 30px; 
-        margin: 0 6px; 
+        cursor: pointer;
+        background: #fff;
+        color: #333;
+        border: 2px solid #ddd;
+        border-radius: 30px;
+        margin: 0 6px;
         transition: all 0.3s ease;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-    .toolbar button:hover { 
-        background: #f8f8f8; 
+
+    .toolbar button:hover {
+        background: #f8f8f8;
         border-color: #ccc;
         transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     }
-    .toolbar button.print-btn { 
-        background: #2196F3; 
+
+    .toolbar button.print-btn {
+        background: #2196F3;
         color: white;
         border-color: #2196F3;
     }
-    .toolbar button.print-btn:hover { 
+
+    .toolbar button.print-btn:hover {
         background: #1976D2;
         border-color: #1976D2;
     }
-    .toolbar button.close-btn { 
-        background: #757575; 
+
+    .toolbar button.close-btn {
+        background: #757575;
         color: white;
         border-color: #757575;
     }
-    .toolbar button.close-btn:hover { 
+
+    .toolbar button.close-btn:hover {
         background: #616161;
         border-color: #616161;
     }
-    .toolbar a { 
-        padding: 10px 20px; 
-        font-size: 13px; 
-        background: #4CAF50; 
-        color: white; 
-        text-decoration: none; 
-        border-radius: 30px; 
-        margin: 0 4px; 
+
+    .toolbar a {
+        padding: 10px 20px;
+        font-size: 13px;
+        background: #4CAF50;
+        color: white;
+        text-decoration: none;
+        border-radius: 30px;
+        margin: 0 4px;
         display: inline-block;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-    .toolbar a:hover { 
-        background: #45a049; 
+
+    .toolbar a:hover {
+        background: #45a049;
         transform: translateY(-2px);
     }
+
     .toolbar .access-info {
         margin-left: 15px;
         font-size: 13px;
@@ -95,69 +106,60 @@
 }
 
 @media print {
-    /* Hide UI elements: toolbar, tabs, sidebar, navbar, footer */
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        background: #fff !important;
+    }
+
+    /* Hide all layout and UI elements */
+    .navbar,
+    .sidebar,
+    #sidebar,
+    .footer,
     .toolbar,
     .stu-tab-container,
-    .navbar,
-    #sidebar,
-    .sidebar,
-    .footer {
+    #enrollmentStepsModal,
+    .floating-chat-icon,
+    .chat-popup {
         display: none !important;
     }
 
-    /* Reset body and main layout */
-    body,
-    html {
-        margin: 0 !important;
+    /* Reset layout wrappers to allow full-width printing */
+    .container-scroller,
+    .page-body-wrapper,
+    .main-panel,
+    .content-wrapper,
+    .content-wrapper>.row {
         padding: 0 !important;
-        background: #fff !important;
-    }
-
-    /* Expand main panel to full width (sidebar is hidden) */
-    .main-panel {
+        margin: 0 !important;
+        display: block !important;
         width: 100% !important;
-    }
-
-    /* Remove content wrapper padding/background */
-    .content-wrapper {
-        padding: 0 !important;
         background: #fff !important;
     }
 
-    /* Reset the wrapper row that contains the student view */
-    .content-wrapper > .row {
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    /* Student view container: centered letter size */
     .student-view-container {
+        padding: 0 !important;
+        margin: 0 !important;
         width: 100% !important;
         max-width: 8.5in !important;
         margin: 0 auto !important;
-        padding: 0 !important;
         background: #fff !important;
         box-shadow: none !important;
         border-radius: 0 !important;
-        overflow: visible !important;
     }
 
-    /* Page: actual content area */
     .page {
         width: 100% !important;
         min-height: auto !important;
         margin: 0 !important;
         padding: 0.3in !important;
         box-shadow: none !important;
-        border-radius: 0 !important;
+        border: none !important;
         background: #fff !important;
-    }
-
-    /* Ensure info section titles print clearly */
-    .info-section .title {
-        background: none !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+        font-size: 12pt !important;
     }
 
     /* Avoid page breaks inside important sections */
@@ -170,16 +172,44 @@
         page-break-inside: avoid;
     }
 
+    /* Increase spacing for print to fill the page */
+    .info-section {
+        margin-bottom: 25px !important;
+    }
+
+    .info-section .row {
+        margin-bottom: 8px !important;
+    }
+
+    .info-section .title {
+        font-size: 13pt !important;
+        padding: 8px !important;
+        background: #f0f0f0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .header h1 {
+        font-size: 20pt !important;
+    }
+
+    .header h2 {
+        font-size: 16pt !important;
+    }
+
     @page {
         size: letter portrait;
-        margin: 0;
+        margin: 0.3in 0.5in;
     }
 }
+
 
 /* =====================
    Page Base Styles
    ===================== */
-.page * { box-sizing: border-box; }
+.page * {
+    box-sizing: border-box;
+}
 
 .page {
     font-family: Arial, sans-serif;
@@ -195,48 +225,129 @@
 /* =====================
    Header
    ===================== */
-.header { text-align: center; margin-bottom: 15px; border-bottom: 2px solid #000; padding-bottom: 10px; }
-.header h1 { font-size: 18pt; font-weight: bold; margin-bottom: 5px; }
-.header h2 { font-size: 14pt; font-weight: normal; }
-.header .student-no { font-size: 10pt; color: #666; margin-top: 5px; }
+.header {
+    text-align: center;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 10px;
+}
+
+.header h1 {
+    font-size: 18pt;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.header h2 {
+    font-size: 14pt;
+    font-weight: normal;
+}
+
+.header .student-no {
+    font-size: 10pt;
+    color: #666;
+    margin-top: 5px;
+}
 
 /* =====================
    Main Content Layout
    ===================== */
-.main-content { display: flex; gap: 20px; }
-.main-content .left-side { flex: 1; }
-.main-content .right-side { width: 180px; text-align: center; }
+.main-content {
+    display: flex;
+    gap: 20px;
+}
+
+.main-content .left-side {
+    flex: 1;
+}
+
+.main-content .right-side {
+    width: 180px;
+    text-align: center;
+}
 
 /* =====================
    Profile & QR Box
    ===================== */
-.profile-box { border: 2px solid #000; padding: 10px; margin-bottom: 15px; }
-.profile-box img { max-width: 150px; max-height: 180px; border: 1px solid #999; }
-.profile-box .no-photo {
-    width: 150px; height: 180px;
-    background: #f0f0f0;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 10pt; color: #999;
+.profile-box {
+    border: 2px solid #000;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.profile-box img {
+    max-width: 150px;
+    max-height: 180px;
     border: 1px solid #999;
 }
 
-.qr-box { border: 2px solid #000; padding: 10px; margin-bottom: 15px; }
-.qr-box canvas { border: 1px solid #000; }
-.qr-box .qr-label { font-size: 9pt; font-weight: bold; margin-top: 5px; }
-.qr-box .scan-instruction { font-size: 8pt; color: #666; margin-top: 3px; }
+.profile-box .no-photo {
+    width: 150px;
+    height: 180px;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10pt;
+    color: #999;
+    border: 1px solid #999;
+}
+
+.qr-box {
+    border: 2px solid #000;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.qr-box canvas {
+    border: 1px solid #000;
+}
+
+.qr-box .qr-label {
+    font-size: 9pt;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.qr-box .scan-instruction {
+    font-size: 8pt;
+    color: #666;
+    margin-top: 3px;
+}
 
 /* =====================
    Status Badge
    ===================== */
-.status-badge { display: inline-block; padding: 5px 15px; font-size: 12pt; font-weight: bold; border: 2px solid #000; }
-.status-badge.enrolled { background: #008000; color: white; }
-.status-badge.pending { background: #ff6600; color: white; }
-.status-badge.active { background: #2196F3; color: white; }
+.status-badge {
+    display: inline-block;
+    padding: 5px 15px;
+    font-size: 12pt;
+    font-weight: bold;
+    border: 2px solid #000;
+}
+
+.status-badge.enrolled {
+    background: #008000;
+    color: white;
+}
+
+.status-badge.pending {
+    background: #ff6600;
+    color: white;
+}
+
+.status-badge.active {
+    background: #2196F3;
+    color: white;
+}
 
 /* =====================
    Info Section
    ===================== */
-.info-section { margin-bottom: 15px; }
+.info-section {
+    margin-bottom: 15px;
+}
+
 .info-section .title {
     font-weight: bold;
     font-size: 12pt;
@@ -245,71 +356,264 @@
     margin-bottom: 10px;
     background: #f0f0f0;
 }
-.info-section .row { font-size: 10pt; margin-bottom: 4px; }
-.info-section .row .label { display: inline-block; width: 130px; font-weight: bold; }
-.info-section .row .value { display: inline-block; border-bottom: 1px solid #000; min-width: 200px; padding-left: 5px; }
+
+.info-section .row {
+    font-size: 10pt;
+    margin-bottom: 4px;
+}
+
+.info-section .row .label {
+    display: inline-block;
+    width: 130px;
+    font-weight: bold;
+}
+
+.info-section .row .value {
+    display: inline-block;
+    border-bottom: 1px solid #000;
+    min-width: 200px;
+    padding-left: 5px;
+}
 
 /* =====================
    Verification Section
    ===================== */
-.verification-section { margin-top: 20px; padding: 15px; border: 2px solid #000; text-align: center; }
-.verification-section .title { font-size: 14pt; font-weight: bold; margin-bottom: 10px; }
-.verification-section .verified { color: #008000; font-size: 12pt; font-weight: bold; }
-.verification-section .not-verified { color: #ff0000; font-size: 12pt; font-weight: bold; }
+.verification-section {
+    margin-top: 20px;
+    padding: 15px;
+    border: 2px solid #000;
+    text-align: center;
+}
+
+.verification-section .title {
+    font-size: 14pt;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.verification-section .verified {
+    color: #008000;
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+.verification-section .not-verified {
+    color: #ff0000;
+    font-size: 12pt;
+    font-weight: bold;
+}
 
 /* =====================
    Date Printed
    ===================== */
-.date-printed { text-align: center; font-size: 9pt; color: #666; margin-top: 15px; }
+.date-printed {
+    text-align: center;
+    font-size: 9pt;
+    color: #666;
+    margin-top: 15px;
+}
 
 /* =====================
    Enrollment Receipt
    ===================== */
-.receipt-header { text-align: center; margin-bottom: 15px; }
-.receipt-header h1 { font-size: 18pt; font-weight: bold; margin-bottom: 5px; }
-.receipt-header h2 { font-size: 14pt; font-weight: normal; }
-.receipt-header .receipt-no { font-size: 10pt; color: #666; margin-top: 5px; }
+.receipt-header {
+    text-align: center;
+    margin-bottom: 15px;
+}
 
-.receipt-qr-section { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; border: 2px solid #000; padding: 15px; }
-.receipt-qr-section .qr-box { text-align: center; }
-.receipt-qr-section .qr-box canvas { border: 1px solid #000; }
-.receipt-qr-section .qr-box .qr-label { font-size: 9pt; font-weight: bold; margin-top: 5px; }
-.receipt-qr-section .receipt-details { flex: 1; margin-left: 20px; }
-.receipt-qr-section .receipt-details .row { font-size: 10pt; margin-bottom: 5px; }
-.receipt-qr-section .receipt-details .row .label { display: inline-block; width: 120px; font-weight: bold; }
-.receipt-qr-section .receipt-details .row .value { font-weight: bold; }
+.receipt-header h1 {
+    font-size: 18pt;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
 
-.receipt-status-box { text-align: center; padding: 10px; margin-bottom: 15px; border: 2px solid #000; }
-.receipt-status-box .status { font-size: 16pt; font-weight: bold; text-transform: uppercase; }
-.receipt-status-box .status.enrolled { color: #008000; }
-.receipt-status-box .status.pending { color: #ff6600; }
+.receipt-header h2 {
+    font-size: 14pt;
+    font-weight: normal;
+}
 
-.receipt-student-info { display: flex; justify-content: space-between; margin-bottom: 15px; }
-.receipt-student-info .info-box { width: 48%; border: 1px solid #000; padding: 10px; }
-.receipt-student-info .info-box .title { font-weight: bold; font-size: 10pt; border-bottom: 1px solid #000; padding-bottom: 5px; margin-bottom: 8px; }
-.receipt-student-info .info-box .row { font-size: 10pt; margin-bottom: 3px; }
-.receipt-student-info .info-box .row .label { display: inline-block; width: 100px; font-weight: bold; }
-.receipt-student-info .info-box .row .value { display: inline-block; border-bottom: 1px solid #000; min-width: 150px; }
+.receipt-header .receipt-no {
+    font-size: 10pt;
+    color: #666;
+    margin-top: 5px;
+}
 
-.receipt-enrollment-details { margin-top: 15px; }
-.receipt-enrollment-details h3 { font-size: 12pt; border-bottom: 1px solid #000; padding-bottom: 5px; margin-bottom: 10px; }
-.receipt-enrollment-details .row { font-size: 10pt; margin-bottom: 5px; }
-.receipt-enrollment-details .row .label { display: inline-block; width: 150px; font-weight: bold; }
-.receipt-enrollment-details .row .value { display: inline-block; border-bottom: 1px solid #000; min-width: 200px; }
+.receipt-qr-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    border: 2px solid #000;
+    padding: 15px;
+}
 
-.receipt-notes { margin-top: 20px; padding: 10px; border: 1px solid #999; font-size: 9pt; font-style: italic; }
-.receipt-notes ul { margin-left: 20px; }
+.receipt-qr-section .qr-box {
+    text-align: center;
+}
 
-.receipt-footer { margin-top: 30px; display: flex; justify-content: space-between; }
-.receipt-footer .sig-block { width: 40%; text-align: center; }
-.receipt-footer .sig-line { border-bottom: 1px solid #000; margin-top: 30px; }
-.receipt-footer .sig-label { font-size: 9pt; margin-top: 5px; }
+.receipt-qr-section .qr-box canvas {
+    border: 1px solid #000;
+}
+
+.receipt-qr-section .qr-box .qr-label {
+    font-size: 9pt;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.receipt-qr-section .receipt-details {
+    flex: 1;
+    margin-left: 20px;
+}
+
+.receipt-qr-section .receipt-details .row {
+    font-size: 10pt;
+    margin-bottom: 5px;
+}
+
+.receipt-qr-section .receipt-details .row .label {
+    display: inline-block;
+    width: 120px;
+    font-weight: bold;
+}
+
+.receipt-qr-section .receipt-details .row .value {
+    font-weight: bold;
+}
+
+.receipt-status-box {
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 2px solid #000;
+}
+
+.receipt-status-box .status {
+    font-size: 16pt;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.receipt-status-box .status.enrolled {
+    color: #008000;
+}
+
+.receipt-status-box .status.pending {
+    color: #ff6600;
+}
+
+.receipt-student-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.receipt-student-info .info-box {
+    width: 48%;
+    border: 1px solid #000;
+    padding: 10px;
+}
+
+.receipt-student-info .info-box .title {
+    font-weight: bold;
+    font-size: 10pt;
+    border-bottom: 1px solid #000;
+    padding-bottom: 5px;
+    margin-bottom: 8px;
+}
+
+.receipt-student-info .info-box .row {
+    font-size: 10pt;
+    margin-bottom: 3px;
+}
+
+.receipt-student-info .info-box .row .label {
+    display: inline-block;
+    width: 100px;
+    font-weight: bold;
+}
+
+.receipt-student-info .info-box .row .value {
+    display: inline-block;
+    border-bottom: 1px solid #000;
+    min-width: 150px;
+}
+
+.receipt-enrollment-details {
+    margin-top: 15px;
+}
+
+.receipt-enrollment-details h3 {
+    font-size: 12pt;
+    border-bottom: 1px solid #000;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.receipt-enrollment-details .row {
+    font-size: 10pt;
+    margin-bottom: 5px;
+}
+
+.receipt-enrollment-details .row .label {
+    display: inline-block;
+    width: 150px;
+    font-weight: bold;
+}
+
+.receipt-enrollment-details .row .value {
+    display: inline-block;
+    border-bottom: 1px solid #000;
+    min-width: 200px;
+}
+
+.receipt-notes {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #999;
+    font-size: 9pt;
+    font-style: italic;
+}
+
+.receipt-notes ul {
+    margin-left: 20px;
+}
+
+.receipt-footer {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.receipt-footer .sig-block {
+    width: 40%;
+    text-align: center;
+}
+
+.receipt-footer .sig-line {
+    border-bottom: 1px solid #000;
+    margin-top: 30px;
+}
+
+.receipt-footer .sig-label {
+    font-size: 9pt;
+    margin-top: 5px;
+}
 
 /* =====================
    Tab Navigation
    ===================== */
-.stu-tab-container { margin-bottom: 20px; }
-.stu-tab-buttons { display: flex; gap: 10px; margin-bottom: 15px; border-bottom: 2px solid #ccc; }
+.stu-tab-container {
+    margin-bottom: 20px;
+}
+
+.stu-tab-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ccc;
+}
+
 .stu-tab-buttons button {
     padding: 12px 24px;
     font-size: 14px;
@@ -320,11 +624,18 @@
     border-radius: 5px 5px 0 0;
     margin-bottom: -2px;
 }
+
 .stu-tab-buttons button.active {
     background: #fff;
     border: 2px solid #ccc;
     border-bottom: 2px solid #fff;
     font-weight: bold;
 }
-.stu-tab-content { display: none; }
-.stu-tab-content.active { display: block; }
+
+.stu-tab-content {
+    display: none;
+}
+
+.stu-tab-content.active {
+    display: block;
+}

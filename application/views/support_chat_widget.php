@@ -394,6 +394,13 @@
         color: #fff;
     }
 }
+
+/* Hide in print */
+@media print {
+    .floating-chat-icon, .chat-popup {
+        display: none !important;
+    }
+}
 </style>
 
 <!-- Floating Chat Icon -->

@@ -119,7 +119,9 @@ class Students_model extends CI_Model
 
 	function students_newold($newold)
 	{
+		$this->auto_update_interview_status();
 		$thisnewold = " and b.newold = '$newold'";
+
 		$query = "select a.*,b.id as enroll_id,b.newold,b.gradelevel,b.status as enrollstatus, c.firstname as user_firstname, 
 		c.lastname as user_lastname, c.lastlogin as user_lastlogin, c.mobileno as user_mobileno from students a 
 		join enrolled b on b.studentid = a.id 
@@ -131,7 +133,10 @@ class Students_model extends CI_Model
 
 	function students_list(){
         
+        $this->auto_update_interview_status();
+        
         $parent_search = "";
+
 		if ($this->session->userdata('current_usertype') == 'Parent') {
 			$parent_search = " and a.user_id = '" . $this->session->userdata('current_userid') . "'";
 		}
@@ -288,8 +293,9 @@ class Students_model extends CI_Model
 
 	function bygradelevel()
 	{
-
+		$this->auto_update_interview_status();
 		$withlevel = " and b.gradelevel = '" . $this->uri->segment(3) . "'";
+
 		$query = "select a.*,b.id as enroll_id,b.ableforpt,b.gradelevel,b.newold,b.status as enrollstatus, c.firstname as user_firstname, 
 			c.lastname as user_lastname, c.lastlogin as user_lastlogin, c.mobileno as user_mobileno from students a 
 			join enrolled b on b.studentid = a.id 
@@ -309,6 +315,7 @@ class Students_model extends CI_Model
 
 	function students_list_dashboard()
 	{
+		$this->auto_update_interview_status();
 		// REGISTRAR
 		//if($this->session->userdata('current_usertype') == 'Registrar' || $this->session->userdata('current_usertype') == 'Admin'){
 		$query = "select a.*,b.id as enroll_id,b.newold,b.gradelevel,b.status as enrollstatus, c.firstname as user_firstname, 
@@ -471,6 +478,37 @@ class Students_model extends CI_Model
 		$this->db->order_by('registered_date', 'DESC');
 		$query = $this->db->get('fetcher_registration');
 		return $query->result();
+	}
+
+	function auto_update_interview_status()
+	{
+		$usertype = $this->session->userdata('current_usertype');
+		// Only run for Registrar, Accounting, Admin, or Principal
+		if (!in_array($usertype, array('Registrar', 'Accounting', 'Admin', 'Principal'))) {
+			return;
+		}
+
+		$now = date('Y-m-d H:i:s');
+		$schoolyear = $this->session->userdata('current_schoolyearid');
+
+		if (empty($schoolyear)) {
+			return;
+		}
+
+		// Update status from 'Assessed' to 'Interview' if the scheduled time has passed
+		// Using a JOIN to update the enrolled table based on interviewsched
+		$sql = "
+			UPDATE enrolled e
+			JOIN interviewsched i ON i.studentid = e.studentid AND i.schoolyear = e.schoolyear
+			SET e.status = 'Interview', 
+			    e.interview_date = ?
+			WHERE e.status = 'Assessed'
+			AND e.schoolyear = ?
+			AND i.status = 1
+			AND STR_TO_DATE(CONCAT(i.interviewdate, ' ', i.interviewtime), '%Y-%m-%d %H:%i:%s') <= ?
+		";
+
+		$this->db->query($sql, array($now, $schoolyear, $now));
 	}
 
 }
