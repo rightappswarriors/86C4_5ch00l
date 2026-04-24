@@ -122,21 +122,27 @@ class Students extends CI_Controller {
 			'notes' => $notes,
 			'fetcher_1_photo' => $fetcher_1_photo,
 			'fetcher_2_photo' => $fetcher_2_photo,
-			'registered_date' => date("Y-m-d H:i:s")
+			'registered_date' => date("Y-m-d H:i:s"),
+			'user_id' => $this->session->userdata('current_userid')
 		);
 		
 		$insert_id = $this->students_model->fetcher_register($data);
 		
 		$this->session->set_flashdata('message', "Fetcher's ID Application submitted successfully!");
-		redirect("students/fetcher_print/" . $insert_id);
+		redirect("students/fetcher_list");
 	}
 	
 	public function fetcher_list()
 	{
+		$user_id = null;
+		if($this->session->userdata('current_usertype') == 'Parent'){
+			$user_id = $this->session->userdata('current_userid');
+		}
+		
 		$data = array(
 			'title'     =>   "Fetcher's ID Applications",
 			'template'   =>   'students/fetcher_list',
-			'query' => $this->students_model->fetcher_registration_list()
+			'query' => $this->students_model->fetcher_registration_list($user_id)
 		);
 		
 		$this->load->view('template', $data);
@@ -144,6 +150,12 @@ class Students extends CI_Controller {
 	
 	public function fetcher_print()
 	{
+		// Restrict print access to non-parent users only
+		if($this->session->userdata('current_usertype') == 'Parent'){
+			show_error('Print access is not allowed for parents', 403);
+			return;
+		}
+
 		$id = $this->uri->segment(3);
 		$record = $this->students_model->get_fetcher_registration($id);
 

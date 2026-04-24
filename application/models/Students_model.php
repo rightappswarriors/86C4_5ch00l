@@ -473,8 +473,11 @@ class Students_model extends CI_Model
 		return $query->row();
 	}
 
-	function fetcher_registration_list()
+	function fetcher_registration_list($user_id = null)
 	{
+		if($user_id){
+			$this->db->where('user_id', $user_id);
+		}
 		$this->db->order_by('registered_date', 'DESC');
 		$query = $this->db->get('fetcher_registration');
 		return $query->result();

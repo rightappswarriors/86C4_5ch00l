@@ -29,7 +29,7 @@
 
 	<!-- FOR PARENT MENU  -->
 
-	<?php if($this->session->userdata('current_schoolyearid')==6): ?>
+	<?php if($this->session->userdata('current_schoolyearid') > 0): ?>
 	<li class="nav-item">
 	  <a class="nav-link" href="<?=site_url("students/enroll_readhandbook")?>">
 		<i class="menu-icon typcn typcn-shopping-bag"></i>
@@ -78,7 +78,7 @@
 				  <li class="nav-item">
 					<a class="nav-link" href="<?=site_url("students")?>">Enrolled List</a>
 				  </li>
-				  <?php if($this->session->userdata('current_schoolyearid')==6): ?>
+				  <?php if($this->session->userdata('current_schoolyearid') > 0): ?>
 				  <li class="nav-item">
 					<a class="nav-link" href="<?=site_url("students/enroll_readhandbook")?>">Enroll a Student</a>
 				  </li>

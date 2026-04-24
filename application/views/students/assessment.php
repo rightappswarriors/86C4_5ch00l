@@ -5,6 +5,10 @@
 	$data = array( 'row'  => $row );
 	
 	$def_assessment = $default_ass->row();
+	if(!$def_assessment){
+		echo '<div class="alert alert-danger">School year data not found. Please contact the administrator.</div>';
+		return;
+	}
 	$indntals_list = explode(",",$def_assessment->incidentals);
 	$msclns_list = explode(",",$def_assessment->miscellaneous);
 

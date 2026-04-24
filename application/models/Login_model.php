@@ -135,13 +135,23 @@ class Login_model extends CI_Model
 		}
 
 		$other_schoolyears = array();
+		$active_found = false;
 		foreach ($query->result() as $row) {
 			if ($row->isactive == 1) {
 				$this->session->set_userdata('current_schoolyearid', $row->id);
 				$this->session->set_userdata('current_schoolyear', $row->schoolyear);
+				$active_found = true;
 			}
 			$other_schoolyears[$row->id] = $row->schoolyear;
 		}
+		
+		// If no active school year found, use the first one
+		if (!$active_found && count($other_schoolyears) > 0) {
+			$first_id = array_key_first($other_schoolyears);
+			$this->session->set_userdata('current_schoolyearid', $first_id);
+			$this->session->set_userdata('current_schoolyear', $other_schoolyears[$first_id]);
+		}
+		
 		$this->session->set_userdata('other_schoolyears', $other_schoolyears);
 	}
 

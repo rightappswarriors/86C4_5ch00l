@@ -61,9 +61,13 @@
 						<td><?= $student_names ?></td>
 						<td><?= date('M j, Y', strtotime($row->registered_date)) ?></td>
 						<td>
-							<a href="<?= site_url("students/fetcher_print/" . $row->id) ?>" class="btn btn-primary btn-sm">
+							<?php if($this->session->userdata('current_usertype') != 'Parent'): ?>
+							<a href="<?= site_url("students/" . $row->id) ?>" class="btn btn-primary btn-sm">
 								<i class="mdi mdi-printer"></i> View/Print
 							</a>
+							<?php else: ?>
+							<span class="text-muted">View Only</span>
+							<?php endif; ?>
 						</td>
 					</tr>
 					<?php 

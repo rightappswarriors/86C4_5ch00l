@@ -35,6 +35,9 @@ class Payments_model extends CI_Model
 	function default_assessment(){
 		
 		$query = $this->db->query("select * from schoolyear where id = ".$this->session->userdata('current_schoolyearid'));
+		if($query->num_rows() == 0){
+			$query = $this->db->query("select * from schoolyear where status = 1 order by id desc limit 1");
+		}
 		return $query;
 	}
 	

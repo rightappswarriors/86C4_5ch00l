@@ -81,10 +81,10 @@
 	}
 	?>		
 		<p style="text-align:center;">
-		<?php if($this->session->userdata('current_schoolyearid')==6): ?>
+		<?php if($this->session->userdata('current_schoolyearid') > 0): ?>
 		<a href="<?=site_url("students/enroll_readhandbook")?>" type="button" class="btn btn-lg btn-success btn-fw"><i class="mdi mdi-file-document"></i>Enroll an OLD/NEW Student</a></p>
 		<?php else: ?>
-		<b>If you want to enroll for SY 2024-2025, please click the drop down menu at the top portion of this page and click SY 2024 - 2025.</b>
+		<b>No active school year is set. Please contact the school administration.</b>
 		<a href="#" type="button" class="btn btn-lg btn-success btn-fw disabled"><i class="mdi mdi-file-document"></i>Enroll an OLD/NEW Student</a></p>
 		<?php endif; ?>
 		<hr>
