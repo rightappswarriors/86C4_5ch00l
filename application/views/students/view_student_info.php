@@ -211,9 +211,7 @@ $is_accounting = ($current_usertype == 'Accounting' || $this->session->userdata(
 					<div class="row"><span class="label">Father's Work:</span><span class="value"><?= strtoupper($row->father_place_work ?? '') ?></span></div>
 					<div class="row"><span class="label">Father's Contact:</span><span class="value"><?= $row->father_contact2 ?? '' ?></span></div>
 					<div class="row"><span class="label">Mother's Name:</span><span class="value"><?= strtoupper(($row->mother_firstname ?? '') . " " . ($row->mother_middlename ?? '') . " " . ($row->mother_lastname ?? '')) ?></span></div>
-					<?php if(!empty($row->maidenname)): ?>
-					<div class="row"><span class="label">Maiden Name:</span><span class="value"><?= strtoupper($row->maidenname) ?></span></div>
-					<?php endif; ?>
+					<div class="row"><span class="label">Maiden Name:</span><span class="value"><?= strtoupper($row->maidenname ?? 'N/A') ?></span></div>
 					<div class="row"><span class="label">Mother's Work:</span><span class="value"><?= strtoupper($row->mother_place_work ?? '') ?></span></div>
 					<div class="row"><span class="label">Mother's Contact:</span><span class="value"><?= $row->mother_contact2 ?? '' ?></span></div>
 				</div>
@@ -293,9 +291,7 @@ $is_accounting = ($current_usertype == 'Accounting' || $this->session->userdata(
 			<div class="info-box">
 				<div class="title">PARENT/GUARDIAN INFORMATION</div>
 				<div class="row"><span class="label">Father:</span><span class="value"><?= strtoupper(($row->father_firstname ?? '') . " " . ($row->father_lastname ?? '')) ?></span></div>
-				<?php if(!empty($row->maidenname)): ?>
-				<div class="row"><span class="label">Maiden:</span><span class="value"><?= strtoupper($row->maidenname) ?></span></div>
-				<?php endif; ?>
+				<div class="row"><span class="label">Maiden Name:</span><span class="value"><?= strtoupper($row->maidenname ?? 'N/A') ?></span></div>
 				<div class="row"><span class="label">Mother:</span><span class="value"><?= strtoupper(($row->mother_firstname ?? '') . " " . ($row->mother_lastname ?? '')) ?></span></div>
 				<div class="row"><span class="label">Emergency:</span><span class="value"><?= strtoupper($row->incaseemergency ?? '') ?></span></div>
 				<div class="row"><span class="label">Contact:</span><span class="value"><?= $row->personal_cell ?? '' ?></span></div>
