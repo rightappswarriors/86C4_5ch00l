@@ -235,10 +235,6 @@
 							<td class="text-right"><strong class="total"><?=number_format($total_ass,2)?></strong></td>
 						</tr>
 						<tr><td colspan="2"><hr></td></tr>
-						<tr>
-							<td><strong>MONTHLY OBLIGATION</strong></td>
-							<td class="text-right"><strong class="highlight"><?=number_format($monthly,2)?></strong></td>
-						</tr>
 						<?php
 						if($row->scholar=="Yes"){
 						?>
@@ -249,6 +245,13 @@
 						<tr>
 							<td><code>MONTHLY OBLIGATION (Parents)</code></td>
 							<td class="text-right"><code><?=number_format(($registration + $tmsclns + $tindntals) / 9, 2)?></code></td>
+						</tr>
+						<?php
+						} else {
+						?>
+						<tr>
+							<td><strong>MONTHLY OBLIGATION</strong></td>
+							<td class="text-right"><strong class="highlight"><?=number_format($monthly,2)?></strong></td>
 						</tr>
 						<?php
 						}

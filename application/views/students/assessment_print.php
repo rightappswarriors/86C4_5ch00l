@@ -18,7 +18,7 @@ $gradeBand = static function ($gradeLevel) {
 };
 
 $formatMoney = static function ($amount) {
-    return number_format((float) $amount, 2);
+    return '₱ ' . number_format((float) $amount, 2);
 };
 
 $parseCsvNumbers = static function ($csv) {

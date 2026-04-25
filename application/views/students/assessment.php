@@ -177,6 +177,27 @@
 	border-bottom: 2px solid #1298f6 !important;
 	box-shadow: none !important;
 }
+
+.assessment-input-wrapper {
+	flex: 1;
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+.assessment-input-wrapper::before {
+	content: "₱";
+	position: absolute;
+	left: 0;
+	bottom: 5px;
+	font-weight: 700;
+	font-size: 13px;
+	color: #000;
+}
+
+.assessment-due-row .assessment-input-wrapper::before {
+	color: #1298f6;
+}
 </style>
 
 <script>
@@ -360,21 +381,16 @@ function humanizeNumber(n) {
 				<div class="form-group row">
 					<label class="col-sm-4 col-form-label"><?=$indntals_val?></label>
 					<div class="col-sm-6">
-					  <input type="text" name="indntals[]" value="<?=isset($indntals[$ind]) ? $indntals[$ind] : '0'?>" class="form-control" />
+					  <div class="assessment-input-wrapper">
+						<input type="text" name="indntals[]" value="<?=isset($indntals[$ind]) ? $indntals[$ind] : '0'?>" class="form-control" />
+					  </div>
 					</div>
 				</div>
 				<?php
 				endforeach;
 				?>
 				
-				<?php
-				$allowed_update_roles = array('Accounting', 'Super Admin', 'Admin', 'Registrar');
-				if(in_array($this->session->userdata('current_usertype'), $allowed_update_roles)):
-				?>	
-				<div style="margin-top: 15px;">
-					<input type="submit" class="btn btn-lg btn-primary" value="UPDATE Assessment">
-				</div>
-				<?php endif; ?>
+
 			</div>
 			
 			<div class="col-md-6">
@@ -387,52 +403,72 @@ function humanizeNumber(n) {
 			  <div class="form-group row">
 				<label class="col-sm-4 col-form-label"><b>TUITION</b></label>
 				<div class="col-sm-6">
-				  <input type="text" id="tuition" name="tuition" value="<?=set_value('tuition',$tuition)?>" class="form-control" />
+				  <div class="assessment-input-wrapper">
+				    <input type="text" id="tuition" name="tuition" value="<?=set_value('tuition',$tuition)?>" class="form-control" />
+				  </div>
 				</div>
 			  </div><div class="form-group row">
 				<label class="col-sm-4 col-form-label"><b>REGISTRATION</b></label>
 				<div class="col-sm-6">
-				  <input type="text" id="registration" name="registration" value="<?=set_value('registration',$registration)?>" class="form-control" />
+				  <div class="assessment-input-wrapper">
+				    <input type="text" id="registration" name="registration" value="<?=set_value('registration',$registration)?>" class="form-control" />
+				  </div>
 				</div>
 			  </div><div class="form-group row">
 				<label class="col-sm-4 col-form-label"><b>TOTAL MISCELLANEOUS</b></label>
 				<div class="col-sm-6">
-				  <input type="text" id="totalmisc" name="totalmisc" value="<?=set_value('totalmisc',number_format($total_msclns,2))?>" class="form-control" disabled />
+				  <div class="assessment-input-wrapper">
+				    <input type="text" id="totalmisc" name="totalmisc" value="<?=set_value('totalmisc',number_format($total_msclns,2))?>" class="form-control" disabled />
+				  </div>
 				</div>
 			  </div><div class="form-group row">
 				<label class="col-sm-4 col-form-label"><b>TOTAL INCIDENTALS</b></label>
 				<div class="col-sm-6">
-				  <input type="text" id="totalinc" name="totalinc" value="<?=set_value('totalinc',number_format($total_indntals,2))?>" class="form-control" disabled />
+				  <div class="assessment-input-wrapper">
+				    <input type="text" id="totalinc" name="totalinc" value="<?=set_value('totalinc',number_format($total_indntals,2))?>" class="form-control" disabled />
+				  </div>
 				</div>
 			  </div>
 			  
 			  <div class="assessment-total-box">
 				<div class="assessment-total-row">
 					<label>TOTAL ASSESSMENT:</label>
-					<input type="text" id="asstotal" name="asstotal" value="<?=set_value('asstotal',number_format($total_ass,2))?>" class="assessment-total-input" disabled />
+					<div class="assessment-input-wrapper">
+						<input type="text" id="asstotal" name="asstotal" value="<?=set_value('asstotal',number_format($total_ass,2))?>" class="assessment-total-input" disabled />
+					</div>
 					<input type="hidden" id="asstotal_hidden" name="asstotal_hidden" value="<?=$total_ass?>">
 				</div>
 				<div class="assessment-total-row">
 					<label>Paid upon enrollment:</label>
-					<input type="text" id="paymentenroll" name="paymentenroll" value="<?=set_value('paymentenroll',$paymentenroll)?>" class="assessment-total-input" />
+					<div class="assessment-input-wrapper">
+						<input type="text" id="paymentenroll" name="paymentenroll" value="<?=set_value('paymentenroll',$paymentenroll)?>" class="assessment-total-input" />
+					</div>
 				</div>
 				<div class="assessment-total-row">
 					<label>Balance:</label>
-					<input type="text" id="balance" name="balance" value="<?=set_value('balance',number_format($balance,2))?>" class="assessment-total-input" disabled/>
+					<div class="assessment-input-wrapper">
+						<input type="text" id="balance" name="balance" value="<?=set_value('balance',number_format($balance,2))?>" class="assessment-total-input" disabled/>
+					</div>
 				</div>
 				<div class="assessment-total-row">
 					<label>Due every month:</label>
-					<input type="text" id="monthdue" name="monthdue" value="<?=set_value('monthdue',number_format($monthly + $promissory_monthly, 2))?>" class="assessment-total-input" disabled/>
+					<div class="assessment-input-wrapper">
+						<input type="text" id="monthdue" name="monthdue" value="<?=set_value('monthdue',number_format($monthly + $promissory_monthly, 2))?>" class="assessment-total-input" disabled/>
+					</div>
 				</div>
 
 				<div class="assessment-total-row">
 					<label style="color: #000 !important;">Monthly Promissory Note Payment:</label>
-					<input type="text" id="promissory_payment" name="promissory_payment" value="<?=set_value('promissory_payment',$promissory_payment)?>" class="assessment-total-input" />
+					<div class="assessment-input-wrapper">
+						<input type="text" id="promissory_payment" name="promissory_payment" value="<?=set_value('promissory_payment',$promissory_payment)?>" class="assessment-total-input" />
+					</div>
 				</div>
 
 				<div class="assessment-total-row assessment-due-row">
 					<label>Total Amount:</label>
-					<input type="text" id="promissory_monthly" name="promissory_monthly" value="<?=set_value('promissory_monthly', number_format($monthly + $promissory_monthly, 2))?>" class="assessment-total-input" disabled/>
+					<div class="assessment-input-wrapper">
+						<input type="text" id="promissory_monthly" name="promissory_monthly" value="<?=set_value('promissory_monthly', number_format($monthly + $promissory_monthly, 2))?>" class="assessment-total-input" disabled/>
+					</div>
 				</div>
 
 				<div class="assessment-total-row">
@@ -462,7 +498,8 @@ function humanizeNumber(n) {
 		
 		<?php
 		endif;
-		if($this->session->userdata('current_usertype') == 'Registrar'):
+		$allowed_update_roles = array('Accounting', 'Super Admin', 'Admin', 'Registrar');
+		if(in_array($this->session->userdata('current_usertype'), $allowed_update_roles)):
 		?>
 		<div class="col-md-6" style="text-align:left;">
 		<input type="submit" class="btn btn-lg btn-primary" value="UPDATE Assessment">
