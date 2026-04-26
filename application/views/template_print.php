@@ -50,13 +50,15 @@
 		</div>
 		<div class="print-actions">
 			<button onclick="window.print()" class="print-btn">
-				<i class="mdi mdi-printer"></i> Print
+				<i class="mdi mdi-printer"></i> Print Receipt
 			</button>
 			<button onclick="window.history.back()" class="close-btn">
-				<i class="mdi mdi-arrow-left"></i> Back
+				<i class="mdi mdi-arrow-left"></i> Close
 			</button>
 		</div>
 	</div>
+	<div style="margin: 0 30px 25px; border-top: 3px solid #e0e0e0; border-radius: 3px;"></div>
+
   
     <?php $this->load->view($template); ?>
 	

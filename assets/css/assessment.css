@@ -1,0 +1,43 @@
+.assessment-due-row .assessment-input-wrapper::before {
+	color: #1298f6;
+}
+
+.miscellaneous-section .form-group {
+	margin-bottom: 8px;
+}
+
+.miscellaneous-section .form-group label {
+	font-weight: 600;
+	color: #555;
+}
+
+.incidentals-section {
+	border-right: 1px solid #eee;
+	padding-right: 15px;
+}
+
+@media (max-width: 768px) {
+	.incidentals-section {
+		border-right: none;
+		border-bottom: 1px solid #eee;
+		padding-right: 0;
+		padding-bottom: 15px;
+		margin-bottom: 15px;
+	}
+}
+
+.content-wrapper {
+	margin-top: 0;
+}
+
+.miscellaneous-section .hr {
+	border-top: 1px solid #ddd;
+	margin: 15px 0;
+}
+
+.card-description.miscellaneous-header {
+	color: #17a2b8;
+	font-weight: 600;
+	text-transform: uppercase;
+	margin-bottom: 10px;
+}

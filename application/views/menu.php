@@ -184,16 +184,16 @@
 
 <?php endif; ?>
 
-<?php if(in_array($this->session->userdata('current_usertype_display'), array('Super Admin', 'Admin'))):?>
-<?php //if($this->session->userdata('current_userid') == 25):?>
+ <?php if(in_array($this->session->userdata('current_usertype_display'), array('Super Admin', 'Admin'))):?>
+ <?php //if($this->session->userdata('current_userid') == 25):?>
 
-<li class="nav-item">
-  <a class="nav-link" data-toggle="collapse" href="#ui-students" aria-expanded="false" aria-controls="ui-students">
+ <li class="nav-item">
+   <a class="nav-link" data-toggle="collapse" href="#ui-system-users" aria-expanded="false" aria-controls="ui-system-users">
 	<i class="menu-icon typcn typcn-coffee"></i>
 	<span class="menu-title"> System Users </span>
 	<i class="menu-arrow"></i>
-  </a>
-  <div class="collapse" id="ui-students">
+   </a>
+   <div class="collapse" id="ui-system-users">
 	<ul class="nav flex-column sub-menu">
 	  <li class="nav-item">
 		<a class="nav-link" href="<?=site_url("users")?>"> Show Users </a>
@@ -203,9 +203,9 @@
 	  </li>
 	  
 	</ul>
-  </div>
-</li>
-<?php endif; ?>
+   </div>
+ </li>
+ <?php endif; ?>
 
 <li class="nav-item">
   <a class="nav-link" target="_blank" href="http://portal.bobhughes.edu.ph/file/BHCA-HandBook-2019-Latest.pdf">
