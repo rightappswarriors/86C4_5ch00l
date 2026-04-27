@@ -189,7 +189,7 @@ $(function () {
 
 function saveAndGoToPaces() {
     $.ajax({
-        url: '<?= site_url("students/assessment_submit/" . $row->id) ?>',
+        url: '<?= site_url("students/assessment/" . $row->id) ?>',
         type: 'POST',
         data: $('form').serialize(),
         success: function () {
@@ -257,7 +257,7 @@ function humanizeNumber(n) {
                     </div>
                 <?php endif; ?>
 
-                <form action="<?= site_url("students/assessment_submit/" . $row->id) ?>" method="post">
+                <form action="<?= site_url("students/assessment/" . $row->id) ?>" method="post">
                     <input type="hidden" name="as_id" value="<?= $as_id ?>">
                     <h3 class="heading" style="text-align:center">Financial Assessment</h3><br>
 
