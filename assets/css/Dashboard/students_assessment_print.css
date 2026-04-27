@@ -65,11 +65,11 @@ body {
     flex-direction: column;
 }
 
+/* KEY FIX: Don't force 50/50 split - let each copy take only the space it needs */
 .right-top {
-    flex: 1;
+    flex: none;
     padding: 4px 8px 4px 8px;
-    border-bottom: 1px solid #ccc;
-    overflow: hidden;
+    border-bottom: 1px solid #000;
 }
 
 .right-bottom {
@@ -87,8 +87,8 @@ body {
 }
 
 .school-header img {
-    width: 54px;
-    height: 54px;
+    width: 45px;
+    height: 45px;
     object-fit: contain;
 }
 
@@ -113,24 +113,24 @@ body {
     text-align: center;
     font-size: 11px;
     font-weight: 900;
-    margin: 6px 0 5px;
+    margin: 4px 0 3px;
 }
 
 .mini-title {
-    font-size: 9px;
-    margin: 3px 0 3px;
+    font-size: 10px;
+    margin: 2px 0 2px;
 }
 
 .copy-label {
     text-align: center;
     font-size: 11px;
     font-weight: 900;
-    margin: 0 0 2px;
+    margin: 0 0 1px;
 }
 
 /* ====== Meta Rows (Name/Date/Grade/SY) ====== */
 .meta-row {
-    font-size: 7.5px;
+    font-size: 8px;
     font-weight: 700;
     display: flex;
     justify-content: space-between;
@@ -139,7 +139,8 @@ body {
 }
 
 .meta-ul {
-    text-decoration: underline;
+    display: inline-block;
+    border-bottom: 1px solid #000;
     padding: 0 2px;
 }
 
@@ -166,7 +167,7 @@ body {
 
 /* ====== Section Headings ====== */
 .section-head {
-    font-size: 7.5px;
+    font-size: 8.5px;
     font-weight: 900;
     margin-bottom: 1px;
 }
@@ -174,15 +175,16 @@ body {
 /* ====== Incidental Rows (label + value) ====== */
 .row-line {
     display: flex;
-    align-items: baseline;
-    gap: 2px;
-    font-size: 6.5px;
+    align-items: flex-end;
+    gap: 0;
+    font-size: 7.5px;
     font-weight: 600;
-    line-height: 1.45;
+    margin-bottom: 1px;
 }
 
 .left-label {
     white-space: nowrap;
+    padding-right: 2px;
 }
 
 .right-fill {
@@ -197,11 +199,11 @@ body {
 /* ====== Computation Lines ====== */
 .comp-line {
     display: flex;
-    align-items: baseline;
-    gap: 2px;
-    font-size: 6.5px;
+    align-items: flex-end;
+    gap: 0;
+    font-size: 7.5px;
     font-weight: 700;
-    line-height: 1.45;
+    margin-bottom: 1px;
 }
 
 .comp-fill {
@@ -225,10 +227,19 @@ body {
     align-items: flex-end;
     justify-content: space-between;
     gap: 3px;
-    font-size: 6.5px;
+    font-size: 7.5px;
     font-weight: 700;
     margin-bottom: 1px;
     line-height: 1.4;
+}
+
+.s-row-bold {
+    font-weight: 800;
+}
+
+.s-row-small {
+    font-size: 6.5px;
+    font-weight: 600;
 }
 
 .s-label {
@@ -243,32 +254,44 @@ body {
     min-width: 50px;
 }
 
-.s-due {
+.s-due-text {
+    color: #0088e0;
+    font-weight: 800;
+}
+
+.s-due-text .s-label {
+    white-space: normal;
+    line-height: 1.15;
+    font-size: 7.5px;
+}
+
+.s-due-text .s-fill {
+    border-bottom-color: #0088e0;
     color: #0088e0;
 }
 
 /* ====== Pledge ====== */
 .pledge {
-    margin-top: 25px;
+    margin-top: 12px;
     text-align: center;
-    font-size: 7px;
-    line-height: 1.4;
+    font-size: 7.5px;
+    line-height: 1.3;
     font-weight: 700;
 }
 
 /* ====== Signatures ====== */
 .signature {
-    margin-top: 35px;
+    margin-top: 20px;
     text-align: center;
 }
 
 .sig-mother {
-    margin-top: 25px;
+    margin-top: 15px;
 }
 
 .sig-line-block {
     margin: 0 auto;
-    width: 200px;
+    width: 220px;
     border-bottom: 1.5px solid #000;
     height: 10px;
 }
@@ -276,7 +299,7 @@ body {
 .sig-caption {
     font-size: 8px;
     font-weight: 700;
-    margin-top: 2px;
+    margin-top: 1px;
 }
 
 /* ====== Print ====== */
@@ -292,6 +315,10 @@ body {
     .page {
         margin: 0;
         box-shadow: none;
+    }
+
+    .print-hide-misc {
+        display: none !important;
     }
 }
 
@@ -322,15 +349,14 @@ body.landscape-mode .right-copy {
 }
 
 body.landscape-mode .right-top {
-    flex: 1;
-    padding: 6px 12px 6px 12px;
-    border-bottom: 1px solid #ccc;
-    overflow: hidden;
+    flex: none;
+    padding: 4px 10px 6px 10px;
+    border-bottom: 1px solid #000;
 }
 
 body.landscape-mode .right-bottom {
     flex: 1;
-    padding: 6px 12px 6px 12px;
+    padding: 4px 10px 6px 10px;
     overflow: hidden;
 }
 
@@ -340,59 +366,87 @@ body.landscape-mode .school-header {
 }
 
 body.landscape-mode .form-title {
-    margin: 4px 0 3px;
-    font-size: 11px;
-}
-
-body.landscape-mode .mini-title {
+    margin: 3px 0 2px;
     font-size: 10px;
-    margin: 2px 0 2px;
-}
-
-body.landscape-mode .copy-label {
-    margin: 0 0 2px;
-}
-
-body.landscape-mode .meta-row {
-    font-size: 8px;
-}
-
-body.landscape-mode .section-grid {
-    margin-top: 2px;
-}
-
-body.landscape-mode .row-line,
-body.landscape-mode .comp-line,
-body.landscape-mode .s-row {
-    font-size: 7px;
-    line-height: 1.35;
-}
-
-body.landscape-mode .val,
-body.landscape-mode .comp-val,
-body.landscape-mode .s-fill {
-    min-width: 40px;
-}
-
-body.landscape-mode .summary-box {
-    margin-top: 2px;
-    padding: 2px 4px;
 }
 
 body.landscape-mode .pledge {
-    font-size: 7.5px;
-    margin-top: 15px;
-    line-height: 1.3;
+    font-size: 7px;
+    margin-top: 10px;
+    line-height: 1.2;
 }
 
 body.landscape-mode .signature {
-    margin-top: 25px;
+    margin-top: 15px;
 }
 
 body.landscape-mode .sig-mother {
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 body.landscape-mode .sig-line-block {
     width: 180px;
+}
+
+/* ====== Right Column Mini Copies - Compact Sizing ====== */
+.right-copy .copy-label {
+    font-size: 10px;
+    margin: 0 0 1px;
+}
+
+.right-copy .mini-title {
+    font-size: 9px;
+    margin: 1px 0 1px;
+}
+
+.right-copy .meta-row {
+    font-size: 8px;
+}
+
+.right-copy .section-head {
+    font-size: 8.5px;
+    font-weight: 900;
+}
+
+.right-copy .section-grid {
+    margin-top: 1px;
+}
+
+.right-copy .row-line {
+    font-size: 7.5px;
+    margin-bottom: 0px;
+}
+
+.right-copy .comp-line {
+    font-size: 7.5px;
+    margin-bottom: 0px;
+}
+
+.right-copy .right-fill,
+.right-copy .comp-fill {
+    height: 8px;
+    min-width: 35px;
+}
+
+.right-copy .s-row {
+    font-size: 7.5px;
+    line-height: 1.2;
+    margin-bottom: 0px;
+}
+
+.right-copy .s-row-small {
+    font-size: 6.5px;
+}
+
+.right-copy .s-due-text .s-label {
+    font-size: 7.5px;
+}
+
+.right-copy .s-fill {
+    min-width: 35px;
+}
+
+.right-copy .summary-box {
+    margin-top: 2px;
+    padding: 2px 4px;
 }
