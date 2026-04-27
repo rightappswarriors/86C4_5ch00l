@@ -44,7 +44,7 @@
     $gradeLabel = $gradeBand($row->gradelevel);
     $studentName = htmlspecialchars(strtoupper($row->lastname . ', ' . $row->firstname), ENT_QUOTES, 'UTF-8');
     $currentDate = date('n/d/Y');
-    $schoolYear = date('Y') . '-' . (date('Y') + 1);
+    $schoolYear = $this->session->userdata('current_schoolyear');
 
     $logoDataUri = '';
     $assetBaseUrl = rtrim(dirname(site_url()), '/\\');
