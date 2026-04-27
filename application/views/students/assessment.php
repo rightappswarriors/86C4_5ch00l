@@ -158,9 +158,21 @@ if ($current_grade_band === 'G4-10' && count($indntals_list) === count($g4_10_in
 <script>
 $(function () {
     $('input[type=text]').on('keyup blur', function (e) {
-        if ($(this).val().length == 0) $(this).val("0");
         compute_total();
     });
+
+    // Typable friendly: Clear "0" on focus, restore on blur if empty
+    $('input[type=text]').on('focus', function () {
+        if ($(this).val() === "0") {
+            $(this).val("");
+        }
+    }).on('blur', function () {
+        if ($(this).val() === "") {
+            $(this).val("0");
+            compute_total();
+        }
+    });
+
     $('input[type=text]').keypress(function (e) {
         if (e.which != 8 && isNaN(String.fromCharCode(e.which))) e.preventDefault();
     });
@@ -170,7 +182,7 @@ $(function () {
     $("#btnstatus").click(function () {
         window.location.href = '<?= site_url("students/changestatus/Interview/" . $row->id) ?>';
     });
-    <?php if ($this->session->userdata('current_usertype') == 'Parent'): ?>
+    <?php if (in_array($this->session->userdata('current_usertype'), array('Parent', 'Admin'))): ?>
         $("input[type='text']").attr("disabled", true);
     <?php endif; ?>
 });
@@ -189,23 +201,28 @@ function saveAndGoToPaces() {
     });
 }
 
+function cleanNumber(val) {
+    if (!val) return 0;
+    return Number(val.toString().replace(/,/g, '')) || 0;
+}
+
 function compute_total() {
     var sum_indntals = 0, sum_msclns = 0;
     $("input[name^='indntals']").each(function () {
-        sum_indntals += Number($(this).val());
+        sum_indntals += cleanNumber($(this).val());
     });
     $("input[name^='msclns']").each(function () {
-        sum_msclns += Number($(this).val());
+        sum_msclns += cleanNumber($(this).val());
     });
 
-    var tuition = Number($("#tuition").val()),
-        registration = Number($("#registration").val());
+    var tuition = cleanNumber($("#tuition").val()),
+        registration = cleanNumber($("#registration").val());
     var asstotal = tuition + registration + sum_msclns + sum_indntals;
-    var paymentenroll = Number($("#paymentenroll").val());
+    var paymentenroll = cleanNumber($("#paymentenroll").val());
     var balance = asstotal - paymentenroll;
-    var monthdue = balance / 9;
-    var promissoryMonthly = parseFloat($("#promissory_payment").val().replace(/,/g, '')) || 0;
-    var totalAmount = monthdue + promissoryMonthly;
+    var baseMonthly = balance / 9;
+    var promissoryAmount = cleanNumber($("#promissory_payment").val());
+    var totalAmount = baseMonthly + promissoryAmount;
 
     $("#totalinc").val(humanizeNumber(sum_indntals.toFixed(2)));
     $("#totalmisc").val(humanizeNumber(sum_msclns.toFixed(2)));
@@ -262,11 +279,10 @@ function humanizeNumber(n) {
 							<a href="<?=site_url("students/assessment_print/".$row->id)?>" title="Print" class="btn btn-icons btn-secondary btn-rounded" target="_blank"><i class='mdi mdi-printer'></i></a>
 						<?php endif; ?>
 						<?php
-						$allowed_pace_roles = array('Accounting', 'Super Admin', 'Admin', 'Registrar');
+						$allowed_pace_roles = array('Accounting', 'Super Admin', 'Registrar');
 						if (in_array($this->session->userdata('current_usertype'), $allowed_pace_roles)):
 						?>
 							<button type="button" onclick="saveAndGoToPaces()" class="btn btn-icons btn-info btn-rounded" title="Save Assessment & Go to PACEs"><i class='mdi mdi-book-open-page-variant'></i></button>
-							<a href="<?=site_url("students/assessment_paces/".$row->id)?>" title="Assessment PACEs" class="btn btn-icons btn-secondary btn-rounded" style="display:none"><i class='mdi mdi-book-open-page-variant'></i></a>
 						<?php endif; ?>
 					</div>
 				</div>
@@ -295,7 +311,14 @@ function humanizeNumber(n) {
                                 <p class="card-description text-info"><b>MISCELLANEOUS</b></p>
                                 <?php foreach ($msclns_list as $ind => $val): ?>
                                     <div class="form-group row">
-                                        <label class="col-sm-12 col-form-label" style="font-weight: normal; padding-left: 15px;"><?= $val ?></label>
+                                        <label class="col-sm-4 col-form-label"><?= $val ?></label>
+                                        <div class="col-sm-6">
+                                            <div class="assessment-input-wrapper">
+                                                <input type="text" name="msclns[]"
+                                                       value="<?= isset($msclns[$ind]) ? $msclns[$ind] : '0' ?>"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
                                     </div>
                                 <?php endforeach; ?>
 
@@ -428,7 +451,7 @@ function humanizeNumber(n) {
                             </div> -->
                         <?php endif; ?>
 
-                        <?php if (in_array($this->session->userdata('current_usertype'), array('Accounting', 'Super Admin', 'Admin', 'Registrar'))): ?>
+                        <?php if (in_array($this->session->userdata('current_usertype'), array('Accounting', 'Super Admin', 'Registrar'))): ?>
                             <div class="col-md-6" style="text-align:left">
                                 <input type="submit" class="btn btn-lg btn-primary" value="UPDATE Assessment">
                             </div>

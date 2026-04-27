@@ -52,7 +52,7 @@ $(function(){
     });
     
     <?php 
-	if($this->session->userdata('current_usertype') == 'Parent'):
+	if(in_array($this->session->userdata('current_usertype'), array('Parent', 'Admin'))):
 	?>
 	$("input[type='text']").attr("disabled",true);
 	<?php
@@ -206,7 +206,7 @@ $(function(){
 		<div class="row">
 		
 		<?php
-		$allowed_update_roles = array('Accounting', 'Super Admin', 'Admin', 'Registrar');
+		$allowed_update_roles = array('Accounting', 'Super Admin', 'Registrar');
 		if(in_array($this->session->userdata('current_usertype'), $allowed_update_roles)):
 		?>	
 		<div class="col-md-12" style="text-align:left;">

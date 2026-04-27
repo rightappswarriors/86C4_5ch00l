@@ -681,23 +681,30 @@ $this->load->view('students/assessment_print', $data);
 		$enroll_id = $this->students_model->enroll_info($studentid);
 		
 		$indntals_val = "";
-		foreach($this->input->post('indntals') as $indntals){
-			$indntals_val .= $indntals . ",";
+		$post_indntals = $this->input->post('indntals');
+		if (is_array($post_indntals)) {
+			foreach($post_indntals as $indntals){
+				$indntals_val .= $indntals . ",";
+			}
 		}
+
 		$msclns_val = "";
-		foreach($this->input->post('msclns') as $msclns){
-			$msclns_val .= $msclns . ",";
+		$post_msclns = $this->input->post('msclns');
+		if (is_array($post_msclns)) {
+			foreach($post_msclns as $msclns){
+				$msclns_val .= $msclns . ",";
+			}
 		}
 		
 		$data = array(
 			'incidentals' => $indntals_val,
 			'miscellaneous' => $msclns_val,
-			'oldaccount' => $this->input->post('oldaccount'),
-			'tuition' => $this->input->post('tuition'),
-			'registration' => $this->input->post('registration'),
-			'payment' => $this->input->post('paymentenroll'),
-			'asstotal' => $this->input->post('asstotal_hidden'),
-			'promissory_payment' => $this->input->post('promissory_payment'),
+			'oldaccount' => (float) str_replace(',', '', (string)$this->input->post('oldaccount')),
+			'tuition' => (float) str_replace(',', '', (string)$this->input->post('tuition')),
+			'registration' => (float) str_replace(',', '', (string)$this->input->post('registration')),
+			'payment' => (float) str_replace(',', '', (string)$this->input->post('paymentenroll')),
+			'asstotal' => (float) str_replace(',', '', (string)$this->input->post('asstotal_hidden')),
+			'promissory_payment' => (float) str_replace(',', '', (string)$this->input->post('promissory_payment')),
 			'lastupdate'  => date("Y-m-d H:i:s")
 		);
 		
