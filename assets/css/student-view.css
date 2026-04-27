@@ -638,4 +638,90 @@
 
 .stu-tab-content.active {
     display: block;
-}
+}
+
+.soa-misc-card {
+	background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%) !important;
+	border: 2px solid #ff9a8b !important;
+	border-radius: 15px;
+	padding: 20px !important;
+	margin-bottom: 20px;
+	break-inside: avoid;
+	page-break-inside: avoid;
+	box-shadow: 0 6px 20px rgba(255, 154, 139, 0.3) !important;
+}
+
+.soa-misc-card .card-title {
+	color: #d35400;
+	font-size: 20px;
+	font-weight: 700;
+	margin-bottom: 15px;
+	text-align: center;
+	padding-bottom: 10px;
+	border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.soa-misc-card table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
+	margin-top: 15px;
+	border-radius: 8px;
+	background: rgba(255, 255, 255, 0.3);
+	padding: 15px;
+	border-radius: 10px;
+}
+
+.soa-misc-card table tr {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+	padding: 8px 0;
+}
+
+.soa-misc-card table tr:last-child {
+	border-bottom: none;
+}
+
+.soa-misc-card table td {
+	padding: 8px 0;
+	font-weight: 600;
+	color: #2d3748;
+}
+
+.soa-misc-card table td:first-child {
+	color: #4a5568;
+}
+
+.soa-misc-card table tr:last-child td {
+	font-size: 16px;
+	font-weight: 700;
+	color: #d35400;
+	padding-top: 10px;
+	border-top: 2px solid rgba(255, 255, 255, 0.5) !important;
+}
+
+.soa-misc-card hr {
+	border-color: rgba(255, 255, 255, 0.3);
+	margin: 15px 0;
+}
+
+@media print {
+    .soa-misc-card {
+        background: #fff !important;
+        border: 1px solid #ddd !important;
+        box-shadow: none !important;
+    }
+    
+    .soa-misc-card .card-title {
+        color: #333 !important;
+        border-bottom-color: #ccc !important;
+    }
+    
+    .soa-misc-card table {
+        background: #fff !important;
+    }
+    
+    .soa-misc-card table tr:last-child td {
+        color: #333 !important;
+        border-top-color: #ccc !important;
+    }
+}

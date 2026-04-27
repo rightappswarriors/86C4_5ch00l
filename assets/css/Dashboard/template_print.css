@@ -1,76 +1,193 @@
 /* Template Print Styles */
 .print-header {
-	background: #f8f9fa;
-	border-bottom: 2px solid #2196f3;
-	padding: 15px 20px;
-	margin-bottom: 20px;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	border-bottom: 3px solid #4a5568;
+	padding: 25px 40px;
+	margin-bottom: 25px;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+	border-radius: 0 0 15px 15px;
 }
 
 .print-header .logo-section {
 	display: flex;
 	align-items: center;
-	gap: 15px;
+	gap: 20px;
 }
 
 .print-header .logo-section img {
-	width: 80px;
+	width: 85px;
 	height: auto;
+	border-radius: 10px;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+	background: white;
+	padding: 10px;
 }
 
 .print-header .school-info h4 {
 	margin: 0;
-	color: #2196f3;
+	color: #fff;
 	font-weight: 700;
+	font-size: 24px;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+	letter-spacing: 0.5px;
 }
 
 .print-header .school-info p {
-	margin: 5px 0 0;
-	color: #666;
-	font-size: 12px;
+	margin: 8px 0 0;
+	color: #e2e8f0;
+	font-size: 14px;
+	line-height: 1.5;
 }
 
 .print-actions {
 	display: flex;
-	gap: 10px;
+	gap: 15px;
+	align-items: center;
 }
 
 .print-btn,
 .close-btn {
 	border: none;
-	padding: 10px 20px;
-	border-radius: 5px;
+	padding: 14px 28px;
+	border-radius: 10px;
 	cursor: pointer;
 	display: inline-flex;
 	align-items: center;
-	gap: 8px;
-	font-size: 14px;
-	font-weight: 500;
-	transition: all 0.3s ease;
+	gap: 12px;
+	font-size: 16px;
+	font-weight: 600;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+	letter-spacing: 0.5px;
 }
 
 .print-btn {
-	background: #2196f3;
+	background: linear-gradient(135deg, #00c853 0%, #009624 100%);
 	color: #fff;
+	border: 2px solid transparent;
 }
 
 .print-btn:hover {
-	background: #1976d2;
-	transform: translateY(-2px);
-	box-shadow: 0 4px 10px rgba(33, 150, 243, 0.3);
+	background: linear-gradient(135deg, #009624 0%, #00796b 100%);
+	transform: translateY(-3px);
+	box-shadow: 0 8px 20px rgba(0, 150, 100, 0.4);
+	border-color: rgba(255, 255, 255, 0.3);
+}
+
+.print-btn:active {
+	transform: translateY(-1px);
+	box-shadow: 0 5px 15px rgba(0, 150, 100, 0.3);
 }
 
 .close-btn {
-	background: #6c757d;
+	background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
 	color: #fff;
 	text-decoration: none;
+	border: 2px solid transparent;
 }
 
 .close-btn:hover {
-	background: #5a6268;
-	transform: translateY(-2px);
+	background: linear-gradient(135deg, #ee5a52 0%, #d32f2f 100%);
+	transform: translateY(-3px);
+	box-shadow: 0 8px 20px rgba(238, 90, 82, 0.4);
+	border-color: rgba(255, 255, 255, 0.3);
+}
+
+.close-btn:active {
+	transform: translateY(-1px);
+	box-shadow: 0 5px 15px rgba(238, 90, 82, 0.3);
+}
+
+.print-header .logo-section {
+	display: flex;
+	align-items: center;
+	gap: 20px;
+}
+
+.print-header .logo-section img {
+	width: 80px;
+	height: auto;
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	background: white;
+	padding: 8px;
+}
+
+.print-header .school-info h4 {
+	margin: 0;
+	color: #ffffff;
+	font-weight: 700;
+	font-size: 22px;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.print-header .school-info p {
+	margin: 6px 0 0;
+	color: #e2e8f0;
+	font-size: 13px;
+	line-height: 1.4;
+}
+
+.print-actions {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+}
+
+.print-btn,
+.close-btn {
+	border: none;
+	padding: 12px 24px;
+	border-radius: 8px;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	font-size: 15px;
+	font-weight: 600;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+	letter-spacing: 0.5px;
+}
+
+.print-btn {
+	background: linear-gradient(135deg, #00c853 0%, #009624 100%);
+	color: #fff;
+	border: 2px solid transparent;
+}
+
+.print-btn:hover {
+	background: linear-gradient(135deg, #009624 0%, #00796b 100%);
+	transform: translateY(-3px);
+	box-shadow: 0 6px 15px rgba(0, 150, 100, 0.4);
+	border-color: rgba(255, 255, 255, 0.2);
+}
+
+.print-btn:active {
+	transform: translateY(-1px);
+	box-shadow: 0 4px 8px rgba(0, 150, 100, 0.3);
+}
+
+.close-btn {
+	background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+	color: #fff;
+	text-decoration: none;
+	border: 2px solid transparent;
+}
+
+.close-btn:hover {
+	background: linear-gradient(135deg, #ee5a52 0%, #d32f2f 100%);
+	transform: translateY(-3px);
+	box-shadow: 0 6px 15px rgba(238, 90, 82, 0.4);
+	border-color: rgba(255, 255, 255, 0.2);
+}
+
+.close-btn:active {
+	transform: translateY(-1px);
+	box-shadow: 0 4px 8px rgba(238, 90, 82, 0.3);
 }
 
 .card {
