@@ -113,13 +113,34 @@
     $renderSummary = static function () use ($formatMoney, $totalAssessment, $paymentEnroll, $balance, $monthlyDue, $promissoryPayment, $promissoryMonthly) {
         ?>
         <div class="summary-box">
-            <div class="s-row"><span class="s-label">TOTAL ASSESSMENT:</span><span class="s-fill"><?= $formatMoney($totalAssessment); ?></span></div>
-            <div class="s-row"><span class="s-label">Paid upon enrolment:</span><span class="s-fill"><?= $formatMoney($paymentEnroll); ?></span></div>
-            <div class="s-row"><span class="s-label">Balance:</span><span class="s-fill"><?= $formatMoney($balance); ?></span></div>
-            <div class="s-row"><span class="s-label">Due every month:</span><span class="s-fill"><?= $formatMoney($monthlyDue + $promissoryMonthly); ?></span></div>
-            <div class="s-row"><span class="s-label" style="color: #000 !important;">Monthly Promissory Note Payment:</span><span class="s-fill"><?= $formatMoney($promissoryMonthly); ?></span></div>
-            <div class="s-row s-due"><span class="s-label">Total Amount:</span><span class="s-fill"><?= $formatMoney($monthlyDue + $promissoryMonthly); ?></span></div>
-            <div class="s-row"><span class="s-label">Payment received by:</span><span class="s-fill"></span></div>
+            <div class="s-row s-row-bold"><span class="s-label">TOTAL ASSESSMENT:</span><span class="s-fill"><?= $formatMoney($totalAssessment); ?></span></div>
+            <div class="s-row s-row-bold"><span class="s-label">Paid upon enrolment:</span><span class="s-fill"><?= $formatMoney($paymentEnroll); ?></span></div>
+            <div class="s-row s-row-bold"><span class="s-label">Balance:</span><span class="s-fill"><?= $formatMoney($balance); ?></span></div>
+            <div class="s-row s-row-bold"><span class="s-label">Due every month:</span><span class="s-fill"><?= $formatMoney($monthlyDue); ?></span></div>
+            <div class="s-row s-row-small"><span class="s-label">Monthly Promissory Note Payment:</span><span class="s-fill"><?= $formatMoney($promissoryMonthly); ?></span></div>
+            <div style="height: 6px;"></div>
+            <div class="s-row s-due-text">
+                <span class="s-label">Total amount Due every 5<sup>th</sup><br>of the month</span>
+                <span class="s-fill"><?= $formatMoney($monthlyDue + $promissoryMonthly); ?></span>
+            </div>
+            <div style="height: 6px;"></div>
+            <div class="s-row s-row-bold"><span class="s-label">Payment received by:</span><span class="s-fill"></span></div>
+        </div>
+        <?php
+    };
+
+    $renderSummaryMini = static function () use ($formatMoney, $totalAssessment, $paymentEnroll, $balance, $monthlyDue, $promissoryMonthly) {
+        ?>
+        <div class="summary-box">
+            <div class="s-row s-row-bold"><span class="s-label">TOTAL ASSESSMENT:</span><span class="s-fill"><?= $formatMoney($totalAssessment); ?></span></div>
+            <div class="s-row s-row-bold"><span class="s-label">Paid upon enrolment:</span><span class="s-fill"><?= $formatMoney($paymentEnroll); ?></span></div>
+            <div class="s-row s-row-bold"><span class="s-label">Balance:</span><span class="s-fill"><?= $formatMoney($balance); ?></span></div>
+            <div style="height: 4px;"></div>
+            <div class="s-row s-due-text">
+                <span class="s-label">Due every 5<sup>th</sup> of the month:</span>
+                <span class="s-fill"><?= $formatMoney($monthlyDue + $promissoryMonthly); ?></span>
+            </div>
+            <div class="s-row s-row-bold"><span class="s-label">Payment received by:</span><span class="s-fill"></span></div>
         </div>
         <?php
     };
@@ -156,13 +177,6 @@
             }
         </style>
         <?php endif; ?>
-        <style>
-            @media print {
-                .print-hide-misc {
-                    display: none !important;
-                }
-            }
-        </style>
     </head>
     <body class="<?= $isLandscape ? 'landscape-mode' : '' ?>">
     <div class="toolbar">
