@@ -38,20 +38,20 @@ class FacebookAuth extends CI_Controller {
         try {
             $accessToken = $helper->getAccessToken();
         } catch (\Facebook\Exceptions\FacebookResponseException $e) {
-            $this->session->set_flashdata('message', 'Facebook login failed. Please try again.');
+            $this->session->set_flashdata('message', 'Facebook login failed. Please try again.(Error: '.$e->getMessage().')');
             redirect('login');
             return;
         } catch (\Facebook\Exceptions\FacebookSDKException $e) {
-            $this->session->set_flashdata('message', 'Facebook login failed. Please try again.');
+            $this->session->set_flashdata('message', 'Facebook login failed. Please try again.(Error: '.$e->getMessage().')');
             redirect('login');
             return;
         }
 
         if (!isset($accessToken)) {
             if ($helper->getError()) {
-                $this->session->set_flashdata('message', 'Facebook login failed. Please try again.');
+                $this->session->set_flashdata('message', 'Facebook login failed. Please try again.(Error: '.$helper->getError().')');
             } else {
-                $this->session->set_flashdata('message', 'Facebook login failed. Please try again.');
+                $this->session->set_flashdata('message', 'Facebook login failed. Please try again.(Unhandled error)');
             }
             redirect('login');
             return;

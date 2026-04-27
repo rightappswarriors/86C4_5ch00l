@@ -68,5 +68,6 @@ $route['enroll/assessment/(:num)'] = 'students/assessment/$1';
 $route['enroll/enrollnew_success/(:num)'] = 'students/enrollnew_success/$1';
 $route['enroll/enroll_readhandbook'] = 'students/enroll_readhandbook';
 $route['enroll/enrollnew_form'] = 'students/enrollnew_form';
+$route['privacy-policy'] = 'PublicPage/privacypolicy';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
