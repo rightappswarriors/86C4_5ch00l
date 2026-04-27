@@ -96,32 +96,47 @@ if ($current_grade_band === 'G4-10' && count($indntals_list) === count($g4_10_in
 <style>
     .assessment-total-box {
         border: 2px solid #48b8ff;
-        padding: 10px 12px 8px;
+        padding: 15px 20px;
         margin-top: 10px;
+        width: 450px;
+        margin-left: auto;
     }
     .assessment-total-row {
         display: flex;
-        align-items: center;
+        align-items: flex-end;
         gap: 10px;
-        margin-bottom: 4px;
-        font-size: 12px;
+        margin-bottom: 8px;
+        font-size: 13px;
     }
     .assessment-total-row:last-child {
         margin-bottom: 0;
     }
     .assessment-total-row label {
-        width: 170px;
+        width: 200px;
         margin: 0;
         font-weight: 700;
         color: #000;
+        line-height: 1.2;
+    }
+    .assessment-total-row.small-row label {
+        font-size: 11px;
+        font-weight: 600;
+    }
+    .assessment-total-row.small-row .assessment-total-input {
+        font-size: 11px;
     }
     .assessment-total-row.assessment-due-row label {
         color: #1298f6;
+        font-weight: 800;
+    }
+    .assessment-due-row .assessment-total-input {
+        color: #1298f6 !important;
+        border-bottom-color: #1298f6 !important;
     }
     .assessment-total-input,
     .form-control {
         border: none !important;
-        border-bottom: 1px solid #000 !important;
+        border-bottom: 1.5px solid #000 !important;
         border-radius: 0 !important;
         background: transparent !important;
         text-align: right;
@@ -129,6 +144,7 @@ if ($current_grade_band === 'G4-10' && count($indntals_list) === count($g4_10_in
         box-shadow: none !important;
         height: 25px !important;
         padding: 2px 0 !important;
+        width: 100%;
     }
     .form-control:focus {
         outline: none !important;
@@ -141,17 +157,21 @@ if ($current_grade_band === 'G4-10' && count($indntals_list) === count($g4_10_in
         display: flex;
         align-items: center;
     }
-    .assessment-input-wrapper::before {
-        content: "₱";
+    .currency-label {
         position: absolute;
         left: 0;
-        bottom: 5px;
+        bottom: 4px;
         font-weight: 700;
         font-size: 13px;
-        color: #000;
     }
-    .assessment-due-row .assessment-input-wrapper::before {
+    .assessment-due-row .currency-label {
         color: #1298f6;
+    }
+    .small-row .currency-label {
+        font-size: 11px;
+    }
+    .assessment-total-input {
+        padding-left: 20px !important;
     }
 </style>
 
@@ -372,6 +392,7 @@ function humanizeNumber(n) {
                                     <div class="assessment-total-row">
                                         <label>TOTAL ASSESSMENT:</label>
                                         <div class="assessment-input-wrapper">
+                                            <span class="currency-label">₱</span>
                                             <input type="text" id="asstotal"
                                                    value="<?= number_format($total_ass, 2) ?>"
                                                    class="assessment-total-input" disabled>
@@ -381,8 +402,9 @@ function humanizeNumber(n) {
                                     </div>
 
                                     <div class="assessment-total-row">
-                                        <label>Paid upon enrollment:</label>
+                                        <label>Paid upon enrolment:</label>
                                         <div class="assessment-input-wrapper">
+                                            <span class="currency-label">₱</span>
                                             <input type="text" id="paymentenroll" name="paymentenroll"
                                                    value="<?= set_value('paymentenroll', $paymentenroll) ?>"
                                                    class="assessment-total-input">
@@ -392,6 +414,7 @@ function humanizeNumber(n) {
                                     <div class="assessment-total-row">
                                         <label>Balance:</label>
                                         <div class="assessment-input-wrapper">
+                                            <span class="currency-label">₱</span>
                                             <input type="text" id="balance"
                                                    value="<?= number_format($balance, 2) ?>"
                                                    class="assessment-total-input" disabled>
@@ -401,31 +424,34 @@ function humanizeNumber(n) {
                                     <div class="assessment-total-row">
                                         <label>Due every month:</label>
                                         <div class="assessment-input-wrapper">
+                                            <span class="currency-label">₱</span>
                                             <input type="text" id="monthdue"
                                                    value="<?= number_format($monthly + $promissory_monthly, 2) ?>"
                                                    class="assessment-total-input" disabled>
                                         </div>
                                     </div>
 
-                                    <div class="assessment-total-row">
-                                        <label style="color:#000!important">Monthly Promissory Note:</label>
+                                    <div class="assessment-total-row small-row">
+                                        <label>Monthly Promissory Note Payment:</label>
                                         <div class="assessment-input-wrapper">
+                                            <span class="currency-label">₱</span>
                                             <input type="text" id="promissory_payment" name="promissory_payment"
                                                    value="<?= set_value('promissory_payment', $promissory_payment) ?>"
                                                    class="assessment-total-input">
                                         </div>
                                     </div>
 
-                                    <div class="assessment-total-row assessment-due-row">
-                                        <label>Total Amount:</label>
+                                    <div class="assessment-total-row assessment-due-row" style="margin-top: 15px;">
+                                        <label>Total amount Due every 5<sup>th</sup><br>of the month</label>
                                         <div class="assessment-input-wrapper">
+                                            <span class="currency-label">₱</span>
                                             <input type="text" id="promissory_monthly"
                                                    value="<?= number_format($monthly + $promissory_monthly, 2) ?>"
                                                    class="assessment-total-input" disabled>
                                         </div>
                                     </div>
 
-                                    <div class="assessment-total-row">
+                                    <div class="assessment-total-row" style="margin-top: 15px;">
                                         <label>Payment received by:</label>
                                         <input type="text" value="" class="assessment-total-input" disabled>
                                     </div>
