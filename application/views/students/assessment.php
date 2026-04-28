@@ -43,6 +43,7 @@ if ($query_ass->num_rows() > 0) {
     $tuition        = $row_as->tuition;
     $registration   = $row_as->registration;
     $paymentenroll  = $row_as->payment;
+    $oldaccount     = isset($row_as->oldaccount) ? $row_as->oldaccount : 0;
 
     $total_msclns   = array_sum($msclns);
     $total_indntals = array_sum($indntals);
@@ -71,6 +72,7 @@ if ($query_ass->num_rows() > 0) {
     $tuition        = $def_assessment->tuition;
     $registration   = $def_assessment->registration;
     $paymentenroll  = $def_assessment->payment_enroll;
+    $oldaccount     = 0;
 
     $total_msclns   = array_sum($msclns);
     $total_indntals = array_sum($indntals);
@@ -209,7 +211,7 @@ $(function () {
 
 function saveAndGoToPaces() {
     $.ajax({
-        url: '<?= site_url("students/assessment/" . $row->id) ?>',
+        url: '<?= site_url("students/assessment_submit/" . $row->id) ?>',
         type: 'POST',
         data: $('form').serialize(),
         success: function () {
@@ -277,8 +279,9 @@ function humanizeNumber(n) {
                     </div>
                 <?php endif; ?>
 
-                <form action="<?= site_url("students/assessment/" . $row->id) ?>" method="post">
+                <form action="<?= site_url("students/assessment_submit/" . $row->id) ?>" method="post">
                     <input type="hidden" name="as_id" value="<?= $as_id ?>">
+                    <input type="hidden" name="oldaccount" value="<?= $oldaccount ?>">
                     <h3 class="heading" style="text-align:center">Financial Assessment</h3><br>
 
 				<div class="row" style="margin-bottom:15px">
