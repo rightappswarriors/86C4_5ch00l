@@ -216,9 +216,9 @@
 
                 <div class="section-grid">
                     <div class="col-left">
-                        <div class="section-head">INCIDENTALS & MISCELLANEOUS</div>
+                        <div class="section-head">INCIDENTALS</div>
                         <?php $renderIncidentalsWithValues(); ?>
-                        <?php $renderMiscellaneousWithValues(); ?>
+                        <?php // $renderMiscellaneousWithValues(); ?>
                     </div>
                     <div class="col-right">
                         <div class="section-head">TOTAL COMPUTATION</div>
@@ -256,9 +256,9 @@
 
                     <div class="section-grid mini-grid">
                         <div class="col-left">
-                            <div class="section-head">INCIDENTALS & MISC</div>
+                            <div class="section-head">INCIDENTALS</div>
                             <?php $renderIncidentalsWithValues(); ?>
-                            <?php $renderMiscellaneousWithValues(); ?>
+                            <?php // $renderMiscellaneousWithValues(); ?>
                         </div>
                         <div class="col-right">
                             <div class="section-head">TOTAL COMPUTATION</div>
@@ -278,9 +278,9 @@
 
                     <div class="section-grid mini-grid">
                         <div class="col-left">
-                            <div class="section-head">INCIDENTALS & MISC</div>
+                            <div class="section-head">INCIDENTALS</div>
                             <?php $renderIncidentalsWithValues(); ?>
-                            <?php $renderMiscellaneousWithValues(); ?>
+                            <?php // $renderMiscellaneousWithValues(); ?>
                         </div>
                         <div class="col-right">
                             <div class="section-head">TOTAL COMPUTATION</div>
