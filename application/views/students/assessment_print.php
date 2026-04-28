@@ -167,13 +167,25 @@
         <?php if ($isLandscape): ?>
         <style>
             @media print {
-                @page { size: letter landscape; margin: 0; }
+                @page { 
+                    size: letter landscape; 
+                    margin: 0mm !important; 
+                }
+                body { 
+                    margin: 0 !important; 
+                }
             }
         </style>
         <?php else: ?>
         <style>
             @media print {
-                @page { size: letter portrait; margin: 0; }
+                @page { 
+                    size: letter portrait; 
+                    margin: 0mm !important; 
+                }
+                body { 
+                    margin: 0 !important; 
+                }
             }
         </style>
         <?php endif; ?>
