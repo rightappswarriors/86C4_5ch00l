@@ -235,7 +235,7 @@
 
                 <div class="signature">
                     <div class="sig-line-block"></div>
-                    <div class="sig-caption">Father's Signature over Printed Name</div>
+                    <div class="sig-caption">Father's Signature Over Printed Name</div>
                 </div>
                 <div class="signature sig-mother">
                     <div class="sig-line-block"></div>

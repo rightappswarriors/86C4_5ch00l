@@ -40,7 +40,7 @@ body {
     height: 11in;
     margin: 4px auto;
     background: #fff;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     overflow: hidden;
 }
 
@@ -274,7 +274,7 @@ body {
 .pledge {
     margin-top: 15px;
     text-align: center;
-    font-size: 10px;
+    font-size: 11px;
     line-height: 1.4;
     font-weight: 700;
 }
@@ -371,7 +371,7 @@ body.landscape-mode .form-title {
 }
 
 body.landscape-mode .pledge {
-    font-size: 7px;
+    font-size: 11px;
     margin-top: 10px;
     line-height: 1.2;
 }
