@@ -220,12 +220,14 @@
                 </span>
               </div>
             </div>
+            
           </div>
           <ul class="nav">
 			
             <?php $this->load->view("menu"); ?>
 			
           </ul>
+          <span class="ml-3 text-white text-sm mt-20" style=" font-size:12px;">Version: <span class="font-semibold">0.0.0.11</span></span>
         </nav>
         <!-- partial -->
         <div class="main-panel">

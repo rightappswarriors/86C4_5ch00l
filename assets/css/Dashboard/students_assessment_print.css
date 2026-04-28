@@ -40,7 +40,7 @@ body {
     height: 11in;
     margin: 4px auto;
     background: #fff;
-    box-shadow: 0 0 0 1px #a7a7a7;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
     overflow: hidden;
 }
 
@@ -93,27 +93,28 @@ body {
 }
 
 .school-lines {
-    font-size: 7.5px;
-    line-height: 1.15;
+    font-size: 10px;
+    line-height: 1.3;
     font-weight: 700;
 }
 
 .school-lines .school-name {
-    font-size: 9px;
+    font-size: 14px;
     font-weight: 900;
 }
 
 .school-lines .small {
-    font-size: 7px;
+    font-size: 9.5px;
     font-weight: 600;
 }
 
 /* ====== Titles ====== */
 .form-title {
     text-align: center;
-    font-size: 11px;
+    font-size: 15px;
     font-weight: 900;
-    margin: 4px 0 3px;
+    margin: 6px 0 5px;
+    text-transform: uppercase;
 }
 
 .mini-title {
@@ -130,18 +131,19 @@ body {
 
 /* ====== Meta Rows (Name/Date/Grade/SY) ====== */
 .meta-row {
-    font-size: 8px;
+    font-size: 10.5px;
     font-weight: 700;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 1px;
+    margin-bottom: 5px;
 }
 
 .meta-ul {
     display: inline-block;
-    border-bottom: 1px solid #000;
-    padding: 0 2px;
+    border-bottom: 1.5px solid #000;
+    padding: 0 4px;
+    min-width: 110px;
 }
 
 /* ====== Section Grid (Incidentals + Computation) ====== */
@@ -177,9 +179,9 @@ body {
     display: flex;
     align-items: flex-end;
     gap: 0;
-    font-size: 7.5px;
+    font-size: 10.5px;
     font-weight: 600;
-    margin-bottom: 1px;
+    margin-bottom: 4.5px;
 }
 
 .left-label {
@@ -189,9 +191,9 @@ body {
 
 .right-fill {
     flex: 1;
-    border-bottom: 1px solid #000;
-    min-width: 40px;
-    height: 9px;
+    border-bottom: 1.5px solid #000;
+    min-width: 60px;
+    height: 14px;
     text-align: right;
     padding-right: 2px;
 }
@@ -201,81 +203,79 @@ body {
     display: flex;
     align-items: flex-end;
     gap: 0;
-    font-size: 7.5px;
+    font-size: 10.5px;
     font-weight: 700;
-    margin-bottom: 1px;
+    margin-bottom: 4.5px;
 }
 
 .comp-fill {
     flex: 1;
-    border-bottom: 1px solid #000;
-    min-width: 42px;
-    height: 9px;
+    border-bottom: 1.5px solid #000;
+    min-width: 60px;
+    height: 14px;
     text-align: right;
     padding-right: 2px;
 }
 
 /* ====== Summary / Total Assessment Box ====== */
 .summary-box {
-    margin-top: 4px;
+    margin-top: 6px;
     border: 1.5px solid #48b8ff;
-    padding: 3px 5px;
+    padding: 8px 10px;
 }
 
 .s-row {
     display: flex;
-    align-items: flex-end;
     justify-content: space-between;
-    gap: 3px;
-    font-size: 7.5px;
-    font-weight: 700;
-    margin-bottom: 1px;
+    align-items: flex-end;
+    font-size: 11.5px;
+    font-weight: 900;
+    margin-bottom: 6px;
     line-height: 1.4;
 }
 
-.s-row-bold {
-    font-weight: 800;
-}
-
 .s-row-small {
-    font-size: 6.5px;
-    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 9.5px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    line-height: 1.3;
 }
 
 .s-label {
-    white-space: nowrap;
+    white-space: normal;
 }
 
 .s-fill {
     flex: 1;
-    border-bottom: 1px solid #000;
+    border-bottom: 2px solid #000;
+    min-width: 80px;
     text-align: right;
-    padding-bottom: 0.5px;
-    min-width: 50px;
+    height: 16px;
+    padding-bottom: 1px;
 }
 
 .s-due-text {
-    color: #0088e0;
-    font-weight: 800;
+    color: #1692ff;
 }
 
 .s-due-text .s-label {
-    white-space: normal;
     line-height: 1.15;
-    font-size: 7.5px;
 }
 
 .s-due-text .s-fill {
-    border-bottom-color: #0088e0;
-    color: #0088e0;
+    border-color: #1692ff;
+    color: #1692ff;
 }
 
 /* ====== Pledge ====== */
 .pledge {
-    margin-top: 12px;
+    margin-top: 15px;
     text-align: center;
-    font-size: 7.5px;
-    line-height: 1.3;
+    font-size: 10px;
+    line-height: 1.4;
     font-weight: 700;
 }
 
@@ -297,9 +297,9 @@ body {
 }
 
 .sig-caption {
-    font-size: 8px;
+    font-size: 11px;
     font-weight: 700;
-    margin-top: 1px;
+    margin-top: 4px;
 }
 
 /* ====== Print ====== */
@@ -388,65 +388,74 @@ body.landscape-mode .sig-line-block {
     width: 180px;
 }
 
-/* ====== Right Column Mini Copies - Compact Sizing ====== */
+/* ====== Right Column Mini Copies - Uniform Sizing ====== */
 .right-copy .copy-label {
-    font-size: 10px;
-    margin: 0 0 1px;
+    font-size: 12px;
+    margin: 0 0 5px;
 }
 
 .right-copy .mini-title {
-    font-size: 9px;
-    margin: 1px 0 1px;
+    font-size: 10.5px;
+    margin: 5px 0 4px;
 }
 
 .right-copy .meta-row {
-    font-size: 8px;
+    font-size: 10.5px;
+    margin-bottom: 5px;
 }
 
 .right-copy .section-head {
-    font-size: 8.5px;
-    font-weight: 900;
+    font-size: 10px;
+    margin-bottom: 3px;
 }
 
 .right-copy .section-grid {
-    margin-top: 1px;
+    margin-top: 5px;
 }
 
 .right-copy .row-line {
-    font-size: 7.5px;
-    margin-bottom: 0px;
+    font-size: 10.5px;
+    margin-bottom: 1.5px;
 }
 
 .right-copy .comp-line {
-    font-size: 7.5px;
-    margin-bottom: 0px;
+    font-size: 10.5px;
+    margin-bottom: 1.5px;
 }
 
 .right-copy .right-fill,
 .right-copy .comp-fill {
-    height: 8px;
-    min-width: 35px;
+    height: 13px;
+    min-width: 50px;
 }
 
 .right-copy .s-row {
-    font-size: 7.5px;
-    line-height: 1.2;
-    margin-bottom: 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 11px;
+    font-weight: 900;
+    margin-bottom: 4px;
+    line-height: 1.35;
 }
 
 .right-copy .s-row-small {
-    font-size: 6.5px;
-}
-
-.right-copy .s-due-text .s-label {
-    font-size: 7.5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 9px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    line-height: 1.35;
 }
 
 .right-copy .s-fill {
-    min-width: 35px;
+    min-width: 65px;
+    border-bottom: 1.5px solid #000;
+    height: 14px;
 }
 
 .right-copy .summary-box {
-    margin-top: 2px;
-    padding: 2px 4px;
+    margin-top: 5px;
+    padding: 6px 8px;
 }
