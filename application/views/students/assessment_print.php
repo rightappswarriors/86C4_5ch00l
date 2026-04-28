@@ -169,7 +169,7 @@
             @media print {
                 @page { 
                     size: letter landscape; 
-                    margin: 0mm !important; 
+                    margin: 0; 
                 }
                 body { 
                     margin: 0 !important; 
@@ -181,7 +181,7 @@
             @media print {
                 @page { 
                     size: letter portrait; 
-                    margin: 0mm !important; 
+                    margin: 0; 
                 }
                 body { 
                     margin: 0 !important; 
