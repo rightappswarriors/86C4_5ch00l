@@ -14,7 +14,7 @@
   <li><span class="arrow">›</span></li>
   <li><span class="step passed"><span class="step-number"><i class="mdi mdi-check"></i></span>Fill up Enrollment Application Form</span></li>
   <li><span class="arrow">›</span></li>
-  <li><span class="step pending"><span class="step-number">3</span>Fetcher ID Application</span></li>
+  <li><span class="step passed"><span class="step-number"><i class="mdi mdi-check"></i></span>Fetcher ID Application</span></li>
   <li><span class="arrow">›</span></li>
   <li><span class="step current"><span class="step-number">4</span>Print/Save Enrollment Application Form / Save QR Code</span></li>
 </ol>

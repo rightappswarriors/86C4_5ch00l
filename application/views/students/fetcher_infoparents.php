@@ -217,12 +217,21 @@
 						<?php endif; ?>
 						
 						<div style="text-align: center; margin-top: 20px; padding-top: 15px; border-top: 1px solid #e2e8f0;">
+							<?php if ($this->session->userdata('current_usertype') == 'Parent'): ?>
 							<a href="<?= site_url('students/fetcher_register/' . $row->id) ?>" class="btn btn-primary" style="border-radius: 20px;">
 								<i class="mdi mdi-pencil"></i> Edit Fetcher Information
 							</a>
+							<?php endif; ?>
+
+							<?php if (!empty($student_id)): ?>
+							<a href="<?= site_url('students/details/' . $student_id) ?>" class="btn btn-secondary" style="border-radius: 20px;">
+								<i class="mdi mdi-arrow-left"></i> Back to Student Profile
+							</a>
+							<?php else: ?>
 							<a href="<?= site_url('students/fetcher_infoparents') ?>" class="btn btn-secondary" style="border-radius: 20px;">
 								<i class="mdi mdi-arrow-left"></i> Back to All Applications
 							</a>
+							<?php endif; ?>
 						</div>
 						
 						<div style="text-align: center; margin-top: 15px; font-size: 11px; color: #a0aec0;">
@@ -240,9 +249,19 @@
 					<i class="mdi mdi-information-outline" style="font-size: 40px; color: #cbd5e0;"></i>
 					<h4 style="margin: 10px 0; color: #4a5568;">No Fetcher Applications Found</h4>
 					<p style="margin: 0 0 20px 0; color: #718096;">You haven't registered any fetcher applications yet.</p>
+					<?php if ($this->session->userdata('current_usertype') == 'Parent'): ?>
 					<a href="<?= site_url('students/fetcher_register') ?>" class="btn btn-primary" style="border-radius: 20px;">
 						<i class="mdi mdi-plus"></i> Create Your First Fetcher Application
 					</a>
+					<?php endif; ?>
+
+					<?php if (!empty($student_id)): ?>
+					<div style="margin-top: 15px;">
+						<a href="<?= site_url('students/details/' . $student_id) ?>" class="btn btn-secondary" style="border-radius: 20px;">
+							<i class="mdi mdi-arrow-left"></i> Back to Student Profile
+						</a>
+					</div>
+					<?php endif; ?>
 				</div>
 				
 				<?php endif; ?>

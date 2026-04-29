@@ -54,6 +54,7 @@
     color: white;
     box-shadow: 0 20px 40px rgba(37,99,235,0.24);
     min-height: 100%;
+    position: relative;
 }
 
 .student-summary-name {
@@ -75,6 +76,51 @@
 
 .student-summary-meta i {
     margin-right: 6px;
+}
+
+.student-info-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.student-info-details {
+    flex: 1;
+    min-width: 280px;
+}
+
+.parent-info-summary {
+    display: flex;
+    gap: 30px;
+    text-align: left;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+.parent-info-item {
+    display: flex;
+    flex-direction: column;
+    min-width: 180px;
+    align-items: flex-start;
+}
+
+.parent-label {
+    font-size: 1.1rem;
+    opacity: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 800;
+    margin-bottom: 2px;
+}
+
+.parent-name {
+    font-size: 0.95rem;
+    font-weight: 500;
+    opacity: 0.95;
+    white-space: nowrap;
 }
 
 .student-photo-wrap {
@@ -144,5 +190,28 @@
     .action-btn {
         flex: 1 1 100%;
         min-height: 50px;
+    }
+
+    .student-info-main {
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+    }
+
+    .parent-info-summary {
+        position: static;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 10px;
+        padding-top: 15px;
+        border-top: 1px solid rgba(255,255,255,0.15);
+        margin-left: 0;
+        padding-right: 0;
+        width: 100%;
+    }
+
+    .parent-info-item {
+        align-items: flex-start;
+        text-align: left;
     }
 }

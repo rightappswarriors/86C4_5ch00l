@@ -82,6 +82,32 @@
     border: 1px solid #dee2e6;
     border-radius: 8px;
   }
+
+  .btn-add {
+    background: transparent;
+    border: 2px dashed #2563eb;
+    color: #2563eb;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-add:hover {
+    background: #2563eb;
+    color: #fff;
+    border-style: solid;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+  }
+
+  .enroll-add-btn {
+    text-align: center;
+    margin: 20px 0;
+  }
 </style>
 <ol class="enrollment-breadcrumb">
 	<li><a href="<?=site_url('students/enroll_readhandbook')?>" class="step passed"><span class="step-number"><i class="mdi mdi-check"></i></span>Read the Student Handbook</a></li>
@@ -484,6 +510,34 @@ $(function(){
 			$("#fetcher-4-section").slideDown();
 			$(this).hide(); // Hide button after all fetchers are shown
 		}
+	});
+
+	// Dynamic Student Section Cloning
+	let studentIndex = 1;
+	$("#add-student-btn").click(function() {
+		if(studentIndex >= 4) {
+			alert("You can add up to 4 students per application.");
+			$(this).hide();
+			return;
+		}
+		
+		let newSection = $(".student-section[data-index='0']").clone();
+		newSection.attr("data-index", studentIndex);
+		newSection.css("border-top", "1px solid #eee");
+		newSection.css("margin-top", "15px");
+		newSection.css("padding-top", "15px");
+		
+		// Update input names
+		newSection.find("input, select").each(function() {
+			let name = $(this).attr("name");
+			if(name) {
+				$(this).attr("name", name.replace("[0]", "[" + studentIndex + "]"));
+			}
+			$(this).val(""); // Clear values
+		});
+		
+		$("#student-sections").append(newSection);
+		studentIndex++;
 	});
 
 });

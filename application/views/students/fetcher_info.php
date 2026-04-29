@@ -183,12 +183,9 @@ $row = $is_single_record ? $records[0] : null;
 								<td><?= htmlspecialchars($student_names) ?></td>
 								<td><?= date('M j, Y', strtotime($row->registered_date)) ?></td>
 								<td>
-									<a href="<?= site_url("students/fetcher_info/".$row->id) ?>" class="btn btn-primary btn-sm" title="View Details">
-										<i class="mdi mdi-eye"></i> View
-									</a>
 									<?php if ($this->session->userdata('current_usertype') != 'Parent'): ?>
-									<a href="<?= site_url("students/fetcher_print/".$row->id) ?>" class="btn btn-info btn-sm" target="_blank" title="Print">
-										<i class="mdi mdi-printer"></i> Print
+									<a href="<?= site_url("students/fetcher_print/".$row->id) ?>" class="btn btn-info btn-sm" target="_blank" title="View Print">
+										<i class="mdi mdi-printer"></i> View Print
 									</a>
 									<?php endif; ?>
 								</td>

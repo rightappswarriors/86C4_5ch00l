@@ -219,23 +219,31 @@ class Students extends CI_Controller {
 		$user_role = $this->session->userdata('current_usertype');
 		$current_user_id = $this->session->userdata('current_userid');
 		
-		// Only parents can access this page
-		if ($user_role != 'Parent') {
+		// Parents and Admin can view fetcher info
+		if ($user_role != 'Parent' && $user_role != 'Admin') {
 			show_error('Unauthorized Access', 403);
 			return;
 		}
 		
-		// If no user_id provided, use current user's id
-		$view_user_id = $user_id ? $user_id : $current_user_id;
-		
-		// Get user info
-		$user_info = $this->db->get_where('students', array('id' => $view_user_id))->row();
+		// If user_id provided, it's likely a student ID from the student details menu
+		if ($user_id) {
+			$student_info = $this->db->get_where('students', array('id' => $user_id))->row();
+			// Resolve the parent's ID
+			$parent_id = ($student_info && $student_info->user_id) ? $student_info->user_id : $current_user_id;
+			$view_user_id = $parent_id;
+			// Get actual parent info from register table for the display box
+			$user_info = $this->db->get_where('register', array('id' => $parent_id))->row();
+		} else {
+			$view_user_id = $current_user_id;
+			$user_info = $this->db->get_where('register', array('id' => $view_user_id))->row();
+		}
 		
 		$data = array(
 			'title'     => "My Fetcher Information",
 			'template'  => 'students/fetcher_infoparents',
 			'query' => $this->students_model->fetcher_registration_list($view_user_id),
-			'user_info' => $user_info
+			'user_info' => $user_info,
+			'student_id' => $user_id // Pass the student ID for the back button
 		);
 		
 		$this->load->view('template', $data);
