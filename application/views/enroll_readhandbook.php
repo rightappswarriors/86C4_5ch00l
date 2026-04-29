@@ -73,7 +73,9 @@
   <li><span class="arrow">›</span></li>
   <li><a href="<?=site_url('students/enrollnew_form')?>" class="step pending"><span class="step-number">2</span>Fill up Enrollment Application Form</a></li>
   <li><span class="arrow">›</span></li>
-  <li><span class="step pending"><span class="step-number">3</span>Print/Save Enrollment Application Form / Save QR Code</span></li>
+  <li><span class="step pending"><span class="step-number">3</span>Fetcher ID Application</span></li>
+  <li><span class="arrow">›</span></li>
+  <li><span class="step pending"><span class="step-number">4</span>Print/Save Enrollment Application Form / Save QR Code</span></li>
 </ol>
 
 <script>

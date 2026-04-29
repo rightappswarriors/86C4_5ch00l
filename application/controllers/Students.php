@@ -71,12 +71,20 @@ class Students extends CI_Controller {
 		
 	}
 	
-	public function fetcher_register()
+	public function fetcher_register($student_id = null)
 	{
 		$data = array(
 			'title'     =>   "Fetcher's ID Application",
-			'template'   =>   'students/fetch_registration'
+			'template'   =>   'students/fetch_registration',
+			'student_id' => $student_id
 		);
+		
+		if($student_id) {
+			$query = $this->students_model->search_student_info($student_id);
+			if($query->num_rows() > 0) {
+				$data['student_data'] = $query->row();
+			}
+		}
 		
 		$this->load->view('template', $data);
 	}
@@ -86,6 +94,7 @@ class Students extends CI_Controller {
 		$fetcher = $this->input->post('fetcher');
 		$student = $this->input->post('student');
 		$notes = $this->input->post('notes');
+		$student_id = $this->input->post('student_id');
 		
 		$fetcher_json = json_encode($fetcher);
 		$student_json = json_encode($student);
@@ -129,7 +138,7 @@ class Students extends CI_Controller {
 		$insert_id = $this->students_model->fetcher_register($data);
 		
 		$this->session->set_flashdata('message', "Fetcher's ID Application submitted successfully!");
-		redirect("students/fetcher_list");
+		redirect("students/enrollnew_success/".$student_id);
 	}
 	
 	public function fetcher_list()
@@ -171,23 +180,64 @@ class Students extends CI_Controller {
 		$this->load->view('students/fetch_registration_print', $data);
 	}
 
-	public function fetcher_info()
+	public function fetcher_info($user_id = null)
 	{
-		// Restrict access to specific roles only
+		// Allow Parents to view their own fetcher info, and specific roles to view all
 		$allowed_roles = ['Admin', 'Accounting', 'Registrar', 'Principal'];
 		$user_role = $this->session->userdata('current_usertype');
-
-		if (!in_array($user_role, $allowed_roles)) {
-			show_error('Unauthorized Access', 403);
-			return;
+		$current_user_id = $this->session->userdata('current_userid');
+		
+		// If user_id is provided in URL, check if current user is allowed to view it
+		if ($user_id) {
+			// Parents can only view their own fetcher info
+			if ($user_role == 'Parent' && $user_id != $current_user_id) {
+				show_error('Unauthorized Access', 403);
+				return;
+			}
+			// Other roles can view any
+		} else {
+			// No user_id provided - allow parents to see their own list
+			// Restrict to specific roles only if not a parent
+			if ($user_role != 'Parent' && !in_array($user_role, $allowed_roles)) {
+				show_error('Unauthorized Access', 403);
+				return;
+			}
 		}
-
+		
 		$data = array(
 			'title'     => "Fetcher Information",
 			'template'  => 'students/fetcher_info',
-			'query' => $this->students_model->fetcher_registration_list()
+			'query' => $this->students_model->fetcher_registration_list($user_id)
 		);
+		
+		$this->load->view('template', $data);
+	}
 
+	public function fetcher_infoparents($user_id = null)
+	{
+		// Parents can view their own fetcher info (read-only, no print)
+		$user_role = $this->session->userdata('current_usertype');
+		$current_user_id = $this->session->userdata('current_userid');
+		
+		// Only parents can access this page
+		if ($user_role != 'Parent') {
+			show_error('Unauthorized Access', 403);
+			return;
+		}
+		
+		// If no user_id provided, use current user's id
+		$view_user_id = $user_id ? $user_id : $current_user_id;
+		
+		// Get user info
+		$user_info = $this->db->get_where('students', array('id' => $view_user_id))->row();
+		
+		$data = array(
+			'title'     => "My Fetcher Information",
+			'template'  => 'students/fetcher_infoparents',
+			'query' => $this->students_model->fetcher_registration_list($view_user_id),
+			'user_info' => $user_info
+		);
+		
 		$this->load->view('template', $data);
 	}
 
@@ -371,9 +421,9 @@ class Students extends CI_Controller {
 			if($id > 0)
 			{
 				//message successful	
-				$this->session->set_flashdata('message', "Successfully added new student!");
+				$this->session->set_flashdata('message', "Successfully added new student! Now please complete the Fetcher ID Application.");
 				
-				redirect("students/enrollnew_success/".$id);
+				redirect("students/fetcher_register/".$id);
 			}
 		}
 		else

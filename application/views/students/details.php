@@ -91,7 +91,7 @@
 		  <div class="row">
 			<div class="col-md-6">
 			  <div class="form-group row">
-				<label class="col-sm-4 col-form-label">Father First Name</label>
+				<label class="col-sm-4 col-form-label">First Name</label>
 				<div class="col-sm-8">
 				  <?=$row->firstname?>
 				</div>
@@ -99,7 +99,7 @@
 			</div>
 			<div class="col-md-6">
 			  <div class="form-group row">
-				<label class="col-sm-4 col-form-label">Father Last Name</label>
+				<label class="col-sm-4 col-form-label">Last Name</label>
 				<div class="col-sm-8">
 				  <?=$row->lastname?>
 				</div>
@@ -109,7 +109,7 @@
 		  <div class="row">
 			<div class="col-md-6">
 			  <div class="form-group row">
-				<label class="col-sm-4 col-form-label">Father Middle Name</label>
+				<label class="col-sm-4 col-form-label">Middle Name</label>
 				<div class="col-sm-8">
 				  <?=$row->middlename?>
 				</div>

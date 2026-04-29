@@ -42,6 +42,7 @@
 .action-btn-update { background: linear-gradient(135deg, #fb9678 0%, #ff7043 100%); color: white; }
 .action-btn-create { background: linear-gradient(135deg, #00aeef 0%, #0097a7 100%); color: white; }
 .action-btn-print { background: linear-gradient(135deg, #f5365c 0%, #f56036 100%); color: white; }
+.action-btn-fetcher { background: linear-gradient(135deg, #e91e63 0%, #d81b60 100%); color: white; }
 
 /* Student Info Card */
 .student-info-card {

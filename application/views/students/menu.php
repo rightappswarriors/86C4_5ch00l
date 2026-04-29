@@ -20,15 +20,17 @@
 
 <div class="action-menu">
 
-<?php if($this->session->userdata('current_usertype') == 'Parent'): ?>
-<a href="<?=site_url("students/details/".$row->id)?>" class="action-btn action-btn-details"><i class='mdi mdi-account'></i>Details</a>
-<a href="<?=site_url("students/updateinfo/".$row->id)?>" class="action-btn action-btn-update"><i class='mdi mdi-pencil'></i>Update Info</a>
-<a href="<?=site_url("students/assessment/".$row->id)?>" class="action-btn action-btn-assessment"><i class='mdi mdi-calculator'></i>Assessment</a>
-<a href="<?=site_url("students/interview/".$row->id)?>" class="action-btn action-btn-interview"><i class='mdi mdi-account-voice'></i>Interview</a>
-<a href="<?=site_url("payments/showlist/".$row->id)?>" class="action-btn action-btn-payments"><i class='mdi mdi-credit-card'></i>Payments</a>
-<a href="<?=site_url("payments/statement/".$row->id)?>" class="action-btn action-btn-soa"><i class='mdi mdi-file-document-outline'></i>SOA</a>
-<a href="<?=site_url("students/docs/".$row->id)?>" class="action-btn action-btn-docs"><i class='mdi mdi-folder-upload'></i>Requirements</a>
-<a href="<?=site_url("students/academics/".$row->id)?>" class="action-btn action-btn-academics"><i class='mdi mdi-school'></i>Academics</a>
+	<?php if($this->session->userdata('current_usertype') == 'Parent'): ?>
+	<a href="<?=site_url("students/details/".$row->id)?>" class="action-btn action-btn-details"><i class='mdi mdi-account'></i>Details</a>
+	<a href="<?=site_url("students/updateinfo/".$row->id)?>" class="action-btn action-btn-update"><i class='mdi mdi-pencil'></i>Update Info</a>
+	<a href="<?=site_url("students/assessment/".$row->id)?>" class="action-btn action-btn-assessment"><i class='mdi mdi-calculator'></i>Assessment</a>
+	<a href="<?=site_url("students/interview/".$row->id)?>" class="action-btn action-btn-interview"><i class='mdi mdi-account-voice'></i>Interview</a>
+	<a href="<?=site_url("students/fetcher_info")?>" class="action-btn action-btn-fetcher" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"><i class='mdi mdi-account-heart'></i> My Fetchers</a>
+	<a href="<?=site_url("students/fetcher_infoparents/".$row->id)?>" class="action-btn action-btn-fetcher"><i class='mdi mdi-eye'></i> View This Student's Fetchers</a>
+	<a href="<?=site_url("payments/showlist/".$row->id)?>" class="action-btn action-btn-payments"><i class='mdi mdi-credit-card'></i>Payments</a>
+	<a href="<?=site_url("payments/statement/".$row->id)?>" class="action-btn action-btn-soa"><i class='mdi mdi-file-document-outline'></i>SOA</a>
+	<a href="<?=site_url("students/docs/".$row->id)?>" class="action-btn action-btn-docs"><i class='mdi mdi-folder-upload'></i>Requirements</a>
+	<a href="<?=site_url("students/academics/".$row->id)?>" class="action-btn action-btn-academics"><i class='mdi mdi-school'></i>Academics</a>
 
 <?php elseif($this->session->userdata('current_usertype') == 'Accounting'): ?>
 <a href="<?=site_url("students/details/".$row->id)?>" class="action-btn action-btn-details"><i class='mdi mdi-account'></i>Details</a>
@@ -49,6 +51,7 @@
 <a href="<?=site_url("students/details/".$row->id)?>" class="action-btn action-btn-details"><i class='mdi mdi-account'></i>Details</a>
 <a href="<?=site_url("students/assessment/".$row->id)?>" class="action-btn action-btn-assessment"><i class='mdi mdi-calculator'></i>Assessment</a>
 <a href="<?=site_url("students/interview/".$row->id)?>" class="action-btn action-btn-interview"><i class='mdi mdi-account-voice'></i>Interview</a>
+<a href="<?=site_url("students/fetcher_infoparents/".$row->id)?>" class="action-btn action-btn-fetcher"><i class='mdi mdi-account-heart'></i>Fetcher Info</a>
 <a href="<?=site_url("payments/showlist/".$row->id)?>" class="action-btn action-btn-payments"><i class='mdi mdi-credit-card'></i>Payments</a>
 <a href="<?=site_url("payments/statement/".$row->id)?>" class="action-btn action-btn-soa"><i class='mdi mdi-file-document-outline'></i>SOA</a>
 <a href="<?=site_url("students/docs/".$row->id)?>" class="action-btn action-btn-docs"><i class='mdi mdi-folder-upload'></i>Requirements</a>

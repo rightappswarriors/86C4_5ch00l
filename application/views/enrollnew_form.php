@@ -93,7 +93,9 @@
   <li><span class="arrow">›</span></li>
   <li><span class="step current"><span class="step-number">2</span>Fill up Enrollment Application Form</span></li>
   <li><span class="arrow">›</span></li>
-  <li><span class="step pending"><span class="step-number">3</span>Print/Save Enrollment Application Form / Save QR Code</span></li>
+  <li><span class="step pending"><span class="step-number">3</span>Fetcher ID Application</span></li>
+  <li><span class="arrow">›</span></li>
+  <li><span class="step pending"><span class="step-number">4</span>Print/Save Enrollment Application Form / Save QR Code</span></li>
 </ol>
 
 <script>
@@ -424,7 +426,7 @@ $(function(){
 		  <div class="row">
 			<div class="col-md-12">
 				<div class="form-group">
-					<label class="form-label">Mother Information</label>
+					<label class="form-label">Mother maiden</label>
 				</div>
 			</div>
 		  </div>
@@ -606,7 +608,7 @@ $(function(){
 			<h4><i class="mdi mdi-alert-circle-outline"></i> NOTE: Please make sure all the information you entered above is true and correct.</h4>
 			<div class="form-check">
 			  <label class="form-check-label">
-				<input type="checkbox" class="form-check-input" id="chkconfirmed"> I have reviewed and confirmed that the above information is true and correct.
+		<input type="checkbox" class="form-check-input" id="chkconfirmed"> I have reviewed and confirmed that the above information is true and correct.
 			  </label>
 			</div>
 		  </div>
@@ -618,7 +620,7 @@ $(function(){
 		  <div class="enroll-submit-area">
 			<input type="submit" class="btn btn-enroll btn-submit" id="btnsubmit" name="submit" value="ENROLL" disabled/>
 		  </div>
-		  
+
 
 		</form>
 		

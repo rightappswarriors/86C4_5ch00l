@@ -227,7 +227,7 @@
             <?php $this->load->view("menu"); ?>
 			
           </ul>
-          <span class="ml-3 text-white text-sm mt-20" style=" font-size:12px;">Version: <span class="font-semibold">0.0.0.17</span></span>
+          <span class="ml-3 text-white text-sm mt-20" style=" font-size:12px;">Version: <span class="font-semibold">0.0.0.18</span></span>
         </nav>
         <!-- partial -->
         <div class="main-panel">
@@ -322,7 +322,7 @@
                  <i class="mdi mdi-laptop"></i> ONLINE
                </span>
              </div>
-             <div class="step-box">
+             <div class="step-box">yyyyyy
                <div class="step-number">1</div>
                <div class="step-content">
                  <h6 class="font-weight-bold mb-1">Online Registration & Fetcher's ID</h6>

@@ -112,12 +112,12 @@
 			<span class="menu-title">Enroll Student</span>
 		  </a>
 		</li>
-		<li class="nav-item">
+		<!-- <li class="nav-item">
 		  <a class="nav-link" href="<?=site_url("students/fetcher_register")?>">
 			<i class="menu-icon typcn typcn-credit-card"></i>
 			<span class="menu-title">Fetcher's ID Application</span>
 		  </a>
-		</li>
+		</li> -->
 		
 		<?php endif; ?>
 
