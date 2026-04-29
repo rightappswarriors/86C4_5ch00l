@@ -188,78 +188,6 @@
                     </div>
                   </div>
 
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="form-label">MIDDLE NAME <span class="text-muted">(Optional)</span></label>
-                        <input type="text" name="middlename" value="<?=set_value('middlename')?>" class="form-control" placeholder="Enter middle name">
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <!-- [Team Note - 2026-03-09] Replaced Phone Number input with Birthdate -->
-                        <label class="form-label">BIRTHDATE</label>
-                        <input type="date" name="birthdate" value="<?=set_value('birthdate')?>" class="form-control">
-                      </div>
-                    </div>
-                  </div>
-
-                  <?php
-                    // [Team Note - 2026-03-11] Tracks whether the optional student fields should stay open after form reload.
-                    $has_student_details = set_value('lrn') || set_value('school_id');
-                  ?>
-
-                  <!-- Student Toggle Card - Only show for students -->
-                  <div class="student-toggle-card">
-                    <div class="student-toggle-copy">
-                      <h5>Are you a student?</h5>
-                      <p>Click Yes if you're a current student to add your account details.</p>
-                    </div>
-
-                    <button
-                      type="button"
-                      class="student-toggle-btn"
-                      id="studentToggleBtn"
-                      aria-expanded="<?=$has_student_details ? 'true' : 'false'?>">
-                      Yes
-                    </button>
-
-                    <div
-                      class="student-extra-fields<?=$has_student_details ? ' is-open' : ''?>"
-                      id="studentExtraFields"
-                      <?=$has_student_details ? '' : 'hidden'?>>
-                      <div class="row align-items-end">
-                        <div class="col-md-5">
-                          <div class="form-group mb-0">
-                            <label class="form-label">LRN</label>
-                            <input type="text" name="lrn" value="<?=set_value('lrn')?>" class="form-control" placeholder="Enter LRN">
-                          </div>
-                        </div>
-                        <div class="col-md-2 text-center">
-                          <label class="form-label d-block">OR</label>
-                        </div>
-                        <div class="col-md-5">
-                          <div class="form-group mb-0">
-                            <label class="form-label">SCHOOL ID</label>
-                            <input type="text" name="school_id" value="<?=set_value('school_id')?>" class="form-control" placeholder="Enter school ID">
-                          </div>
-                        </div>
-                      </div>
-
-                      <div
-                        class="student-remove-wrap<?=$has_student_details ? ' is-visible' : ''?>"
-                        id="studentRemoveWrap"
-                        <?=$has_student_details ? '' : 'hidden'?>>
-                        <button
-                          type="button"
-                          class="student-remove-btn"
-                          id="studentRemoveBtn">
-                          Close
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
                   <div class="form-group mt-4">
                     <button type="submit" class="auth-submit-btn">
                       Continue to Forgot Password
@@ -283,49 +211,6 @@
     <script src="<?=base_url()?>assets/vendors/js/vendor.bundle.addons.js"></script>
     <script src="<?=base_url()?>assets/js/shared/off-canvas.js"></script>
     <script src="<?=base_url()?>assets/js/shared/misc.js"></script>
-    <script>
-      // [Team Note - 2026-03-11] Student account toggle: shows or hides the optional student identifier fields.
-      (function () {
-        var toggleButton = document.getElementById('studentToggleBtn');
-        var removeWrap = document.getElementById('studentRemoveWrap');
-        var removeButton = document.getElementById('studentRemoveBtn');
-        var extraFields = document.getElementById('studentExtraFields');
-        var lrnInput = document.querySelector('input[name="lrn"]');
-        var schoolIdInput = document.querySelector('input[name="school_id"]');
-
-        if (!toggleButton || !removeWrap || !removeButton || !extraFields) {
-          return;
-        }
-
-        function syncState(isOpen) {
-          extraFields.classList.toggle('is-open', isOpen);
-          toggleButton.classList.toggle('is-open', isOpen);
-          removeWrap.classList.toggle('is-visible', isOpen);
-          toggleButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-          extraFields.hidden = !isOpen;
-          removeWrap.hidden = !isOpen;
-          toggleButton.textContent = isOpen ? 'No' : 'Yes';
-        }
-
-        syncState(extraFields.classList.contains('is-open'));
-
-        toggleButton.addEventListener('click', function () {
-          syncState(!extraFields.classList.contains('is-open'));
-        });
-
-        removeButton.addEventListener('click', function () {
-          if (lrnInput) {
-            lrnInput.value = '';
-          }
-
-          if (schoolIdInput) {
-            schoolIdInput.value = '';
-          }
-
-          syncState(false);
-        });
-      })();
-    </script>
     
     <?php $this->load->view('support_chat_widget'); ?>
   </body>

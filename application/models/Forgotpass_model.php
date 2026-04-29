@@ -133,15 +133,13 @@ class Forgotpass_model extends CI_Model {
     }
     
     /**
-     * Verify parent identity by name and child birthdate
+     * Verify parent identity by name
      * Returns parent info and their linked children
      */
-    function verify_parent_identity($firstname, $lastname, $middlename, $birthdate) {
-        // [Team Note - 2026-03-09]
-        // Parent lookup flow now uses child Birthdate instead of parent Phone Number.
-        $parent = $this->find_parent_by_identity($firstname, $lastname, $middlename, $birthdate);
+    function verify_parent_identity($firstname, $lastname) {
+        $parent = $this->find_parent_by_identity($firstname, $lastname);
         if (!$parent) {
-            return array('status' => 'not_found', 'message' => 'Parent account not found with these details.');
+            return array('status' => 'not_found', 'message' => 'Account not found with these details.');
         }
         
         // Get children (students) linked to this parent
@@ -237,79 +235,20 @@ class Forgotpass_model extends CI_Model {
         return $this->db->get('students');
     }
 
-    private function find_parent_by_identity($firstname, $lastname, $middlename, $birthdate)
+    private function find_parent_by_identity($firstname, $lastname)
     {
-        // [Team Note - 2026-03-09]
-        // Supports optional middle name: tries exact match first, then fallback without middle name.
+        $this->db->where('LOWER(firstname)', strtolower($firstname));
+        $this->db->where('LOWER(lastname)', strtolower($lastname));
+        $this->db->where('status', 1);
+        $this->db->group_start();
+        $this->db->where('usertype', 'Parent');
+        $this->db->or_where('usertype', 'Student');
+        $this->db->group_end();
+        $query = $this->db->get('register');
         
-        // First try: Find by student birthdate (existing logic)
-        $query = $this->build_parent_identity_query($firstname, $lastname, $middlename, $birthdate)->get();
-        if ($query->num_rows() == 0 && !empty($middlename)) {
-            $query = $this->build_parent_identity_query($firstname, $lastname, '', $birthdate)->get();
-        }
-        if ($query->num_rows() == 0) {
-            // Second try: Find by parent name and birthdate directly (for users without linked students)
-            // [Team Note - 2026-03-13] Allow both Parent and Student usertype for flexibility
-            $this->db->reset_query();
-            $this->db->where('LOWER(firstname)', strtolower($firstname));
-            $this->db->where('LOWER(lastname)', strtolower($lastname));
-            $this->db->where('birthdate', $birthdate);
-            $this->db->where('status', 1);
-            $this->db->group_start();
-            $this->db->where('usertype', 'Parent');
-            $this->db->or_where('usertype', 'Student');
-            $this->db->group_end();
-            if (!empty($middlename)) {
-                $this->db->where('LOWER(middlename)', strtolower($middlename));
-            }
-            $query = $this->db->get('register');
-            
-            if ($query->num_rows() == 0 && !empty($middlename)) {
-                $this->db->reset_query();
-                $this->db->where('LOWER(firstname)', strtolower($firstname));
-                $this->db->where('LOWER(lastname)', strtolower($lastname));
-                $this->db->where('birthdate', $birthdate);
-                $this->db->where('status', 1);
-                $this->db->group_start();
-                $this->db->where('usertype', 'Parent');
-                $this->db->or_where('usertype', 'Student');
-                $this->db->group_end();
-                $query = $this->db->get('register');
-            }
-        }
         if ($query->num_rows() == 0) {
             return false;
         }
         return $query->row();
-    }
-
-    private function build_parent_identity_query($firstname, $lastname, $middlename, $birthdate)
-    {
-        // Use subquery approach to avoid MySQL error 1056 with JOIN and GROUP BY
-        // First, get student user_ids that match the birthdate
-        $this->db->reset_query();
-        $this->db->select('user_id');
-        $this->db->from('students');
-        $this->db->where('birthdate', $birthdate);
-        $student_subquery = $this->db->get_compiled_select();
-        
-        // Final query - get register entries that match name AND have a child with the given birthdate
-        $this->db->reset_query();
-        $this->db->select('register.*');
-        $this->db->from('register');
-        $this->db->where('LOWER(register.firstname)', strtolower($firstname));
-        $this->db->where('LOWER(register.lastname)', strtolower($lastname));
-        // [Team Note - 2026-03-13] Allow both Parent and Student usertype
-        $this->db->group_start();
-        $this->db->where('register.usertype', 'Parent');
-        $this->db->or_where('register.usertype', 'Student');
-        $this->db->group_end();
-        $this->db->where('register.status', 1);
-        if (!empty($middlename)) {
-            $this->db->where('LOWER(register.middlename)', strtolower($middlename));
-        }
-        $this->db->where("register.id IN ($student_subquery)", NULL, FALSE);
-        
-        return $this->db;
     }
 }

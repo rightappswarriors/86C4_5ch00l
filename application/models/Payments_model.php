@@ -195,6 +195,7 @@ class Payments_model extends CI_Model
 			}
 		}
 
+		/* 
 		$data = array(
 			'incidentals' => implode(",", $incidentals),
 			'miscellaneous' => implode(",", $miscellaneous),
@@ -205,6 +206,7 @@ class Payments_model extends CI_Model
 
 		$this->db->where('id', $assessment->id);
 		$this->db->update('assessment', $data);
+		*/
 	}
 	
 	function getPaidItems($enroll_id){

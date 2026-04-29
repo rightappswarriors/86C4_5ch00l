@@ -54,18 +54,7 @@
                       <div class="info-item"><strong>Email:</strong> <?=htmlspecialchars($parent->emailadd ?: 'N/A')?></div>
                     </div>
                     
-                    <?php if(!empty($children)): ?>
-                      <div class="child-info">
-                        <h5><i class="mdi mdi-account-multiple"></i> Linked Children (<?=count($children)?>)</h5>
-                        <?php foreach($children as $child): ?>
-                          <div class="child-item">
-                            <strong><?=htmlspecialchars(trim(($child->firstname ?? '') . ' ' . ($child->lastname ?? '')))?></strong> - 
-                            Grade <?=htmlspecialchars($child->gradelevel)?> 
-                            (<?=htmlspecialchars($child->enrollstatus)?>)
-                          </div>
-                        <?php endforeach; ?>
-                      </div>
-                    <?php endif; ?>
+
                   </div>
 
                 <?php elseif($lookup_type === 'student'): ?>
