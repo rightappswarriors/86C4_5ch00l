@@ -180,7 +180,7 @@ class Students_model extends CI_Model
 			}
 		}
         
-        $query = "select a.*,b.id as enroll_id,b.ableforpt,b.newold,b.gradelevel,b.status as enrollstatus, c.firstname as user_firstname, c.lastname as user_lastname, c.lastlogin as user_lastlogin, c.mobileno as user_mobileno 
+        $query = "select a.*,b.id as enroll_id,b.interview_date,b.ableforpt,b.newold,b.gradelevel,b.status as enrollstatus, c.firstname as user_firstname, c.lastname as user_lastname, c.lastlogin as user_lastlogin, c.mobileno as user_mobileno 
             from students a 
 			join enrolled b on b.studentid = a.id 
 			left join register c on c.id = a.user_id 
@@ -318,7 +318,7 @@ class Students_model extends CI_Model
 		$this->auto_update_interview_status();
 		// REGISTRAR
 		//if($this->session->userdata('current_usertype') == 'Registrar' || $this->session->userdata('current_usertype') == 'Admin'){
-		$query = "select a.*,b.id as enroll_id,b.newold,b.gradelevel,b.status as enrollstatus, c.firstname as user_firstname, 
+		$query = "select a.*,b.id as enroll_id,b.newold,b.gradelevel,b.status as enrollstatus, b.interview_date, c.firstname as user_firstname, 
 			c.lastname as user_lastname, c.lastlogin as user_lastlogin, c.mobileno as user_mobileno from students a 
 			join enrolled b on b.studentid = a.id 
 			left join register c on c.id = a.user_id 

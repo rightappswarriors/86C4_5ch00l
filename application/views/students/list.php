@@ -22,49 +22,57 @@
 				<?= ($this->uri->segment(3) ? "(" . $this->uri->segment(3) . ")" : "") ?>
 			</h3>
 
-			<div class="d-flex justify-content-between">
-
-				<?php 
-    //echo $this->db->last_query();  
-    if ($this->session->userdata('current_usertype') != 'Parent'): ?>
-					<div class="dropdown">
-						<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton2"
-							data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Select List By Status
-						</button>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-
-							<?php
-                                  
-							if ($students_count_status->num_rows() > 0) {
-								?><code><?php
-								foreach ($students_count_status->result() as $row1):
-									?>
-				<a class="dropdown-item" href="<?= site_url("students/index/" . $row1->status) ?>"><?= $row1->status . "(" . $row1->num_status . ")" ?></a>
-																							<?php
-								endforeach;
-								?></code>
-								<?php
-							}
-
-							?>
-
+			<div class="d-flex flex-wrap align-items-end mb-3">
+				<?php if ($this->session->userdata('current_usertype') != 'Parent'): ?>
+					<div class="mr-3 mb-2">
+                        <label class="small font-weight-bold">Status Filter</label>
+						<div class="dropdown">
+							<button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton2"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Select List By Status
+							</button>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+								<?php if ($students_count_status->num_rows() > 0): ?>
+									<code>
+										<?php foreach ($students_count_status->result() as $row1): ?>
+											<a class="dropdown-item" href="<?= site_url("students/index/" . $row1->status) ?>"><?= $row1->status . "(" . $row1->num_status . ")" ?></a>
+										<?php endforeach; ?>
+									</code>
+								<?php endif; ?>
+							</div>
 						</div>
 					</div>
 				<?php endif; ?>
 
+                <div class="mr-3 mb-2">
+                    <label class="small font-weight-bold">from enroll date</label>
+                    <input type="date" id="from_enroll" class="form-control form-control-sm filter-input">
+                </div>
+                <div class="mr-3 mb-2">
+                    <label class="small font-weight-bold">to enroll date</label>
+                    <input type="date" id="to_enroll" class="form-control form-control-sm filter-input">
+                </div>
+                <div class="mr-3 mb-2">
+                    <label class="small font-weight-bold">interview to date</label>
+                    <input type="date" id="interview_to" class="form-control form-control-sm filter-input">
+                </div>
+                
+                <div class="ml-auto mb-2">
+                    <button id="clear_filters" class="btn btn-outline-danger btn-sm">clear options</button>
+                </div>
 			</div>
 
 			<table class="table students-table">
 				<thead>
 					<tr>
 						<!--<th width="5%">#</th>-->
-						<th width="18%">Name</th>
+						<th width="15%">Name</th>
 						<th width="8%">Issue PACE?</th>
-						<th width="10%">Level</th>
+						<th width="8%">Level</th>
 						<th width="10%">Enroll</th>
+                        <th width="12%">interview to date</th>
 						<th width="18%">Contact</th>
-						<th width="15%">Refered by</th>
-						<th width="11%">Status</th>
+						<th width="12%">Refered by</th>
+						<th width="10%">Status</th>
 						<th width="10%">Action</th>
 					</tr>
 				</thead>
@@ -119,6 +127,8 @@
 							//echo "<td>".$row->studentno."</td>";
 							echo "<td style='text-align:center'>" . $row->gradelevel . "</td>";
 							echo "<td style='text-align:center'>" . date("m/d/Y", strtotime($row->dateadded)) . "</td>";
+							$int_date = ($row->interview_date && $row->interview_date != '0000-00-00 00:00:00') ? date("m/d/Y", strtotime($row->interview_date)) : "-";
+							echo "<td style='text-align:center'><span class='text-primary font-weight-bold'>" . $int_date . "</span></td>";
 							echo "<td>" . $row->mother_firstname . " " . $row->mother_lastname . "<br>" . $row->mother_contact1 . " " . $row->mother_contact2 . "" . "</td>";
 							echo "<td style='text-align:center'>" . ($row->referred_by ? $row->referred_by : 'N/A') . "</td>";
 							echo "<td style='text-align:center' class='text-danger'><mark><code>" . $row->enrollstatus . "</code></mark></td>";
@@ -428,7 +438,7 @@
 
 <script>
 	$(document).ready(function () {
-		$('.table').DataTable({
+		var table = $('.table').DataTable({
 			dom: 'Bfrtip',
 			buttons: {
 				buttons: []
@@ -440,6 +450,51 @@
 				$('a.paginate_button').addClass("btn btn-sm");
 			},
 		});
+
+        // Custom filtering function
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                var fromEnroll = $('#from_enroll').val();
+                var toEnroll = $('#to_enroll').val();
+                var interviewTo = $('#interview_to').val();
+
+                var enrollDateStr = data[3]; // Enroll column
+                var interviewDateStr = data[4]; // interview to date column
+
+                var enrollDate = enrollDateStr ? new Date(enrollDateStr) : null;
+                var interviewDate = (interviewDateStr && interviewDateStr !== "-") ? new Date(interviewDateStr) : null;
+
+                // Enroll Date Range Filter
+                if (fromEnroll || toEnroll) {
+                    if (!enrollDate || isNaN(enrollDate.getTime())) return false;
+                    if (fromEnroll && enrollDate < new Date(fromEnroll)) return false;
+                    if (toEnroll) {
+                        var toDate = new Date(toEnroll);
+                        toDate.setHours(23, 59, 59, 999);
+                        if (enrollDate > toDate) return false;
+                    }
+                }
+
+                // Interview To Date Filter
+                if (interviewTo) {
+                    if (!interviewDate || isNaN(interviewDate.getTime())) return false;
+                    var intToDate = new Date(interviewTo);
+                    intToDate.setHours(23, 59, 59, 999);
+                    if (interviewDate > intToDate) return false;
+                }
+
+                return true;
+            }
+        );
+
+        $('.filter-input').on('change', function () {
+            table.draw();
+        });
+
+        $('#clear_filters').on('click', function () {
+            $('.filter-input').val('');
+            table.draw();
+        });
 
 	});
 </script>

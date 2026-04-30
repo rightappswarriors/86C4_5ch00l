@@ -103,7 +103,10 @@
                 <div class="enroll-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <h4 class="mb-0"><i class="mdi mdi-clock-outline mr-2"></i>10 Most Recent Enrollees</h4>
-                        <a href="<?=site_url("students")?>" class="btn btn-light btn-sm">View All <i class="mdi mdi-arrow-right ml-1"></i></a>
+                        <div class="d-flex align-items-center">
+                            <a href="<?=site_url("students/index/Interview")?>" class="btn btn-primary btn-sm mr-2">Interview date <i class="mdi mdi-calendar-check ml-1"></i></a>
+                            <a href="<?=site_url("students")?>" class="btn btn-light btn-sm">View All <i class="mdi mdi-arrow-right ml-1"></i></a>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body p-0">
@@ -112,10 +115,11 @@
                             <thead>
                                 <tr>
                                     <th width="5%" class="text-center">#</th>	
-                                    <th width="40%">Student Name</th>
-                                    <th width="18%">Enrollment Date</th>
-                                    <th width="17%">Grade Level</th>
-                                    <th width="20%">Status</th>
+                                    <th width="30%">Student Name</th>
+                                    <th width="15%">Enrollment Date</th>
+                                    <th width="15%">Interview Date</th>
+                                    <th width="15%">Grade Level</th>
+                                    <th width="20%">Status for interview</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -125,10 +129,12 @@
                                     $ctr=1;
                                     foreach ($query->result() as $row):
                                         $newold = $row->newold=="old"?"":"&nbsp;<span class='badge badge-info'>".$row->newold."</span>";
+                                        $int_date = ($row->interview_date && $row->interview_date != '0000-00-00 00:00:00') ? date("m/d/Y", strtotime($row->interview_date)) : "-";
                                         echo "<tr>";
                                         echo "<td class='text-center text-muted'>$ctr</td>";
                                         echo "<td><a href='".site_url("students/details/".$row->id)."'>".$row->firstname." ".$row->lastname."</a>".$newold."</td>";
                                         echo "<td>".date("m/d/Y",strtotime($row->dateadded))."</td>";
+                                        echo "<td><span class='text-primary font-weight-bold'>".$int_date."</span></td>";
                                         echo "<td><span class='badge badge-light'>".$row->gradelevel."</span></td>";
                                         echo "<td><span class='badge badge-danger'>".$row->enrollstatus."</span></td>";
                                         echo "</tr>";
