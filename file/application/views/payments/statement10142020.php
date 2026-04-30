@@ -47,7 +47,7 @@
 		
 		$balance = $total_ass - $paid_enrollment;
 		if($row->gradelevel=="Grade-11" or $row->gradelevel=="Grade-12"){
-			$monthly = $balance/4;
+			$monthly = $balance/9;
 		}else{
 			$monthly = $balance/9;
 		}	
